@@ -1,0 +1,7 @@
+# Fichiers de configuration d'environnement
+.env
+# Autres exemples de fichiers couramment ignorés
+node_modules/
+dist/
+# Dependency directories
+package-lock.json
