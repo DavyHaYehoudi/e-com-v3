@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import * as authService from "../../services/auth/authService.js";
 import { generateSixDigitCode } from "../../utils/digit_code.js";
 import { authRequestSchema } from "./entities/dto/auth.dto.js";
+import { storeAuthCodeService, verifyAuthCodeService } from "../../services/auth/authService.js";
 
 // Ouvrir une session d'authentification (envoyer un OTP)
 export const authOpenSessionController = async (
@@ -15,7 +15,7 @@ export const authOpenSessionController = async (
 
     const authCode = generateSixDigitCode();
     console.log("Generated 6-digit code:", authCode);
-    await authService.storeAuthCodeService(email, authCode);
+    await storeAuthCodeService(email, authCode);
 
     res.status(201).json({
       message: "Authentication code sent",
@@ -35,7 +35,7 @@ export const authVerifyOTPController = async (
     const authData = authRequestSchema.parse(req.body);
     const { email, otp, wishlistProducts, cartProducts, cartGiftcards } =
       authData;
-    const result = await authService.verifyAuthCodeService(
+    const result = await verifyAuthCodeService(
       email,
       otp,
       wishlistProducts,

@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import { environment } from "./environment.js";
 import cors from "cors";
 import errorHandler from "./middlewares/errorMiddleware.js";
@@ -11,6 +11,10 @@ app.use(express.json());
 app.use(cors());
 
 checkConnection();
+// Public routes
+import authRoutes from "./routes/publicAccess/auth.routes.js";
+// Public routes
+app.use("/api/auth", authRoutes);
 
 app.use(errorHandler);
 

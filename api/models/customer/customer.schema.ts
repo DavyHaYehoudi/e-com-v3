@@ -7,6 +7,7 @@ import { CashbackType } from "../types/cashbackType";
 const CartProductSchema = new Schema<ProductInCartType>({
   productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
   quantity: { type: Number, required: true, min: 1 },
+  variant: { type: String, default: null },
 });
 // Sous-schéma pour cartGiftcard
 const CartGiftCardSchema = new Schema<GiftcardInCartType>({
@@ -69,7 +70,6 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
       },
       email: {
         type: String,
-        required: true,
         match: /^\S+@\S+\.\S+$/, // Validation de format
       },
       phone: {
@@ -132,7 +132,6 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
       },
       email: {
         type: String,
-        required: true,
         match: /^\S+@\S+\.\S+$/, // Validation de format
       },
       phone: {
@@ -174,15 +173,15 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
         maxlength: [50, "Le nom du pays ne doit pas dépasser 50 caractères."],
       },
     },
-    cartProduct: {
+    cartProducts: {
       type: [CartProductSchema],
       default: [],
     },
-    cartGiftcard: {
+    cartGiftcards: {
       type: [CartGiftCardSchema], // Tableau de sous-schémas
       default: [],
     },
-    wishlistProduct: {
+    wishlistProducts: {
       type: [String],
       default: [],
     },

@@ -12,9 +12,9 @@ export interface ICustomer extends Document {
   lastName: string;
   shippingAddress: AddressType;
   billingAddress: AddressType;
-  cartProduct: ProductInCartType[];
-  cartGiftcard: GiftcardInCartType[];
-  wishlistProduct: string[];
+  cartProducts: ProductInCartType[];
+  cartGiftcards: GiftcardInCartType[];
+  wishlistProducts: string[];
   cashback: CashbackType[];
   phone: string;
   avatarUrl: string;

@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { environment } from "../environment.js";
 
 export const generateToken = (
-  customerId: number,
+  customerId: string,
   email: string,
   role: string
 ): string => {

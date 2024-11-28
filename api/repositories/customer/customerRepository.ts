@@ -1,6 +1,6 @@
 import { FieldsUpdateCustomerDTO } from "../../controllers/customer/entities/dto/customer.dto";
-import { NotFoundError } from "../../exceptions/CustomErrors";
-import Customer from "../../models/customer/customer.schema";
+import { NotFoundError } from "../../exceptions/CustomErrors.js";
+import Customer from "../../models/customer/customer.schema.js";
 
 export const createCustomerRepository = async (email: string) => {
   try {
@@ -41,7 +41,6 @@ export const getCustomerByEmailRepository = async (email: string) => {
     throw error;
   }
 };
-
 
 export const updateCustomerRepository = async (
   customerId: string,

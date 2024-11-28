@@ -1,10 +1,7 @@
 import { z } from "zod";
 
 // Schéma pour un élément de la wishlist
-const wishlistProductsSchema = z.object({
-  productId: z.string(),
-});
-const wishlistSchema = z.array(wishlistProductsSchema).default([]);
+const wishlistSchema = z.array(z.string()).default([]);
 
 // Schéma pour un élément produit dans le panier
 const cartProductSchema = z.object({
@@ -28,7 +25,7 @@ export const authRequestSchema = z.object({
   otp: z.string().length(6),
   wishlistProducts: wishlistSchema,
   cartProducts: cartProductsSchema,
-  cartGiftcards: cartGiftcardSchema,
+  cartGiftcards: cartGiftcardsSchema,
 });
 
 // Export des types pour une utilisation externe
