@@ -43,11 +43,13 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
       type: String,
       trim: true,
       maxlength: [20, "Le prénom ne doit pas dépasser 20 caractères."],
+      default: "",
     },
     lastName: {
       type: String,
       trim: true,
       maxlength: [20, "Le nom ne doit pas dépasser 20 caractères."],
+      default: "",
     },
     shippingAddress: {
       company: {
@@ -192,6 +194,7 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
     phone: {
       type: String,
       match: /^\+[0-9]{1,3}\s*[0-9]{1,15}$/, // Validation de format
+      default: "",
     },
     avatarUrl: {
       type: String,
@@ -211,6 +214,7 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
     },
     birthdate: {
       type: String,
+      default: "",
     },
     isActive: {
       type: Boolean,

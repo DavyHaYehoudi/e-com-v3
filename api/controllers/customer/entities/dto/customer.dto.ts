@@ -50,5 +50,23 @@ export const updateCustomerSchema = z.object({
   ).optional(),
   wishlistProducts: z.array(z.string()).optional(),
   emailMarketingConsent: z.boolean().optional(),
+  isActive: z.boolean().optional(),
 });
 export type FieldsUpdateCustomerDTO = z.infer<typeof updateCustomerSchema>;
+
+// Schéma pour valider les ObjectId de MongoDB
+const objectIdSchema = z
+  .string()
+  .regex(/^[a-fA-F0-9]{24}$/, "Invalid MongoDB ObjectId");
+
+// Schéma Zod pour CashbackType
+export const cashbackSchema = z.object({
+  cashbackEarned: z.number().min(0, "Cashback earned must be a positive number"),
+  cashbackSpent: z.number().min(0, "Cashback spent must be a positive number"),
+  label: z.enum(["loyalty", "birthday", "order", "other", "review", "referral"]),
+  orderId: objectIdSchema.optional(),
+  reviewId: objectIdSchema.optional(),
+});
+
+// Export du type TypeScript dérivé de Zod
+export type CashbackTypeDTO = z.infer<typeof cashbackSchema>;

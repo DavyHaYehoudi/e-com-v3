@@ -160,6 +160,25 @@ paths:
           description: Not found - The customer doesn't exist.
       security:
         - api_key: []
+  /customer/cashback:
+    get:
+      tags:
+        - customer
+      summary: Show the cashback customer.
+      description: Show the cashback customer.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CashbackGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
   /admin/customers:
     get:
       tags:
@@ -215,6 +234,55 @@ paths:
         - customer
       summary: Update an existing customer.
       description: Update an existing customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of the customer to update.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /admin/customers/cashback/{customerId}:
+    get:
+      tags:
+        - customer
+      summary: Show the cashback customer.
+      description: Show the cashback customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of the customer.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                 $ref: '#/components/schemas/CashbackGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - customer
+      summary: Update an cashback customer.
+      description: Update an cashback customer.
       parameters:
         - name: customerId
           in: path
@@ -1566,6 +1634,19 @@ components:
               reviewId: 
                 type: string
         avatarUrl:
+          type: string
+    CashbackGET:
+      type: object
+      properties:
+        cashbackEarned:
+          type: integer
+        cashbackSpent:
+          type: integer
+        label:
+          type: string
+        orderId:
+          type: string
+        reviewId:
           type: string
     OrderOneGET:
       type: object
