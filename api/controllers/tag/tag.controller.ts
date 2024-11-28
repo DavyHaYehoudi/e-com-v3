@@ -45,7 +45,7 @@ export const deleteTag = async (
   try {
     const tagId = req.params.tagId;
     await deleteTagService(tagId);
-    res.status(204).json();
+    res.status(204).json({});
   } catch (error) {
     next(error);
   }

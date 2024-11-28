@@ -4,8 +4,7 @@ import Tag from "../../models/tag/tag.schema.js";
 // Créer un tag
 export const createTagRepository = async (data: CreateTagDTO) => {
   try {
-    const tag = await Tag.create({ label: data.label });
-    return tag;
+    return await Tag.create({ label: data.label });
   } catch (error: any) {
     throw new Error(`Erreur lors de la création du tag : ${error.message}`);
   }
@@ -14,8 +13,7 @@ export const createTagRepository = async (data: CreateTagDTO) => {
 // Récupérer tous les tags
 export const getAllTagsRepository = async () => {
   try {
-    const tags = await Tag.find();
-    return tags;
+    return await Tag.find();
   } catch (error: any) {
     throw new Error(
       `Erreur lors de la récupération des tags : ${error.message}`
