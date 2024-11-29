@@ -1,5 +1,5 @@
 import express from "express";
-import { createTag, deleteTag } from "../../controllers/tag/tag.controller.js";
+import { createTag, deleteTag } from "../../controllers/tag/tagController.js";
 import { verifyToken } from "../../middlewares/authMiddleware.js";
 
 const router = express.Router();

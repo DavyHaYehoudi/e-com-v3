@@ -9,8 +9,12 @@ export interface CategoryType extends Document {
 // Schéma pour une catégorie
 const CategorySchema = new Schema<CategoryType>(
   {
-    label: { type: String, required: true, trim: true },
-    products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
+    label: {
+      type: String,
+      required: true,
+      unique: true, // Optionnel, pour garantir l'unicité des labels
+      trim: true, // Supprime les espaces inutiles au début/à la fin
+    },
   },
   {
     timestamps: true,

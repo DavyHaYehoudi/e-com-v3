@@ -6,14 +6,19 @@ export interface TagType extends Document {
 }
 
 // Définition du schéma Mongoose
-const TagSchema = new Schema<TagType>({
-  label: {
-    type: String,
-    required: true,
-    unique: true, // Optionnel, pour garantir l'unicité des labels
-    trim: true, // Supprime les espaces inutiles au début/à la fin
+const TagSchema = new Schema<TagType>(
+  {
+    label: {
+      type: String,
+      required: true,
+      unique: true, // Optionnel, pour garantir l'unicité des labels
+      trim: true, // Supprime les espaces inutiles au début/à la fin
+    },
   },
-});
+  {
+    timestamps: true,
+  }
+);
 
 // Création du modèle Mongoose
 const Tag = mongoose.model<TagType>("Tag", TagSchema);
