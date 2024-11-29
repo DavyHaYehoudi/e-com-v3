@@ -109,3 +109,25 @@ export const updateCashbackCustomer = async (
     throw error;
   }
 };
+export const getCustomersWithEmailMarketingConsentRepository = async () => {
+  try {
+    // Recherche des clients avec consentement de marketing
+    const customers = await Customer.find({ emailMarketingConsent: true });
+    return customers;
+  } catch (error: any) {
+    throw error;
+  }
+};
+export const getTodayBirthdayCustomersRepository = async () => {
+  const today = new Date();
+
+  // Requête pour trouver les clients ayant leur anniversaire aujourd'hui
+  return await Customer.find({
+    $expr: {
+      $and: [
+        { $eq: [{ $dayOfMonth: "$birthdate" }, today.getDate()] },
+        { $eq: [{ $month: "$birthdate" }, today.getMonth() + 1] },
+      ],
+    },
+  }).lean(); // Utilise lean() pour un retour d'objet simple
+};

@@ -213,8 +213,8 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
       default: 0,
     },
     birthdate: {
-      type: String,
-      default: "",
+      type: Date ,
+      default: null,
     },
     isActive: {
       type: Boolean,

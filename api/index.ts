@@ -25,6 +25,7 @@ import tagRoutesAdmin from "./routes/adminAccess/tag.routes.js";
 import categoryRoutesAdmin from "./routes/adminAccess/category.routes.js";
 import promocodeRoutesAdmin from "./routes/adminAccess/promocode.routes.js";
 import reviewRoutesAdmin from "./routes/adminAccess/review.routes.js";
+import campaignRoutesAdmin from "./routes/adminAccess/campaign.routes.js"
 
 // Public routes
 app.use("/api/auth", authRoutes);
@@ -41,6 +42,7 @@ app.use("/api/admin/tags", tagRoutesAdmin);
 app.use("/api/admin/categories", categoryRoutesAdmin);
 app.use("/api/admin/promocodes", promocodeRoutesAdmin);
 app.use("/api/admin/reviews", reviewRoutesAdmin);
+app.use("/api/admin/marketing/campaigns", campaignRoutesAdmin);
 
 app.use(errorHandler);
 

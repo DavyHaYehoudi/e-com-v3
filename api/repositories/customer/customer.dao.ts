@@ -21,6 +21,6 @@ export interface ICustomer extends Document {
   emailMarketingConsent: boolean;
   ordersTotalCount: number;
   ordersTotalAmount: number;
-  birthdate: string;
+  birthdate: Date;
   isActive: boolean;
 }

@@ -1,9 +1,14 @@
-import { CashbackTypeDTO, FieldsUpdateCustomerDTO } from "../../controllers/customer/entities/dto/customer.dto.js";
+import {
+  CashbackTypeDTO,
+  FieldsUpdateCustomerDTO,
+} from "../../controllers/customer/entities/dto/customer.dto.js";
 import {
   createCustomerRepository,
   getAllCustomersRepository,
   getCashbackHistoryCustomer,
   getCustomerByIdRepository,
+  getCustomersWithEmailMarketingConsentRepository,
+  getTodayBirthdayCustomersRepository,
   updateCashbackCustomer,
   updateCustomerRepository,
 } from "../../repositories/customer/customerRepository.js";
@@ -37,4 +42,14 @@ export const updateCashbackCustomerService = async (
   updatedCashback: CashbackTypeDTO
 ) => {
   return await updateCashbackCustomer(customerId, updatedCashback);
+};
+
+// Récupérer tous les customers qui ont consenti aux emails marketing
+export const getCustomersWithEmailMarketingConsentService = async () => {
+  return await getCustomersWithEmailMarketingConsentRepository();
+};
+
+// Récupérer les customers dont c'est l'anniversaire
+export const getTodayBirthdayCustomersService = async () => {
+  return await getTodayBirthdayCustomersRepository();
 };
