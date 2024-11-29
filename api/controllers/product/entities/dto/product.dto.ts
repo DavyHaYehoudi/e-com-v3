@@ -8,13 +8,23 @@ export const productSchema = z.object({
     .string()
     .url("Une URL valide est requise pour l'image principale."),
   promotionPercentage: z.number().min(0).max(100).optional(),
-  promotionEndDate: z.string().nullable().optional(),
+  promotionEndDate: z
+  .string()
+  .datetime({ offset: true }) // Vérifie que c'est une chaîne ISO 8601 2025-11-30T00:00:00.000Z
+  .transform((val) => new Date(val)) // Transforme en `Date`
+  .nullable()
+  .optional(),
   continueSelling: z.boolean().optional(),
   quantityInStock: z
     .number()
     .min(0, "La quantité en stock doit être un entier positif."),
   price: z.number().min(0, "Le prix doit être un nombre positif."),
-  newUntil: z.string().nullable().optional(),
+  newUntil: z
+  .string()
+  .datetime({ offset: true }) // 2025-11-30T00:00:00.000Z
+  .transform((val) => new Date(val))
+  .nullable()
+  .optional(),
   isPublished: z.boolean().optional(),
   cashback: z.number().min(0).optional(),
   categories: z

@@ -1,8 +1,10 @@
 import { ProductInputDTO } from "../../controllers/product/entities/dto/product.dto.js";
-import { BadRequestError, NotFoundError } from "../../exceptions/CustomErrors.js";
+import {
+  BadRequestError,
+  NotFoundError,
+} from "../../exceptions/CustomErrors.js";
 import { ProductModel } from "../../models/product/product.schema.js";
 import { FilterQuery } from "mongoose";
-import { startOfToday, isAfter } from "date-fns";
 
 // Types des filtres
 interface GetAllProductsFilters {
@@ -17,50 +19,31 @@ interface GetAllProductsFilters {
   limit?: number;
 }
 
-export const getAllProductsRepository = async (filters: GetAllProductsFilters) => {
+export const getAllProductsRepository = async (
+  filters: GetAllProductsFilters
+) => {
   const query: FilterQuery<typeof ProductModel> = {};
 
   // Filtre par nom (minimum 3 lettres)
   if (filters.name && filters.name.length >= 3) {
     query.name = { $regex: filters.name, $options: "i" }; // Recherche insensible à la casse
   }
-
   // Filtre par prix minimum
   if (filters.minPrice !== undefined) {
     query.price = { ...query.price, $gte: filters.minPrice };
   }
-
   // Filtre par prix maximum
   if (filters.maxPrice !== undefined) {
     query.price = { ...query.price, $lte: filters.maxPrice };
   }
 
   // Filtre par promotion active
-//   if (filters.onPromotion !== undefined) {
-//     if (filters.onPromotion) {
-//       query.promotionPercentage = { $gt: 0 }; // Vérifie qu'il y a une promotion
-//       query.promotionEndDate = { $gte: new Date() }; // La date de fin n'est pas encore passée
-//     } else {
-//       query.$or = [
-//         { promotionPercentage: { $eq: 0 } },
-//         { promotionEndDate: { $lt: new Date() } },
-//       ]; // Pas de promotion ou promotion expirée
-//     }
-//   }
-if (filters.onPromotion) {
+  if (filters.onPromotion) {
     const now = new Date();
     query.promotionEndDate = { $gte: now }; // Promotion active
     query.promotionPercentage = { $gt: 0 }; // Promotion définie
   }
   // Filtre par nouveauté
-//   if (filters.isNew !== undefined) {
-//     const today = startOfToday();
-//     if (filters.isNew) {
-//       query.newUntil = { $gte: today }; // Produit marqué comme "nouveau"
-//     } else {
-//       query.newUntil = { $lt: today }; // Produit non marqué comme "nouveau"
-//     }
-//   }
   if (filters.isNew) {
     const now = new Date();
     query.newUntil = { $gte: now }; // Produit toujours considéré comme "nouveau"
@@ -70,12 +53,10 @@ if (filters.onPromotion) {
   if (filters.categoryIds && filters.categoryIds.length > 0) {
     query.categories = { $in: filters.categoryIds };
   }
-
   // Filtre par tags
   if (filters.tagIds && filters.tagIds.length > 0) {
     query.tags = { $in: filters.tagIds };
   }
-
   // Filtre par produit "star"
   if (filters.isStar !== undefined) {
     query.isStar = filters.isStar;
@@ -86,7 +67,7 @@ if (filters.onPromotion) {
 
   // Exécute la requête avec les filtres
   return await ProductModel.find(query)
-    .populate("categories", "_id label") 
+    .populate("categories", "_id label")
     .populate("tags", "_id label")
     .limit(limit)
     .lean();
@@ -132,9 +113,9 @@ export const deleteProductRepository = async (productId: string) => {
   return deletedProduct;
 };
 
-interface OrderItem{
-    productId: string;
-    articleNumber: number;
+interface OrderItem {
+  productId: string;
+  articleNumber: number;
 }
 export const updateProductStockRepository = async (orderItems: OrderItem[]) => {
   for (const item of orderItems) {
