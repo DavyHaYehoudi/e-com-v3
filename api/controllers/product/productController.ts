@@ -20,9 +20,7 @@ export const getAllProducts = async (
 ) => {
   try {
     // Valider et formater les queries avec Zod
-    console.log('req.query:', req.query)
     const queries = getAllProductsQuerySchema.parse(req.query);
-    console.log('queries:', queries)
 
     // Appeler le service avec les queries validées
     const products = await getAllProductsService(queries);

@@ -10,7 +10,6 @@ export const getAllPromocodesRepository = async () => {
     throw new Error(`Error retrieving promo codes: ${error.message}`);
   }
 };
-
 export const createPromocodeRepository = async (data: CreateCodePromoDTO) => {
   const { code, promocodePercentage, startDate, endDate } = data;
   try {
@@ -27,11 +26,6 @@ export const createPromocodeRepository = async (data: CreateCodePromoDTO) => {
 export const deletePromocodeRepository = async (promocodeId: string) => {
   try {
     const deletedPromocode = await Promocode.findByIdAndDelete(promocodeId);
-    if (!deletedPromocode) {
-      throw new NotFoundError(
-        `Promo code not found with this ID ${promocodeId}`
-      );
-    }
     return deletedPromocode;
   } catch (error: any) {
     throw new NotFoundError(`Code Promo with ID ${promocodeId} not found`);

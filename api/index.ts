@@ -17,9 +17,11 @@ import categoryRoutes from "./routes/publicAccess/category.routes.js";
 import promocodeRoutes from "./routes/publicAccess/promocode.routes.js";
 import reviewsRoutes from "./routes/publicAccess/review.routes.js";
 import productRoutes from "./routes/publicAccess/product.routes.js"
+import giftcardRoutes from "./routes/publicAccess/giftcard.routes.js"
 // Customer routes
 import customerRoutes from "./routes/customerAccess/customer.routes.js";
 import reviewRoutesCustomer from "./routes/customerAccess/review.routes.js";
+import giftcardRoutesCustomer from "./routes/customerAccess/giftcard.routes.js"
 // Admin routes
 import customerRoutesAdmin from "./routes/adminAccess/customer.routes.js";
 import tagRoutesAdmin from "./routes/adminAccess/tag.routes.js";
@@ -28,6 +30,9 @@ import promocodeRoutesAdmin from "./routes/adminAccess/promocode.routes.js";
 import reviewRoutesAdmin from "./routes/adminAccess/review.routes.js";
 import campaignRoutesAdmin from "./routes/adminAccess/campaign.routes.js"
 import productRoutesAdmin from "./routes/adminAccess/product.routes.js"
+import giftcardRoutesAdmin from "./routes/adminAccess/giftcard.routes.js"
+import { verifyToken } from "./middlewares/authMiddleware.js";
+import { adminAccess } from "./middlewares/adminAccessMiddleware.js";
 
 // Public routes
 app.use("/api/auth", authRoutes);
@@ -36,17 +41,20 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/promocodes", promocodeRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/giftcards", giftcardRoutes);
 // Customer routes
 app.use("/api/customers", customerRoutes);
 app.use("/api/reviews", reviewRoutesCustomer);
+app.use("/api/giftcards", giftcardRoutesCustomer);
 // Admin routes
-app.use("/api/admin/customers", customerRoutesAdmin);
-app.use("/api/admin/tags", tagRoutesAdmin);
-app.use("/api/admin/categories", categoryRoutesAdmin);
-app.use("/api/admin/promocodes", promocodeRoutesAdmin);
-app.use("/api/admin/reviews", reviewRoutesAdmin);
-app.use("/api/admin/marketing/campaigns", campaignRoutesAdmin);
-app.use("/api/admin/products", productRoutesAdmin);
+app.use("/api/admin/customers", verifyToken, adminAccess, customerRoutesAdmin);
+app.use("/api/admin/tags", verifyToken, adminAccess, tagRoutesAdmin);
+app.use("/api/admin/categories", verifyToken, adminAccess, categoryRoutesAdmin);
+app.use("/api/admin/promocodes", verifyToken, adminAccess, promocodeRoutesAdmin);
+app.use("/api/admin/reviews", verifyToken, adminAccess, reviewRoutesAdmin);
+app.use("/api/admin/marketing/campaigns", verifyToken, adminAccess, campaignRoutesAdmin);
+app.use("/api/admin/products", verifyToken, adminAccess, productRoutesAdmin);
+app.use("/api/admin/giftcards", verifyToken, adminAccess, giftcardRoutesAdmin);
 
 app.use(errorHandler);
 

@@ -47,7 +47,7 @@ export const getAllProductsRepository = async (
   if (filters.isNew) {
     const now = new Date();
     query.newUntil = { $gte: now }; // Produit toujours considéré comme "nouveau"
-  }
+  } 
 
   // Filtre par catégories
   if (filters.categoryIds && filters.categoryIds.length > 0) {
