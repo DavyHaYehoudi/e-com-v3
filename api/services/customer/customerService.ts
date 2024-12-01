@@ -53,3 +53,11 @@ export const getCustomersWithEmailMarketingConsentService = async () => {
 export const getTodayBirthdayCustomersService = async () => {
   return await getTodayBirthdayCustomersRepository();
 };
+
+export const getCartDataService = async (customerId: string) => {
+  const customerInfo = await getCustomerService(customerId);
+  return {
+    cartProducts: customerInfo.cartProducts || [],
+    giftcardsInCart: customerInfo.cartGiftcards || [],
+  };
+};

@@ -20,10 +20,12 @@ import promocodeRoutes from "./routes/publicAccess/promocode.routes.js";
 import reviewsRoutes from "./routes/publicAccess/review.routes.js";
 import productRoutes from "./routes/publicAccess/product.routes.js";
 import giftcardRoutes from "./routes/publicAccess/giftcard.routes.js";
+import paymentRoutes from "./routes/publicAccess/payment.routes.js"
 // Customer routes
 import customerRoutes from "./routes/customerAccess/customer.routes.js";
 import reviewRoutesCustomer from "./routes/customerAccess/review.routes.js";
 import giftcardRoutesCustomer from "./routes/customerAccess/giftcard.routes.js";
+import paymentRoutesCustomer from "./routes/customerAccess/payment.routes.js"
 // Admin routes
 import customerRoutesAdmin from "./routes/adminAccess/customer.routes.js";
 import tagRoutesAdmin from "./routes/adminAccess/tag.routes.js";
@@ -44,10 +46,12 @@ app.use("/api/promocodes", promocodeRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/giftcards", giftcardRoutes);
+app.use("/api/payment", paymentRoutes);
 // Customer routes
 app.use("/api/customers", customerRoutes);
 app.use("/api/reviews", reviewRoutesCustomer);
 app.use("/api/giftcards", giftcardRoutesCustomer);
+app.use("/api/payment", paymentRoutesCustomer);
 // Admin routes
 app.use("/api/admin/customers", verifyToken, adminAccess, customerRoutesAdmin);
 app.use("/api/admin/tags", verifyToken, adminAccess, tagRoutesAdmin);
