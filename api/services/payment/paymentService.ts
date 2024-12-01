@@ -1,3 +1,4 @@
+import Stripe from "stripe";
 import mongoose from "mongoose";
 import { PaymentAmountCustomerDTO } from "../../controllers/payment/entities/dto/paymentAmountCustomer.dto.js";
 import { PaymentAmountVisitorDTO } from "../../controllers/payment/entities/dto/paymentAmountVisitor.dto.js";
@@ -98,3 +99,43 @@ export const calculatePaymentAmountService = async (
     cashbackToUse: cashbackToSpend || 0, // Cashback utilisé
   };
 };
+export async function getPaymentIntentService(
+  customerId: string,
+  paymentData: PaymentAmountCustomerDTO
+) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const amounts = await getPaymentAmountCustomerService(
+    customerId,
+    paymentData
+  );
+  const amount = formatAmount(amounts.orderAmount);
+
+  try {
+    // Rechercher un client existant par email
+    const existingCustomers = await stripe.customers.list({
+      email: paymentData.emailCustomer || undefined,
+    });
+
+    let customer;
+    if (existingCustomers.data.length > 0) {
+      // Utiliser le client existant
+      customer = existingCustomers.data[0];
+    } else {
+      // Créer un nouveau client
+      customer = await stripe.customers.create({
+        email: paymentData.emailCustomer || undefined,
+      });
+    }
+
+    const customerId = customer.id;
+    const amountFormatStripe = Math.floor(amount * 100);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amountFormatStripe,
+      currency: "EUR",
+      customer: customerId,
+    });
+
+    return { clientSecret: paymentIntent.client_secret, amount };
+  } catch (error) {}
+}
