@@ -23,7 +23,7 @@ const CashbackSchema = new Schema<CashbackType>({
     required: true,
     enum: ["loyalty", "birthday", "order", "other", "review", "referral"], // Énumération
   },
-  orderId: { type: Schema.Types.ObjectId, ref: "Order", default: null }, // Référence facultative
+  orderNumber: { type: String, default: null }, // Référence facultative
   reviewId: { type: Schema.Types.ObjectId, ref: "Review", default: null }, // Référence facultative
 });
 // Définir le schéma Mongoose
@@ -213,7 +213,7 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
       default: 0,
     },
     birthdate: {
-      type: Date ,
+      type: Date,
       default: null,
     },
     isActive: {

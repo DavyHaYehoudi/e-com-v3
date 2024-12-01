@@ -5,6 +5,8 @@ import {
 } from "../../exceptions/CustomErrors.js";
 import { ProductModel } from "../../models/product/product.schema.js";
 import { FilterQuery } from "mongoose";
+import mongoose from "mongoose";
+
 
 // Types des filtres
 interface GetAllProductsFilters {
@@ -114,12 +116,12 @@ export const deleteProductRepository = async (productId: string) => {
 };
 
 interface OrderItem {
-  productId: string;
-  articleNumber: number;
+  productId: string| mongoose.Types.ObjectId;
+  quantity: number;
 }
 export const updateProductStockRepository = async (orderItems: OrderItem[]) => {
   for (const item of orderItems) {
-    const { productId, articleNumber } = item;
+    const { productId, quantity } = item;
 
     // Récupérer la quantité en stock et l'état continueSelling du produit
     const product = await ProductModel.findById(productId).select(
@@ -133,7 +135,7 @@ export const updateProductStockRepository = async (orderItems: OrderItem[]) => {
     const { quantityInStock, continueSelling } = product;
 
     // Calcul du nouveau stock
-    const newQuantityInStock = quantityInStock - articleNumber;
+    const newQuantityInStock = quantityInStock - quantity;
 
     // Si le stock devient négatif et que le produit ne permet pas de continuer à vendre
     if (newQuantityInStock < 0 && !continueSelling) {

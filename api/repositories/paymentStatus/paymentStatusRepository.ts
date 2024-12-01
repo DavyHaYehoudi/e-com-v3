@@ -7,3 +7,7 @@ export const paymentStatusRespository = async (
 ) => {
   return await PaymentStatusModel.create({ number, name, color });
 };
+
+export const getPaymentStatusRespository = async () => {
+  return await PaymentStatusModel.find();
+};

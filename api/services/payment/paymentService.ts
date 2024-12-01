@@ -3,9 +3,25 @@ import mongoose from "mongoose";
 import { PaymentAmountCustomerDTO } from "../../controllers/payment/entities/dto/paymentAmountCustomer.dto.js";
 import { PaymentAmountVisitorDTO } from "../../controllers/payment/entities/dto/paymentAmountVisitor.dto.js";
 import { formatAmount } from "../../utils/format_amount.js";
-import { getCartDataService } from "../customer/customerService.js";
-import { getProductByIdService } from "../product/productService.js";
+import {
+  getCartDataService,
+  updateCustomerService,
+} from "../customer/customerService.js";
+import {
+  getProductByIdService,
+  updateProductService,
+  updateProductStockService,
+} from "../product/productService.js";
 import { checkPromocodeService } from "../promocode/promocodeService.js";
+import { PaymentConfirmationDTO } from "../../controllers/payment/entities/dto/paymentConfirmation.dto.js";
+import { generateOrderNumber } from "./utils/generateOrderNumber.js";
+import { getOrderStatusService } from "../orderStatus/orderStatusService.js";
+import { getPaymentStatusService } from "../paymentStatus/paymentStatusService.js";
+import { updateCashbackCustomer } from "../../repositories/customer/customerRepository.js";
+import {
+  createGiftcardWhenOrderService,
+  updateGiftcardBalanceService,
+} from "../giftcard/giftcardService.js";
 
 export const getPaymentAmountVisitorService = async (
   paymentData: PaymentAmountVisitorDTO
@@ -20,12 +36,12 @@ export const getPaymentAmountCustomerService = async (
   customerId: string,
   paymentData: PaymentAmountCustomerDTO
 ) => {
-  const customerInfo = await getCartDataService(customerId);
+  const cartInfo = await getCartDataService(customerId);
 
   return await calculatePaymentAmountService(
     paymentData,
-    customerInfo.cartProducts,
-    customerInfo.giftcardsInCart
+    cartInfo.cartProducts,
+    cartInfo.giftcardsInCart
   );
 };
 export const calculatePaymentAmountService = async (
@@ -139,3 +155,68 @@ export async function getPaymentIntentService(
     return { clientSecret: paymentIntent.client_secret, amount };
   } catch (error) {}
 }
+export const createOrderService = async (
+  customerId: string,
+  paymentConfirmationData: PaymentConfirmationDTO
+) => {
+  // Initialisation des variables
+  let cashbackToEarn = 0;
+  let giftcardsCreated = [];
+
+  // 1. Générer un numéro de commande
+  const orderNumber = generateOrderNumber();
+  // 2. Récupérer les informations des statuts de payment et de commandes
+  const orderStatus = await getOrderStatusService();
+  const paymentsStatus = await getPaymentStatusService();
+  // 3. Récupérer les détails de la commande
+  const { promocode, cashbackToSpend, giftcardsToUse } =
+    paymentConfirmationData;
+  const paymentData = {
+    promocode,
+    cashbackToSpend,
+    giftcardsToUse,
+    emailCustomer: null,
+  };
+  const paymentDetails = await getPaymentAmountCustomerService(
+    customerId,
+    paymentData
+  );
+  //4. Récupérer les détails du panier
+  const cartInfo = await getCartDataService(customerId);
+  const giftcardsInCart = cartInfo.giftcardsInCart;
+  const productsInCart = cartInfo.cartProducts;
+
+  //5. Mise à jour du stock du produit
+  await updateProductStockService(productsInCart);
+  //6. Calcul du cashback capitalisé
+  productsInCart.forEach(async (product) => {
+    const productDB = await getProductByIdService(product.productId.toString());
+    cashbackToEarn += product.quantity * productDB.cashback;
+  });
+  //7. Mise à jour de l'historique du cashback du customer
+  const cashbackData = {
+    label: "order" as "order",
+    orderNumber,
+    cashbackEarned: cashbackToEarn || 0,
+    cashbackSpent: cashbackToSpend || 0,
+  };
+  await updateCashbackCustomer(customerId, cashbackData);
+
+  //8. Création des cartes cadeaux
+  giftcardsInCart.forEach(async (giftcard) => {
+    const { amount, quantity } = giftcard;
+    for (let i = 0; i < quantity; i++) {
+      const giftcardCreated = await createGiftcardWhenOrderService(
+        customerId,
+        amount
+      );
+      giftcardsCreated.push(giftcardCreated);
+    }
+  });
+
+  //9. Mise à jour des cartes cadeaux utilisées
+  giftcardsToUse.forEach(async (giftcard) => {
+    const { id, amountToUse } = giftcard;
+    await updateGiftcardBalanceService(id, amountToUse);
+  });
+};

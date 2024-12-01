@@ -7,3 +7,6 @@ export const orderStatusRespository = async (
 ) => {
   return await OrderStatusModel.create({ number, name, color });
 };
+export const getOrderStatusRespository = async () => {
+  return await OrderStatusModel.find();
+};

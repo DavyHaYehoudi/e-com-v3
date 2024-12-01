@@ -342,62 +342,6 @@ paths:
           description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
-  /orders/{orderId}/messages:
-    get:
-      tags:
-        - order
-      summary: Finds all messages for one order.
-      description: Finds all messages for one order.
-      parameters:
-        - name: orderId
-          in: path
-          description: Id of the order.
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderMessageGET'       
-        '401':
-          description: Unauthorized - Customer is not authenticated
-      security:
-        - api_key: []
-    post:
-      tags:
-        - order
-      summary: Add a message.
-      description: Add a message.
-      parameters:
-        - name: orderId
-          in: path
-          description: Id of the order.
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Create a new message in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderMessagePOST'
-        required: true
-      responses:
-        '201':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrderMessageGET'          
-        '401':
-          description: Unauthorized - Customer is not authenticated
-      security:
-        - api_key: []
   /admin/orders:
     get:
       tags:
@@ -411,13 +355,13 @@ paths:
           schema:
             type: string
             nullable: true
-        - name: orderStatusId
+        - name: orderStatusNumber
           in: query
           description: Status of the order (En cours de traitement, A traiter etc.)
           schema:
             type: string
             nullable: true
-        - name: paymentStatusId
+        - name: paymentStatusNumber
           in: query
           description: Status of the payment (Payée, Remboursement partiel etc.)
           schema:
@@ -485,95 +429,6 @@ paths:
           description: Unauthorized - Admin is not authenticated
         '404':
           description: Not found - The order doesn't exist.
-      security:
-        - api_key: []
-  /admin/orders/{orderId}/messages:
-    get:
-      tags:
-        - order
-      summary: Finds all messages for one order.
-      description: Finds all messages for one order.
-      parameters:
-        - name: orderId
-          in: path
-          description: Id of the order.
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderMessageGET'       
-        '401':
-          description: Unauthorized - Customer is not authenticated
-      security:
-        - api_key: []
-    post:
-      tags:
-        - order
-      summary: Add a message.
-      description: Add a message.
-      parameters:
-        - name: orderId
-          in: path
-          description: Id of the order.
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Create a new message in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderMessagePOST'
-        required: true
-      responses:
-        '201':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrderMessageGET'          
-        '401':
-          description: Unauthorized - Customer is not authenticated
-      security:
-        - api_key: []
-  /admin/orders/{orderId}/messages/{messageId}:
-    patch:
-      tags:
-        - order
-      summary: Update an existing message.
-      description: Update an existing message by id.
-      parameters:
-        - name: orderId
-          in: path
-          description: ID of order that contains the message.
-          required: true
-          schema:
-            type: string
-        - name: messageId
-          in: path
-          description: ID of message that needs to be updated.
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: update an existent message in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderMessagePATCH'
-        required: true
-      responses:
-        '204':
-          description: Successful operation
-        '401':
-          description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
   /orderItems/{orderId}:
@@ -1051,7 +906,7 @@ paths:
                   code: 
                     type: string
                     example: Bonjour-10
-                  promotionPercentage:
+                  promocodePercentage:
                     type: number
                     example: 12
         '401':
@@ -1397,33 +1252,38 @@ paths:
       security:
         - api_key: []        
   /payment/amount:
-    get:
+    post:
       tags:
         - payment
-      summary: Calculation of the order amount.
+      summary: Calculation of the order amount for a visitor.
       description: Returns the amount of the order including any discounts such as promotions, promo codes or the use of gift cards.
-      parameters:
-        - name: promocode
-          in: query
-          description: Code of the code promo.
-          schema:
-            type: string
-            nullable: true
-        - name: giftcardsToUseIds
-          in: query
-          description: Ids of the gift cards. ?giftcardsToUseIds=99887769&giftcardsToUseIds=99887772?giftcardsToUseIds=9988770
-          style: form
-          explode: true
-          schema:
-            type: array
-            items: 
-              type: string
-        - name: cashBackToSpend
-          in: query
-          description: Amount cashback to use.
-          schema:
-              type: number
-              nullable: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentAmountVisitorPOST"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentAmountGET'
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /payment/customer/amount:
+    post:
+      tags:
+        - payment
+      summary: Calculation of the order amount for a customer.
+      description: Returns the amount of the order including any discounts such as promotions, promo codes or the use of gift cards.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentAmountCustomerPOST"
       responses:
         '200':
           description: successful operation
@@ -1629,13 +1489,13 @@ components:
         orderStatusLabel:
           type: string
           example: En cours de traitement
-        orderStatusId:
-          type: string
+        orderStatusNumber:
+          type: integer
         paymentStatusLabel:
           type: string
           example: Payée
-        paymentStatusId:
-          type: string
+        paymentStatusNumber:
+          type: integer         
         orderNumber:
           type: integer
           example: 20957IKLH
@@ -1661,67 +1521,15 @@ components:
         cashbackSpent:
           type: integer
           example: 15
-        trackingAdmin:
+        trackingNumber:
           type: object
           properties:
             trackingNumber:
               type: string
             dateSending:
               type: string
-        trackingCustomer:
-          type: object
-          properties:
-            trackingNumber:
-              type: string
-            dateSending:
-              type: string
-        messages:
-          type: array
-          items:
-            type: object
-            properties:
-              sender: 
-                type: string
-              body: 
-                type: string
-              timestamp:
-                type: string
         orderItems:
          $ref: '#/components/schemas/OrderItemGET'
-    OrderMessageGET:
-      type: object
-      properties:
-        orderId:
-          type: string
-          example: 02938457
-        sender:
-          type: string
-          example: customer
-        body:
-          type: string
-          example: J'ai bien réceptionné votre colis.
-        createdAt:
-          type: string
-          example: 2024-03-21T17:50:38.100Z
-    OrderMessagePOST:
-      type: object
-      properties:
-        sender:
-          type: string
-          example: customer
-        body:
-          type: string
-          example: J'ai bien réceptionné votre colis.
-      required:
-        - orderId
-        - sender
-        - body
-    OrderMessagePATCH:
-      type: object
-      properties:
-        body:
-          type: string
-          example: J'ai bien reçu le retour, merci.
     OrderItemGET:
       type: array
       items:
@@ -2092,16 +1900,72 @@ components:
         promocode:
           type: string
           example: Bonjour-12
-        giftcardsToUseIds:
+        giftcardsToUse:
           type: array
           items:
-            type: number
-          example:
-            - 2348
-            - 0984
+            type: object
+            properties:
+              id:
+                type: string
+              amountToUse:
+                type: integer
         cashbackToSpend:
           type: number
           example: 7
+    PaymentAmountCustomerPOST:
+      type: object
+      properties:
+        emailCustomer:
+          type: string
+        cashbackToSpend:
+          type: integer
+        promocode:
+          type: string
+        giftcardsToUse:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              amountToUse:
+                type: integer
+    PaymentAmountVisitorPOST:
+      type: object
+      properties:
+        emailCustomer:
+          type: string
+        promocode:
+          type: string
+        giftcardsToUse:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              amountToUse:
+                type: integer
+        cartProducts:
+          type: array
+          items:
+            type: object
+            properties:
+              productsId:
+                type: string
+              quantity:
+                type: integer
+              variant:
+                type: string
+        cartGiftcards:
+          type: array
+          items:
+            type: object
+            properties:
+              amount:
+                type: integer
+              quantity:
+                type: integer
     PaymentAmountGET:
       type: object
       properties:
@@ -2111,7 +1975,7 @@ components:
         promocodeAmount:
           type: integer
           example: 21
-        totalAmountBeforeDiscount:
+        totalAmountBeforePromocode:
           type: integer
           example: 175.34
         promocodePercentage:
@@ -2125,39 +1989,8 @@ components:
         amountGiftcardUsed:
           type: integer
           example: 32
-        cashback:
-          type: object
-          properties:
-            toEarn: 
-              type: integer
-              example: 10
-            toSpend:
-              type: integer
-              example: 25
-            overageToSpend:
-              type: integer
-              example: 3
-            newBalance:
-              type: integer
-              example: 31
-        orderItems:
-          type: array
-          items:
-            type: object
-            properties:
-              productId:
-                type: integer
-                example: 19
-              promotionPercentage:
-                type: integer
-                nullable: true
-                example: 
-              priceBeforePromotionOnProduct:
-                type: integer
-                example: 100
-              articleNumber:
-                type: integer
-                example: 2
+        cashbackToUse:
+          type: integer
     PaymentConfirmationPOST:
      type: object
      properties:
@@ -2275,15 +2108,6 @@ components:
         firstName:
           type: string
           example: Thomas
-    PaymentStatusPATCH:
-      type: object
-      properties:
-        orderNumber:
-          type: string
-          example: 23FR89BCQA
-        status:
-          type: string
-          example: "paid"
     MarketingCompaignGET:
       type: object
       properties:

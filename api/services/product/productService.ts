@@ -7,6 +7,7 @@ import {
   updateProductRepository,
   updateProductStockRepository,
 } from "../../repositories/product/productRepository.js";
+import mongoose from "mongoose";
 
 export const getAllProductsService = async (filters: GetAllProductsQuery) => {
   return await getAllProductsRepository(filters);
@@ -28,8 +29,8 @@ export const deleteProductService = async (productId: string) => {
 };
 // Lors de la création d'une commande
 interface OrderItem {
-  productId: string;
-  articleNumber: number;
+  productId: string| mongoose.Types.ObjectId;
+  quantity: number;
 }
 export const updateProductStockService = async (orderItems: OrderItem[]) => {
   await updateProductStockRepository(orderItems);

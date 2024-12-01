@@ -1,4 +1,7 @@
-import { orderStatusRespository } from "../../repositories/orderStatus/orderStatusRepository.js";
+import {
+  getOrderStatusRespository,
+  orderStatusRespository,
+} from "../../repositories/orderStatus/orderStatusRepository.js";
 
 export const orderStatusService = async (
   number: number,
@@ -6,4 +9,7 @@ export const orderStatusService = async (
   color: string
 ) => {
   await orderStatusRespository(number, name, color);
+};
+export const getOrderStatusService = async () => {
+  return getOrderStatusRespository();
 };

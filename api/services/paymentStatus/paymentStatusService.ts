@@ -1,4 +1,7 @@
-import { paymentStatusRespository } from "../../repositories/paymentStatus/paymentStatusRepository.js";
+import {
+  getPaymentStatusRespository,
+  paymentStatusRespository,
+} from "../../repositories/paymentStatus/paymentStatusRepository.js";
 
 export const paymentStatusService = async (
   number: number,
@@ -6,4 +9,8 @@ export const paymentStatusService = async (
   color: string
 ) => {
   await paymentStatusRespository(number, name, color);
+};
+
+export const getPaymentStatusService = async () => {
+  return getPaymentStatusRespository();
 };

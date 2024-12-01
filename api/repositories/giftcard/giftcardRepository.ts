@@ -28,6 +28,53 @@ export const getCustomerGiftcardsRepository = async (customerId: string) => {
     throw new BadRequestError(`BadRequestError : ${error}`);
   }
 };
+// CUSTOMER
+export const createGiftcardWhenOrderRepository = async (
+  firstHolderId: string,
+  initialValue: number
+) => {
+  // Vérifier si le client existe
+  const customer = await Customer.findById(firstHolderId);
+  if (!customer) {
+    throw new NotFoundError(`Customer with ID ${firstHolderId} not found`);
+  }
+
+  // Créer une nouvelle gift card
+  return await GiftCardModel.create({
+    firstHolderId,
+    initialValue,
+    balance: initialValue, // Le solde initial est égal à la valeur initiale
+    isIssuedByAdmin: false,
+    buyOrderId: firstHolderId,
+    usageHistory: [], // Historique vide par défaut
+  });
+};
+// CUSTOMER
+export const updateGiftcardBalanceRepository = async (
+  giftcardId: string,
+  amountToUse: number
+) => {
+  try {
+    const giftcardToUpdate = await GiftCardModel.findById(giftcardId);
+
+    if (!giftcardToUpdate) {
+      throw new NotFoundError(`Giftcard with ID ${giftcardId} not found`);
+    }
+    const { balance } = giftcardToUpdate;
+    // Calcul de la nouvelle balance
+    const newBalance = balance - amountToUse;
+
+    // Vérifier si le solde est inférieur à zéro
+    if (newBalance < 0) {
+      throw new BadRequestError("Not enough balance");
+    }
+    return await GiftCardModel.findByIdAndUpdate(giftcardId, {
+      balance: newBalance,
+    });
+  } catch (error: any) {
+    throw new BadRequestError(`BadRequestError : ${error}`);
+  }
+};
 // ADMIN
 export const getAllGiftcardsRepository = async () => {
   return await GiftCardModel.find();
