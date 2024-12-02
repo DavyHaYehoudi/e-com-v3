@@ -6,10 +6,7 @@ export const addressSchema = z.object({
   firstName: z.string().max(20),
   lastName: z.string().max(20),
   email: z.string().email(),
-  phone: z
-    .string()
-    .regex(/^\+[0-9]{1,3}\s*[0-9]{1,15}$/)
-    ,
+  phone: z.string().regex(/^0[1-9][0-9]{8}$/, "Invalid phone number"),
   streetNumber: z.string().max(10),
   address1: z.string().max(100),
   address2: z.string().max(100).optional().default(""),
@@ -33,18 +30,6 @@ export const createOrderSchema = z.object({
   giftcardsToUse: giftcardsToUseSchema.optional().default([]), // Tableau de giftcards à utiliser
 });
 
-// Schema pour la création d'une commande
-// export interface orderSchema {
-//   customerId: string;
-//   orderStatusNumber: number;
-//   paymentStatusNumber: number;
-//   orderNumber: string;
-//   promocodeAmount: number | null;
-//   totalPromoProducts: number | null;
-//   totalPrice: number;
-//   cashBackEarned: number | null;
-//   cashBackSpent: number | null;
-// }
 // Types dérivés pour PaymentConfirmation
 export type PaymentConfirmationDTO = z.infer<typeof createOrderSchema>;
 export type AddressConfirmationDTO = z.infer<typeof addressSchema>;

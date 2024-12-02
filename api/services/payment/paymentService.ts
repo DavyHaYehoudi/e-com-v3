@@ -27,6 +27,7 @@ import {
 } from "../giftcard/giftcardService.js";
 import { OrderItemType } from "../../models/types/orderItemType.js";
 import { createOrderRepository } from "../../repositories/order/orderRepository.js";
+import { CashbackTypeDTO } from "../../controllers/customer/entities/dto/customer.dto.js";
 
 export const getPaymentAmountVisitorService = async (
   paymentData: PaymentAmountVisitorDTO
@@ -177,7 +178,7 @@ export const createOrderService = async (
     // Initialisation des variables
     let cashbackToEarn = 0;
     let giftcardsCreated = [];
-    let orderItemsCreated = <OrderItemType[]>[];
+    let orderItemsCreated: OrderItemType[] = [];
 
     // 1. Générer un numéro de commande
     const orderNumber = generateOrderNumber();
@@ -212,11 +213,12 @@ export const createOrderService = async (
       cashbackToEarn += product.quantity * productDB.cashback;
     });
     //7. Mise à jour de l'historique du cashback du customer
-    const cashbackData = {
-      label: "order" as "order",
+    const cashbackData: CashbackTypeDTO = {
+      label: "order",
       orderNumber,
       cashbackEarned: cashbackToEarn || 0,
       cashbackSpent: cashbackToSpend || 0,
+      reviewId: null,
     };
     await updateCashbackCustomer(customerId, cashbackData);
 
@@ -239,11 +241,12 @@ export const createOrderService = async (
     });
 
     //10. Création des order-items
-    productsInCart.forEach(async (product) => {
+    for (const product of productsInCart) {
       const productDB = await getProductByIdService(
         product.productId.toString()
       );
-      const orderItemData = {
+
+      const orderItemData: OrderItemType = {
         productId: product.productId,
         variant: product.variant,
         customerId,
@@ -251,7 +254,8 @@ export const createOrderService = async (
         heroImage: productDB.heroImage,
         priceBeforePromotionOnProduct: productDB.price,
         promotionPercentage: productDB.promotionPercentage,
-        cashbackEarned: productDB.cashback,
+        promotionEndDate: productDB.promotionEndDate,
+        cashbackEarned: product.quantity * productDB.cashback,
         exchangeNumber: null,
         exchangeAt: null,
         refundNumber: null,
@@ -260,8 +264,9 @@ export const createOrderService = async (
         returnNumber: null,
         returnAt: null,
       };
+
       orderItemsCreated.push(orderItemData);
-    });
+    }
 
     //11. Mise à jour des stats commandes dans customer
     await updateCustomerOrderStatsService(
@@ -279,7 +284,7 @@ export const createOrderService = async (
       orderStatusLabel: orderStatus[0].label,
       orderStatusNumber: orderStatus[0].number,
       paymentStatusLabel: paymentsStatus[0].label,
-      paymentStatusNumber: paymentsStatus[0].number,
+      paymentStatusNumber: paymentsStatus[0].number, 
       orderNumber,
       promocodeAmount: paymentDetails.promocodeAmount,
       promocodePercentage: paymentDetails.promocodePercentage,
@@ -294,6 +299,7 @@ export const createOrderService = async (
     const orderCreated = await createOrderRepository(orderData);
 
     //14. Envoyer un email de confirmation de commande
+    await sendPaymentConfirmationEmail(emailDetails, orderDetails);
     //15. Retourner la commande + prénom customer
     return { orderCreated, firstName: customerInfo.firstName };
   } catch (error) {

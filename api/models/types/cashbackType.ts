@@ -5,5 +5,5 @@ export interface CashbackType {
   cashbackSpent: number;
   label: "loyalty" | "birthday" | "order" | "other" | "review" | "referral";
   orderNumber: string | null;
-  reviewId: mongoose.Types.ObjectId;
+  reviewId: mongoose.Types.ObjectId | null;
 }
