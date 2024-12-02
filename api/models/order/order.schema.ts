@@ -21,6 +21,7 @@ interface TrackingInfo {
 
 interface OrderItem {
   productId: Schema.Types.ObjectId;
+  name: string;
   variant: string;
   customerId: Schema.Types.ObjectId;
   articleNumber: number;
@@ -78,6 +79,7 @@ const TrackingInfoSchema = new Schema<TrackingInfo>({
 
 const OrderItemSchema = new Schema<OrderItem>({
   productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+  name: { type: String, required: true },
   variant: { type: String, default: null },
   customerId: { type: Schema.Types.ObjectId, ref: "Customer", required: true },
   articleNumber: { type: Number, required: true },
@@ -120,6 +122,6 @@ const OrderSchema = new Schema<OrderDocument>(
   {
     timestamps: true,
   }
-); 
+);
 
 export const OrderModel = mongoose.model<OrderDocument>("Order", OrderSchema);

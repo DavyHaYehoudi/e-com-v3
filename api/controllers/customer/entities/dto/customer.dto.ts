@@ -3,7 +3,10 @@ import { z } from "zod";
 export const updateCustomerSchema = z.object({
   firstName: z.string().max(20).optional(),
   lastName: z.string().max(20).optional(),
-  phone: z.string().regex(/^0[1-9][0-9]{8}$/, "Invalid phone number").optional(),
+  phone: z
+    .string()
+    .regex(/^0[1-9][0-9]{8}$/, "Invalid phone number")
+    .optional(),
   avatarUrl: z.string().url().optional(),
   birthdate: z.string().optional(),
   shippingAddress: z
@@ -12,7 +15,10 @@ export const updateCustomerSchema = z.object({
       firstName: z.string().max(20).optional(),
       lastName: z.string().max(20).optional(),
       email: z.string().email().optional(),
-      phone: z.string().regex(/^0[1-9][0-9]{8}$/, "Invalid phone number").optional(),
+      phone: z
+        .string()
+        .regex(/^0[1-9][0-9]{8}$/, "Invalid phone number")
+        .optional(),
       streetNumber: z.string().max(10).optional(),
       address1: z.string().max(100).optional(),
       address2: z.string().max(100).optional(),
@@ -27,7 +33,10 @@ export const updateCustomerSchema = z.object({
       firstName: z.string().max(20).optional(),
       lastName: z.string().max(20).optional(),
       email: z.string().email().optional(),
-      phone: z.string().regex(/^0[1-9][0-9]{8}$/, "Invalid phone number").optional(),
+      phone: z
+        .string()
+        .regex(/^0[1-9][0-9]{8}$/, "Invalid phone number")
+        .optional(),
       streetNumber: z.string().max(10).optional(),
       address1: z.string().max(100).optional(),
       address2: z.string().max(100).optional(),

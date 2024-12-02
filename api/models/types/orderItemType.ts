@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 export interface OrderItemType {
   productId: mongoose.Types.ObjectId | string;
+  name: string;
   variant: string | null;
   customerId: mongoose.Types.ObjectId | string;
   articleNumber: number;

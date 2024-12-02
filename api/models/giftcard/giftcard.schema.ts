@@ -14,7 +14,7 @@ export interface GiftCardDocument extends Document {
   initialValue: number;
   balance: number;
   isIssuedByAdmin: boolean;
-  expirationDate: String;
+  expirationDate: String | Date;
   buyOrderId: Schema.Types.ObjectId;
   usageHistory: GiftCardUsage[];
   createdAt: Date;

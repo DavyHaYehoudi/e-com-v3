@@ -28,6 +28,9 @@ import {
 import { OrderItemType } from "../../models/types/orderItemType.js";
 import { createOrderRepository } from "../../repositories/order/orderRepository.js";
 import { CashbackTypeDTO } from "../../controllers/customer/entities/dto/customer.dto.js";
+import { sendPaymentConfirmationEmail } from "../../email/subject/payment.js";
+import { GiftCardDocument } from "../../models/giftcard/giftcard.schema.js";
+import { giftcardsUsedFormattedEmail } from "../../models/types/giftcardType.js";
 
 export const getPaymentAmountVisitorService = async (
   paymentData: PaymentAmountVisitorDTO
@@ -177,8 +180,9 @@ export const createOrderService = async (
   try {
     // Initialisation des variables
     let cashbackToEarn = 0;
-    let giftcardsCreated = [];
+    let giftcardsCreated: GiftCardDocument[] = [];
     let orderItemsCreated: OrderItemType[] = [];
+    let giftcardsUsed: giftcardsUsedFormattedEmail[] = [];
 
     // 1. Générer un numéro de commande
     const orderNumber = generateOrderNumber();
@@ -206,12 +210,12 @@ export const createOrderService = async (
     //5. Mise à jour du stock du produit
     await updateProductStockService(productsInCart);
     //6. Calcul du cashback capitalisé
-    productsInCart.forEach(async (product) => {
+    for (const product of productsInCart) {
       const productDB = await getProductByIdService(
         product.productId.toString()
       );
       cashbackToEarn += product.quantity * productDB.cashback;
-    });
+    }
     //7. Mise à jour de l'historique du cashback du customer
     const cashbackData: CashbackTypeDTO = {
       label: "order",
@@ -223,7 +227,7 @@ export const createOrderService = async (
     await updateCashbackCustomer(customerId, cashbackData);
 
     //8. Création des cartes cadeaux
-    giftcardsInCart.forEach(async (giftcard) => {
+    for (const giftcard of giftcardsInCart) {
       const { amount, quantity } = giftcard;
       for (let i = 0; i < quantity; i++) {
         const giftcardCreated = await createGiftcardWhenOrderService(
@@ -232,14 +236,23 @@ export const createOrderService = async (
         );
         giftcardsCreated.push(giftcardCreated);
       }
-    });
+    }
 
     //9. Mise à jour des cartes cadeaux utilisées
-    giftcardsToUse.forEach(async (giftcard) => {
+    for (const giftcard of giftcardsToUse) {
       const { id, amountToUse } = giftcard;
-      await updateGiftcardBalanceService(id, amountToUse);
-    });
-
+      const giftcardUpdated = await updateGiftcardBalanceService(
+        id,
+        amountToUse
+      );
+      const giftcardUpdatedFormatted = {
+        amountUsed: amountToUse,
+        balance: giftcardUpdated.balance,
+        code: giftcardUpdated.code,
+        expirationDate: giftcardUpdated.expirationDate,
+      };
+      giftcardsUsed.push(giftcardUpdatedFormatted);
+    }
     //10. Création des order-items
     for (const product of productsInCart) {
       const productDB = await getProductByIdService(
@@ -248,6 +261,7 @@ export const createOrderService = async (
 
       const orderItemData: OrderItemType = {
         productId: product.productId,
+        name: productDB.name,
         variant: product.variant,
         customerId,
         articleNumber: product.quantity,
@@ -284,7 +298,7 @@ export const createOrderService = async (
       orderStatusLabel: orderStatus[0].label,
       orderStatusNumber: orderStatus[0].number,
       paymentStatusLabel: paymentsStatus[0].label,
-      paymentStatusNumber: paymentsStatus[0].number, 
+      paymentStatusNumber: paymentsStatus[0].number,
       orderNumber,
       promocodeAmount: paymentDetails.promocodeAmount,
       promocodePercentage: paymentDetails.promocodePercentage,
@@ -299,7 +313,25 @@ export const createOrderService = async (
     const orderCreated = await createOrderRepository(orderData);
 
     //14. Envoyer un email de confirmation de commande
-    await sendPaymentConfirmationEmail(emailDetails, orderDetails);
+    const emailDetails = {
+      email: customerInfo.email,
+      firstName: customerInfo.firstName,
+    };
+    const orderDetailsForEmail = {
+      orderNumber,
+      totalPrice: paymentDetails.orderAmount,
+      cashbackEarned: cashbackToEarn || 0,
+      cashbackSpent: cashbackToSpend || 0,
+      totalPromotionOnProduct: paymentDetails.totalPromotionOnProduct,
+      giftcardsCreated: giftcardsCreated.length > 0 ? giftcardsCreated : [],
+      giftcardsUsed: giftcardsUsed.length > 0 ? giftcardsUsed : [],
+      orderItems: orderItemsCreated,
+      orderAddressShipping: paymentConfirmationData.orderAddressShipping,
+      orderAddressBilling: paymentConfirmationData.orderAddressBilling,
+      promocodeAmount: paymentDetails.promocodeAmount,
+      promocodePercentage: paymentDetails.promocodePercentage,
+    };
+    await sendPaymentConfirmationEmail(emailDetails, orderDetailsForEmail);
     //15. Retourner la commande + prénom customer
     return { orderCreated, firstName: customerInfo.firstName };
   } catch (error) {

@@ -1,5 +1,8 @@
 import Customer from "../../models/customer/customer.schema.js";
-import { GiftCardModel } from "../../models/giftcard/giftcard.schema.js";
+import {
+  GiftCardDocument,
+  GiftCardModel,
+} from "../../models/giftcard/giftcard.schema.js";
 import {
   BadRequestError,
   NotFoundError,
@@ -68,9 +71,11 @@ export const updateGiftcardBalanceRepository = async (
     if (newBalance < 0) {
       throw new BadRequestError("Not enough balance");
     }
-    return await GiftCardModel.findByIdAndUpdate(giftcardId, {
-      balance: newBalance,
-    });
+    return (await GiftCardModel.findByIdAndUpdate(
+      giftcardId,
+      { balance: newBalance },
+      { new: true }
+    )) as GiftCardDocument;
   } catch (error: any) {
     throw new BadRequestError(`BadRequestError : ${error}`);
   }

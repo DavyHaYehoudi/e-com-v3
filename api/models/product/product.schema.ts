@@ -37,7 +37,7 @@ const ProductSchema = new Schema<ProductDocument>(
     continueSelling: { type: Boolean, default: false },
     quantityInStock: { type: Number, required: true },
     price: { type: Number, required: true },
-    newUntil: { type: Date, default: new Date(), },
+    newUntil: { type: Date, default: new Date() },
     isPublished: { type: Boolean, default: false },
     cashback: { type: Number, default: 0 },
     categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
@@ -52,7 +52,7 @@ const ProductSchema = new Schema<ProductDocument>(
     isStar: { type: Boolean, default: false },
     isArchived: { type: Boolean, default: false },
   },
-  { timestamps: true } 
+  { timestamps: true }
 );
 
 export const ProductModel = mongoose.model<ProductDocument>(

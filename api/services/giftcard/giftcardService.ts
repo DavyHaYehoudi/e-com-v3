@@ -17,12 +17,18 @@ export const giftcardCheckService = async (code: string) => {
 export const getCustomerGiftcardsService = async (customerId: string) => {
   return await getCustomerGiftcardsRepository(customerId);
 };
-export const createGiftcardWhenOrderService = async(firstHolderId:string,initialValue:number)=>{
-  return await createGiftcardWhenOrderRepository(firstHolderId,initialValue)
-}
-export const updateGiftcardBalanceService=async(giftcardId:string,amountToUse:number)=>{
-  return await updateGiftcardBalanceRepository(giftcardId,amountToUse)
-}
+export const createGiftcardWhenOrderService = async (
+  firstHolderId: string,
+  initialValue: number
+) => {
+  return await createGiftcardWhenOrderRepository(firstHolderId, initialValue);
+};
+export const updateGiftcardBalanceService = async (
+  giftcardId: string,
+  amountToUse: number
+) => {
+  return await updateGiftcardBalanceRepository(giftcardId, amountToUse);
+};
 // ADMIN
 export const getAllGiftcardsService = async () => {
   return await getAllGiftcardsRepository();
