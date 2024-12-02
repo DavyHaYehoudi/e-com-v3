@@ -2,20 +2,20 @@ import { z } from "zod";
 
 // Schéma pour valider l'adresse dans une commande
 export const addressSchema = z.object({
-  company: z.string().max(20).optional(),
-  firstName: z.string().max(20).optional(),
-  lastName: z.string().max(20).optional(),
-  email: z.string().email().optional(),
+  company: z.string().max(20).optional().default(""),
+  firstName: z.string().max(20),
+  lastName: z.string().max(20),
+  email: z.string().email(),
   phone: z
     .string()
     .regex(/^\+[0-9]{1,3}\s*[0-9]{1,15}$/)
-    .optional(),
-  streetNumber: z.string().max(10).optional(),
-  address1: z.string().max(100).optional(),
-  address2: z.string().max(100).optional(),
-  city: z.string().max(50).optional(),
-  postalCode: z.string().max(10).optional(),
-  country: z.string().max(50).optional(),
+    ,
+  streetNumber: z.string().max(10),
+  address1: z.string().max(100),
+  address2: z.string().max(100).optional().default(""),
+  city: z.string().max(50),
+  postalCode: z.string().max(10),
+  country: z.string().max(50).optional().default(""),
 });
 // Schéma pour valider chaque élément du tableau giftcardsToUse
 const giftcardsToUseSchema = z.array(

@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 // Interface pour typer les documents
 export interface OrderStatusDocument extends Document {
   number: number;
-  name: string;
+  label: string;
   color: string;
 }
 
@@ -16,7 +16,7 @@ const OrderStatusSchema = new Schema<OrderStatusDocument>(
       unique: true, // Assure que chaque statut a un numéro unique
       trim: true, // Supprime les espaces inutiles au début/fin
     },
-    name: {
+    label: {
       type: String,
       required: true,
       unique: true, // Assure que chaque statut a un nom unique

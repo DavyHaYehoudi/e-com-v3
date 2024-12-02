@@ -2,10 +2,10 @@ import { PaymentStatusModel } from "../../models/paymentStatus/paymentStatusSche
 
 export const paymentStatusRespository = async (
   number: number,
-  name: string,
+  label: string,
   color: string
 ) => {
-  return await PaymentStatusModel.create({ number, name, color });
+  return await PaymentStatusModel.create({ number, label, color });
 };
 
 export const getPaymentStatusRespository = async () => {

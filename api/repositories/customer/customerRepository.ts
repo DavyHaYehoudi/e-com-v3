@@ -1,7 +1,7 @@
 import {
   CashbackTypeDTO,
   FieldsUpdateCustomerDTO,
-} from "../../controllers/customer/entities/dto/customer.dto";
+} from "../../controllers/customer/entities/dto/customer.dto.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 import Customer from "../../models/customer/customer.schema.js";
 
@@ -100,6 +100,33 @@ export const updateCashbackCustomer = async (
     );
 
     // Si le client n'existe pas
+    if (!updatedCustomer) {
+      throw new NotFoundError("Client not found with this ID.");
+    }
+
+    return updatedCustomer;
+  } catch (error: any) {
+    throw error;
+  }
+};
+export const updateCustomerOrderStatsRepository = async (
+  customerId: string,
+  amountToAdd: number
+) => {
+  try {
+    // Mise à jour des champs
+    const updatedCustomer = await Customer.findByIdAndUpdate(
+      customerId,
+      {
+        $inc: {
+          ordersTotalCount: 1, // Incrémente ordersTotalCount de 1
+          ordersTotalAmount: amountToAdd, // Ajoute amountToAdd à ordersTotalAmount
+        },
+      },
+      { new: true, runValidators: true }
+    );
+
+    // Si aucun client trouvé
     if (!updatedCustomer) {
       throw new NotFoundError("Client not found with this ID.");
     }

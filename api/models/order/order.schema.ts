@@ -75,24 +75,23 @@ const TrackingInfoSchema = new Schema<TrackingInfo>({
   trackingNumber: { type: String, required: true },
   dateSending: { type: String, required: true },
 });
- 
+
 const OrderItemSchema = new Schema<OrderItem>({
   productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
-  variant: { type: String, required: true },
+  variant: { type: String, default: null },
   customerId: { type: Schema.Types.ObjectId, ref: "Customer", required: true },
   articleNumber: { type: Number, required: true },
   heroImage: { type: String, required: true },
   priceBeforePromotionOnProduct: { type: Number, required: true },
-  promotionPercentage: { type: Number, required: true },
-  amountPercentage: { type: Number, required: true },
+  promotionPercentage: { type: Number, default: 0 },
+  cashbackEarned: { type: Number, default: 0 },
   exchangeNumber: { type: Number, default: null },
-  exchangeAt: { type: Date, default: null },
+  exchangeAt: { type: String, default: null },
   refundNumber: { type: Number, default: null },
-  refundAt: { type: Date, default: null },
+  refundAt: { type: String, default: null },
   refundAmount: { type: Number, default: null },
   returnNumber: { type: Number, default: null },
-  returnAt: { type: Date, default: null },
-  cashbackEarned: { type: Number, required: true },
+  returnAt: { type: String, default: null },
 });
 
 const OrderSchema = new Schema<OrderDocument>(
@@ -110,7 +109,7 @@ const OrderSchema = new Schema<OrderDocument>(
     promocodeAmount: { type: Number, default: 0 },
     promocodePercentage: { type: Number, default: 0 },
     totalPrice: { type: Number, required: true },
-    totalPromotionOnProduct: { type: Number, required: true },
+    totalPromotionOnProduct: { type: Number, default: 0 },
     orderAddressShipping: { type: OrderAddressSchema, required: true },
     orderAddressBilling: { type: OrderAddressSchema, required: true },
     cashbackEarned: { type: Number, default: 0 },
@@ -121,6 +120,6 @@ const OrderSchema = new Schema<OrderDocument>(
   {
     timestamps: true,
   }
-);
+); 
 
 export const OrderModel = mongoose.model<OrderDocument>("Order", OrderSchema);

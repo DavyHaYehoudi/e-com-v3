@@ -5,10 +5,10 @@ import {
 
 export const paymentStatusService = async (
   number: number,
-  name: string,
+  label: string,
   color: string
 ) => {
-  await paymentStatusRespository(number, name, color);
+  await paymentStatusRespository(number, label, color);
 };
 
 export const getPaymentStatusService = async () => {

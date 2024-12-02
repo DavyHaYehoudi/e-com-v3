@@ -8,8 +8,8 @@ export const orderStatus = async (
   next: NextFunction
 ) => {
   try {
-    const { number, name, color } = req.body;
-    await orderStatusService(number, name, color);
+    const { number, label, color } = req.body;
+    await orderStatusService(number, label, color);
     res.status(201).json({});
   } catch (error) {
     next(error);

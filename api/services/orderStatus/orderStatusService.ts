@@ -5,10 +5,10 @@ import {
 
 export const orderStatusService = async (
   number: number,
-  name: string,
+  label: string,
   color: string
 ) => {
-  await orderStatusRespository(number, name, color);
+  await orderStatusRespository(number, label, color);
 };
 export const getOrderStatusService = async () => {
   return getOrderStatusRespository();

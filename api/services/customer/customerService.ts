@@ -10,6 +10,7 @@ import {
   getCustomersWithEmailMarketingConsentRepository,
   getTodayBirthdayCustomersRepository,
   updateCashbackCustomer,
+  updateCustomerOrderStatsRepository,
   updateCustomerRepository,
 } from "../../repositories/customer/customerRepository.js";
 
@@ -28,7 +29,13 @@ export const updateCustomerService = async (
 ) => {
   await updateCustomerRepository(customerId, fields);
 };
-
+// Mettre à jour les stats order du customer suite à une commande créée
+export const updateCustomerOrderStatsService = async (
+  customerId: string,
+  amountToAdd: number
+) => {
+  await updateCustomerOrderStatsRepository(customerId, amountToAdd);
+};
 // Admin access
 export const getCustomersService = async () => {
   return await getAllCustomersRepository();
