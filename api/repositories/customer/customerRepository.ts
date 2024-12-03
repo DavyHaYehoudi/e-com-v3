@@ -87,7 +87,7 @@ export const getCashbackHistoryCustomer = async (customerId: string) => {
     throw error;
   }
 };
-export const updateCashbackCustomer = async (
+export const updateCashbackCustomerRepository = async (
   customerId: string,
   updatedCashback: CashbackTypeDTO
 ) => {

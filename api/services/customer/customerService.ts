@@ -1,7 +1,13 @@
+import { getCustomer } from "../../controllers/customer/customerController.js";
 import {
   CashbackTypeDTO,
   FieldsUpdateCustomerDTO,
 } from "../../controllers/customer/entities/dto/customer.dto.js";
+import {
+  sendBirthdayToCustomer,
+  sendCashbackCorrectionToCustomer,
+  sendCashbackEarnedToCustomer,
+} from "../../email/subject/marketing.js";
 import {
   createCustomerRepository,
   getAllCustomersRepository,
@@ -9,7 +15,7 @@ import {
   getCustomerByIdRepository,
   getCustomersWithEmailMarketingConsentRepository,
   getTodayBirthdayCustomersRepository,
-  updateCashbackCustomer,
+  updateCashbackCustomerRepository,
   updateCustomerOrderStatsRepository,
   updateCustomerRepository,
 } from "../../repositories/customer/customerRepository.js";
@@ -48,7 +54,30 @@ export const updateCashbackCustomerService = async (
   customerId: string,
   updatedCashback: CashbackTypeDTO
 ) => {
-  return await updateCashbackCustomer(customerId, updatedCashback);
+  const customerInfo = await getCustomerByIdRepository(customerId);
+  if (updatedCashback.label === "other" && updatedCashback.cashbackSpent) {
+    // C'est forcément une correction de l'admin
+    sendCashbackCorrectionToCustomer(
+      customerInfo.email,
+      updatedCashback.cashbackSpent
+    );
+  } else if (updatedCashback.label === "birthday") {
+    sendBirthdayToCustomer(
+      customerInfo.email,
+      customerInfo.firstName,
+      updatedCashback.cashbackEarned
+    );
+  } else {
+    // C'est donc au choix  label: "loyalty" | "order" | "other" | "review" | "referral";
+    sendCashbackEarnedToCustomer(
+      customerInfo.email,
+      customerInfo.firstName,
+      updatedCashback.cashbackEarned,
+      updatedCashback.label
+    );
+  }
+
+  return await updateCashbackCustomerRepository(customerId, updatedCashback);
 };
 
 // Récupérer tous les customers qui ont consenti aux emails marketing

@@ -19,7 +19,7 @@ import { getOrderStatusService } from "../orderStatus/orderStatusService.js";
 import { getPaymentStatusService } from "../paymentStatus/paymentStatusService.js";
 import {
   getCustomerByIdRepository,
-  updateCashbackCustomer,
+  updateCashbackCustomerRepository,
 } from "../../repositories/customer/customerRepository.js";
 import {
   createGiftcardWhenOrderService,
@@ -224,7 +224,7 @@ export const createOrderService = async (
       cashbackSpent: cashbackToSpend || 0,
       reviewId: null,
     };
-    await updateCashbackCustomer(customerId, cashbackData);
+    await updateCashbackCustomerRepository(customerId, cashbackData);
 
     //8. Création des cartes cadeaux
     for (const giftcard of giftcardsInCart) {

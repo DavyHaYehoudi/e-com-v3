@@ -8,7 +8,7 @@ import { getTodayBirthdayCustomersService } from "../../services/customer/custom
 
 export const sendCashbackCorrectionToCustomer = async (
   email: string,
-  detuctedAmount: number
+  deductedAmount: number
 ) => {
   const mailOptions = {
     to: email,
@@ -24,7 +24,7 @@ export const sendCashbackCorrectionToCustomer = async (
           <div style="text-align: center; margin: 20px 0;">
             <p style="font-size: 18px; color: #333;"><strong>Montant déduit:</strong></p>
             <div style="background-color: #FF9800; color: #fff; padding: 15px; font-size: 24px; border-radius: 50px; width: 180px; margin: 0 auto;">
-              - ${detuctedAmount} €
+              - ${deductedAmount} €
             </div>
           </div>
     
@@ -136,16 +136,16 @@ export const sendCashbackEarnedToCustomer = async (
   let reasonText = "";
 
   switch (reason) {
-    case "Review":
+    case "review":
       reasonText = "pour avoir laissé un commentaire sur l'un de nos produits";
       break;
-    case "Referral":
+    case "referral":
       reasonText = "grâce au parrainage";
       break;
-    case "Loyalty":
+    case "loyalty":
       reasonText = "en récompense de votre fidélité à notre boutique";
       break;
-    case "Other":
+    case "other":
       reasonText =
         "pour une raison spéciale liée à votre engagement avec notre boutique";
       break;
