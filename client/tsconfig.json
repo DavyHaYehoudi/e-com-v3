@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist", // Tous les fichiers .js générés iront dans le dossier "dist"
+    "rootDir": "./src", // Définissez le dossier source comme racine
+    "noEmit": true, // Empêche la génération de fichiers .js
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@/components/*": [
+        "src/components/*"
+      ],
+      "@/ui/*": [
+        "src/components/ui/*"
+      ],
+      "@/utils/*": [
+        "src/lib/utils/*"
+      ],
+      "@/hooks/*": [
+        "src/hooks/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
