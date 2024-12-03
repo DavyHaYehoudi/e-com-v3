@@ -55,7 +55,7 @@ export const updateCashbackCustomerService = async (
   updatedCashback: CashbackTypeDTO
 ) => {
   const customerInfo = await getCustomerByIdRepository(customerId);
-  if (updatedCashback.label === "other" && updatedCashback.cashbackSpent) {
+  if (updatedCashback.label === "correction") {
     // C'est forcément une correction de l'admin
     sendCashbackCorrectionToCustomer(
       customerInfo.email,

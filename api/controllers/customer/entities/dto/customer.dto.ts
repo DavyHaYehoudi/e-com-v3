@@ -85,6 +85,7 @@ export const cashbackSchema = z.object({
     "other",
     "review",
     "referral",
+    "correction",
   ]),
   // Référence facultative pour les commandes
   orderNumber: z.string().optional().nullable().default(null),

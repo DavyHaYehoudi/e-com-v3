@@ -21,7 +21,15 @@ const CashbackSchema = new Schema<CashbackType>({
   label: {
     type: String,
     required: true,
-    enum: ["loyalty", "birthday", "order", "other", "review", "referral"], // Énumération
+    enum: [
+      "loyalty",
+      "birthday",
+      "order",
+      "other",
+      "review",
+      "referral",
+      "correction",
+    ], // Énumération
   },
   orderNumber: { type: String, default: null }, // Référence facultative
   reviewId: { type: Schema.Types.ObjectId, ref: "Review", default: null }, // Référence facultative
