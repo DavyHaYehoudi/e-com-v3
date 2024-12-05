@@ -8,8 +8,13 @@ export default defineConfig({
   resolve: {
     alias: {
       "@/components": path.resolve(__dirname, "./src/components"),
-      "@/utils": path.resolve(__dirname, "./src/lib/utils"),
+      "@/utils": path.resolve(__dirname, "./src/utils"),
+      "@/lib/utils": path.resolve(__dirname, "./src/lib/utils"),
       "@/hooks": path.resolve(__dirname, "./src/hooks"),
+      "@/pages": path.resolve(__dirname, "./src/pages"),
+      "@/service": path.resolve(__dirname, "./src/service"),
+      "@/redux": path.resolve(__dirname, "./src/redux"),
+      "@/layout": path.resolve(__dirname, "./src/layout"),
     },
   },
 });

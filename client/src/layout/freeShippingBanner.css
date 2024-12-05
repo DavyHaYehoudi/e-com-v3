@@ -1,0 +1,26 @@
+#freeShippingBanner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #D9C2B6 0%, #EDE4DF 90%, #FFFFFF 100%);
+    box-shadow: 0 0 2px whitesmoke;
+    padding: 0 5px 10px 5px;
+    text-align: center;
+}
+
+#freeShippingBanner span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding-top: 10px;
+    font-size: 2.18rem;
+    animation: shake 0.5s infinite alternate;
+}
+
+@keyframes shake {
+    to {
+        transform: translateY(5px);
+        /* Légère secousse vers la droite */
+    }
+}

@@ -1,0 +1,161 @@
+#tradition .animated-container {
+    animation: slideFromTop 2s ease 0s 1 normal forwards;
+}
+
+#tradition section {
+    margin: 40px auto;
+    max-width: 1200px;
+    text-align: justify;
+    background: var(--bg-1);
+    border-radius: 12px;
+    border: 2px solid gray;
+}
+
+#tradition img {
+    width: 100%;
+    height: 100%;
+}
+
+#tradition .block .illustration {
+    width: 100%;
+    height: 400px;
+}
+
+#tradition .block .block-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#tradition .block .block-content>* {
+    flex: 1;
+}
+
+#tradition .block .block-content .illustration.right img {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+#tradition .block .block-content .illustration.left img {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+#tradition h2,
+#tradition h3 {
+    font-size: 2rem;
+    margin: 20px 0;
+}
+
+#tradition .text {
+    padding: 10px;
+}
+
+/* ***************************** HERO ***************************** */
+#tradition .hero .hero-content .text {
+    flex: 2
+}
+
+#tradition .hero .hero-content .illustration {
+    flex: 1;
+}
+
+#tradition .hero .hero-content .text .first {
+    font-style: italic;
+}
+
+/* ***************************** TITLE ***************************** */
+#tradition section.title {
+    margin: 0;
+    max-width: initial;
+    width: 100%;
+    padding: 40px;
+    border: none;
+}
+
+#tradition section .title-content {
+    margin: 0 auto;
+    max-width: 800px;
+    width: 100%;
+}
+
+#tradition section .title-content h1 {
+    text-align: start;
+    font-size: 2.5rem;
+    margin: 20px 0;
+}
+
+#tradition .title .title-content .first {
+    font-style: italic;
+}
+
+#tradition .title .title-content p {
+    text-align: start;
+}
+
+/* ***************************** PARTICULARITY ***************************** */
+#tradition section.particularity {
+    margin: 0;
+    max-width: initial;
+    width: 100%;
+    padding: 40px 0;
+    border: none;
+    background: inherit;
+}
+
+#tradition section .particularity-content {
+    margin: 0 auto;
+    max-width: 800px;
+    width: 100%;
+}
+
+#tradition section .particularity-content li {
+    margin: 20px;
+}
+
+#tradition section .particularity-content .magic {
+    text-align: center;
+}
+
+#tradition .particularity #contact {
+    margin: 50px auto;
+    text-align: center;
+}
+
+#tradition ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+}
+
+/* ******************** MEDIAS QUERIES ******************** */
+@media (max-width: 576px) {
+    #tradition .block-content.right {
+        flex-direction: column-reverse;
+    }
+
+    #tradition .block-content.left {
+        flex-direction: column;
+    }
+
+    #tradition .block .block-content.right .illustration img,
+    #tradition .block .block-content.left .illustration img {
+        border-top-right-radius: 12px;
+        border-top-left-radius: 12px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        height: 300px;
+    }
+
+
+    #tradition section .title-content h1 {
+        margin: 0;
+    }
+
+    #tradition .particularity h3 {
+        text-align: center;
+    }
+    #tradition section.title{
+        padding: 10px;
+    }
+}
