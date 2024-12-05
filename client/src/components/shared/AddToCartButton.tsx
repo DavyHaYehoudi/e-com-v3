@@ -1,6 +1,4 @@
-"use client";
-import React, { useState } from "react";
-import { Button } from "../ui/button";
+import { useState } from "react";
 import {
   Sheet,
   SheetTrigger,
@@ -9,12 +7,13 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import Header from "../pages/cart-sheet/header/Header";
-import Footer from "../pages/cart-sheet/footer/Footer";
-import Body from "../pages/cart-sheet/body/Body";
-import { ScrollArea } from "../ui/scroll-area";
+import Header from "@/pages/cart-sheet/header/Header";
+import Footer from "@/pages/cart-sheet/footer/Footer";
+import Body from "@/pages/cart-sheet/body/Body";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { MasterProductsType, Product } from "@/app/(public)/types/ProductTypes";
-import { useCartManager } from "@/app/(public)/panier/hooks/useCartManager";
+import { useCartManager } from "@/hooks/useCartManager";
+import { Button } from "@/components/ui/button";
 
 interface AddToCartButtonProps {
   product?: Product | MasterProductsType;

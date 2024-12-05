@@ -1,12 +1,12 @@
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
+import { useTheme } from "../modules/darkMode/ThemeProvider";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Pour éviter les problèmes de serveur/client, attendre que le composant soit monté
+  // Attendre que le composant soit monté
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -19,9 +19,9 @@ export default function ThemeToggle() {
         id="theme-toggle"
         checked={theme === "dark"}
         onCheckedChange={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-500 "
+        className="bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-500"
       />
-      <span className="text-2xl">{theme === "dark" ? "🌜" : "🔆"}</span>
+      <span className="text-xl">{theme === "dark" ? "🌜" : "🔆"}</span>
     </div>
   );
 }

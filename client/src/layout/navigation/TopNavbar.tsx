@@ -1,4 +1,3 @@
-
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import NavIcons from "./NavIcons";
 import { Link } from "react-router-dom";
