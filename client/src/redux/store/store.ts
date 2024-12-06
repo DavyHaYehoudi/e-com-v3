@@ -3,12 +3,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
-import wishlistReducer from "../slice/wishlistSlice";
 import authReducer from "../slice/authSlice";
 import cartReducer from "../slice/cartSlice";
 import priceAdjustmentsReducer from "../slice/priceAdjustmentsSlice";
 import addressesReducer from "../slice/addressesSlice";
 import cashbackReducer from "../slice/cashbackSlice";
+import wishlistReducer from "../slice/wishlistSlice";
 import { PersistPartial } from "redux-persist/es/persistReducer";
 
 // Configuration de persistance
@@ -24,6 +24,7 @@ const persistConfig = {
     "cashback",
   ],
 };
+
 
 // Combinez vos reducers, s'il y en a plusieurs
 const rootReducer = combineReducers({
@@ -45,6 +46,14 @@ export const store = configureStore({
       serializableCheck: false,
     }),
 });
+// Store sans persistReducer pour tester
+// export const store = configureStore({
+//   reducer: rootReducer,  // Ne pas utiliser persistReducer pour tester
+//   middleware: (getDefaultMiddleware) =>
+//     getDefaultMiddleware({
+//       serializableCheck: false,
+//     }),
+// });
 
 export const persistor = persistStore(store);
 

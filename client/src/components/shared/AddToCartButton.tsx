@@ -13,7 +13,10 @@ import Body from "@/pages/cart-sheet/body/Body";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCartManager } from "@/hooks/useCartManager";
 import { Button } from "@/components/ui/button";
-import { ProductDBType, VariantProductType } from "@/types/product/ProductTypes";
+import {
+  ProductDBType,
+  VariantProductType,
+} from "@/types/product/ProductTypes";
 
 interface AddToCartButtonProps {
   product?: ProductDBType;

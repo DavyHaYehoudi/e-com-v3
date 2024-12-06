@@ -192,7 +192,7 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
       default: [],
     },
     wishlistProducts: {
-      type: [String],
+      type: [{ type: Schema.Types.ObjectId, ref: "Product" }],
       default: [],
     },
     cashback: {

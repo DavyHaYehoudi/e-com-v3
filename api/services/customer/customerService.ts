@@ -26,8 +26,29 @@ export const createCustomerService = async (email: string) => {
 };
 // Récupérer le customer
 export const getCustomerService = async (customerId: string) => {
-  return await getCustomerByIdRepository(customerId);
+  const customer = await getCustomerByIdRepository(customerId);
+
+  // Convertir le document Mongoose en JSON brut
+  const customerData = customer.toJSON();
+
+  // Formatage des données cartProducts
+  const formattedCartProducts = customerData.cartProducts.map((cartProduct: any) => {
+    const { productId, quantity, variant, _id } = cartProduct;
+
+    return {
+      ...productId, // Les données du produit
+      quantity,
+      variant,
+      cartItemId: _id, // Renomme `_id` pour l'élément du panier
+    };
+  });
+
+  return {
+    ...customerData, // Copie les autres données du client
+    cartProducts: formattedCartProducts, // Remplace cartProducts par la version formatée
+  };
 };
+
 // Mettre à jour ou créer le profil du customer
 export const updateCustomerService = async (
   customerId: string,

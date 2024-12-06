@@ -44,7 +44,9 @@ const ProductsSuggested: React.FC<ProductsSuggestedProps> = ({ product }) => {
       <h3 className="uppercase text-center text-2xl mb-6">
         Produits suggeres{" "}
         {filteredProducts.length > 0 ? (
-          <span className="lowercase">{`: ${filteredProducts.length} proposé${filteredProducts.length>1?"s":""}`}</span>
+          <span className="lowercase">{`: ${filteredProducts.length} proposé${
+            filteredProducts.length > 1 ? "s" : ""
+          }`}</span>
         ) : (
           <span className="lowercase">: aucune proposition</span>
         )}

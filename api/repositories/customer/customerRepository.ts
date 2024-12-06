@@ -18,8 +18,16 @@ export const createCustomerRepository = async (email: string) => {
 };
 export const getCustomerByIdRepository = async (id: string) => {
   try {
-    // Recherche du client par ID
-    const customer = await Customer.findById(id);
+    // Recherche du client par ID avec les produits associés
+    const customer = await Customer.findById(id)
+      .populate({
+        path: "cartProducts.productId",
+        model: "Product",
+      })
+      .populate({
+        path: "wishlistProducts",
+        model: "Product",
+      });
 
     if (!customer) {
       throw new NotFoundError("Client not found with this ID.");

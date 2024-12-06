@@ -4,6 +4,7 @@ import {
   ProductInCartType,
 } from "../../models/types/cartType";
 import { CashbackType } from "../../models/types/cashbackType";
+import { Types } from "mongoose";
 
 export interface ICustomer extends Document {
   role: "admin" | "customer";
@@ -14,7 +15,7 @@ export interface ICustomer extends Document {
   billingAddress: AddressType;
   cartProducts: ProductInCartType[];
   cartGiftcards: GiftcardInCartType[];
-  wishlistProducts: string[];
+  wishlistProducts: Types.ObjectId[];
   cashback: CashbackType[];
   phone: string;
   avatarUrl: string;

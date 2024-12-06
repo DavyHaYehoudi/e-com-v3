@@ -125,10 +125,10 @@ const TermsOfSales = () => {
           Toute réclamation du Client devra être faite par écrit et transmise à
           l’adresse électronique suivante :{" "}
           <a
-            href="mailto:bonjour@ateliernoralya.com"
+            href="mailto:contact@ateliernoralya.com"
             className="text-blue-500 underline"
           >
-            bonjour@ateliernoralya.com
+            contact@ateliernoralya.com
           </a>
           , ou à l'adresse postale suivante : Mme Pantoustier Cindy, 555, Avenue
           de la république 83560 VINON-SUR-VERDON.

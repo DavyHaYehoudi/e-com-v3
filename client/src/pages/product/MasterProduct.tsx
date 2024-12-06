@@ -62,7 +62,6 @@ const MasterProduct = () => {
       setSelectedVariant(selected);
     }
   };
-  
 
   useEffect(() => {
     // Il existe des produits dans le panier

@@ -7,7 +7,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { HeartIcon } from "lucide-react";
-import React from "react";
 import WishlistTable from "./WishlistTable";
 import { ScrollArea } from "@/components/ui/scroll-area";
 

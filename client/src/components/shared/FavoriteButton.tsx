@@ -1,20 +1,20 @@
 import { Heart } from "lucide-react";
-import { useWishlistManager } from "../modules/wishlist/hooks/useWishlistManager";
+import { useWishlistManager } from "../../hooks/useWishlistManager";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
 
 interface FavoriteButtonProps {
-  product: ProductDBType;
+  product: WishlistManagerFrontType;
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product }) => {
   const { toggleProductInWishlist } = useWishlistManager();
 
-  const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
+  const wishlistItems = useSelector((state: RootState) => state.wishlist);
 
   // Déterminer si le produit est dans les favoris
-  const isFavorite = wishlistItems.some((item) => item.id === product._id);
+  const isFavorite = wishlistItems.some((item) => item._id === product._id);
 
   const onToggleFavorite = async () => {
     await toggleProductInWishlist(product);

@@ -1,23 +1,39 @@
-// src/hooks/useWishlist.ts
 import { useState, useEffect } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
-import { WishlistResponse } from "@/app/(public)/types/WishlistTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { setWishlist } from "@/redux/slice/wishlistSlice";
 import { RootState } from "@/redux/store/store";
+import { CustomerDBType } from "@/types/customer/CustomerTypes";
+import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
 
 const useWishlist = () => {
   const [productsWishlist, setProductsWishlist] =
-    useState<WishlistResponse | null>(null);
+    useState<WishlistManagerFrontType[] | null>(null);
   const dispatch = useDispatch();
   const { isAuthenticated, isVisitor } = useSelector(
     (state: RootState) => state.auth
   );
   const wishlistCustomer = useSelector((state: RootState) => state.wishlist);
-  const { data, triggerFetch } = useFetch<WishlistResponse>(
-    "/customer/wishlist",
+  const { data, triggerFetch } = useFetch<CustomerDBType>(
+    "/customer",
     { requiredCredentials: true }
   );
+
+  // Fonction pour formater les données de la wishlist
+  const formatWishlistData = (
+    wishlistProducts: CustomerDBType["wishlistProducts"]
+  ): WishlistManagerFrontType[] => {
+    return wishlistProducts.map((product) => ({
+      _id: product._id,
+      heroImage: product.heroImage,
+      name: product.name,
+      newUntil: product.newUntil,
+      price: product.price,
+      cashback: product.cashback,
+      promotionPercentage: product.promotionPercentage,
+      promotionEndDate: product.promotionEndDate,
+    }));
+  };
 
   useEffect(() => {
     // Récupération initiale de la wishlist pour les utilisateurs authentifiés
@@ -28,8 +44,9 @@ const useWishlist = () => {
 
   useEffect(() => {
     if (isAuthenticated && data) {
-      setProductsWishlist(data);
-      dispatch(setWishlist(data));
+      const formattedWishlist = formatWishlistData(data.wishlistProducts);
+      setProductsWishlist(formattedWishlist);
+      dispatch(setWishlist(formattedWishlist));
     }
   }, [data, isAuthenticated, dispatch]);
 

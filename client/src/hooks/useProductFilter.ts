@@ -4,25 +4,21 @@ import { ProductDBType } from "@/types/product/ProductTypes";
 
 interface Filter {
   name: string;
-  collections: number[];
-  categories: number[];
-  tags: number[];
+  categories: string[];
+  tags: string[];
   priceRange: { min?: number; max?: number };
   isOnSale: boolean;
   isNew: boolean;
-  isBestSeller: boolean;
 }
 
 export const useProductFilter = () => {
   const [filters, setFilters] = useState<Filter>({
     name: "",
-    collections: [] as number[],
-    categories: [] as number[],
-    tags: [] as number[],
+    categories: [] as string[],
+    tags: [] as string[],
     priceRange: { min: undefined, max: undefined },
     isOnSale: false,
     isNew: false,
-    isBestSeller: false,
   });
 
   const [queryUrl, setQueryUrl] = useState("/products");
@@ -32,10 +28,10 @@ export const useProductFilter = () => {
     error,
     triggerFetch,
   } = useFetch<ProductDBType[]>(queryUrl);
-  
+
   useEffect(() => {
     triggerFetch(); // Fetch des produits star au chargement de la page
-  }, [queryUrl]);
+  }, [queryUrl, triggerFetch]);
 
   // Fonction pour mettre à jour les filtres et régénérer l'URL des query params
   const handleFilterSubmit = (newFilters: Filter) => {
@@ -47,39 +43,30 @@ export const useProductFilter = () => {
       queryParams.append("name", newFilters.name);
     }
 
-    if (newFilters.collections.length > 0) {
-      newFilters.collections.forEach((collectionId) => {
-        queryParams.append("collection_ids", collectionId.toString());
-      });
-    }
-
     if (newFilters.categories.length > 0) {
       newFilters.categories.forEach((categoryId) => {
-        queryParams.append("category_ids", categoryId.toString());
+        queryParams.append("categoryIds", categoryId);
       });
     }
 
     if (newFilters.tags.length > 0) {
       newFilters.tags.forEach((tagId) => {
-        queryParams.append("tag_ids", tagId.toString());
+        queryParams.append("tagIds", tagId);
       });
     }
 
     if (newFilters.priceRange.min !== undefined) {
-      queryParams.append("min_price", newFilters.priceRange.min.toString());
+      queryParams.append("minPrice", newFilters.priceRange.min.toString());
     }
     if (newFilters.priceRange.max !== undefined) {
-      queryParams.append("max_price", newFilters.priceRange.max.toString());
+      queryParams.append("maxPrice", newFilters.priceRange.max.toString());
     }
 
     if (newFilters.isOnSale) {
-      queryParams.append("on_promotion", "true");
+      queryParams.append("onPromotion", "true");
     }
     if (newFilters.isNew) {
-      queryParams.append("is_new", "true");
-    }
-    if (newFilters.isBestSeller) {
-      queryParams.append("sort_by_sales", "true");
+      queryParams.append("isNew", "true");
     }
 
     setQueryUrl(`/products?${queryParams.toString()}`);

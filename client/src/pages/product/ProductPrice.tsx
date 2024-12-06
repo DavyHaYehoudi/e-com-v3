@@ -1,9 +1,15 @@
 import AddToCartButton from "@/components/shared/AddToCartButton";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
-import { ProductDBType, VariantProductType } from "@/types/product/ProductTypes";
+import {
+  ProductDBType,
+  VariantProductType,
+} from "@/types/product/ProductTypes";
 import { formatPrice } from "@/utils/pricesFormat";
-import { canContinueSelling, priceProductAfterDiscount } from "@/utils/productUtils";
+import {
+  canContinueSelling,
+  priceProductAfterDiscount,
+} from "@/utils/productUtils";
 
 interface ProductPriceProps {
   product: ProductDBType;
@@ -16,7 +22,6 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
   selectedVariant,
   quantity,
 }) => {
-
   return (
     <article className="my-8">
       <h2 className="text-xl font-semibold">💶 Prix :</h2>
@@ -41,22 +46,21 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
         ""
       )}
       <div className="flex items-center gap-5">
-
-      {product.price && !product.promotionPercentage && (
-        <div>{formatPrice(product.price)} </div>
-      )}
-      {product.cashback ? (
-        <div>
-          {product.cashback ? (
-            <CashbackBadge cashbackAmount={product.cashback} />
-          ) : (
-            ""
-          )}
-        </div>
-      ) : (
-        ""
-      )}
-      <hr className="my-4" />
+        {product.price && !product.promotionPercentage && (
+          <div>{formatPrice(product.price)} </div>
+        )}
+        {product.cashback ? (
+          <div>
+            {product.cashback ? (
+              <CashbackBadge cashbackAmount={product.cashback} />
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          ""
+        )}
+        <hr className="my-4" />
       </div>
       {/* Vérification si le produit est disponible à la vente */}
       {canContinueSelling(product) ? (

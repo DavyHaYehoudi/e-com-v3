@@ -8,7 +8,7 @@ import {
 interface ProductImageItemProps {
   path: string;
   name: string;
-  productId: number;
+  productId: string;
 }
 
 const ProductImageItem: React.FC<ProductImageItemProps> = ({
