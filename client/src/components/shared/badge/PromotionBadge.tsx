@@ -2,17 +2,17 @@ import { Badge } from "@/components/ui/badge";
 import { formatPromotionDate } from "@/utils/productUtils";
 
 const PromotionBadge: React.FC<{
-  discountPercentage: number | null;
+  promotionPercentage: number | null;
   additionalClasses?: string;
-  discount_end_date?: string | null;
-}> = ({ discountPercentage, additionalClasses, discount_end_date }) => {
+  promotionEndDate?: string | null;
+}> = ({ promotionPercentage, additionalClasses, promotionEndDate }) => {
   return (
     <Badge
       className={`bg-yellow-400 text-black text-center text-xs font-bold px-2 py-1 rounded w-[100px] ${additionalClasses}`}
       variant="outline"
     >
-      -{discountPercentage}%{" "}
-      {discount_end_date && formatPromotionDate(discount_end_date)}
+      -{promotionPercentage}%{" "}
+      {promotionEndDate && formatPromotionDate(promotionEndDate)}
     </Badge>
   );
 };

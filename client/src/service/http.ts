@@ -67,7 +67,7 @@ const fetchWrapper = async <T>(
     };
 
     // Utilisation de l'URL de base provenant de l'environnement
-    const fullUrl = `${process.env.VITE_API_URL}${url}`;
+    const fullUrl = `${import.meta.env.VITE_API_URL}${url}`;
 
     const response = await fetch(fullUrl, { ...options, headers });
 

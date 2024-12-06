@@ -1,10 +1,10 @@
 import Header from "./Header";
 import Body from "./Body";
 import Footer from "./Footer";
-import { Product } from "@/app/(public)/types/ProductTypes";
+import { ProductDBType } from "@/types/product/ProductTypes";
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductDBType;
 }
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (

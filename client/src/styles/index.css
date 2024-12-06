@@ -2,8 +2,8 @@
 @import "./variables.css";
 @import "@/layout/navigation/navigation.css";
 @import "@/pages/tradition/tradition.css";
-/* @import "@/components/pages/product/productSuggested.css";
-@import "@/components/shared/productCard/productCard.css"; */
+/* @import "@/pages/product/productSuggested.css"; */
+@import "@/components/shared/productCard/productCard.css";
 @import "@/layout/freeShippingBanner.css";
 @tailwind base;
 @tailwind components;

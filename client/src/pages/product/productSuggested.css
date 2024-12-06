@@ -1,0 +1,20 @@
+/* Personnalisation de la barre de défilement */
+.custom-scrollbar::-webkit-scrollbar {
+    height: 16px; /* Augmente la hauteur de la barre de défilement */
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #e0e0e0; /* Couleur de l'arrière-plan de la barre */
+    border-radius: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #9c27b0; /* Couleur du curseur de défilement */
+    border-radius: 10px; /* Bords arrondis pour un look plus esthétique */
+    border: 3px solid #e0e0e0; /* Ajoutez un contour pour rendre le curseur plus visible */
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #7b1fa2; /* Changez la couleur au survol pour plus d'interactivité */
+  }
+  

@@ -49,7 +49,7 @@ export const productSchema = z.object({
   isStar: z.boolean().optional(),
   isArchived: z.boolean().optional(),
 });
-
+ 
 // Type généré à partir du schéma Zod
 export type ProductInputDTO = z.infer<typeof productSchema>;
 

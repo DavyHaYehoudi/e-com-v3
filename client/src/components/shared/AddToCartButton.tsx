@@ -11,13 +11,13 @@ import Header from "@/pages/cart-sheet/header/Header";
 import Footer from "@/pages/cart-sheet/footer/Footer";
 import Body from "@/pages/cart-sheet/body/Body";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MasterProductsType, Product } from "@/app/(public)/types/ProductTypes";
 import { useCartManager } from "@/hooks/useCartManager";
 import { Button } from "@/components/ui/button";
+import { ProductDBType, VariantProductType } from "@/types/product/ProductTypes";
 
 interface AddToCartButtonProps {
-  product?: Product | MasterProductsType;
-  selectedVariant?: string;
+  product?: ProductDBType;
+  selectedVariant?: VariantProductType;
   quantity: number;
   amount?: number;
   type: "item" | "giftCard";
@@ -25,7 +25,7 @@ interface AddToCartButtonProps {
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   product,
-  selectedVariant = "",
+  selectedVariant,
   quantity,
   amount,
   type = "item",

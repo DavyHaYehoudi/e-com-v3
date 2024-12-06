@@ -11,24 +11,31 @@ import {
   MailIcon,
   TagIcon,
 } from "lucide-react";
-import ProductMenu from "./ProductMenu";
 
 const Navbar = () => {
   // const pathname = usePathname(); // Récupère le chemin actif
-    // Récupère l'objet location
-    const location = useLocation();
+  // Récupère l'objet location
+  const location = useLocation();
 
-    // Le pathname est accessible via location.pathname
-    const pathname = location.pathname;
+  // Le pathname est accessible via location.pathname
+  const pathname = location.pathname;
   return (
     <nav className="text-gray-500 mb-4 lg:p-4">
       <NavigationMenu className="flex flex-col lg:flex-row lg:justify-center gap-8 list-none items-start lg:items-center">
-        {/* Onglet Produits avec sous-menu */}
-        <NavigationMenuItem >
-          <div className="flex items-center">
+        {/* Onglet Produits */}
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            href="/produits"
+            className={`flex items-center space-x-2 relative ${
+              pathname === "/produits" ? "active" : ""
+            }`}
+          >
             <TagIcon className="tab-nav w-5 h-5" />
-            <ProductMenu />
-          </div>
+            <span className="tab-nav tracking-widest text-xs lg:text-sm">
+              Produits
+            </span>
+            <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
+          </NavigationMenuLink>
         </NavigationMenuItem>
         {/* Onglet Créatrice */}
         <NavigationMenuItem>
@@ -39,7 +46,9 @@ const Navbar = () => {
             }`}
           >
             <BookOpenIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-xs lg:text-sm">Creatrice</span>
+            <span className="tab-nav tracking-widest text-xs lg:text-sm">
+              Creatrice
+            </span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -53,7 +62,9 @@ const Navbar = () => {
             }`}
           >
             <GlobeIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-xs lg:text-sm">Tradition</span>
+            <span className="tab-nav tracking-widest text-xs lg:text-sm">
+              Tradition
+            </span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -67,7 +78,9 @@ const Navbar = () => {
             }`}
           >
             <MailIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-xs lg:text-sm">Contact</span>
+            <span className="tab-nav tracking-widest text-xs lg:text-sm">
+              Contact
+            </span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>

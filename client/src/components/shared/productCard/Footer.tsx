@@ -1,11 +1,8 @@
-"use client";
-
-import React from "react";
+import { ProductDBType } from "@/types/product/ProductTypes";
 import FavoriteButton from "../FavoriteButton";
-import { Product } from "@/app/(public)/types/ProductTypes";
 
 interface FooterProps {
-  product: Product;
+  product: ProductDBType;
 }
 
 const Footer: React.FC<FooterProps> = ({ product }) => {

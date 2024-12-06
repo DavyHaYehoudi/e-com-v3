@@ -1,8 +1,7 @@
-import { Product } from "@/app/(public)/types/ProductTypes";
-import React from "react";
+import { ProductDBType } from "@/types/product/ProductTypes";
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductDBType;
 }
 const Body: React.FC<ProductCardProps> = ({ product }) => {
   return (

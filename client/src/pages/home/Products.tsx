@@ -1,4 +1,4 @@
-import { Product } from "@/app/(public)/types/ProductTypes";
+import { ProductDBType } from "@/types/product/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import { useFetch } from "@/service/hooks/useFetch";
@@ -10,7 +10,7 @@ const Products = () => {
     loading,
     error,
     triggerFetch,
-  } = useFetch<Product[]>("/products?is_star=true");
+  } = useFetch<ProductDBType[]>("/products?isStar=true");
   useEffect(() => {
     triggerFetch(); // Fetch des produits star au chargement de la page
   }, []);
@@ -23,7 +23,7 @@ const Products = () => {
             {productsStar.map((product) => (
               <ProductCard
                 product={product}
-                key={`${product.id}-${product?.variant}`}
+                key={product._id}
               />
             ))}
           </div>

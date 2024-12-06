@@ -1,39 +1,39 @@
 import PromotionBadge from "../badge/PromotionBadge";
 import NewBadge from "../badge/NewBadge";
 import CashbackBadge from "../badge/CashbackBadge";
-import { Product } from "@/app/(public)/types/ProductTypes";
 import { Link } from "react-router-dom";
 import { isProductNew, isProductOnSale } from "@/utils/productUtils";
+import { ProductDBType } from "@/types/product/ProductTypes";
 
 interface HeaderProps {
-  product: Product;
+  product: ProductDBType;
 }
 const Header: React.FC<HeaderProps> = ({ product }) => {
   return (
     <div className="relative p-1" style={{ width: "100%", height: "65%" }}>
-      {isProductOnSale(product.discount_percentage) && (
+      {isProductOnSale(product.promotionPercentage) && (
         <PromotionBadge
-          discountPercentage={product.discount_percentage}
+          promotionPercentage={product.promotionPercentage}
           additionalClasses="absolute top-2 right-2"
-          discount_end_date={product.discount_end_date}
+          promotionEndDate={product.promotionEndDate}
         />
       )}
 
-      {isProductNew(product.new_until) && (
+      {isProductNew(product.newUntil) && (
         <NewBadge additionalClasses="absolute top-2 left-2 " />
       )}
 
-      {product.cash_back && (
+      {product.cashback && (
         <CashbackBadge
-          cashbackAmount={product.cash_back}
+          cashbackAmount={product.cashback}
           additionalClasses="absolute top-2 left-1/2 transform -translate-x-1/2 "
         />
       )}
 
       {/* Image du produit */}
-      <Link to={`/produits/${product.id}`}>
+      <Link to={`/produits/${product._id}`}>
         <img
-          src={`/images/${product.main_image}`}
+          src={`/images/${product.heroImage}`}
           alt={product.name}
           className="w-full h-full object-cover rounded-t-2xl"
           width="450"
