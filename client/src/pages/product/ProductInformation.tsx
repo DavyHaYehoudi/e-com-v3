@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Accordion,
   AccordionItem,
@@ -6,8 +5,8 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { Truck, Clock, Box, Shield } from "lucide-react"; // Exemples d'icônes Lucide
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "react-router-dom";
+
 
 const ProductInformation = () => {
   return (
@@ -63,7 +62,7 @@ const ProductInformation = () => {
                   </span>{" "}
                   <br />
                   <Link
-                    href="/conditions-generales-de-vente"
+                    to="/conditions-generales-de-vente"
                     className="flex justify-center text-blue-500 m-2 underline"
                   >
                     Voir les conditions générales de vente
@@ -210,7 +209,7 @@ const ProductInformation = () => {
 
         {/* Colonne de droite avec l'image */}
         <div className="flex justify-center items-center">
-          <Image
+          <img
             src="/images/giftcard.jpeg"
             alt="Magnifique coffret tenu dans les mains d'une jeune femme en train de l'ouvrir."
             width={600}

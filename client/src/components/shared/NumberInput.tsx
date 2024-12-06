@@ -1,6 +1,6 @@
-import { MasterProductsType } from "@/app/(public)/types/ProductTypes";
-import { sumPriceArticle } from "@/app/(public)/utils/pricesFormat";
 import { Input } from "@/components/ui/input";
+import { ProductDBType } from "@/types/product/ProductTypes";
+import { sumPriceArticle } from "@/utils/pricesFormat";
 import { useEffect, useState } from "react";
 
 const NumberInput = ({
@@ -10,12 +10,12 @@ const NumberInput = ({
 }: {
   onValueChange: (value: number) => void;
   quantity: number;
-  product: MasterProductsType;
+  product: ProductDBType;
 }) => {
   const {
-    quantity_in_stock: quantityInStock,
+    quantityInStock: quantityInStock,
     price,
-    continue_selling: continueSelling,
+    continueSelling: continueSelling,
   } = product;
 
   const [value, setValue] = useState<number>(quantity);

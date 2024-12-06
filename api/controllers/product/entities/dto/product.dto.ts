@@ -44,8 +44,7 @@ export const productSchema = z.object({
           .array(z.string().url("Chaque URL doit être valide."))
           .optional(),
       })
-    )
-    .optional(),
+    ),
   isStar: z.boolean().optional(),
   isArchived: z.boolean().optional(),
 });

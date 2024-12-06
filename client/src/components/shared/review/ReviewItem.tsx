@@ -2,16 +2,16 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 import { format } from "date-fns";
-import { ReviewItemType } from "@/app/(public)/types/ReviewTypes";
+import { ReviewDBType } from "@/types/review/ReviewTypes";
 
 type ReviewItemProps = {
-  review: ReviewItemType;
+  review: ReviewDBType;
   index: number; // Index du review dans la liste des reviews
 };
 
 export function ReviewItem({ review, index }: ReviewItemProps) {
-  const { review_text, rating, created_at, customer_id } = review;
-  const dateFormatted = format(new Date(created_at), "dd MMM yyyy");
+  const { reviewText, rating, createdAt } = review;
+  const dateFormatted = format(new Date(createdAt), "dd MMM yyyy");
 
   // Simulate customer data retrieval; ideally replace this with actual customer data fetch
   const customer = {
@@ -56,7 +56,7 @@ export function ReviewItem({ review, index }: ReviewItemProps) {
           <div className="text-xs text-gray-500">{dateFormatted}</div>
         </div>
         <p className="mt-2 text-gray-700 dark:text-[var(--whiteSmoke)] text-sm">
-          {review_text}
+          {reviewText}
         </p>
       </div>
     </div>

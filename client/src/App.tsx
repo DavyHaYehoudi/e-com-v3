@@ -13,6 +13,7 @@ import TermsOfSales from "./pages/legals/TermsOfSales";
 import LegalMentions from "./pages/legals/LegalMentions";
 import ShippingAndReturns from "./pages/legals/ShippingAndReturns";
 import ProductsPage from "./pages/products/ProductsPage";
+import MasterProduct from "./pages/product/MasterProduct";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
               <Route element={<VisitorLayout />}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="produits" element={<ProductsPage />} />
-                <Route path="produits/:productId" element={<HomePage />} />
+                <Route path="produits/:productId" element={<MasterProduct />} />
                 <Route path="creatrice" element={<CreatricePage />} />
                 <Route path="tradition" element={<TraditionPage />} />
                 <Route path="contact" element={<ContactPage />} />

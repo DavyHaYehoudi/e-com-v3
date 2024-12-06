@@ -1,5 +1,4 @@
 import { ClipLoader } from "react-spinners";
-import React from "react";
 
 interface LoaderWrapperProps {
   loading: boolean;

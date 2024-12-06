@@ -2,7 +2,7 @@
 @import "./variables.css";
 @import "@/layout/navigation/navigation.css";
 @import "@/pages/tradition/tradition.css";
-/* @import "@/pages/product/productSuggested.css"; */
+@import "@/pages/product/productSuggested.css";
 @import "@/components/shared/productCard/productCard.css";
 @import "@/layout/freeShippingBanner.css";
 @tailwind base;
@@ -24,6 +24,7 @@ h6 {
   font-family: var(--heading-font-family);
   line-height: 2.5rem;
   text-transform: uppercase;
+  letter-spacing: 4px;
 }
 
 h1 {

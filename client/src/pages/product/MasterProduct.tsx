@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import FavoriteButton from "@/components/shared/FavoriteButton";
 import CarouselProduct from "./CarouselProduct";
-import ProductFeatures from "./ProductFeatures";
 import ProductPrice from "./ProductPrice";
 import ProductInformation from "./ProductInformation";
 import ProductsSuggested from "./ProductsSuggested";
@@ -55,9 +54,15 @@ const MasterProduct = () => {
       });
     }
   };
-  const handleVariantChange = (value: VariantProductType) => {
-    setSelectedVariant(value);
+  const handleVariantChange = (combination: string) => {
+    const selected = product?.variants.find(
+      (variant) => variant.combination === combination
+    );
+    if (selected) {
+      setSelectedVariant(selected);
+    }
   };
+  
 
   useEffect(() => {
     // Il existe des produits dans le panier
@@ -79,7 +84,7 @@ const MasterProduct = () => {
         // Le produit n'est pas dans le panier
       } else {
         setQuantity(1);
-        if (product && !selectedVariant) {
+        if (product && !selectedVariant.combination) {
           setSelectedVariant(product.variants[0]);
         }
       }
@@ -113,8 +118,6 @@ const MasterProduct = () => {
               {product?.description}
             </article>
             <ProductReview productId={product._id} />
-            <hr className="my-4" />
-            <ProductFeatures product={product} />
             <hr className="my-4" />
             {product.variants.length > 0 && (
               <>

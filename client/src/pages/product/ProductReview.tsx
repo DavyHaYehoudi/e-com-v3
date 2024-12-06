@@ -1,4 +1,3 @@
-import React from "react";
 import ProductReviewSheet from "./ProductReviewSheet";
 
 interface ProductReviewProps {

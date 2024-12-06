@@ -1,21 +1,19 @@
-"use client";
-import { MasterProductsType } from "@/app/(public)/types/ProductTypes";
-import React from "react";
+import { ProductDBType } from "@/types/product/ProductTypes";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 // Transformer les images du produit pour être compatibles avec ImageGallery
-const formatImagesForGallery = (images: { url: string }[]) => {
-  return images.map((image) => ({
-    original: `/images/${image.url}`,
-    thumbnail: `/images/${image.url}`,
+const formatImagesForGallery = (images: string[]) => {
+  return images.map((url) => ({
+    original: `/images/${url}`,
+    thumbnail: `/images/${url}`,
   }));
 };
 interface CarouselProductProps {
-  product: MasterProductsType;
+  product: ProductDBType;
 }
 const CarouselProduct: React.FC<CarouselProductProps> = ({ product }) => {
-  const images = formatImagesForGallery(product.images);
+  const images = formatImagesForGallery(product.variants[0].secondaryImages);
 
   return <ImageGallery items={images} />;
 };

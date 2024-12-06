@@ -1,4 +1,3 @@
-import React from "react";
 import { Trash } from "lucide-react";
 import {
   Tooltip,
@@ -31,13 +30,3 @@ const TrashIcon: React.FC<TrashIconProps> = ({ onClick }) => {
 };
 
 export default TrashIcon;
-{
-  /* <TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger>Hover</TooltipTrigger>
-    <TooltipContent>
-      <p>Add to library</p>
-    </TooltipContent>
-  </Tooltip>
-</TooltipProvider> */
-}

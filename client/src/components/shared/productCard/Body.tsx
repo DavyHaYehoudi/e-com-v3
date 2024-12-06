@@ -1,4 +1,5 @@
 import { ProductDBType } from "@/types/product/ProductTypes";
+import { formatPrice } from "@/utils/pricesFormat";
 
 interface ProductCardProps {
   product: ProductDBType;
@@ -10,7 +11,7 @@ const Body: React.FC<ProductCardProps> = ({ product }) => {
       <div className="text-sm  uppercase" style={{ color: "var(--golden-1)" }}>
         atelier noralya
       </div>
-      <p className="text-lg">{`${product.price} €`}</p>
+      <p className="text-lg">{`${formatPrice(product.price)}`}</p>
     </div>
   );
 };

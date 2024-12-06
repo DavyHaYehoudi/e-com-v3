@@ -1,5 +1,3 @@
-import React from "react";
-
 // Type générique pour le composant
 interface DataCounterProps<T> {
   items: T[]; // Tableau d'éléments de type T

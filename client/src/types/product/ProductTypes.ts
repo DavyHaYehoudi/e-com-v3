@@ -15,10 +15,7 @@ export interface ProductDBType {
     _id: string;
     label: string;
   }>;
-  tags: Array<{
-    _id: string;
-    label: string;
-  }>;
+  tags: TagProductType[];
   variants: VariantProductType[];
   isStar: boolean;
   isArchived: boolean;
@@ -31,4 +28,8 @@ export interface VariantProductType {
   mainImage: string;
   secondaryImages: string[];
   _id: string;
+}
+export interface TagProductType {
+  _id: string;
+  label: string;
 }
