@@ -4,8 +4,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
   } from "@/components/ui/tooltip";
-  import Image from "next/image";
-  import React from "react";
   
   interface ProductImageGiftcardProps {
     amount:number;
@@ -20,7 +18,7 @@ import {
           <TooltipTrigger>
             {" "}
             <a href={`/carte-cadeau`}>
-              <Image
+              <img
                 className="w-full object-center rounded-[16px] cursor-pointer"
                 src={`/images/giftcard.jpeg`}
                 alt={`Carte cadeau d'une valeur de ${amount} euros`}

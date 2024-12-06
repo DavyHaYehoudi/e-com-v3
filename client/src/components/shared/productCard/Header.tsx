@@ -1,11 +1,9 @@
-import Image from "next/image";
-import React from "react";
 import PromotionBadge from "../badge/PromotionBadge";
 import NewBadge from "../badge/NewBadge";
 import CashbackBadge from "../badge/CashbackBadge";
 import { Product } from "@/app/(public)/types/ProductTypes";
-import Link from "next/link";
-import { isProductNew, isProductOnSale } from "@/app/(public)/utils/productUtils";
+import { Link } from "react-router-dom";
+import { isProductNew, isProductOnSale } from "@/utils/productUtils";
 
 interface HeaderProps {
   product: Product;
@@ -33,8 +31,8 @@ const Header: React.FC<HeaderProps> = ({ product }) => {
       )}
 
       {/* Image du produit */}
-      <Link href={`/produits/${product.id}`}>
-        <Image
+      <Link to={`/produits/${product.id}`}>
+        <img
           src={`/images/${product.main_image}`}
           alt={product.name}
           className="w-full h-full object-cover rounded-t-2xl"

@@ -61,11 +61,11 @@ img {
 }
 
 
-/* @layer utilities {
+@layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-} */
+}
 
 @layer base {
   :root {
@@ -140,7 +140,7 @@ img {
   }
 }
 
-/* @layer base {
+@layer base {
   * {
     @apply border-border;
   }
@@ -148,7 +148,7 @@ img {
   body {
     @apply bg-background text-foreground;
   }
-} */
+}
 
 .dark body {
   background-color: var(--dark-mode-black);

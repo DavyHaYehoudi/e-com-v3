@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <Link href="/panier">
+    <Link to="/panier">
       <Button className="uppercase mt-auto w-full">page panier</Button>
     </Link>
   );
