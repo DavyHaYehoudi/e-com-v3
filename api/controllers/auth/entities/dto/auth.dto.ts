@@ -12,6 +12,7 @@ const cartProductSchema = z.object({
 
 // Schéma pour un élément de carte cadeau dans le panier
 const cartGiftcardSchema = z.object({
+  idTemp: z.number(),
   amount: z.number().positive(),
   quantity: z.number().positive(),
 });

@@ -3,32 +3,31 @@ import { calculateTotalDiscountByRow } from "@/utils/cartCalculs";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
 import { formatPrice } from "@/utils/pricesFormat";
 
-
 interface CartRowPromotionPriceProps {
   quantity: number;
   price: number;
-  discount: number | null;
-  discount_end_date?: string | null;
+  promotionPercentage: number;
+  promotionEndDate: Date | null;
 }
 const CartRowPromotionPrice: React.FC<CartRowPromotionPriceProps> = ({
   quantity,
   price,
-  discount,
-  discount_end_date,
+  promotionPercentage,
+  promotionEndDate,
 }) => {
   return (
     <>
-      {isProductOnSale(discount) && (
+      {isProductOnSale(promotionPercentage) && (
         <>
           <PromotionBadge
-            discountPercentage={discount}
-            discount_end_date={discount_end_date}
+            promotionPercentage={promotionPercentage}
+            promotionEndDate={promotionEndDate}
           />{" "}
           <br />{" "}
           <span className="whitespace-nowrap text-green-500">
             -{" "}
             {formatPrice(
-              calculateTotalDiscountByRow(quantity, price, discount)
+              calculateTotalDiscountByRow(quantity, price, promotionPercentage)
             )}
           </span>
         </>

@@ -2,10 +2,10 @@ import { Heart } from "lucide-react";
 import { useWishlistManager } from "../../hooks/useWishlistManager";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
+import { ProductDBType } from "@/types/product/ProductTypes";
 
 interface FavoriteButtonProps {
-  product: WishlistManagerFrontType;
+  product: ProductDBType;
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product }) => {
@@ -17,7 +17,17 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product }) => {
   const isFavorite = wishlistItems.some((item) => item._id === product._id);
 
   const onToggleFavorite = async () => {
-    await toggleProductInWishlist(product);
+    const formatProduct = {
+      _id: product._id,
+      name: product.name,
+      promotionPercentage: product.promotionPercentage,
+      promotionEndDate: product.promotionEndDate,
+      price: product.price,
+      newUntil: product.newUntil,
+      heroImage: product.heroImage,
+      cashback: product.cashback,
+    };
+    await toggleProductInWishlist(formatProduct);
   };
 
   return (

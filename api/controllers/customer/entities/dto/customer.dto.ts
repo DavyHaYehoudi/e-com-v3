@@ -50,12 +50,25 @@ export const updateCustomerSchema = z.object({
       z.object({
         productId: z.string(),
         quantity: z.number().min(1),
+        variant: z.string().optional().nullable().default(null),
+        name: z.string(),
+        heroImage: z.string(),
+        newUntil: z.string().optional().nullable().default(null),
+        price: z.number(),
+        promotionPercentage: z.number(),
+        promotionEndDate: z
+        .string()
+        .datetime({ offset: true }) // Vérifie que c'est une chaîne ISO 8601 2025-11-30T00:00:00.000Z
+        .transform((val) => new Date(val)) // Transforme en `Date`
+        .nullable()
+        .optional(),
       })
     )
     .optional(),
   cartGiftcards: z
     .array(
       z.object({
+        idTemp: z.number(),
         amount: z.number().min(0),
         quantity: z.number().min(1),
       })

@@ -2,9 +2,9 @@ import { Badge } from "@/components/ui/badge";
 import { formatPromotionDate } from "@/utils/productUtils";
 
 const PromotionBadge: React.FC<{
-  promotionPercentage: number | null;
+  promotionPercentage: number;
   additionalClasses?: string;
-  promotionEndDate?: string | null;
+  promotionEndDate?: Date | null;
 }> = ({ promotionPercentage, additionalClasses, promotionEndDate }) => {
   return (
     <Badge

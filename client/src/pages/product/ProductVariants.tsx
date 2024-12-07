@@ -2,13 +2,12 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   ProductDBType,
-  VariantProductType,
 } from "@/types/product/ProductTypes";
 
 interface ProductVariantsProps {
   product: ProductDBType;
   onVariantChange: (selectedVariant: string) => void;
-  selectedVariant: VariantProductType;
+  selectedVariant: string;
 }
 
 const ProductVariants: React.FC<ProductVariantsProps> = ({
@@ -20,7 +19,7 @@ const ProductVariants: React.FC<ProductVariantsProps> = ({
     <article>
       <h2 className="text-xl font-semibold">Choix :</h2>
       <RadioGroup
-        value={selectedVariant.combination}
+        value={selectedVariant}
         className="mt-2"
         onValueChange={(value) => onVariantChange(value)}
       >

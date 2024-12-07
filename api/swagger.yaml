@@ -67,36 +67,30 @@ paths:
                   otp:
                     type: string
                     example: 710933
-                  wishlist:
+                  wishlistProducts:
                     type: array
                     items:
-                      type: integer
-                      example: 
-                        - 1
-                        - 23
-                        - 21
-                  cart:
-                    type: array
+                      type: string
+                  cartProducts:
                     items:
-                      type: object
-                      properties:
-                        items:
-                          type: array
-                          items: 
-                            type: object
-                            properties:
-                              productId:
-                                type: integer
-                                example: 4
-                              quantity: 
-                                type: integer
-                                example: 2
-                              variant:
-                                type: string
-                                example: rouge/XL
-                  gift_cards:
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          productId:
+                            type: integer
+                            example: 4
+                          quantity: 
+                            type: integer
+                            example: 2
+                          variant:
+                            type: string
+                            example: rouge/XL
+                  cartGiftcards:
                     type: object
                     properties:
+                      idTemp:
+                        type: number
                       amount:
                         type: integer
                         example: 16
@@ -1476,7 +1470,7 @@ components:
           type: integer
         label:
           type: string
-        orderId:
+        orderNumber:
           type: string
         reviewId:
           type: string
@@ -2000,10 +1994,15 @@ components:
         cashBackToSpend:
           type: number
           example: 4
-        giftcardsToUseIds:
+        giftcardsToUse:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              id:
+                type: string
+              amountToUse:
+                type: integer
         orderAddressShipping:
           $ref: '#/components/schemas/Address'
         orderAddressBilling:

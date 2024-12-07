@@ -13,24 +13,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import ProductReview from "./ProductReview";
 import { useParams } from "react-router-dom";
-import {
-  ProductDBType,
-  VariantProductType,
-} from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/product/ProductTypes";
 import { useCartManager } from "@/hooks/useCartManager";
 
 const MasterProduct = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const cartCustomer = useSelector((state: RootState) => state.cart);
-  const { cart, items, giftCards } = cartCustomer;
-  const productsInCart = { cart, items, giftCards };
-  const [selectedVariant, setSelectedVariant] = useState<VariantProductType>({
-    combination: "",
-    mainImage: "",
-    secondaryImages: [],
-    _id: "",
-  });
-  const { addOrUpdateProduct } = useCartManager();
+  const [selectedVariant, setSelectedVariant] = useState("");
+  console.log("selectedVariant:", selectedVariant);
+  const { addOrUpdateProductInCart } = useCartManager();
   const { productId } = useParams();
   const {
     data: product,
@@ -45,55 +36,62 @@ const MasterProduct = () => {
   }, [productId, triggerFetch]);
 
   const handleQuantityChange = (value: number) => {
-    if (product) {
-      addOrUpdateProduct({
-        product,
-        selectedVariant: selectedVariant.combination,
+    if (productId && product) {
+      addOrUpdateProductInCart({
+        productId,
+        variant: selectedVariant,
         quantity: value,
-        type: "item",
+        name: product?.name,
+        heroImage: product?.heroImage,
+        newUntil: product?.newUntil,
+        price: product?.price,
+        promotionPercentage: product?.promotionPercentage,
+        promotionEndDate: product?.promotionEndDate,
+        cashback: product?.cashback,
       });
     }
   };
   const handleVariantChange = (combination: string) => {
-    const selected = product?.variants.find(
-      (variant) => variant.combination === combination
+    const selectedVariantInProduct = product?.variants.find(
+      (variant) =>
+        variant.combination === combination && productId === product._id
     );
-    if (selected) {
-      setSelectedVariant(selected);
+    if (selectedVariantInProduct) {
+      setSelectedVariant(selectedVariantInProduct.combination);
     }
   };
 
   useEffect(() => {
     // Il existe des produits dans le panier
     if (
-      productsInCart &&
-      productsInCart.items &&
-      productsInCart.items.length > 0
+      cartCustomer &&
+      cartCustomer.cartProducts &&
+      cartCustomer.cartProducts.length > 0
     ) {
       // Le produit est-il dans le panier
-      const productInCart = productsInCart.items.find(
+      const productInCart = cartCustomer.cartProducts.find(
         (p) =>
-          p.id === productId &&
-          (selectedVariant ? p.selectedVariant === selectedVariant : true)
+          p.productId === productId &&
+          (selectedVariant ? p.variant === selectedVariant : true)
       );
       // Le produit est dans le panier
       if (productInCart) {
-        setQuantity(productInCart.quantityInCart);
-        setSelectedVariant(productInCart?.selectedVariant || selectedVariant);
+        setQuantity(productInCart.quantity);
+        setSelectedVariant(productInCart.variant || selectedVariant);
         // Le produit n'est pas dans le panier
       } else {
         setQuantity(1);
-        if (product && !selectedVariant.combination) {
-          setSelectedVariant(product.variants[0]);
+        if (product && !selectedVariant) {
+          setSelectedVariant(product.variants[0].combination);
         }
       }
       // Le panier est vide
     } else if (product) {
       setSelectedVariant(
-        selectedVariant ? selectedVariant : product.variants[0]
+        selectedVariant ? selectedVariant : product.variants[0].combination
       );
     }
-  }, [productsInCart, product, productId, selectedVariant]);
+  }, [cartCustomer, product, productId, selectedVariant]);
   useEffect(() => {
     // Force le défilement vers le haut à chaque rendu
     window.scrollTo(0, 0);

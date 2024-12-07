@@ -15,17 +15,10 @@ import { PersistPartial } from "redux-persist/es/persistReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [
-    "auth",
-    "cart",
-    "wishlist",
-    "addresses",
-    "priceAdjustments",
-    "cashback",
-  ],
+  whitelist: ["auth", "cart", "wishlist", "addresses", "priceAdjustments", "cashback"],
+  // Optionnel : Vous pouvez ajouter un `keyPrefix` pour éviter les conflits de clés entre différents environnements (par exemple, entre le côté client et le côté serveur)
+  keyPrefix: 'e-com-v3:',
 };
-
-
 // Combinez vos reducers, s'il y en a plusieurs
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -46,14 +39,6 @@ export const store = configureStore({
       serializableCheck: false,
     }),
 });
-// Store sans persistReducer pour tester
-// export const store = configureStore({
-//   reducer: rootReducer,  // Ne pas utiliser persistReducer pour tester
-//   middleware: (getDefaultMiddleware) =>
-//     getDefaultMiddleware({
-//       serializableCheck: false,
-//     }),
-// });
 
 export const persistor = persistStore(store);
 

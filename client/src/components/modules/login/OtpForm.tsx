@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,7 +14,6 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -23,8 +21,6 @@ import { toast } from "sonner";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { CartItemsType } from "@/app/(public)/types/CartTypes";
-import { ProductCartGiftcards } from "@/app/(public)/types/ProductTypes";
 
 const otpSchema = z.object({
   otp: z.string().length(6, "Le code OTP doit comporter 6 chiffres"),
@@ -62,34 +58,13 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
   const wishlistCustomer = useSelector((state: RootState) => state.wishlist);
   const cartCustomer = useSelector((state: RootState) => state.cart);
 
-  const getWishlistData = () => {
-    return wishlistCustomer.items.map((item: { id: number }) => ({
-      product_id: item.id,
-    }));
-  };
-
-  const getCartData = () => {
-    const items = cartCustomer.items.map((item: CartItemsType) => ({
-      product_id: item.id,
-      quantity: item.quantityInCart,
-      variant: item.selectedVariant,
-    }));
-
-    const giftCards = cartCustomer.giftCards.map(
-      (giftCard: ProductCartGiftcards) => ({
-        amount: giftCard.amount,
-        quantity: giftCard.quantity,
-      })
-    );
-
-    return { items, gift_cards: giftCards };
-  };
   const onSubmit = async (data: OnSubmitData) => {
     const bodyData = {
       email,
       otp: data.otp,
-      wishlist: getWishlistData(),
-      cart: getCartData(),
+      wishlistProducts: wishlistCustomer,
+      cartProducts: cartCustomer.cartProducts,
+      cartGiftcards: cartCustomer.cartGiftcards
     };
     try {
       const OTPresponse = await triggerFetch(bodyData);

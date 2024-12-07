@@ -116,7 +116,7 @@ const GiftcardPage = () => {
             <AddToCartButton
               amount={amount}
               quantity={quantity}
-              type="giftCard"
+              type="giftcard"
             />
           </div>
         </div>

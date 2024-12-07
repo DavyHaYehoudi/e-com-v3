@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 const side = "bottom";
 
 interface ProductReviewSheetProps {
-  productId: number;
+  productId: string;
 }
 
 const ProductReviewSheet: React.FC<ProductReviewSheetProps> = ({

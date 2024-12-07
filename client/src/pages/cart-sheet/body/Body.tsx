@@ -5,20 +5,19 @@ import { RootState } from "@/redux/store/store";
 import { useCartManager } from "@/hooks/useCartManager";
 
 const Body = () => {
-  const { removeProduct } = useCartManager();
+  const { removeProductInCart, removeGiftcardInCart } = useCartManager();
   const cartCustomer = useSelector((state: RootState) => state.cart);
-  const { cart, items, giftCards } = cartCustomer;
-  const productsInCart = { cart, items, giftCards };
+  const { cartProducts, cartGiftcards } = cartCustomer;
 
   return (
     <>
       <SheetRowItem
-        productsInCart={productsInCart}
-        removeProduct={removeProduct}
+        productsInCart={cartProducts}
+        removeProductInCart={removeProductInCart}
       />
       <SheetRowGiftcard
-        productsInCart={productsInCart}
-        removeProduct={removeProduct}
+        giftcardsInCart={cartGiftcards}
+        removeGiftcardInCart={removeGiftcardInCart}
       />
     </>
   );

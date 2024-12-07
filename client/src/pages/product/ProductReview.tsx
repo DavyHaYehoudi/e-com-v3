@@ -1,7 +1,7 @@
 import ProductReviewSheet from "./ProductReviewSheet";
 
 interface ProductReviewProps {
-  productId: number;
+  productId: string;
 }
 
 const ProductReview: React.FC<ProductReviewProps> = ({ productId }) => {

@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import WishlistRowItem from "./WishlistRowItem";
-import { useWishlistManager } from "../../../hooks/useWishlistManager";
+import { useWishlistManager } from "@/hooks/useWishlistManager";
 
 const WishlistTable = () => {
   const { productsWishlist } = useWishlistManager();

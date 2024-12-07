@@ -6,5 +6,5 @@ export interface WishlistManagerFrontType {
   price: number;
   cashback: number;
   promotionPercentage: number;
-  promotionEndDate: string;
+  promotionEndDate: Date | null;
 }

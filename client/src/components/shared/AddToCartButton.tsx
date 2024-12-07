@@ -13,17 +13,14 @@ import Body from "@/pages/cart-sheet/body/Body";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCartManager } from "@/hooks/useCartManager";
 import { Button } from "@/components/ui/button";
-import {
-  ProductDBType,
-  VariantProductType,
-} from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/product/ProductTypes";
 
 interface AddToCartButtonProps {
   product?: ProductDBType;
-  selectedVariant?: VariantProductType;
+  selectedVariant?: string;
   quantity: number;
   amount?: number;
-  type: "item" | "giftCard";
+  type: "product" | "giftcard";
 }
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({
@@ -31,13 +28,29 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   selectedVariant,
   quantity,
   amount,
-  type = "item",
+  type,
 }) => {
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
-  const { addOrUpdateProduct } = useCartManager();
+  const { addOrUpdateProductInCart, addGiftcardInCart } = useCartManager();
 
   const onAddToCart = () => {
-    addOrUpdateProduct({ product, selectedVariant, quantity, amount, type });
+    if (type === "product" && product && selectedVariant) {
+      const productFormatted = {
+        productId: product._id,
+        variant: selectedVariant,
+        quantity,
+        name: product?.name,
+        heroImage: product?.heroImage,
+        newUntil: product?.newUntil,
+        price: product?.price,
+        promotionPercentage: product?.promotionPercentage,
+        promotionEndDate: product?.promotionEndDate,
+        cashback: product?.cashback,
+      };
+      addOrUpdateProductInCart(productFormatted);
+    } else if (type === "giftcard" && amount) {
+      addGiftcardInCart(amount, quantity);
+    }
     setIsSheetOpen(true);
   };
 

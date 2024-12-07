@@ -1,10 +1,7 @@
 import AddToCartButton from "@/components/shared/AddToCartButton";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
-import {
-  ProductDBType,
-  VariantProductType,
-} from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/product/ProductTypes";
 import { formatPrice } from "@/utils/pricesFormat";
 import {
   canContinueSelling,
@@ -13,7 +10,7 @@ import {
 
 interface ProductPriceProps {
   product: ProductDBType;
-  selectedVariant: VariantProductType;
+  selectedVariant: string;
   quantity: number;
 }
 
@@ -69,7 +66,7 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
             product={product}
             selectedVariant={selectedVariant}
             quantity={quantity}
-            type={"item"}
+            type="product"
           />
         </div>
       ) : (

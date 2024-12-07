@@ -4,27 +4,25 @@ import CartRowPromotionPrice from "../../cart/CartRowPromotionPrice";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import TrashIcon from "@/components/shared/TrashIcon";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
-import { CartResponse } from "@/app/(public)/types/CartTypes";
 import { sumPriceArticle } from "@/utils/pricesFormat";
 import { isProductNew } from "@/utils/productUtils";
+import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
 
 interface SheetRowItemProps {
-  productsInCart: CartResponse | null;
-  removeProduct: (
-    productId: number,
+  productsInCart: CartProductsToBuyFrontType[] | null;
+  removeProductInCart: (
+    productId: string,
     variant: string | null,
-    type: "item" | "giftCard"
   ) => void;
 }
 const SheetRowItem: React.FC<SheetRowItemProps> = ({
   productsInCart,
-  removeProduct,
+  removeProductInCart,
 }) => {
   return (
     productsInCart &&
-    productsInCart.items &&
-    productsInCart.items.length > 0 &&
-    productsInCart.items.map((product, index) => (
+    productsInCart.length > 0 &&
+    productsInCart.map((product, index) => (
       <div
         key={index}
         className="hover:bg-gray-100 relative border-b border-gray-500 dark:hover:bg-[#1c2028]"
@@ -33,37 +31,38 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({
           {/* Première cellule : image et nom */}
           <div className="font-medium relative">
             <ProductImageItem
-              productId={product.id}
+              productId={product.productId}
               name={product.name}
-              path={product?.images?.find((image) => image.is_main)?.url || ""}
+              path={product.heroImage}
             />
-            {isProductNew(product.new_until) && (
+            {isProductNew(product.newUntil) && (
               <NewBadge additionalClasses="absolute top-1 left-0" />
             )}{" "}
           </div>
 
           <div>
             {product.name} <br />
-            {product.selectedVariant && (
-              <VariantBadge productVariant={product.selectedVariant} />
+            {product.variant && (
+              <VariantBadge productVariant={product.variant} />
             )}{" "}
           </div>
         </div>
         <div className="flex items-center justify-between p-2 my-2 flex-wrap">
-          <div>{sumPriceArticle(product.quantityInCart, product.price)}</div>
+          <div>{sumPriceArticle(product.quantity, product.price)}</div>
           {/* Cellule affichant le prix de la réduction */}
           <div className="text-right">
             <CartRowPromotionPrice
-              quantity={product.quantityInCart}
+              quantity={product.quantity}
               price={product.price}
-              discount={product.discount_percentage}
+              promotionPercentage={product.promotionPercentage}
+              promotionEndDate={product.promotionEndDate}
             />
           </div>
           {/* Cellule pour Cashback */}
           <div>
-            {product.cash_back ? (
+            {product.cashback ? (
               <CashbackBadge
-                cashbackAmount={product.quantityInCart * product.cash_back}
+                cashbackAmount={product.quantity * product.cashback}
               />
             ) : (
               ""
@@ -74,7 +73,7 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({
         <div className="flex justify-center my-2">
           <TrashIcon
             onClick={() =>
-              removeProduct(product.id, product.selectedVariant, "item")
+              removeProductInCart(product.productId, product.variant)
             }
           />
         </div>

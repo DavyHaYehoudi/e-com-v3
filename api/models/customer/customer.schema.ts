@@ -8,9 +8,17 @@ const CartProductSchema = new Schema<ProductInCartType>({
   productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
   quantity: { type: Number, required: true, min: 1 },
   variant: { type: String, default: null },
+  name: { type: String, required: true },
+  heroImage: { type: String, required: true },
+  newUntil: { type: String, default: null },
+  price: { type: Number, required: true, min: 0 },
+  promotionPercentage: { type: Number, default: 0 },
+  promotionEndDate: { type: Date, default: null },
+  cashback: { type: Number, default: 0 },
 });
 // Sous-schéma pour cartGiftcard
 const CartGiftCardSchema = new Schema<GiftcardInCartType>({
+  idTemp: { type: Number, required: true },
   amount: { type: Number, required: true, min: 0 }, // Montant positif requis
   quantity: { type: Number, required: true, min: 1 }, // Quantité minimale de 1
 });
