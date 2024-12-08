@@ -15,11 +15,12 @@ import {
   getCustomerByEmailRepository,
   updateCustomerRepository,
 } from "../../repositories/customer/customerRepository.js";
+import { sendNewClientEmailToAdmin } from "../../email/subject/marketing.js";
 
 // Enregistrer le code d'authentification
 export const storeAuthCodeService = async (email: string, authCode: string) => {
   await storeAuthCodeRepository(email, authCode);
-  //   sendVerificationEmail(email, authCode);
+    sendVerificationEmail(email, authCode);
 };
 
 // Vérifier le code d'authentification
@@ -39,7 +40,7 @@ export const verifyAuthCodeService = async (
     customer = await getCustomerByEmailRepository(email);
   } catch (error) {
     // Le customer n'existe pas encore
-    // sendNewClientEmailToAdmin(email);
+    sendNewClientEmailToAdmin(email);
     await createCustomerRepository(email);
     const newCustomer = await getCustomerByEmailRepository(email);
     const updateFields = {

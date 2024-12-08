@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import WishlistModal from "@/components/modules/wishlist/WishlistModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import SessionExpired from "@/components/modules/login/SessionExpired";
 import { Link } from "react-router-dom";
 import { formatPrice } from "@/utils/pricesFormat";
 import useAuth from "@/hooks/useAuth";
-import useCashback from "@/hooks/useCashback";
+// import useCashback from "@/hooks/useCashback";
 
 const NavIcons = () => {
   const wishlist = useSelector((state: RootState) => state.wishlist);
@@ -27,10 +27,10 @@ const NavIcons = () => {
     (state: RootState) => state.cashback.cashbackTotal
   );
   const { handleAuthentication, handleLogout } = useAuth();
-  const { getCashbackOneCustomer } = useCashback();
-  useEffect(() => {
-    getCashbackOneCustomer();
-  }, []);
+  // const { getCashbackOneCustomer } = useCashback();
+  // useEffect(() => {
+  //   getCashbackOneCustomer();
+  // }, []);
 
   const userRole = useSelector((state: RootState) => state.auth.user?.role);
   // const userRole = "admin";

@@ -1,5 +1,5 @@
 import {
-  CartCustomerType,
+  CartCustomerFrontType,
   CartProductsToBuyFrontType,
 } from "@/types/cart/CartTypes";
 import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
@@ -9,7 +9,7 @@ interface AmountBeforeDiscountType {
   amount: number;
 }
 
-const initialState: CartCustomerType & {
+const initialState: CartCustomerFrontType & {
   totalItemsCount: number;
   amountBeforeDiscount: number;
 } = {
@@ -39,7 +39,8 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    setCart: (state, action: PayloadAction<CartCustomerType>) => {
+    setCart: (state, action: PayloadAction<CartCustomerFrontType>) => {
+      console.log('action.payload:', action.payload)
       const { cartProducts, cartGiftcards } = action.payload;
 
       // Met à jour les produits du panier

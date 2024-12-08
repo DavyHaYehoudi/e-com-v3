@@ -15,7 +15,7 @@ import { PersistPartial } from "redux-persist/es/persistReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "cart", "wishlist", "addresses", "priceAdjustments", "cashback"],
+  whitelist: ["auth", "cart", "wishlist", "addresses", "priceAdjustments"],
   // Optionnel : Vous pouvez ajouter un `keyPrefix` pour éviter les conflits de clés entre différents environnements (par exemple, entre le côté client et le côté serveur)
   keyPrefix: 'e-com-v3:',
 };

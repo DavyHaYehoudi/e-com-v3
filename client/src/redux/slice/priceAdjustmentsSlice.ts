@@ -69,7 +69,7 @@ const priceAdjustmentsSlice = createSlice({
     setAmountDiscountPromoCode(state, action: PayloadAction<number>) {
       state.amountDiscountPromoCode = action.payload;
     },
-    reset(state) {
+    resetPriceAdjustments(state) {
       Object.assign(state, initialState);
     },
   },
@@ -84,7 +84,7 @@ export const {
   setTotalFees,
   setAmountTotalGiftcardsToUse,
   setAmountDiscountPromoCode,
-  reset,
+  resetPriceAdjustments,
 } = priceAdjustmentsSlice.actions;
 
 export default priceAdjustmentsSlice.reducer;

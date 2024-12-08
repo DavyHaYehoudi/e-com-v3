@@ -34,7 +34,9 @@ const useWishlist = () => {
       promotionEndDate: product.promotionEndDate,
     }));
   };
-
+  const getWishlistCustomer = async () => {
+    await triggerFetch();
+  };
   useEffect(() => {
     // Récupération initiale de la wishlist pour les utilisateurs authentifiés
     if (isAuthenticated) {
@@ -56,7 +58,7 @@ const useWishlist = () => {
     }
   }, [isVisitor, wishlistCustomer]);
 
-  return { productsWishlist, setProductsWishlist };
+  return { productsWishlist, setProductsWishlist,getWishlistCustomer };
 };
 
 export default useWishlist;

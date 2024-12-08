@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { setCart } from "@/redux/slice/cartSlice";
 import {
-  CartCustomerType,
   CartProductsToBuyFrontType,
 } from "@/types/cart/CartTypes";
 import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
+import { CustomerDBType } from "@/types/customer/CustomerTypes";
 
 const useCart = () => {
   const [productsInCart, setProductsInCart] = useState<
@@ -22,27 +22,51 @@ const useCart = () => {
     (state: RootState) => state.auth
   );
   const cartCustomer = useSelector((state: RootState) => state.cart);
-  const { data, triggerFetch } = useFetch<CartCustomerType>("/customer", {
+  const { data, triggerFetch } = useFetch<CustomerDBType>("/customer", {
     requiredCredentials: true,
   });
-  useEffect(() => {
-    // Récupération initiale du panier pour les utilisateurs authentifiés
-    if (isAuthenticated) {
-      triggerFetch();
-    }
-  }, [isAuthenticated, triggerFetch]);
+  // useEffect(() => {
+  //   // Récupération initiale du panier pour les utilisateurs authentifiés
+  //   if (isAuthenticated) {
+  //     triggerFetch();
+  //   }
+  // }, [isAuthenticated, triggerFetch]);
+  const getCartCustomer = async () => {
+    await triggerFetch();
+  };
+
   useEffect(() => {
     if (isAuthenticated && data) {
-      setProductsInCart(data.cartProducts);
-      setGiftcardsInCart(data.cartGiftcards);
+      const cartProductsFormattedData = data.cartProducts.map(
+        (cartProduct) => ({
+          productId: cartProduct._id,
+          quantity: cartProduct.quantity,
+          variant: cartProduct.variant?.combination,
+          name: cartProduct.name,
+          heroImage: cartProduct.heroImage,
+          newUntil: cartProduct.newUntil,
+          price: cartProduct.price,
+          promotionPercentage: cartProduct.promotionPercentage,
+          promotionEndDate: cartProduct.promotionEndDate,
+          cashback: cartProduct.cashback,
+        })
+      );
+      const giftcardsFormattedData = data.cartGiftcards.map((giftcard) => ({
+        idTemp: giftcard.idTemp,
+        amount: giftcard.amount,
+        quantity: giftcard.quantity,
+      }));
+      setProductsInCart(cartProductsFormattedData);
+      setGiftcardsInCart(giftcardsFormattedData);
       dispatch(
         setCart({
-          cartProducts: data.cartProducts,
-          cartGiftcards: data.cartGiftcards,
+          cartProducts: cartProductsFormattedData,
+          cartGiftcards: giftcardsFormattedData,
         })
       );
     }
   }, [data, isAuthenticated, dispatch]);
+
   useEffect(() => {
     if (isVisitor && cartCustomer) {
       setProductsInCart(cartCustomer.cartProducts);
@@ -55,6 +79,7 @@ const useCart = () => {
     setProductsInCart,
     giftcardsInCart,
     setGiftcardsInCart,
+    getCartCustomer
   };
 };
 

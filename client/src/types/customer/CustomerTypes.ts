@@ -25,15 +25,16 @@ export interface CustomerDBType {
 }
 
 export interface CartProductsInCustomerDB extends ProductDBType {
-    quantity: number; // Quantité dans le panier
-    variant: VariantProductType | null; // Variante sélectionnée ou null
-    cartItemId: string; // Identifiant de l'élément du panier
-  }
+  quantity: number; // Quantité dans le panier
+  variant: VariantProductType 
+  cartItemId: string; // Identifiant de l'élément du panier
+}
 
 export interface CartGiftcardsInCustomerDB {
   amount: number;
   quantity: number;
   _id: string;
+  idTemp: number;
 }
 
 export interface CashbackInCustomerDB {

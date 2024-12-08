@@ -1,3 +1,4 @@
+import { CartGiftcardsInCustomerDB, CartProductsInCustomerDB } from "../customer/CustomerTypes";
 import { CartGiftcardsToBuyFrontType } from "../giftcard/GiftcardTypes";
 
 export interface CartProductsToBuyFrontType {
@@ -13,7 +14,11 @@ export interface CartProductsToBuyFrontType {
   cashback: number;
 }
 
-export interface CartCustomerType {
+export interface CartCustomerFrontType {
   cartProducts: CartProductsToBuyFrontType[];
   cartGiftcards: CartGiftcardsToBuyFrontType[];
+}
+export interface CartCustomerDBType{
+    cartProducts: CartProductsInCustomerDB[];
+    cartGiftcards: CartGiftcardsInCustomerDB[];
 }
