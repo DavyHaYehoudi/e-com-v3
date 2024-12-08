@@ -39,18 +39,6 @@ export const updateCustomer = async (
     next(error);
   }
 };
-export const getCashbackHistoryCustomer=async( req: Request,
-    res: Response,
-    next: NextFunction)=>{
-        try {
-            const customerId = (req.user as CustomJwtPayload).id;
-            const cashbackHistory = await getCashbackHistoryCustomerService(customerId);
-            res.status(200).json(cashbackHistory);
-          } catch (error: any) {
-            console.error(error);
-            next(error);
-          }
-}
 // admin access
 export const getCustomerFromAdmin = async (
   req: Request,

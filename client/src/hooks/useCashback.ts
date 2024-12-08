@@ -1,16 +1,14 @@
-"use client";
-
 import { useEffect } from "react";
-import { CashBackCartToUseType } from "../types/CashbackCartToUseType";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch } from "react-redux";
 import { setCashback } from "@/redux/slice/cashbackSlice";
+import { CustomerDBType } from "@/types/customer/CustomerTypes";
 
 const useCashback = () => {
   const dispatch = useDispatch();
 
-  const { data, triggerFetch } = useFetch<CashBackCartToUseType>(
-    "/customer/cash-back-history",
+  const { data, triggerFetch } = useFetch<CustomerDBType>(
+    "/customer",
     { requiredCredentials: true }
   );
 
@@ -19,15 +17,22 @@ const useCashback = () => {
   };
 
   useEffect(() => {
-    if (data) {
-      dispatch(
-        setCashback({ type: "cashback_earned", amount: data.total_earned })
+    if (data && data.cashback) {
+      // Calculer les totaux de cashback
+      const cashbackEarned = data.cashback.reduce(
+        (total, item) => total + item.cashbackEarned,
+        0
       );
-      dispatch(
-        setCashback({ type: "cashback_spent", amount: data.total_spent })
+      const cashbackSpent = data.cashback.reduce(
+        (total, item) => total + item.cashbackSpent,
+        0
       );
+
+      // Dispatch vers Redux
+      dispatch(setCashback({ type: "cashbackEarned", amount: cashbackEarned }));
+      dispatch(setCashback({ type: "cashbackSpent", amount: cashbackSpent }));
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   return { getCashbackOneCustomer };
 };

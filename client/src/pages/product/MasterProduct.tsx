@@ -20,7 +20,6 @@ const MasterProduct = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const cartCustomer = useSelector((state: RootState) => state.cart);
   const [selectedVariant, setSelectedVariant] = useState("");
-  console.log("selectedVariant:", selectedVariant);
   const { addOrUpdateProductInCart } = useCartManager();
   const { productId } = useParams();
   const {

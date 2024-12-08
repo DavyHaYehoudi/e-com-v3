@@ -27,7 +27,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product }) => {
       heroImage: product.heroImage,
       cashback: product.cashback,
     };
-    await toggleProductInWishlist(formatProduct);
+    await toggleProductInWishlist(formatProduct, wishlistItems);
   };
 
   return (

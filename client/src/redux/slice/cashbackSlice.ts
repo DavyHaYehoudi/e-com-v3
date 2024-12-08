@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CashbackSet {
-  type: "cashback_earned" | "cashback_spent";
+  type: "cashbackEarned" | "cashbackSpent";
   amount: number;
 }
 const initialState = {
-  cashback_earned: 0,
-  cashback_spent: 0,
-  cashback_total: 0,
+  cashbackEarned: 0,
+  cashbackSpent: 0,
+  cashbackTotal: 0,
 };
 
 // Cashback slice
@@ -20,12 +20,12 @@ const cashbackSlice = createSlice({
       state[action.payload.type] = action.payload.amount;
 
       // Met à jour le total
-      state.cashback_total = state.cashback_earned - state.cashback_spent;
+      state.cashbackTotal = state.cashbackEarned - state.cashbackSpent;
     },
     resetCashback(state) {
-      state.cashback_earned = 0;
-      state.cashback_spent = 0;
-      state.cashback_total = 0;
+      state.cashbackEarned = 0;
+      state.cashbackSpent = 0;
+      state.cashbackTotal = 0;
     },
   },
 });

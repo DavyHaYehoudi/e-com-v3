@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: E-com-v2 - OpenAPI 3.0
+  title: E-com-v3 - OpenAPI 3.0
   version: 1.0.11
 externalDocs:
   description: Find out more about Swagger
@@ -72,20 +72,8 @@ paths:
                     items:
                       type: string
                   cartProducts:
-                    items:
-                      type: array
-                      items: 
-                        type: object
-                        properties:
-                          productId:
-                            type: integer
-                            example: 4
-                          quantity: 
-                            type: integer
-                            example: 2
-                          variant:
-                            type: string
-                            example: rouge/XL
+                    $ref: '#/components/schemas/CartProductsToSendAPI' 
+
                   cartGiftcards:
                     type: object
                     properties:
@@ -148,25 +136,6 @@ paths:
           description: successful operation
         '400':
           description: Bad Request - Invalid content
-        '401':
-          description: Unauthorized - Customer is not authenticated
-        '404':
-          description: Not found - The customer doesn't exist.
-      security:
-        - api_key: []
-  /customer/cashback:
-    get:
-      tags:
-        - customer
-      summary: Show the cashback customer.
-      description: Show the cashback customer.
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema: 
-               $ref: '#/components/schemas/CashbackGET'       
         '401':
           description: Unauthorized - Customer is not authenticated
         '404':
@@ -1383,6 +1352,60 @@ components:
         country:
           type: string
           example: France
+    CartProductsToSendAPI:
+      items: 
+        type: object
+        properties:
+          productId:
+            type: integer
+            example: 4
+          quantity: 
+            type: integer
+            example: 2
+          variant:
+            type: string
+            example: rouge/XL
+          promotionPercentage:
+            type: integer
+          promotionEndDate:
+            type: string
+          cashback:
+            type: integer
+          price:
+            type: integer
+          newUntil:
+            type: string
+          heroImage:
+            type: string
+          name:
+            type: string
+    CartProductsFromAPI:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ProductOneGET'
+        - type: object
+          properties:
+              
+            quantity: 
+              type: integer
+              example: 2
+            variant:
+              type: string
+              example: rouge/XL
+            promotionPercentage:
+              type: integer
+            promotionEndDate:
+              type: string
+            cashback:
+              type: integer
+            price:
+              type: integer
+            newUntil:
+              type: string
+            heroImage:
+              type: string
+            name:
+              type: string
     CustomerGET:
       type: object
       properties:
@@ -1421,16 +1444,7 @@ components:
         billingAddress:
           $ref: '#/components/schemas/Address'
         cartProducts:
-          type: array
-          items:
-            type: object
-            properties:
-              productsId:
-                type: string
-              quantity:
-                type: integer
-              variant:
-                type: string
+          $ref: '#/components/schemas/CartProductsFromAPI'
         cartGiftcards:
           type: array
           items:

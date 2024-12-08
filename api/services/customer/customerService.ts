@@ -1,4 +1,3 @@
-import { getCustomer } from "../../controllers/customer/customerController.js";
 import {
   CashbackTypeDTO,
   FieldsUpdateCustomerDTO,

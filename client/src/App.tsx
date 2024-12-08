@@ -31,15 +31,21 @@ function App() {
                 <Route path="tradition" element={<TraditionPage />} />
                 <Route path="contact" element={<ContactPage />} />
                 <Route path="carte-cadeau" element={<GiftcardPage />} />
-                <Route path="conditions-generales-de-vente" element={<TermsOfSales />} />
+                <Route
+                  path="conditions-generales-de-vente"
+                  element={<TermsOfSales />}
+                />
                 <Route path="mentions-legales" element={<LegalMentions />} />
-                <Route path="livraison-et-retour" element={<ShippingAndReturns />} />
+                <Route
+                  path="livraison-et-retour"
+                  element={<ShippingAndReturns />}
+                />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
         </BrowserRouter>
-        <Toaster />
+        <Toaster position="top-right" />
       </ReduxProvider>
     </ThemeProvider>
   );

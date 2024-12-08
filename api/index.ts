@@ -48,7 +48,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/giftcards", giftcardRoutes);
 app.use("/api/payment", paymentRoutes);
 // Customer routes
-app.use("/api/customers", customerRoutes);
+app.use("/api/customer", customerRoutes);
 app.use("/api/reviews", reviewRoutesCustomer);
 app.use("/api/giftcards", giftcardRoutesCustomer);
 app.use("/api/payment", paymentRoutesCustomer);

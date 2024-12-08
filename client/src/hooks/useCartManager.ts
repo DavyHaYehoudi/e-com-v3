@@ -13,7 +13,7 @@ export const useCartManager = () => {
   const cartCustomer = useSelector((state: RootState) => state.cart);
   const { cartProducts, cartGiftcards } = cartCustomer;
   const { triggerFetch } = useFetch("/customer", {
-    method: "PUT",
+    method: "PATCH",
     requiredCredentials: true,
   });
   const dispatch = useDispatch();

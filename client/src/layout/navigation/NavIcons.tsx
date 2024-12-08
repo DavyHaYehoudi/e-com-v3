@@ -24,7 +24,7 @@ const NavIcons = () => {
     (state: RootState) => state.auth.user?.email
   );
   const cashbackCustomer = useSelector(
-    (state: RootState) => state.cashback.cashback_total
+    (state: RootState) => state.cashback.cashbackTotal
   );
   const { handleAuthentication, handleLogout } = useAuth();
   const { getCashbackOneCustomer } = useCashback();

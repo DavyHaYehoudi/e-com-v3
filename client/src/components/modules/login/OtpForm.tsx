@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import { useState } from "react";
 
 const otpSchema = z.object({
   otp: z.string().length(6, "Le code OTP doit comporter 6 chiffres"),
@@ -36,6 +37,8 @@ interface OnSubmitData {
   otp: string;
 }
 const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
+  const [inputKey, setInputKey] = useState(0); // Clé pour forcer la réinitialisation
+
   const form = useForm({
     resolver: zodResolver(otpSchema),
     defaultValues: {
@@ -53,18 +56,21 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
   });
   const resendOTP = () => {
     reSendOtp({ email });
+    setInputKey((prevKey) => prevKey + 1); // Change la clé pour recréer `InputOTP`
+    form.reset({ otp: "" }); // Réinitialise le champ OTP
     toast("Un code OTP a été renvoyé");
   };
   const wishlistCustomer = useSelector((state: RootState) => state.wishlist);
   const cartCustomer = useSelector((state: RootState) => state.cart);
 
   const onSubmit = async (data: OnSubmitData) => {
+    const wishlistItemsFormated = wishlistCustomer.map((item) => item._id);
     const bodyData = {
       email,
       otp: data.otp,
-      wishlistProducts: wishlistCustomer,
+      wishlistProducts: wishlistItemsFormated,
       cartProducts: cartCustomer.cartProducts,
-      cartGiftcards: cartCustomer.cartGiftcards
+      cartGiftcards: cartCustomer.cartGiftcards,
     };
     try {
       const OTPresponse = await triggerFetch(bodyData);
@@ -87,6 +93,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
               <FormLabel htmlFor="otp">Entrez votre code OTP</FormLabel>
               <FormControl>
                 <InputOTP
+                  key={inputKey}
                   maxLength={6}
                   onChange={(newValue: string) =>
                     form.setValue("otp", newValue)
