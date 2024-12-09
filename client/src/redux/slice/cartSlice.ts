@@ -40,7 +40,6 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     setCart: (state, action: PayloadAction<CartCustomerFrontType>) => {
-      console.log('action.payload:', action.payload)
       const { cartProducts, cartGiftcards } = action.payload;
 
       // Met à jour les produits du panier

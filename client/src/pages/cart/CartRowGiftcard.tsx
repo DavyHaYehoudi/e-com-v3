@@ -6,11 +6,11 @@ import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
 
 interface CartRowGiftcardProps {
   cartGiftcards: CartGiftcardsToBuyFrontType[];
-  removeGiftcard: (idTemp: number) => void;
+  removeGiftcardInCart: (idTemp: number) => void;
 }
 const CartRowGiftcard: React.FC<CartRowGiftcardProps> = ({
   cartGiftcards,
-  removeGiftcard,
+  removeGiftcardInCart,
 }) => {
   return (
     cartGiftcards &&
@@ -43,7 +43,7 @@ const CartRowGiftcard: React.FC<CartRowGiftcardProps> = ({
 
         {/* Cellule pour le bouton de suppression */}
         <TableCell align="right">
-          <TrashIcon onClick={() => removeGiftcard(giftcard.idTemp)} />
+          <TrashIcon onClick={() => removeGiftcardInCart(giftcard.idTemp)} />
         </TableCell>
       </TableRow>
     ))

@@ -18,7 +18,7 @@ interface SheetRowItemProps {
 const SheetRowItem: React.FC<SheetRowItemProps> = ({
   productsInCart,
   removeProductInCart,
-}) => {
+}) => {  
   return (
     productsInCart &&
     productsInCart.length > 0 &&

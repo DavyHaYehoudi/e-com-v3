@@ -13,7 +13,7 @@ import { CreateAdminGiftcardInput } from "../../controllers/giftcard/entities/dt
 export const giftcardCheckRepository = async (code: string) => {
   return await GiftCardModel.findOne({
     code,
-    expirationDate: { $lt: new Date() }, // Pour vérifier si la date d'expiration est dans le futur
+    expirationDate: { $gt: new Date() }, 
   }).select("balance code"); // Sélectionne uniquement les champs balance et code
 };
 

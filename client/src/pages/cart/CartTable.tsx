@@ -17,14 +17,14 @@ import CartRowProduct from "./CartRowProduct";
 interface CartRowItemProps {
   cartProducts: CartProductsToBuyFrontType[];
   cartGiftcards: CartGiftcardsToBuyFrontType[];
-  removeProduct: (productId: string, variant: string | null) => void;
-  removeGiftcard: (idTemp: number) => void;
+  removeProductInCart: (productId: string, variant: string | null) => void;
+  removeGiftcardInCart: (idTemp: number) => void;
 }
 const CartTable: React.FC<CartRowItemProps> = ({
   cartProducts,
   cartGiftcards,
-  removeProduct,
-  removeGiftcard,
+  removeProductInCart,
+  removeGiftcardInCart,
 }) => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
@@ -47,11 +47,11 @@ const CartTable: React.FC<CartRowItemProps> = ({
       <TableBody>
         <CartRowProduct
           cartProducts={cartProducts}
-          removeProduct={removeProduct}
+          removeProductInCart={removeProductInCart}
         />
         <CartRowGiftcard
           cartGiftcards={cartGiftcards}
-          removeGiftcard={removeGiftcard}
+          removeGiftcardInCart={removeGiftcardInCart}
         />
       </TableBody>
       <TableFooter>

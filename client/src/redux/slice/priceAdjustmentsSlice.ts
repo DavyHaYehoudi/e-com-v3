@@ -2,24 +2,24 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface giftcardsToUse {
+  amountToUse?: number;
+  id?: string;
+}
 interface PriceAdjustmentsState {
   promoCode: string;
-  giftCards: Array<string>;
-  shippingMethod: number | null;
+  giftcards: giftcardsToUse[];
   cashBackToSpend: number | null;
   totalDiscount: number;
-  totalFees: number;
   amountDiscountPromoCode: number;
   amountTotalGiftcardsToUse: number;
 }
 
 const initialState: PriceAdjustmentsState = {
   promoCode: "",
-  giftCards: [],
-  shippingMethod: null,
+  giftcards: [],
   cashBackToSpend: 0,
   totalDiscount: 0,
-  totalFees: 0,
   amountDiscountPromoCode: 0,
   amountTotalGiftcardsToUse: 0,
 };
@@ -36,19 +36,20 @@ const priceAdjustmentsSlice = createSlice({
       action: PayloadAction<{
         id?: string;
         code?: string;
+        amountToUse?: number;
         type: "add" | "remove" | "reset";
       }>
     ) {
       if (action.payload.type === "remove") {
-        state.giftCards = state.giftCards.filter(
-          (id) => id !== action.payload.id
+        state.giftcards = state.giftcards.filter(
+          (giftcard) => giftcard.id !== action.payload.id
         );
-      } else if (action.payload.type === "add" && action.payload.id) {
-        state.giftCards = Array.from(
-          new Set([...state.giftCards, action.payload.id])
+      } else if (action.payload.type === "add" && action.payload) {
+        state.giftcards = Array.from(
+          new Set([...state.giftcards, action.payload])
         );
       } else if (action.payload.type === "reset") {
-        state.giftCards = [];
+        state.giftcards = [];
       }
     },
     setCashBackToSpend(state, action: PayloadAction<number>) {

@@ -2,12 +2,15 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { formatPrice } from "@/utils/pricesFormat";
 import { calculateTotalCartAfterCashback } from "@/utils/cartCalculs";
 import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
-import { CartGiftcardsToBuyFrontType, GiftcardCheckType } from "@/types/giftcard/GiftcardTypes";
+import {
+  CartGiftcardsToBuyFrontType,
+  GiftcardToUseFrontType,
+} from "@/types/giftcard/GiftcardTypes";
 
 interface RowTotalCartProps {
   cartProducts: CartProductsToBuyFrontType[];
   cartGiftcards: CartGiftcardsToBuyFrontType[];
-  giftCardsToUse: GiftcardCheckType[];
+  giftCardsToUse: GiftcardToUseFrontType[];
   codePromoPercentage: number;
   selectedCashback: number | null;
 }

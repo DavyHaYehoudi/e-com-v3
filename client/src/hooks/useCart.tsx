@@ -23,12 +23,7 @@ const useCart = () => {
   const { data, triggerFetch } = useFetch<CustomerDBType>("/customer", {
     requiredCredentials: true,
   });
-  // useEffect(() => {
-  //   // Récupération initiale du panier pour les utilisateurs authentifiés
-  //   if (isAuthenticated) {
-  //     triggerFetch();
-  //   }
-  // }, [isAuthenticated, triggerFetch]);
+
   const getCartCustomer = async () => {
     await triggerFetch();
   };
@@ -39,7 +34,7 @@ const useCart = () => {
         (cartProduct) => ({
           productId: cartProduct._id,
           quantity: cartProduct.quantity,
-          variant: cartProduct.variant?.combination,
+          variant: cartProduct.variant,
           name: cartProduct.name,
           heroImage: cartProduct.heroImage,
           newUntil: cartProduct.newUntil,

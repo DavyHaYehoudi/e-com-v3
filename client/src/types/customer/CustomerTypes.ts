@@ -1,4 +1,4 @@
-import { ProductDBType, VariantProductType } from "../product/ProductTypes";
+import { ProductDBType } from "../product/ProductTypes";
 
 export interface CustomerDBType {
   shippingAddress: Address;
@@ -26,7 +26,7 @@ export interface CustomerDBType {
 
 export interface CartProductsInCustomerDB extends ProductDBType {
   quantity: number; // Quantité dans le panier
-  variant: VariantProductType;
+  variant: string;
   cartItemId: string; // Identifiant de l'élément du panier
 }
 

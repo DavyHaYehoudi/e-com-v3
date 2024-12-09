@@ -9,7 +9,6 @@ import {
 import { paymentAmountCustomerSchema } from "./entities/dto/paymentAmountCustomer.dto.js";
 import { CustomJwtPayload } from "../../middlewares/authMiddleware.js";
 import { createOrderSchema } from "./entities/dto/paymentConfirmation.dto.js";
-import { custom } from "zod";
 
 // PUBLIC - Calcul du total de la commande pour un visiteur
 export const getPaymentAmountVisitor = async (
@@ -42,6 +41,7 @@ export const getPaymentAmountCustomer = async (
 
     res.status(200).json(paymentAmount);
   } catch (error) {
+    console.error(error)
     next(error);
   }
 };

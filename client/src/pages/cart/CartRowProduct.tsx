@@ -12,11 +12,11 @@ import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
 
 interface CartRowProductProps {
   cartProducts: CartProductsToBuyFrontType[];
-  removeProduct: (productId: string, variant: string | null) => void;
+  removeProductInCart: (productId: string, variant: string | null) => void;
 }
 const CartRowProduct: React.FC<CartRowProductProps> = ({
   cartProducts,
-  removeProduct,
+  removeProductInCart,
 }) => {
   // Initialiser l'état des quantités avec l'ID et le variant du produit comme clé
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
@@ -94,7 +94,9 @@ const CartRowProduct: React.FC<CartRowProductProps> = ({
           {/* Cellule pour le bouton de suppression */}
           <TableCell align="right">
             <TrashIcon
-              onClick={() => removeProduct(product.productId, product.variant)}
+              onClick={() =>
+                removeProductInCart(product.productId, product.variant)
+              }
             />
           </TableCell>
         </TableRow>

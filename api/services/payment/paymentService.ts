@@ -46,10 +46,14 @@ export const getPaymentAmountCustomerService = async (
   paymentData: PaymentAmountCustomerDTO
 ) => {
   const cartInfo = await getCartDataService(customerId);
+  const cartProductsFormatted = cartInfo.cartProducts.map((cp) => ({
+    ...cp,
+    productId: cp._id,
+  }));
 
   return await calculatePaymentAmountService(
     paymentData,
-    cartInfo.cartProducts,
+    cartProductsFormatted,
     cartInfo.giftcardsInCart
   );
 };
@@ -86,7 +90,10 @@ export const calculatePaymentAmountService = async (
       productInfo.promotionEndDate.getTime() > Date.now()
     ) {
       totalPromotionOnProduct +=
-        (totalProductPrice * productInfo.promotionPercentage) / 100;
+        (productInfo.price *
+          product.quantity *
+          productInfo.promotionPercentage) /
+        100;
     }
   }
 
@@ -98,7 +105,7 @@ export const calculatePaymentAmountService = async (
 
   // Total avant réduction
   const totalAmountBeforePromocode = formatAmount(
-    totalProductPrice + totalGiftcardPrice
+    totalProductPrice + totalGiftcardPrice - totalPromotionOnProduct
   );
 
   // Application du code promo

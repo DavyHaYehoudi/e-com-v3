@@ -71,7 +71,7 @@ const CashbackToUse = ({
           <>
             <Label>
               Montant du cashback disponible :{" "}
-              <span className="bg-blue-500 text-[var(--whiteSmoke)] px-1 pt-1 rounded font-bold ">
+              <span className="bg-blue-500 text-[var(--whiteSmoke)] px-1 py-1 rounded font-bold ">
                 {formatPrice(cashbackCustomer)}
               </span>{" "}
             </Label>

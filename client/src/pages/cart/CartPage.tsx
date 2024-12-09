@@ -36,8 +36,8 @@ const CartPage = () => {
             <CartTable
               cartProducts={cartProducts}
               cartGiftcards={cartGiftcards}
-              removeProduct={removeProductInCart}
-              removeGiftcard={removeGiftcardInCart}
+              removeProductInCart={removeProductInCart}
+              removeGiftcardInCart={removeGiftcardInCart}
             />
             {calculateTotalCashbackCartToEarn(cartProducts) >= 0 && (
               <ProceedToPayment cartProducts={cartProducts} />

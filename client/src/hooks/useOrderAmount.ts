@@ -8,62 +8,65 @@ import { PaymentAmountResponse } from "@/types/payment/PaymentTypes";
 
 export const useOrderAmount = () => {
   const [orderAmount, setOrderAmount] = useState(0);
+  const dispatch = useDispatch();
 
-  // const cart = useSelector((state: RootState) => state.cart);
-  const giftCardIds = useSelector(
-    (state: RootState) => state.priceAdjustments.giftCards
+  const giftcardsToUse = useSelector(
+    (state: RootState) => state.priceAdjustments.giftcards
   );
-  const codePromo = useSelector(
+  const promocode = useSelector(
     (state: RootState) => state.priceAdjustments.promoCode
   );
-  const shippingMethodId =
-    useSelector((state: RootState) => state.priceAdjustments.shippingMethod) ||
-    "";
-  const cashBackToSpend = useSelector(
+  const cashbackToSpend = useSelector(
     (state: RootState) => state.priceAdjustments.cashBackToSpend
   );
-  const dispatch = useDispatch();
-  // Construction de la query string
-  const query = `?${giftCardIds
-    .map((id) => `giftCardIds=${id}`)
-    .join(
-      "&"
-    )}&codePromo=${codePromo}&shippingMethodId=${shippingMethodId}&cashBackToSpend=${cashBackToSpend}`;
+  const emailCustomer = useSelector(
+    (state: RootState) => state.auth.user?.email
+  );
+  const cart = useSelector((state: RootState) => state.cart);
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const bodyData = {
+    emailCustomer,
+    cartProducts: cart.cartProducts,
+    cartGiftcards: cart.cartGiftcards,
+    giftcardsToUse,
+    promocode,
+    cashbackToSpend,
+  };
 
   // Utilisation de useFetch pour obtenir le montant de la commande
-  const { triggerFetch } = useFetch<PaymentAmountResponse>(
-    `/payment/amount${query}`,
-    {
+  const { triggerFetch: triggerFetchForCustomer } =
+    useFetch<PaymentAmountResponse>(`/payment/customer/amount`, {
+      method: "POST",
       requiredCredentials: true,
-    }
-  );
+    });
+  const { triggerFetch: triggerFetchForVisitor } =
+    useFetch<PaymentAmountResponse>(`/payment/amount`, {
+      method: "POST",
+      requiredCredentials: false,
+    });
 
-  const getAmountBeforeDiscount = async () => {
+  const getOrderAmount = useCallback(async () => {
     try {
-      const order = await triggerFetch();
+      const order = isAuthenticated
+        ? await triggerFetchForCustomer(bodyData)
+        : await triggerFetchForVisitor(bodyData);
       if (order) {
+        setOrderAmount(order.orderAmount);
         dispatch(
           setAmountBeforeDiscount({ amount: order.totalAmountBeforePromocode })
         );
       }
     } catch (error) {
-      console.log(
-        "Erreur dans useOrderAmount pour getAmountBeforeDiscount :",
-        error
-      );
-    }
-  };
-
-  const getOrderAmount = useCallback(async () => {
-    try {
-      const order = await triggerFetch();
-      if (order) {
-        setOrderAmount(order.orderAmount);
-      }
-    } catch (error) {
       console.log("Erreur dans useOrderAmount pour getOrderAmount :", error);
     }
-  }, [triggerFetch]);
+  }, [
+    triggerFetchForCustomer,
+    triggerFetchForVisitor,
+    dispatch,
+    promocode,
+    giftcardsToUse,
+    cashbackToSpend,
+  ]);
 
-  return { getOrderAmount, orderAmount, getAmountBeforeDiscount };
+  return { getOrderAmount, orderAmount };
 };
