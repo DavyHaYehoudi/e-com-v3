@@ -4,9 +4,7 @@ import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { setCart } from "@/redux/slice/cartSlice";
-import {
-  CartProductsToBuyFrontType,
-} from "@/types/cart/CartTypes";
+import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
 import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
 import { CustomerDBType } from "@/types/customer/CustomerTypes";
 
@@ -79,7 +77,7 @@ const useCart = () => {
     setProductsInCart,
     giftcardsInCart,
     setGiftcardsInCart,
-    getCartCustomer
+    getCartCustomer,
   };
 };
 

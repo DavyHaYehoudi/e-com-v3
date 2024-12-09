@@ -26,7 +26,7 @@ export interface CustomerDBType {
 
 export interface CartProductsInCustomerDB extends ProductDBType {
   quantity: number; // Quantité dans le panier
-  variant: VariantProductType 
+  variant: VariantProductType;
   cartItemId: string; // Identifiant de l'élément du panier
 }
 

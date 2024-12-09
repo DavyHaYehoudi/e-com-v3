@@ -7,17 +7,17 @@ import { CustomerDBType } from "@/types/customer/CustomerTypes";
 import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
 
 const useWishlist = () => {
-  const [productsWishlist, setProductsWishlist] =
-    useState<WishlistManagerFrontType[] | null>(null);
+  const [productsWishlist, setProductsWishlist] = useState<
+    WishlistManagerFrontType[] | null
+  >(null);
   const dispatch = useDispatch();
   const { isAuthenticated, isVisitor } = useSelector(
     (state: RootState) => state.auth
   );
   const wishlistCustomer = useSelector((state: RootState) => state.wishlist);
-  const { data, triggerFetch } = useFetch<CustomerDBType>(
-    "/customer",
-    { requiredCredentials: true }
-  );
+  const { data, triggerFetch } = useFetch<CustomerDBType>("/customer", {
+    requiredCredentials: true,
+  });
 
   // Fonction pour formater les données de la wishlist
   const formatWishlistData = (
@@ -58,7 +58,7 @@ const useWishlist = () => {
     }
   }, [isVisitor, wishlistCustomer]);
 
-  return { productsWishlist, setProductsWishlist,getWishlistCustomer };
+  return { productsWishlist, setProductsWishlist, getWishlistCustomer };
 };
 
 export default useWishlist;

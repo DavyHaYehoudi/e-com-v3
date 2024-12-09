@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PriceAdjustmentsState {
   promoCode: string;
-  giftCards: Array<number>;
+  giftCards: Array<string>;
   shippingMethod: number | null;
   cashBackToSpend: number | null;
   totalDiscount: number;
@@ -34,7 +34,7 @@ const priceAdjustmentsSlice = createSlice({
     setGiftCard(
       state,
       action: PayloadAction<{
-        id?: number;
+        id?: string;
         code?: string;
         type: "add" | "remove" | "reset";
       }>
@@ -51,17 +51,11 @@ const priceAdjustmentsSlice = createSlice({
         state.giftCards = [];
       }
     },
-    setShippingMethod(state, action: PayloadAction<number | null>) {
-      state.shippingMethod = action.payload;
-    },
     setCashBackToSpend(state, action: PayloadAction<number>) {
       state.cashBackToSpend = action.payload;
     },
     setTotalDiscount(state, action: PayloadAction<number>) {
       state.totalDiscount = action.payload;
-    },
-    setTotalFees(state, action: PayloadAction<number>) {
-      state.totalFees = action.payload;
     },
     setAmountTotalGiftcardsToUse(state, action: PayloadAction<number>) {
       state.amountTotalGiftcardsToUse = action.payload;
@@ -78,10 +72,8 @@ const priceAdjustmentsSlice = createSlice({
 export const {
   applyPromoCode,
   setGiftCard,
-  setShippingMethod,
   setCashBackToSpend,
   setTotalDiscount,
-  setTotalFees,
   setAmountTotalGiftcardsToUse,
   setAmountDiscountPromoCode,
   resetPriceAdjustments,

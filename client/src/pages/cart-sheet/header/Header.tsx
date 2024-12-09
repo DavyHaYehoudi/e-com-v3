@@ -1,15 +1,10 @@
 import { RootState } from "@/redux/store/store";
-import React from "react";
 import { useSelector } from "react-redux";
 
 const Header = () => {
   const cartCustomer = useSelector((state: RootState) => state.cart);
-  const { cart, items, giftCards, totalItemsCount } = cartCustomer;
-  const productsInCart = { cart, items, giftCards };
-  const isProductsInCart =
-    productsInCart &&
-    productsInCart.items &&
-    (productsInCart.items.length > 0 || productsInCart.giftCards.length > 0);
+  const { cartProducts, cartGiftcards, totalItemsCount } = cartCustomer;
+  const isProductsInCart = cartProducts.length > 0 || cartGiftcards.length > 0;
 
   return isProductsInCart ? (
     <p className="uppercase">

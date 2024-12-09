@@ -14,11 +14,11 @@ const cartProductSchema = z.object({
   price: z.number(),
   promotionPercentage: z.number(),
   promotionEndDate: z
-  .string()
-  .datetime({ offset: true }) // Vérifie que c'est une chaîne ISO 8601 2025-11-30T00:00:00.000Z
-  .transform((val) => new Date(val)) // Transforme en `Date`
-  .nullable()
-  .optional(),
+    .string()
+    .datetime({ offset: true }) // Vérifie que c'est une chaîne ISO 8601 2025-11-30T00:00:00.000Z
+    .transform((val) => new Date(val)) // Transforme en `Date`
+    .nullable()
+    .optional(),
 });
 
 // // Schéma pour un élément de carte cadeau dans le panier
@@ -47,11 +47,11 @@ export const authRequestSchema = z.object({
         price: z.number(),
         promotionPercentage: z.number(),
         promotionEndDate: z
-        .string()
-        .datetime({ offset: true }) // Vérifie que c'est une chaîne ISO 8601 2025-11-30T00:00:00.000Z
-        .transform((val) => new Date(val)) // Transforme en `Date`
-        .nullable()
-        .optional(),
+          .string()
+          .datetime({ offset: true }) // Vérifie que c'est une chaîne ISO 8601 2025-11-30T00:00:00.000Z
+          .transform((val) => new Date(val)) // Transforme en `Date`
+          .nullable()
+          .optional(),
       })
     )
     .optional(),

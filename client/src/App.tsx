@@ -14,6 +14,7 @@ import LegalMentions from "./pages/legals/LegalMentions";
 import ShippingAndReturns from "./pages/legals/ShippingAndReturns";
 import ProductsPage from "./pages/products/ProductsPage";
 import MasterProduct from "./pages/product/MasterProduct";
+import CartPage from "./pages/cart/CartPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
                 <Route path="tradition" element={<TraditionPage />} />
                 <Route path="contact" element={<ContactPage />} />
                 <Route path="carte-cadeau" element={<GiftcardPage />} />
+                <Route path="panier" element={<CartPage />} />
                 <Route
                   path="conditions-generales-de-vente"
                   element={<TermsOfSales />}
