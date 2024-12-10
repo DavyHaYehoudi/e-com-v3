@@ -17,7 +17,7 @@ const persistConfig = {
   storage,
   whitelist: ["auth", "cart", "wishlist", "addresses", "priceAdjustments"],
   // Optionnel : Vous pouvez ajouter un `keyPrefix` pour éviter les conflits de clés entre différents environnements (par exemple, entre le côté client et le côté serveur)
-  keyPrefix: 'e-com-v3:',
+  // keyPrefix: 'e-com-v3:',
 };
 // Combinez vos reducers, s'il y en a plusieurs
 const rootReducer = combineReducers({

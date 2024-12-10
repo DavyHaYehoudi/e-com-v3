@@ -1,7 +1,6 @@
 import AddToCartButton from "@/components/shared/AddToCartButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { formatPrice } from "@/utils/pricesFormat";
 import { useState } from "react";
 
 const GiftcardPage = () => {
@@ -71,10 +70,7 @@ const GiftcardPage = () => {
               l&apos;utiliser en fournissant le code secret.
             </p>
             <p>
-              Imaginez que vous avez une carte cadeau d'une valeur de{" "}
-              {formatPrice(50)}. Si vous passez une commande d'un montant de{" "}
-              {formatPrice(30)}, votre solde restant sera de {formatPrice(20)}{" "}
-              et pourra être utilisé pour vos prochains achats.
+              Vous pouvez utiliser plusieurs fois la même carte tant qu'il y reste du crédit.
             </p>
             <p>
               Un historique est tenu à jour dans votre espace compte. Vous voyez

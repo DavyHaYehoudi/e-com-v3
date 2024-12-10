@@ -11,19 +11,18 @@ import TrashIcon from "@/components/shared/TrashIcon";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch } from "react-redux";
 import { setGiftCard } from "@/redux/slice/priceAdjustmentsSlice";
-import { GiftcardCheckType, GiftcardToUseFrontType } from "@/types/giftcard/GiftcardTypes";
+import {
+  GiftcardCheckType,
+  GiftcardToUseFrontType,
+} from "@/types/giftcard/GiftcardTypes";
+import { useState } from "react";
+import ModalToChooseAmount from "./ModalToChooseAmount";
+import { formatPrice } from "@/utils/pricesFormat";
 
 const GiftcardToUse = ({
-  giftCardsToUse,
-  onGiftcardToUse,
+  giftcardsToUse,
 }: {
-  giftCardsToUse: GiftcardToUseFrontType[];
-  onGiftcardToUse: (
-    code: string,
-    action: "add" | "remove",
-    balance?: number,
-    _id?: string
-  ) => void;
+  giftcardsToUse: GiftcardToUseFrontType[];
 }) => {
   const {
     register,
@@ -34,27 +33,30 @@ const GiftcardToUse = ({
     resolver: zodResolver(giftCardToUseSchema),
     mode: "onChange",
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [giftcardCheckIn, setGiftcardCheckIn] = useState<GiftcardCheckType>({
+    _id: "",
+    code: "",
+    balance: 0,
+  });
   const dispatch = useDispatch();
   const { triggerFetch } = useFetch<GiftcardCheckType>("/giftcards/check-in", {
     method: "POST",
   });
   const onSubmit = async (data: { code: string }) => {
     const giftcardDetails = await triggerFetch({ code: data.code });
-    onGiftcardToUse(
-      data.code,
-      "add",
-      giftcardDetails?.balance,
-      giftcardDetails?._id
-    );
     if (giftcardDetails) {
-      dispatch(setGiftCard({ id: giftcardDetails._id, type: "add" }));
+      setIsModalOpen(true);
+      setGiftcardCheckIn(giftcardDetails);
     }
     reset();
   };
 
-  const removeGiftCard = (code: string, id?: string) => {
-    onGiftcardToUse(code, "remove");
-    dispatch(setGiftCard({ id, type: "remove" }));
+  const removeGiftCard = (code: string, _id: string) => {
+    dispatch(setGiftCard({ _id, type: "remove", code, balance: 0 }));
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -78,13 +80,17 @@ const GiftcardToUse = ({
       {errors.code && <p className="text-red-500">{errors.code.message}</p>}
 
       <div className="mt-4 space-y-2">
-        {giftCardsToUse.map((giftcard, index) => (
+        {giftcardsToUse.map((giftcard, index) => (
           <div key={index} className="flex items-center space-x-2">
             <p className="text-sm">{giftcard.code}</p>
             {giftcard.balance ? (
               <>
                 <CheckCircle className="text-green-500 w-5 h-5" />
-                <p className="text-green-500">Solde: {giftcard.balance}€</p>
+                <p className="text-green-500">
+                  Utilisation de :{" "}
+                  {giftcard.amountToUse && formatPrice(giftcard.amountToUse)} /{" "}
+                  {giftcard.balance}
+                </p>
               </>
             ) : (
               <>
@@ -98,6 +104,13 @@ const GiftcardToUse = ({
           </div>
         ))}
       </div>
+      {isModalOpen && (
+        <ModalToChooseAmount
+          isModalOpen={isModalOpen}
+          handleCloseModal={handleCloseModal}
+          giftcardCheckIn={giftcardCheckIn}
+        />
+      )}
     </TableCell>
   );
 };

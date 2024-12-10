@@ -41,7 +41,7 @@ export const getPaymentAmountCustomer = async (
 
     res.status(200).json(paymentAmount);
   } catch (error) {
-    console.error(error)
+    console.error(error);
     next(error);
   }
 };

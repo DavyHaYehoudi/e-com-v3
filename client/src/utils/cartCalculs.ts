@@ -77,7 +77,10 @@ export const calculateTotalAmountGiftCardToBuy = (
 export const calculateTotalAmountGiftCardToUse = (
   giftcards: GiftcardToUseFrontType[]
 ) => {
-  return giftcards.reduce((sum, giftcard) => sum + (giftcard.balance ?? 0), 0);
+  return giftcards.reduce(
+    (sum, giftcard) => sum + (giftcard.amountToUse ?? 0),
+    0
+  );
 };
 export const calculateTotalCartAfterDiscountAndGiftcardToUse = (
   products: CartProductsToBuyFrontType[],

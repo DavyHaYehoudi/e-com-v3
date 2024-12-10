@@ -10,14 +10,14 @@ import {
 interface RowTotalCartProps {
   cartProducts: CartProductsToBuyFrontType[];
   cartGiftcards: CartGiftcardsToBuyFrontType[];
-  giftCardsToUse: GiftcardToUseFrontType[];
+  giftcardsToUse: GiftcardToUseFrontType[];
   codePromoPercentage: number;
   selectedCashback: number | null;
 }
 const RowTotalCart: React.FC<RowTotalCartProps> = ({
   cartProducts,
   cartGiftcards,
-  giftCardsToUse,
+  giftcardsToUse,
   codePromoPercentage,
   selectedCashback,
 }) => {
@@ -32,7 +32,7 @@ const RowTotalCart: React.FC<RowTotalCartProps> = ({
             calculateTotalCartAfterCashback(
               cartProducts,
               cartGiftcards,
-              giftCardsToUse,
+              giftcardsToUse,
               codePromoPercentage,
               selectedCashback
             )

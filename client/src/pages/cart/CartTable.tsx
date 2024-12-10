@@ -9,7 +9,6 @@ import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { usePromotion } from "@/hooks/usePromotion";
-import { useGiftCards } from "@/hooks/useGiftcard";
 import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
 import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
 import CartRowProduct from "./CartRowProduct";
@@ -29,6 +28,9 @@ const CartTable: React.FC<CartRowItemProps> = ({
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
+  const giftcardsToUse = useSelector(
+    (state: RootState) => state.priceAdjustments.giftcards
+  );
 
   const {
     codePromoPercentage,
@@ -36,7 +38,6 @@ const CartTable: React.FC<CartRowItemProps> = ({
     applyDiscount,
     handleCashbackSelect,
   } = usePromotion();
-  const { giftCardsToUse, handleGiftcardToUse } = useGiftCards();
 
   const onPromotion = (promotionPercentage: number) => {
     applyDiscount(promotionPercentage);
@@ -72,14 +73,11 @@ const CartTable: React.FC<CartRowItemProps> = ({
             selectedCashback={selectedCashback}
           />
         )}
-        <RowGiftcardToUse
-          giftCardsToUse={giftCardsToUse}
-          onGiftcardToUse={handleGiftcardToUse}
-        />
+        <RowGiftcardToUse giftcardsToUse={giftcardsToUse} />
         <RowTotalCart
           cartProducts={cartProducts}
           cartGiftcards={cartGiftcards}
-          giftCardsToUse={giftCardsToUse}
+          giftcardsToUse={giftcardsToUse}
           codePromoPercentage={codePromoPercentage}
           selectedCashback={selectedCashback}
         />

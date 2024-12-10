@@ -2,31 +2,21 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import GiftcardToUse from "./GiftcardToUse";
 import { calculateTotalAmountGiftCardToUse } from "@/utils/cartCalculs";
 import { formatPrice } from "@/utils/pricesFormat";
-import {  GiftcardToUseFrontType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardToUseFrontType } from "@/types/giftcard/GiftcardTypes";
 
 interface RowGiftcardToUseProps {
-  giftCardsToUse: GiftcardToUseFrontType[];
-  onGiftcardToUse: (
-    code: string,
-    action: "add" | "remove",
-    balance?: number,
-    _id?: string
-  ) => void;
+  giftcardsToUse: GiftcardToUseFrontType[];
 }
 const RowGiftcardToUse: React.FC<RowGiftcardToUseProps> = ({
-  giftCardsToUse,
-  onGiftcardToUse,
+  giftcardsToUse,
 }) => {
   return (
     <TableRow>
-      <GiftcardToUse
-        giftCardsToUse={giftCardsToUse}
-        onGiftcardToUse={onGiftcardToUse}
-      />
+      <GiftcardToUse giftcardsToUse={giftcardsToUse} />
       <TableCell className="text-right bg-white bg-dark whitespace-nowrap">
-        {calculateTotalAmountGiftCardToUse(giftCardsToUse) > 0 ? (
+        {calculateTotalAmountGiftCardToUse(giftcardsToUse) > 0 ? (
           <span className="whitespace-nowrap text-green-500">
-            {formatPrice(calculateTotalAmountGiftCardToUse(giftCardsToUse))}
+            {formatPrice(calculateTotalAmountGiftCardToUse(giftcardsToUse))}
           </span>
         ) : (
           0

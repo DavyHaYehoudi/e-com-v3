@@ -1,14 +1,11 @@
 // store/priceAdjustmentsSlice.ts
 
+import { GiftcardToUseFrontType } from "@/types/giftcard/GiftcardTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface giftcardsToUse {
-  amountToUse?: number;
-  id?: string;
-}
 interface PriceAdjustmentsState {
   promoCode: string;
-  giftcards: giftcardsToUse[];
+  giftcards: GiftcardToUseFrontType[];
   cashBackToSpend: number | null;
   totalDiscount: number;
   amountDiscountPromoCode: number;
@@ -34,20 +31,27 @@ const priceAdjustmentsSlice = createSlice({
     setGiftCard(
       state,
       action: PayloadAction<{
-        id?: string;
-        code?: string;
+        _id: string;
+        code: string;
+        balance: number;
         amountToUse?: number;
         type: "add" | "remove" | "reset";
       }>
     ) {
       if (action.payload.type === "remove") {
+        console.log("action.payload:", action.payload);
+
         state.giftcards = state.giftcards.filter(
-          (giftcard) => giftcard.id !== action.payload.id
+          (giftcard) => giftcard._id !== action.payload._id
         );
       } else if (action.payload.type === "add" && action.payload) {
-        state.giftcards = Array.from(
-          new Set([...state.giftcards, action.payload])
-        );
+        if (
+          !state.giftcards.some(
+            (giftcard) => giftcard._id === action.payload._id
+          )
+        ) {
+          state.giftcards = [...state.giftcards, action.payload];
+        }
       } else if (action.payload.type === "reset") {
         state.giftcards = [];
       }
