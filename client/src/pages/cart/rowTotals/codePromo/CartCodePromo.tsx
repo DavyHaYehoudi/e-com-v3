@@ -27,10 +27,14 @@ const CartCodePromo = ({
   const [apiError, setApiError] = useState<string | null>(null);
   const [validPromo, setValidPromo] = useState<boolean | null>(null);
   const cartCustomer = useSelector((state: RootState) => state.cart);
+  // const promocodeCode = useSelector(
+  //   (state: RootState) => state.priceAdjustments.promoCode
+  // );
   const { cartProducts, cartGiftcards } = cartCustomer;
   const dispatch = useDispatch();
 
   const {
+    // reset,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -38,6 +42,12 @@ const CartCodePromo = ({
     resolver: zodResolver(promoCodeSchema),
     mode: "onChange",
   });
+  // useEffect(() => {
+  //   if (!promocodeCode) {
+  //     reset({ code: "" });
+  //   }
+  // }, [promocodeCode, reset]);
+  
   const { triggerFetch } = useFetch<PromocodeVerifyType>(
     "/promocodes/verify-code",
     {

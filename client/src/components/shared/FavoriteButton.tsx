@@ -3,9 +3,10 @@ import { useWishlistManager } from "../../hooks/useWishlistManager";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { ProductDBType } from "@/types/product/ProductTypes";
+import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
 
 interface FavoriteButtonProps {
-  product: ProductDBType;
+  product: ProductDBType | WishlistManagerFrontType;
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product }) => {

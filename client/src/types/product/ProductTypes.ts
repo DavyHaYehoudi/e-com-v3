@@ -4,7 +4,7 @@ export interface ProductDBType {
   description: string;
   heroImage: string;
   promotionPercentage: number;
-  promotionEndDate: Date|null; 
+  promotionEndDate: Date | null;
   continueSelling: boolean;
   quantityInStock: number;
   price: number;

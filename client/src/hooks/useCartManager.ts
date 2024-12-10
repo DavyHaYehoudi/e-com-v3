@@ -8,6 +8,7 @@ import {
   deleteProductToCart,
 } from "@/redux/slice/cartSlice";
 import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
+import { resetPriceAdjustments } from "@/redux/slice/priceAdjustmentsSlice";
 
 export const useCartManager = () => {
   const cartCustomer = useSelector((state: RootState) => state.cart);
@@ -119,6 +120,7 @@ export const useCartManager = () => {
       await triggerFetch({ cartProducts: updatedItems });
     }
     dispatch(deleteProductToCart({ productId, variant }));
+    dispatch(resetPriceAdjustments())
   };
   // Retirer une carte cadeau du panier
   const removeGiftcardInCart = async (idTemp: number) => {
@@ -130,6 +132,7 @@ export const useCartManager = () => {
       await triggerFetch({ cartGiftcards: updatedGiftCards });
     }
     dispatch(deleteGiftcardToCart(idTemp));
+    dispatch(resetPriceAdjustments())
   };
 
   return {

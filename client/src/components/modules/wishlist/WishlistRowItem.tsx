@@ -23,9 +23,7 @@ const WishlistRowItem: React.FC<WislistRowItemProps> = ({
           <ProductImageItem
             productId={product._id}
             name={product.name}
-            path={
-              product.heroImage
-            }
+            path={product.heroImage}
           />{" "}
           {isProductNew(product.newUntil) && (
             <NewBadge additionalClasses="absolute top-1 left-0" />
@@ -36,7 +34,10 @@ const WishlistRowItem: React.FC<WislistRowItemProps> = ({
         </TableCell>
         <TableCell>
           {formatPrice(product.price)} {/* Badge de promotion */}
-          {isProductOnSale(product.promotionPercentage) && (
+          {isProductOnSale(
+            product.promotionPercentage,
+            product.promotionEndDate
+          ) && (
             <PromotionBadge promotionPercentage={product.promotionPercentage} />
           )}
           <br />

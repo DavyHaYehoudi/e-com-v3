@@ -17,7 +17,7 @@ const CartRowPromotionPrice: React.FC<CartRowPromotionPriceProps> = ({
 }) => {
   return (
     <>
-      {isProductOnSale(promotionPercentage) && (
+      {isProductOnSale(promotionPercentage, promotionEndDate) && (
         <>
           <PromotionBadge
             promotionPercentage={promotionPercentage}

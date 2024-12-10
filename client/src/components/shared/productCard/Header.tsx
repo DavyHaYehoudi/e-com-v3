@@ -11,7 +11,10 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ product }) => {
   return (
     <div className="relative p-1" style={{ width: "100%", height: "65%" }}>
-      {isProductOnSale(product.promotionPercentage) && (
+      {isProductOnSale(
+        product.promotionPercentage,
+        product.promotionEndDate
+      ) && (
         <PromotionBadge
           promotionPercentage={product.promotionPercentage}
           additionalClasses="absolute top-2 right-2"

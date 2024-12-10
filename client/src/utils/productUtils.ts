@@ -1,20 +1,19 @@
 import { ProductDBType } from "@/types/product/ProductTypes";
 import { isAfter } from "date-fns";
 
-/**
- * Détermine si un produit est en promotion.
- * @param discountPercentage Le pourcentage de la promotion
- * @returns true si le produit est en promotion, false sinon
- */
-export const isProductOnSale = (discountPercentage: number | null): boolean => {
-  return discountPercentage !== null && discountPercentage > 0;
+export const isProductOnSale = (
+  promotionPercentage: number,
+  promotionEndDate: Date | string | null
+): boolean => {
+  if (!promotionEndDate) return false; // Pas de date, pas de promotion
+
+  const today = new Date();
+  const endDate = new Date(promotionEndDate);
+
+  // Vérifie si la promotion est toujours valide
+  return promotionPercentage > 0 && isAfter(endDate, today);
 };
 
-/**
- * Détermine si un produit est encore considéré comme "nouveau".
- * @param newUntil La date limite jusqu'à laquelle le produit est considéré comme nouveau
- * @returns true si le produit est encore nouveau, false sinon
- */
 export const isProductNew = (newUntil: string | null): boolean => {
   if (!newUntil) return false;
 
@@ -35,11 +34,9 @@ export const canContinueSelling = (product: ProductDBType): boolean => {
     (!product.continueSelling && product.quantityInStock > 0)
   );
 };
-export const formatPromotionDate = (
-  discount_end_date: string | Date
-): string => {
+export const formatPromotionDate = (discountEndDate: string | Date): string => {
   const now: Date = new Date();
-  const promoDate: Date = new Date(discount_end_date);
+  const promoDate: Date = new Date(discountEndDate);
 
   // Vérifier si la promotion est déjà terminée
   if (promoDate <= now) {
