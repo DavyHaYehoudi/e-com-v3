@@ -7,7 +7,6 @@ import { ProductModel } from "../../models/product/product.schema.js";
 import { FilterQuery } from "mongoose";
 import mongoose from "mongoose";
 
-
 // Types des filtres
 interface GetAllProductsFilters {
   name?: string;
@@ -49,7 +48,7 @@ export const getAllProductsRepository = async (
   if (filters.isNew) {
     const now = new Date();
     query.newUntil = { $gte: now }; // Produit toujours considéré comme "nouveau"
-  } 
+  }
 
   // Filtre par catégories
   if (filters.categoryIds && filters.categoryIds.length > 0) {
@@ -75,7 +74,9 @@ export const getAllProductsRepository = async (
     .lean();
 };
 
-export const getProductByIdRepository = async (productId: string) => {
+export const getProductByIdRepository = async (
+  productId: string | mongoose.Types.ObjectId
+) => {
   const product = await ProductModel.findById(productId)
     .populate("categories", "_id name")
     .populate("tags", "_id name")
@@ -116,7 +117,7 @@ export const deleteProductRepository = async (productId: string) => {
 };
 
 interface OrderItem {
-  productId: string| mongoose.Types.ObjectId;
+  productId: string | mongoose.Types.ObjectId;
   quantity: number;
 }
 export const updateProductStockRepository = async (orderItems: OrderItem[]) => {

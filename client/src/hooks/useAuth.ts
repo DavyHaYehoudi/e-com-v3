@@ -6,11 +6,11 @@ import { resetAddresses } from "@/redux/slice/addressesSlice";
 import { resetCashback } from "@/redux/slice/cashbackSlice";
 import { resetWishlist } from "@/redux/slice/wishlistSlice";
 import { clearCart } from "@/redux/slice/cartSlice";
-import useCart from "./useCart";
 import useWishlist from "./useWishlist";
 import useCashback from "./useCashback";
 import { useEffect, useState } from "react";
 import { RootState } from "@/redux/store/store";
+import useCart from "./useCart";
 
 interface DecodedToken {
   id: number;

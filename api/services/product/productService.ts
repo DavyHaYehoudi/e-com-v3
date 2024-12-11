@@ -1,4 +1,7 @@
-import { GetAllProductsQuery, ProductInputDTO } from "../../controllers/product/entities/dto/product.dto.js";
+import {
+  GetAllProductsQuery,
+  ProductInputDTO,
+} from "../../controllers/product/entities/dto/product.dto.js";
 import {
   createProductRepository,
   deleteProductRepository,
@@ -12,7 +15,9 @@ import mongoose from "mongoose";
 export const getAllProductsService = async (filters: GetAllProductsQuery) => {
   return await getAllProductsRepository(filters);
 };
-export const getProductByIdService = async (productId: string) => {
+export const getProductByIdService = async (
+  productId: string | mongoose.Types.ObjectId
+) => {
   return await getProductByIdRepository(productId);
 };
 export const createProductService = async (productData: ProductInputDTO) => {
@@ -29,7 +34,7 @@ export const deleteProductService = async (productId: string) => {
 };
 // Lors de la création d'une commande
 interface OrderItem {
-  productId: string| mongoose.Types.ObjectId;
+  productId: string | mongoose.Types.ObjectId;
   quantity: number;
 }
 export const updateProductStockService = async (orderItems: OrderItem[]) => {

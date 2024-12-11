@@ -17,7 +17,7 @@ export const addressSchema = z.object({
 // Schéma pour valider chaque élément du tableau giftcardsToUse
 const giftcardsToUseSchema = z.array(
   z.object({
-    id: z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid ObjectId"), // Validation d'un ObjectId MongoDB
+    _id: z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid ObjectId"), // Validation d'un ObjectId MongoDB
     amountToUse: z.number().min(0, "Amount must be a positive number"), // Validation du montant (minimum 0)
   })
 );

@@ -218,9 +218,7 @@ export const createOrderService = async (
     await updateProductStockService(productsInCart);
     //6. Calcul du cashback capitalisé
     for (const product of productsInCart) {
-      const productDB = await getProductByIdService(
-        product.productId.toString()
-      );
+      const productDB = await getProductByIdService(product.productId);
       cashbackToEarn += product.quantity * productDB.cashback;
     }
     //7. Mise à jour de l'historique du cashback du customer
@@ -232,7 +230,6 @@ export const createOrderService = async (
       reviewId: null,
     };
     await updateCashbackCustomerRepository(customerId, cashbackData);
-
     //8. Création des cartes cadeaux
     for (const giftcard of giftcardsInCart) {
       const { amount, quantity } = giftcard;
@@ -244,12 +241,11 @@ export const createOrderService = async (
         giftcardsCreated.push(giftcardCreated);
       }
     }
-
     //9. Mise à jour des cartes cadeaux utilisées
     for (const giftcard of giftcardsToUse) {
-      const { id, amountToUse } = giftcard;
+      const { _id, amountToUse } = giftcard;
       const giftcardUpdated = await updateGiftcardBalanceService(
-        id,
+        _id,
         amountToUse
       );
       const giftcardUpdatedFormatted = {
@@ -262,9 +258,7 @@ export const createOrderService = async (
     }
     //10. Création des order-items
     for (const product of productsInCart) {
-      const productDB = await getProductByIdService(
-        product.productId.toString()
-      );
+      const productDB = await getProductByIdService(product.productId);
 
       const orderItemData: OrderItemType = {
         productId: product.productId,
@@ -288,7 +282,6 @@ export const createOrderService = async (
 
       orderItemsCreated.push(orderItemData);
     }
-
     //11. Mise à jour des stats commandes dans customer
     await updateCustomerOrderStatsService(
       customerId,

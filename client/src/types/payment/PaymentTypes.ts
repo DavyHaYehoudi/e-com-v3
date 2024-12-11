@@ -1,3 +1,5 @@
+import { OrderCreated } from "../order/OrderTypes";
+
 export interface PaymentAmountResponse {
   orderAmount: number; // Montant total de la commande avant promotions et réductions
   promocodeAmount: number; // Montant de la réduction appliquée grâce au code promo
@@ -7,4 +9,10 @@ export interface PaymentAmountResponse {
   totalPromotionAmount: number; // Montant total des promotions appliquées
   amountGiftcardUsed: number; // Montant des cartes cadeaux utilisées
   cashbackToUse: number; // Montant du cashback utilisé
+}
+
+// Typage pour la réponse d'une commande créée
+export interface CreatedOrderDBType {
+  orderCreated: OrderCreated;
+  firstName: string;
 }
