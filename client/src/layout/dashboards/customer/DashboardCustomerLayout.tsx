@@ -8,7 +8,7 @@ import {
 import { SidebarApp } from "./SidebarApp";
 import SessionExpired from "@/components/modules/login/SessionExpired";
 import ThemeToggle from "@/components/shared/ThemeToggle";
-import BreadcrumbCustomer from "./Breadcrumb";
+// import BreadcrumbCustomer from "./Breadcrumb";
 import { Outlet } from "react-router-dom";
 
 const DashboardCustomerLayout = () => {

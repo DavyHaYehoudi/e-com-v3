@@ -5,7 +5,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { format } from "date-fns";
-import CalendarYear from "@/components/shared/CalendarYear";
+// import CalendarYear from "@/components/shared/CalendarYear";
+import { DayPicker } from "react-day-picker";
+import { fr } from "date-fns/locale";
 
 export function DatePicker({
   value,
@@ -32,13 +34,22 @@ export function DatePicker({
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
-        <CalendarYear
+        <DayPicker
           mode="single"
-          captionLayout="dropdown-buttons"
+          captionLayout="dropdown-years"
           selected={value ?? undefined} // Passe un objet `Date` ou `null`
-          onSelect={(date) => date && onChange(date)} // Ignore si `null`
-          fromYear={1960}
-          toYear={2030}
+          onSelect={(date) =>
+            date && onChange(new Date(date.setHours(12, 0, 0)))
+          } // Définit l'heure à midi pour éviter le décalage
+          startMonth={new Date(1960, 0)} // Début de la plage (janvier 1960)
+          endMonth={new Date(2030, 11)} // Fin de la plage (décembre 2030)
+          locale={fr}
+          showOutsideDays={true}
+          footer={
+            value
+              ? `Selectionnée : ${value.toLocaleDateString()}`
+              : "Choisir un jour."
+          }
         />
       </PopoverContent>
     </Popover>

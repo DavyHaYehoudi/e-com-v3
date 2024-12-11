@@ -15,10 +15,10 @@ import {
 import useCustomerInfo from "../../../hooks/dashboard/customer/useCustomerInfo";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
-import { ProfileFormData, profileSchema } from "./profileSchema";
 import { DatePicker } from "./DatePicker";
+import { IdentityFormData, identitySchema } from "./identitySchema";
 
-const Profile = () => {
+const Identity = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { profileFetch, updateProfile } = useCustomerInfo();
 
@@ -29,14 +29,14 @@ const Profile = () => {
     reset,
     register,
     formState: { errors },
-  } = useForm<ProfileFormData>({
-    resolver: zodResolver(profileSchema),
+  } = useForm<IdentityFormData>({
+    resolver: zodResolver(identitySchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       phone: "",
-      email_marketing_consent: false,
+      emailMarketingConsent: false,
       birthday: "",
     },
   });
@@ -57,7 +57,7 @@ const Profile = () => {
   }, [profileFetch, reset]);
 
   // Gestion de la soumission du formulaire
-  const onSubmit = async (data: ProfileFormData) => {
+  const onSubmit = async (data: IdentityFormData) => {
     try {
       if (data.birthday) {
         data.birthday = new Date(data.birthday).toISOString().split("T")[0];
@@ -87,29 +87,29 @@ const Profile = () => {
         <CardContent className="space-y-4">
           {/* Prénom */}
           <div>
-            <Label htmlFor="first_name">Prénom</Label>
+            <Label htmlFor="firstName">Prénom</Label>
             <Input
-              {...register("first_name")}
+              {...register("firstName")}
               placeholder="Entrez votre prénom"
               disabled={!isEditing}
             />
-            {errors.first_name && (
+            {errors.firstName && (
               <p className="text-sm text-red-500">
-                {errors.first_name.message}
+                {errors.firstName.message}
               </p>
             )}
           </div>
 
           {/* Nom */}
           <div>
-            <Label htmlFor="last_name">Nom</Label>
+            <Label htmlFor="lastName">Nom</Label>
             <Input
-              {...register("last_name")}
+              {...register("lastName")}
               placeholder="Entrez votre nom"
               disabled={!isEditing}
             />
-            {errors.last_name && (
-              <p className="text-sm text-red-500">{errors.last_name.message}</p>
+            {errors.lastName && (
+              <p className="text-sm text-red-500">{errors.lastName.message}</p>
             )}
           </div>
 
@@ -162,15 +162,15 @@ const Profile = () => {
 
           {/* Consentement aux mails commerciaux */}
           <div className="flex items-center gap-2">
-            <Label htmlFor="email_marketing_consent">
+            <Label htmlFor="emailMarketingConsent">
               Recevoir des emails commerciaux
             </Label>
             <Controller
-              name="email_marketing_consent"
+              name="emailMarketingConsent"
               control={control}
               render={({ field }) => (
                 <Switch
-                  id="email_marketing_consent"
+                  id="emailMarketingConsent"
                   checked={field.value}
                   onCheckedChange={field.onChange}
                   disabled={!isEditing}
@@ -178,9 +178,9 @@ const Profile = () => {
                 />
               )}
             />
-            {errors.email_marketing_consent && (
+            {errors.emailMarketingConsent && (
               <p className="text-sm text-red-500">
-                {errors.email_marketing_consent.message}
+                {errors.emailMarketingConsent.message}
               </p>
             )}
           </div>
@@ -202,4 +202,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Identity;

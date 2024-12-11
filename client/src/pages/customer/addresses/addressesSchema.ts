@@ -2,8 +2,8 @@ import * as z from "zod";
 
 export const AddressesSchema = z.object({
   company: z.string(),
-  first_name: z.string().min(1, "Prénom requis"),
-  last_name: z.string().min(1, "Nom requis"),
+  firstName: z.string().min(1, "Prénom requis"),
+  lastName: z.string().min(1, "Nom requis"),
   phone: z
     .string()
     .regex(/^\d+$/, "Seuls les chiffres sont acceptés")

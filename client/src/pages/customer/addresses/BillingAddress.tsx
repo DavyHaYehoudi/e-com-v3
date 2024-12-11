@@ -31,8 +31,8 @@ const BillingAddress = () => {
     resolver: zodResolver(AddressesSchema),
     defaultValues: {
       company: "",
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
       phone: "",
       email: "",
       street_number: "",
@@ -105,29 +105,29 @@ const BillingAddress = () => {
 
           {/* Prénom */}
           <div>
-            <Label htmlFor="first_name">Prénom</Label>
+            <Label htmlFor="firstName">Prénom</Label>
             <Input
-              {...register("first_name")}
+              {...register("firstName")}
               placeholder="Entrez votre prénom"
               disabled={!isEditing}
             />
-            {errors.first_name && (
+            {errors.firstName && (
               <p className="text-sm text-red-500">
-                {errors.first_name.message}
+                {errors.firstName.message}
               </p>
             )}
           </div>
 
           {/* Nom */}
           <div>
-            <Label htmlFor="last_name">Nom</Label>
+            <Label htmlFor="lastName">Nom</Label>
             <Input
-              {...register("last_name")}
+              {...register("lastName")}
               placeholder="Entrez votre nom"
               disabled={!isEditing}
             />
-            {errors.last_name && (
-              <p className="text-sm text-red-500">{errors.last_name.message}</p>
+            {errors.lastName && (
+              <p className="text-sm text-red-500">{errors.lastName.message}</p>
             )}
           </div>
 

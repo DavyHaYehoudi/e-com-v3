@@ -40,8 +40,8 @@ export interface Address {
   created_at: string; // ISO 8601 date string
   updated_at: string; // ISO 8601 date string
   order_id: number;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
 }
 export interface Addresses {
   billingAddress: Address;

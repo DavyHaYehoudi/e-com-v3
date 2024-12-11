@@ -18,7 +18,8 @@ import CartPage from "./pages/cart/CartPage";
 import CheckoutPage from "./pages/payment/PaymentCheckout";
 import PaymentSuccess from "./pages/payment/SuccessPage";
 import DashboardCustomerLayout from "./layout/dashboards/customer/DashboardCustomerLayout";
-import Profile from "./pages/customer/profile/Profile";
+import Identity from "./pages/customer/profile/Identity";
+import Avatar from "./pages/customer/profile/Avatar";
 
 function App() {
   return (
@@ -51,7 +52,8 @@ function App() {
               </Route>
               {/* Layout principal pour les clients */}
               <Route element={<DashboardCustomerLayout />}>
-              <Route path="customer/tableau-de-bord/profil" element={<Profile />} />
+              <Route path="customer/tableau-de-bord/profil/identite" element={<Identity />} />
+              <Route path="customer/tableau-de-bord/profil/avatar" element={<Avatar />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

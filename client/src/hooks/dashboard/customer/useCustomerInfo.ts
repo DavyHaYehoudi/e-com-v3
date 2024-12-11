@@ -1,11 +1,11 @@
 import { useFetch } from "@/service/hooks/useFetch";
 
 interface ProfileData {
-  first_name: string | null;
-  last_name: string | null;
+  firstName: string | null;
+  lastName: string | null;
   email: string;
   phone: string | null;
-  email_marketing_consent: boolean;
+  emailMarketingConsent: boolean;
   birthday: string | null;
   orders_count: number | null;
 }
@@ -16,8 +16,8 @@ interface AvatarData {
 
 interface AddressData {
   company: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   phone: string;
   email: string;
   street_number: string;

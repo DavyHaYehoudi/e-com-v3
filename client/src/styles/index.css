@@ -5,6 +5,8 @@
 @import "@/pages/product/productSuggested.css";
 @import "@/components/shared/productCard/productCard.css";
 @import "@/layout/freeShippingBanner.css";
+@import 'react-day-picker/dist/style.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -256,11 +258,6 @@ footer {
 
 .animate-pulse {
   animation: pulse 2s ease 0s 1 normal forwards;
-}
-
-/* Calendrier custom pour sélectionner rapidement les années */
-.rdp-vhidden {
-  @apply hidden;
 }
 
 /* *********************************** dashboards *********************************** */
