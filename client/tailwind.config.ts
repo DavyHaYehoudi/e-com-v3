@@ -12,8 +12,14 @@ const config: Config = {
   theme: {
   	extend: {
   		fontFamily: {
-  			nunito: ['Nunito Sans"', "sans-serif"],
-  			raleway: ["Raleway", "sans-serif"]
+  			nunito: [
+  				'Nunito Sans"',
+  				'sans-serif'
+  			],
+  			raleway: [
+  				'Raleway',
+  				'sans-serif'
+  			]
   		},
   		colors: {
   			background: 'hsl(var(--background))',
@@ -96,28 +102,10 @@ const config: Config = {
   				to: {
   					height: '0'
   				}
-  			},
-  			'accordion-down': {
-  				from: {
-  					height: '0'
-  				},
-  				to: {
-  					height: 'var(--radix-accordion-content-height)'
-  				}
-  			},
-  			'accordion-up': {
-  				from: {
-  					height: 'var(--radix-accordion-content-height)'
-  				},
-  				to: {
-  					height: '0'
-  				}
   			}
   		},
   		animation: {
   			'caret-blink': 'caret-blink 1.25s ease-out infinite',
-  			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out',
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		},

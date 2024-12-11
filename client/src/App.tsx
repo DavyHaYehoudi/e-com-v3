@@ -17,6 +17,8 @@ import MasterProduct from "./pages/product/MasterProduct";
 import CartPage from "./pages/cart/CartPage";
 import CheckoutPage from "./pages/payment/PaymentCheckout";
 import PaymentSuccess from "./pages/payment/SuccessPage";
+import DashboardCustomerLayout from "./layout/dashboards/customer/DashboardCustomerLayout";
+import Profile from "./pages/customer/profile/Profile";
 
 function App() {
   return (
@@ -46,6 +48,10 @@ function App() {
                   path="livraison-et-retour"
                   element={<ShippingAndReturns />}
                 />
+              </Route>
+              {/* Layout principal pour les clients */}
+              <Route element={<DashboardCustomerLayout />}>
+              <Route path="customer/tableau-de-bord/profil" element={<Profile />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
