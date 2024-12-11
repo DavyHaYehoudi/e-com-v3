@@ -2,7 +2,7 @@ import { useState } from "react";
 import EmailForm from "./EmailForm";
 import { useFetch } from "@/service/hooks/useFetch";
 import OtpForm from "@/components/modules/login/OtpForm";
-import useAuth from "@/app/(public)/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 
 interface OnSubmitData {
   email: string;

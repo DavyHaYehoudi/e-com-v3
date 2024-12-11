@@ -4,8 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { setAddresses } from "@/redux/slice/addressesSlice";
-import { AddressFormValues, AddressSchema } from "../../schema/addressesSchema";
-import useBillingAddress from "@/app/(public)/hooks/addresses/useBillingAddress";
+import {
+  AddressFormValues,
+  AddressSchema,
+} from "@/pages/payment/schema/addressesSchema";
+import useBillingAddress from "@/hooks/addresses/useBillingAddress";
 
 interface UseBillingFormProps {
   onNext: () => void;
@@ -35,26 +38,26 @@ const useBillingForm = ({ onNext }: UseBillingFormProps) => {
     if (addressState.billing) {
       const {
         company,
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         phone,
         email,
-        street_number,
+        streetNumber,
         address1,
         address2,
-        postal_code,
+        postalCode,
         city,
         country,
       } = addressState.billing;
       setValue("company", company || "");
-      setValue("first_name", first_name || "");
-      setValue("last_name", last_name || "");
+      setValue("firstName", firstName || "");
+      setValue("lastName", lastName || "");
       setValue("phone", phone || "");
       setValue("email", email || "");
-      setValue("street_number", street_number || "");
+      setValue("streetNumber", streetNumber || "");
       setValue("address1", address1 || "");
       setValue("address2", address2 || "");
-      setValue("postal_code", postal_code || "");
+      setValue("postalCode", postalCode || "");
       setValue("city", city || "");
       setValue("country", country || "France");
     }

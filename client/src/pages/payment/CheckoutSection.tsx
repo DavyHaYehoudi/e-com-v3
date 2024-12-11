@@ -1,6 +1,6 @@
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
-import useClientSecret from "./hooks/useClientSecret";
+import useClientSecret from "../../hooks/payment/useClientSecret";
 import getStripe from "./get-stripejs";
 
 const CheckoutSection = () => {

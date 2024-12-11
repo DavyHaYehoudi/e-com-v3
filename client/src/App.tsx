@@ -15,6 +15,8 @@ import ShippingAndReturns from "./pages/legals/ShippingAndReturns";
 import ProductsPage from "./pages/products/ProductsPage";
 import MasterProduct from "./pages/product/MasterProduct";
 import CartPage from "./pages/cart/CartPage";
+import CheckoutPage from "./pages/payment/PaymentCheckout";
+import PaymentSuccess from "./pages/payment/SuccessPage";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
                 <Route path="contact" element={<ContactPage />} />
                 <Route path="carte-cadeau" element={<GiftcardPage />} />
                 <Route path="panier" element={<CartPage />} />
+                <Route path="payment/checkout" element={<CheckoutPage />} />
+                <Route path="payment/success" element={<PaymentSuccess />} />
                 <Route
                   path="conditions-generales-de-vente"
                   element={<TermsOfSales />}

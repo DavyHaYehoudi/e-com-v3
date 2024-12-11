@@ -13,9 +13,8 @@ import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch } from "react-redux";
 import { resetPriceAdjustments } from "@/redux/slice/priceAdjustmentsSlice";
 import { clearCart } from "@/redux/slice/cartSlice";
-import useCashback from "../../hooks/useCashback";
-import { useParams } from "react-router-dom";
-
+import useCashback from "@/hooks/useCashback";
+import { useSearchParams } from "react-router-dom";
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [orderPendingCreated, setOrderPendingCreated] = useState(false);
@@ -26,13 +25,16 @@ const PaymentSuccess = () => {
     requiredCredentials: true,
   });
 
-  const { triggerFetch: triggerClearCart } = useFetch("/customer/cart", {
-    method: "PUT",
+  const { triggerFetch: triggerClearCart } = useFetch("/customer", {
+    method: "PATCH",
     requiredCredentials: true,
   });
 
   const { getCashbackOneCustomer } = useCashback();
-  const { orderNumber, firstName } = useParams();
+  const [searchParams] = useSearchParams();
+
+  const orderNumber = searchParams.get("orderNumber");
+  const firstName = searchParams.get("firstName");
   useEffect(() => {
     if (orderNumber) {
       const bodyData = { orderNumber, status: "paid" };
@@ -42,7 +44,7 @@ const PaymentSuccess = () => {
           dispatch(resetPriceAdjustments());
           dispatch(clearCart());
           getCashbackOneCustomer();
-          triggerClearCart({ items: [], gift_cards: [] });
+          triggerClearCart({ cartProducts: [], cartGiftcards: [] });
         })
         .catch((error) => {
           console.log(error);

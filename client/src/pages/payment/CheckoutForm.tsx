@@ -1,5 +1,5 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
-import usePaymentForm from "./hooks/usePaymentForm";
+import usePaymentForm from "../../hooks/payment/usePaymentForm";
 import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/utils/pricesFormat";

@@ -130,11 +130,11 @@ export const calculatePaymentAmountService = async (
 
   // Résultat final
   return {
-    orderAmount, // Montant final de la commande
-    promocodeAmount, // Montant déduit grâce au code promo
+    orderAmount: formatAmount(orderAmount), // Montant final de la commande
+    promocodeAmount: formatAmount(promocodeAmount), // Montant déduit grâce au code promo
     promocodePercentage, // Pourcentage du code promo appliqué
-    totalPromotionOnProduct, // Cumul des promotions sur les produits
-    totalAmountBeforePromocode, // Prix total avant réduction
+    totalPromotionOnProduct: formatAmount(totalPromotionOnProduct), // Cumul des promotions sur les produits
+    totalAmountBeforePromocode: formatAmount(totalAmountBeforePromocode), // Prix total avant réduction
     giftcardsToUse, // Code et montant des cartes cadeaux utilisées
     amountGiftcardUsed, // Montant total utilisé via les cartes cadeaux
     cashbackToUse: cashbackToSpend || 0, // Cashback utilisé
@@ -268,7 +268,11 @@ export const createOrderService = async (
         articleNumber: product.quantity,
         heroImage: productDB.heroImage,
         priceBeforePromotionOnProduct: productDB.price,
-        promotionPercentage: productDB.promotionPercentage,
+        promotionPercentage:
+          productDB.promotionEndDate &&
+          productDB.promotionEndDate.getTime() > Date.now()
+            ? productDB.promotionPercentage
+            : 0,
         promotionEndDate: productDB.promotionEndDate,
         cashbackEarned: product.quantity * productDB.cashback,
         exchangeNumber: null,

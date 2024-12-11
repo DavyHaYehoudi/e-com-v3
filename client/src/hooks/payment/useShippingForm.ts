@@ -4,8 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { setAddresses } from "@/redux/slice/addressesSlice";
-import { AddressFormValues, AddressSchema } from "../../schema/addressesSchema";
-import useShippingAddress from "@/app/(public)/hooks/addresses/useShippingAddress";
+import {
+  AddressFormValues,
+  AddressSchema,
+} from "@/pages/payment/schema/addressesSchema";
+import useShippingAddress from "@/hooks/addresses/useShippingAddress";
 
 interface UseShippingFormProps {
   onNext: () => void;
@@ -35,25 +38,25 @@ const useShippingForm = ({ onNext, sameAddress }: UseShippingFormProps) => {
   useEffect(() => {
     if (addressState.shipping) {
       const {
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         phone,
         email,
-        street_number,
+        streetNumber,
         address1,
         address2,
-        postal_code,
+        postalCode,
         city,
         country,
       } = addressState.shipping;
-      setValue("first_name", first_name || "");
-      setValue("last_name", last_name || "");
+      setValue("firstName", firstName || "");
+      setValue("lastName", lastName || "");
       setValue("phone", phone || "");
       setValue("email", email || "");
-      setValue("street_number", street_number || "");
+      setValue("streetNumber", streetNumber || "");
       setValue("address1", address1 || "");
       setValue("address2", address2 || "");
-      setValue("postal_code", postal_code || "");
+      setValue("postalCode", postalCode || "");
       setValue("city", city || "");
       setValue("country", country || "France");
     }

@@ -2,8 +2,8 @@ import * as z from "zod";
 
 export const AddressSchema = z.object({
   company: z.string().optional(),
-  first_name: z.string().min(1, "Prénom requis"),
-  last_name: z.string().min(1, "Nom requis"),
+  firstName: z.string().min(1, "Prénom requis"),
+  lastName: z.string().min(1, "Nom requis"),
   phone: z
     .string()
     .regex(/^\d+$/, "Seuls les chiffres sont acceptés")
@@ -12,13 +12,13 @@ export const AddressSchema = z.object({
   email: z
     .string()
     .email({ message: "Veuillez entrer une adresse e-mail valide" }),
-  street_number: z
+  streetNumber: z
     .string()
     .min(1, "Numéro requis")
     .max(6, "Limité à 6 caractères"),
   address1: z.string().min(1, "Adresse requise"),
   address2: z.string().optional(),
-  postal_code: z
+  postalCode: z
     .string()
     .min(1, "Code postal requis")
     .max(6, "Limité à 6 caractères"),

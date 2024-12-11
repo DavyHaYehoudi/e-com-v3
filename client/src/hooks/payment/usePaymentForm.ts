@@ -51,8 +51,8 @@ const usePaymentForm = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const orderInfo = await getOrderInformation();
-    const confirmationNumber = orderInfo?.confirmation_number;
-    const orderId = orderInfo?.id;
+    const orderNumber = orderInfo?.order.orderNumber;
+    const firstName = orderInfo?.firstName;
 
     if (!stripe || !elements) {
       return;
@@ -63,14 +63,16 @@ const usePaymentForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmationNumber=${confirmationNumber}&orderId=${orderId}`,
+        return_url: `${
+          import.meta.env.VITE_CLIENT_URL
+        }/payment/success?orderNumber=${orderNumber}&firstName=${firstName}`,
       },
     });
 
     if (error) {
       if (error.type === "card_error" || error.type === "validation_error") {
         setMessage(error.message || "");
-        const bodyData = { confirmationNumber, status: "failed" };
+        const bodyData = { orderNumber, status: "failed" };
         triggerFetch(bodyData);
       } else {
         setMessage("An unexpected error occurred.");

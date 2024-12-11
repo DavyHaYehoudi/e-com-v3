@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import useCreatePendingOrder from "./hooks/useCreatePendingOrder";
+import useCreatePendingOrder from "../../hooks/payment/useCreatePendingOrder";
 import { BadgeEuro, PercentIcon, GiftIcon } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";

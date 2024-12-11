@@ -3,6 +3,7 @@ import {
   CartGiftcardsToBuyFrontType,
   GiftcardToUseFrontType,
 } from "@/types/giftcard/GiftcardTypes";
+import { isProductOnSale } from "./productUtils";
 
 export const calculateTotalPriceByRow = (
   quantity: number,
@@ -34,7 +35,11 @@ export const calculateTotalDiscountCart = (
   products: CartProductsToBuyFrontType[]
 ) => {
   return products.reduce((sum, product) => {
-    if (product.promotionPercentage) {
+    const isCurrentPromotion = isProductOnSale(
+      product.promotionPercentage,
+      product.promotionEndDate
+    );
+    if (isCurrentPromotion) {
       return (
         sum +
         (product.price * product.quantity * product.promotionPercentage) / 100

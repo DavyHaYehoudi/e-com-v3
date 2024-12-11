@@ -5,6 +5,7 @@ import { ProductDBType } from "@/types/product/ProductTypes";
 import { formatPrice } from "@/utils/pricesFormat";
 import {
   canContinueSelling,
+  isProductOnSale,
   priceProductAfterDiscount,
 } from "@/utils/productUtils";
 
@@ -22,7 +23,10 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
   return (
     <article className="my-8">
       <h2 className="text-xl font-semibold">💶 Prix :</h2>
-      {product.promotionPercentage ? (
+      {isProductOnSale(
+        product.promotionPercentage,
+        product.promotionEndDate
+      ) ? (
         <>
           <div className="flex items-center gap-2 m-5">
             {/* Prix original barré avec un style en gris */}
@@ -43,9 +47,11 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
         ""
       )}
       <div className="flex items-center gap-5">
-        {product.price && !product.promotionPercentage && (
-          <div>{formatPrice(product.price)} </div>
-        )}
+        {product.price &&
+          !isProductOnSale(
+            product.promotionPercentage,
+            product.promotionEndDate
+          ) && <div>{formatPrice(product.price)} </div>}
         {product.cashback ? (
           <div>
             {product.cashback ? (

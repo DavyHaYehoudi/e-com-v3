@@ -1,9 +1,8 @@
-"use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import useShippingForm from "./hooks/useShippingForm";
+import useShippingForm from "@/hooks/payment/useShippingForm";
 
 const ShippingForm = ({
   onNext,
@@ -25,13 +24,13 @@ const ShippingForm = ({
       <div>
         <Label>Prénom</Label>
         <Input
-          {...register("first_name")}
+          {...register("firstName")}
           placeholder="Prénom"
           className="w-full p-2 border rounded-md"
         />
-        {errors.first_name && (
+        {errors.firstName && (
           <p className="text-red-600 text-sm mt-1">
-            {errors.first_name.message}
+            {errors.firstName.message}
           </p>
         )}
       </div>
@@ -39,13 +38,13 @@ const ShippingForm = ({
       <div>
         <Label>Nom</Label>
         <Input
-          {...register("last_name")}
+          {...register("lastName")}
           placeholder="Nom"
           className="w-full p-2 border rounded-md"
         />
-        {errors.last_name && (
+        {errors.lastName && (
           <p className="text-red-600 text-sm mt-1">
-            {errors.last_name.message}
+            {errors.lastName.message}
           </p>
         )}
       </div>
@@ -77,13 +76,13 @@ const ShippingForm = ({
       <div>
         <Label>Numéro de voie</Label>
         <Input
-          {...register("street_number")}
+          {...register("streetNumber")}
           placeholder="Numéro de voie"
           className="w-full p-2 border rounded-md"
         />
-        {errors.street_number && (
+        {errors.streetNumber && (
           <p className="text-red-600 text-sm mt-1">
-            {errors.street_number.message}
+            {errors.streetNumber.message}
           </p>
         )}
       </div>
@@ -115,13 +114,13 @@ const ShippingForm = ({
       <div>
         <Label>Code postal</Label>
         <Input
-          {...register("postal_code")}
+          {...register("postalCode")}
           placeholder="Code postal"
           className="w-full p-2 border rounded-md"
         />
-        {errors.postal_code && (
+        {errors.postalCode && (
           <p className="text-red-600 text-sm mt-1">
-            {errors.postal_code.message}
+            {errors.postalCode.message}
           </p>
         )}
       </div>
