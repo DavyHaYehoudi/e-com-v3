@@ -46,8 +46,6 @@ const priceAdjustmentsSlice = createSlice({
       }>
     ) {
       if (action.payload.type === "remove") {
-        console.log("action.payload:", action.payload);
-
         state.giftcards = state.giftcards.filter(
           (giftcard) => giftcard._id !== action.payload._id
         );
@@ -70,7 +68,10 @@ const priceAdjustmentsSlice = createSlice({
       state.totalDiscount = action.payload;
     },
     setAmountTotalGiftcardsToUse(state, action: PayloadAction<number>) {
-      state.amountTotalGiftcardsToUse = action.payload;
+      state.amountTotalGiftcardsToUse += action.payload;
+    },
+    resetAmountTotalGiftcardsToUse(state) {
+      state.amountTotalGiftcardsToUse = 0;
     },
     resetPriceAdjustments(state) {
       Object.assign(state, initialState);
@@ -84,6 +85,7 @@ export const {
   setCashBackToSpend,
   setTotalDiscount,
   setAmountTotalGiftcardsToUse,
+  resetAmountTotalGiftcardsToUse,
   resetPriceAdjustments,
 } = priceAdjustmentsSlice.actions;
 

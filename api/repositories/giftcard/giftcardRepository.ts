@@ -13,7 +13,7 @@ import { CreateAdminGiftcardInput } from "../../controllers/giftcard/entities/dt
 export const giftcardCheckRepository = async (code: string) => {
   return await GiftCardModel.findOne({
     code,
-    // expirationDate: { $gt: new Date() }, 
+    // expirationDate: { $gt: new Date() },
   }).select("balance code"); // Sélectionne uniquement les champs balance et code
 };
 

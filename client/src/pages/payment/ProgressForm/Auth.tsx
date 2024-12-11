@@ -12,11 +12,10 @@ const Auth = () => {
   const [emailData, setEmailData] = useState("");
   const { triggerFetch } = useFetch("/auth/open-session", { method: "POST" });
 
-
-  const handleEmailSubmit = async(data: OnSubmitData) => {
+  const handleEmailSubmit = async (data: OnSubmitData) => {
     const bodyData = { email: data.email };
     await triggerFetch(bodyData);
-    setEmailData(data.email); 
+    setEmailData(data.email);
     setStep(2); // Passe à l'étape OTP
   };
 
@@ -25,7 +24,9 @@ const Auth = () => {
   return (
     <div className="p-4 bg-white shadow-md rounded-lg dark bg-dark">
       {step === 1 && <EmailForm onSubmit={handleEmailSubmit} />}
-      {step === 2 && <OtpForm authenticate={handleAuthentication}email={emailData} />}
+      {step === 2 && (
+        <OtpForm authenticate={handleAuthentication} email={emailData} />
+      )}
     </div>
   );
 };

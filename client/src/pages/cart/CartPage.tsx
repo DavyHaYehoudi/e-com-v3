@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import {
-  setAmountTotalGiftcardsToUse,
+  resetAmountTotalGiftcardsToUse,
   setCashBackToSpend,
   setGiftCard,
   setPromocode,
@@ -21,7 +21,7 @@ const CartPage = () => {
   dispatch(setPromocode({ code: "", amountDeducted: 0, percentage: 0 }));
   dispatch(setGiftCard({ _id: "", code: "", type: "reset", balance: 0 }));
   dispatch(setCashBackToSpend(0));
-  dispatch(setAmountTotalGiftcardsToUse(0));
+  dispatch(resetAmountTotalGiftcardsToUse());
   return (
     <main>
       <h1 className="uppercase text-center m-10">mon panier</h1>

@@ -2,7 +2,7 @@ import ShippingForm from "./ProgressForm/ShippingForm";
 import Auth from "./ProgressForm/Auth";
 import BillingForm from "./ProgressForm/BillingForm";
 import ProgressBarCheckout from "./ProgressForm/ProgressBarCheckout";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import CheckoutSection from "./CheckoutSection";

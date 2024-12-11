@@ -10,7 +10,10 @@ import { Label } from "@/components/ui/label";
 import TrashIcon from "@/components/shared/TrashIcon";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch } from "react-redux";
-import { setGiftCard } from "@/redux/slice/priceAdjustmentsSlice";
+import {
+  setAmountTotalGiftcardsToUse,
+  setGiftCard,
+} from "@/redux/slice/priceAdjustmentsSlice";
 import {
   GiftcardCheckType,
   GiftcardToUseFrontType,
@@ -52,8 +55,13 @@ const GiftcardToUse = ({
     reset();
   };
 
-  const removeGiftCard = (code: string, _id: string) => {
+  const removeGiftCard = (
+    code: string,
+    _id: string,
+    amountToDeduct: number
+  ) => {
     dispatch(setGiftCard({ _id, type: "remove", code, balance: 0 }));
+    dispatch(setAmountTotalGiftcardsToUse(-amountToDeduct));
   };
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -88,8 +96,8 @@ const GiftcardToUse = ({
                 <CheckCircle className="text-green-500 w-5 h-5" />
                 <p className="text-green-500">
                   Utilisation de :{" "}
-                  {giftcard.amountToUse && formatPrice(giftcard.amountToUse)} /{" "}
-                  {giftcard.balance}
+                  {giftcard.amountToUse && formatPrice(giftcard.amountToUse)}{" "}
+                  sur un solde de {formatPrice(giftcard.balance)}
                 </p>
               </>
             ) : (
@@ -99,7 +107,13 @@ const GiftcardToUse = ({
               </>
             )}
             <TrashIcon
-              onClick={() => removeGiftCard(giftcard.code, giftcard._id)}
+              onClick={() =>
+                removeGiftCard(
+                  giftcard.code,
+                  giftcard._id,
+                  giftcard?.amountToUse || 0
+                )
+              }
             />
           </div>
         ))}

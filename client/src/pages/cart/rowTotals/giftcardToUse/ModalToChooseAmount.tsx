@@ -9,7 +9,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { setGiftCard } from "@/redux/slice/priceAdjustmentsSlice";
+import {
+  setAmountTotalGiftcardsToUse,
+  setGiftCard,
+} from "@/redux/slice/priceAdjustmentsSlice";
 import { GiftcardCheckType } from "@/types/giftcard/GiftcardTypes";
 import { formatPrice } from "@/utils/pricesFormat";
 import { useEffect, useState } from "react";
@@ -72,6 +75,7 @@ const ModalToChooseAmount: React.FC<ModalToChooseAmountProps> = ({
         amountToUse: amountValue,
       })
     );
+    dispatch(setAmountTotalGiftcardsToUse(amountValue));
     handleCloseModal();
   };
 

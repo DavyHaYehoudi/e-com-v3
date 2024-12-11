@@ -15,13 +15,11 @@ import { RootState } from "@/redux/store/store";
 import { useState } from "react";
 import { Loader } from "lucide-react";
 import { formatPrice } from "@/utils/pricesFormat";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
 type CardProps = React.ComponentProps<typeof Card>;
 
 const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const stripe = useStripe();
-  const elements = useElements();
   const amountDeducted = useSelector(
     (state: RootState) => state.priceAdjustments.promocode.amountDeducted
   );
@@ -42,9 +40,7 @@ const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
     {
       title: "Cartes cadeaux",
       description: `${
-        amountGiftcardsToUse
-          ? `jusqu'à ` + formatPrice(amountGiftcardsToUse)
-          : "Sans"
+        amountGiftcardsToUse ? formatPrice(amountGiftcardsToUse) : "Sans"
       }`,
       icon: <GiftIcon className="size-4" />,
     },
@@ -57,25 +53,16 @@ const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
     },
   ];
   const { getOrderInformation } = useCreatePendingOrder();
+  const navigate = useNavigate();
 
   const handleConfirm = async () => {
     try {
       setIsLoading(true);
-      if (!stripe || !elements) {
-        return;
-      }
       const orderInfo = await getOrderInformation();
 
-      await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: `${
-            import.meta.env.VITE_CLIENT_URL
-          }/payment/success?orderNumber=${
-            orderInfo?.order.orderNumber
-          }}&firstName=${orderInfo?.firstName}`,
-        },
-      });
+      navigate(
+        `/payment/success?orderNumber=${orderInfo?.order.orderNumber}&firstName=${orderInfo?.firstName}`
+      );
     } catch (error) {
       console.log("erreur dans ZeroPaymentCheckout :", error);
     } finally {

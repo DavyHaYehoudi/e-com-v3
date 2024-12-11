@@ -12,7 +12,7 @@ const CheckoutSection = () => {
     clientSecret, // Ajout de clientSecret dans les options
     appearance,
   };
-  
+
   const stripePromise = getStripe();
 
   return (
