@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import {
-  applyPromoCode,
-  setAmountDiscountPromoCode,
   setAmountTotalGiftcardsToUse,
   setCashBackToSpend,
   setGiftCard,
+  setPromocode,
 } from "@/redux/slice/priceAdjustmentsSlice";
 import CartTable from "./CartTable";
 import ProceedToPayment from "./ProceedToPayment";
@@ -19,10 +18,9 @@ const CartPage = () => {
   const { cartProducts, cartGiftcards } = cartCustomer;
   const dispatch = useDispatch();
   // Réinitiliasation du store en cas de retour sur la page
-  dispatch(applyPromoCode(""));
+  dispatch(setPromocode({ code: "", amountDeducted: 0, percentage: 0 }));
   dispatch(setGiftCard({ _id: "", code: "", type: "reset", balance: 0 }));
   dispatch(setCashBackToSpend(0));
-  dispatch(setAmountDiscountPromoCode(0));
   dispatch(setAmountTotalGiftcardsToUse(0));
   return (
     <main>

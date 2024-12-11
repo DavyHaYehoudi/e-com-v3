@@ -3,21 +3,25 @@
 import { GiftcardToUseFrontType } from "@/types/giftcard/GiftcardTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface Promocode {
+  code: string;
+  percentage: number;
+  amountDeducted: number;
+}
+
 interface PriceAdjustmentsState {
-  promoCode: string;
+  promocode: Promocode;
   giftcards: GiftcardToUseFrontType[];
   cashBackToSpend: number | null;
   totalDiscount: number;
-  amountDiscountPromoCode: number;
   amountTotalGiftcardsToUse: number;
 }
 
 const initialState: PriceAdjustmentsState = {
-  promoCode: "",
+  promocode: { code: "", percentage: 0, amountDeducted: 0 },
   giftcards: [],
   cashBackToSpend: 0,
   totalDiscount: 0,
-  amountDiscountPromoCode: 0,
   amountTotalGiftcardsToUse: 0,
 };
 
@@ -25,8 +29,11 @@ const priceAdjustmentsSlice = createSlice({
   name: "priceAdjustments",
   initialState,
   reducers: {
-    applyPromoCode(state, action: PayloadAction<string>) {
-      state.promoCode = action.payload;
+    setPromocode(state, action: PayloadAction<Partial<Promocode>>) {
+      state.promocode = {
+        ...state.promocode,
+        ...action.payload,
+      };
     },
     setGiftCard(
       state,
@@ -65,9 +72,6 @@ const priceAdjustmentsSlice = createSlice({
     setAmountTotalGiftcardsToUse(state, action: PayloadAction<number>) {
       state.amountTotalGiftcardsToUse = action.payload;
     },
-    setAmountDiscountPromoCode(state, action: PayloadAction<number>) {
-      state.amountDiscountPromoCode = action.payload;
-    },
     resetPriceAdjustments(state) {
       Object.assign(state, initialState);
     },
@@ -75,12 +79,11 @@ const priceAdjustmentsSlice = createSlice({
 });
 
 export const {
-  applyPromoCode,
+  setPromocode,
   setGiftCard,
   setCashBackToSpend,
   setTotalDiscount,
   setAmountTotalGiftcardsToUse,
-  setAmountDiscountPromoCode,
   resetPriceAdjustments,
 } = priceAdjustmentsSlice.actions;
 

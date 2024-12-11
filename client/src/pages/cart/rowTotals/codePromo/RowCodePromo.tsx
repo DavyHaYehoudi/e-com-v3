@@ -6,32 +6,29 @@ import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
 import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
 
 interface RowCodePromoProps {
-  onPromotion: (discount_percentage: number) => void;
-  codePromoPercentage: number;
+  promocodePercentage: number;
   cartProducts: CartProductsToBuyFrontType[];
   cartGiftcards: CartGiftcardsToBuyFrontType[];
 }
 const RowCodePromo: React.FC<RowCodePromoProps> = ({
-  onPromotion,
-  codePromoPercentage,
+  promocodePercentage,
   cartProducts,
   cartGiftcards,
 }) => {
   return (
     <TableRow>
       <CartCodePromo
-        onPromotion={onPromotion}
-        codePromoPercentage={codePromoPercentage}
+        promocodePercentage={promocodePercentage}
       />
       <TableCell className="text-right bg-white dark bg-dark whitespace-nowrap">
-        {codePromoPercentage ? (
+        {promocodePercentage ? (
           <span className="whitespace-nowrap text-green-500">
             -{" "}
             {formatPrice(
               calculateCodePromoDiscountOnCartTotal(
                 cartProducts,
                 cartGiftcards,
-                codePromoPercentage
+                promocodePercentage
               )
             )}
           </span>

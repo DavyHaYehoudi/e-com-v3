@@ -14,7 +14,7 @@ export const useOrderAmount = () => {
     (state: RootState) => state.priceAdjustments.giftcards
   );
   const promocode = useSelector(
-    (state: RootState) => state.priceAdjustments.promoCode
+    (state: RootState) => state.priceAdjustments.promocode
   );
   const cashbackToSpend = useSelector(
     (state: RootState) => state.priceAdjustments.cashBackToSpend
@@ -29,7 +29,7 @@ export const useOrderAmount = () => {
     cartProducts: cart.cartProducts,
     cartGiftcards: cart.cartGiftcards,
     giftcardsToUse,
-    promocode,
+    promocode: promocode.code,
     cashbackToSpend,
   };
 

@@ -120,7 +120,7 @@ export const useCartManager = () => {
       await triggerFetch({ cartProducts: updatedItems });
     }
     dispatch(deleteProductToCart({ productId, variant }));
-    dispatch(resetPriceAdjustments())
+    dispatch(resetPriceAdjustments());
   };
   // Retirer une carte cadeau du panier
   const removeGiftcardInCart = async (idTemp: number) => {
@@ -132,7 +132,7 @@ export const useCartManager = () => {
       await triggerFetch({ cartGiftcards: updatedGiftCards });
     }
     dispatch(deleteGiftcardToCart(idTemp));
-    dispatch(resetPriceAdjustments())
+    dispatch(resetPriceAdjustments());
   };
 
   return {

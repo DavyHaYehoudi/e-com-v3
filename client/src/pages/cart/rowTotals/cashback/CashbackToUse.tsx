@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -16,15 +16,18 @@ type FormValues = {
   cashbackAmount: number;
 };
 
-const CashbackToUse = ({
-  onCashbackSelect,
-}: {
-  onCashbackSelect: (amount: number) => void;
-}) => {
-  const cashbackCustomer = useSelector((state: RootState) => state.cashback.cashbackTotal)
+const CashbackToUse = () => {
+  const cashbackCustomer = useSelector(
+    (state: RootState) => state.cashback.cashbackTotal
+  );
+  const cashbackToSpend = useSelector(
+    (state: RootState) => state.priceAdjustments.cashBackToSpend
+  );
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const {
+    register,
+    reset,
     control,
     watch,
     setValue,
@@ -35,7 +38,7 @@ const CashbackToUse = ({
       cashbackAmount: 0,
     },
   });
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const cashbackAmount = watch("cashbackAmount");
   const isButtonDisabled = cashbackAmount <= 0;
@@ -56,12 +59,16 @@ const CashbackToUse = ({
 
   const handleSubmit = () => {
     if (isValidAmount) {
-      onCashbackSelect(cashbackAmount); // Appel de la fonction de rappel
-      dispatch(setCashBackToSpend(cashbackAmount))
+      dispatch(setCashBackToSpend(cashbackAmount));
       setIsSubmitted(true); // Met à jour isSubmitted lorsque le montant est valide
     }
   };
-
+  // Reset le formulaire lorsque un produit est supprimé du panier
+  useEffect(() => {
+    if (!cashbackToSpend) {
+      reset({ cashbackAmount: 0 });
+    }
+  }, [cashbackToSpend, reset]);
   return (
     <TableCell colSpan={5}>
       <Controller
@@ -80,6 +87,7 @@ const CashbackToUse = ({
                 type="number"
                 placeholder="Montant du cashback"
                 {...field}
+                {...register("cashbackAmount")}
                 value={field.value || ""}
                 onChange={(e) => handleCashbackChange(e.target.value)}
                 className="w-full"
@@ -100,7 +108,7 @@ const CashbackToUse = ({
               </Button>
 
               {/* Affichage du montant et cercle de validation seulement après soumission */}
-              {isSubmitted && isValidAmount && (
+              {isSubmitted && isValidAmount && cashbackToSpend && (
                 <>
                   <CheckCircleIcon className="text-green-500" />
                   <span className="text-green-500 whitespace-nowrap">

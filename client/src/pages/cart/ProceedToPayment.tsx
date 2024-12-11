@@ -19,13 +19,13 @@ const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({
     (state: RootState) => state.priceAdjustments.giftcards
   );
   const codePromo = useSelector(
-    (state: RootState) => state.priceAdjustments.promoCode
+    (state: RootState) => state.priceAdjustments.promocode
   );
   const cashBackToSpend = useSelector(
     (state: RootState) => state.priceAdjustments.cashBackToSpend
   );
-  const { getOrderAmount, orderAmount } = useOrderAmount();
 
+  const { getOrderAmount, orderAmount } = useOrderAmount();
   useEffect(() => {
     getOrderAmount();
   }, [giftcardIds, codePromo, cashBackToSpend, getOrderAmount]);

@@ -3,20 +3,18 @@ import CashbackToUse from "./CashbackToUse";
 import { formatPrice } from "@/utils/pricesFormat";
 
 interface RowCashbackToUseProps {
-  onCashbackSelect: (amount: number) => void;
-  selectedCashback: number | null; // null si aucun cashback sélectionné ici pour l'instant.
+  cashbackToSpend: number | null; // null si aucun cashback sélectionné ici pour l'instant.
 }
 const RowCashbackToUse: React.FC<RowCashbackToUseProps> = ({
-  onCashbackSelect,
-  selectedCashback,
+  cashbackToSpend,
 }) => {
   return (
     <TableRow>
-      <CashbackToUse onCashbackSelect={onCashbackSelect} />
+      <CashbackToUse />
       <TableCell className="text-right bg-white dark bg-dark whitespace-nowrap">
-        {selectedCashback ? (
+        {cashbackToSpend ? (
           <span className="whitespace-nowrap text-green-500">
-            - {formatPrice(selectedCashback)}
+            - {formatPrice(cashbackToSpend)}
           </span>
         ) : (
           0

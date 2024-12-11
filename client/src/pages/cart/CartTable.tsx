@@ -8,7 +8,6 @@ import RowTotalCart from "./rowTotals/RowTotalCart";
 import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { usePromotion } from "@/hooks/usePromotion";
 import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
 import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
 import CartRowProduct from "./CartRowProduct";
@@ -31,17 +30,12 @@ const CartTable: React.FC<CartRowItemProps> = ({
   const giftcardsToUse = useSelector(
     (state: RootState) => state.priceAdjustments.giftcards
   );
-
-  const {
-    codePromoPercentage,
-    selectedCashback,
-    applyDiscount,
-    handleCashbackSelect,
-  } = usePromotion();
-
-  const onPromotion = (promotionPercentage: number) => {
-    applyDiscount(promotionPercentage);
-  };
+  const promocodePercentage = useSelector(
+    (state: RootState) => state.priceAdjustments.promocode.percentage
+  );
+  const cashbackToSpend = useSelector(
+    (state: RootState) => state.priceAdjustments.cashBackToSpend
+  );
 
   return (
     <Table>
@@ -62,24 +56,20 @@ const CartTable: React.FC<CartRowItemProps> = ({
         />
         <RowPromotion cartProducts={cartProducts} />
         <RowCodePromo
-          onPromotion={onPromotion}
-          codePromoPercentage={codePromoPercentage}
+          promocodePercentage={promocodePercentage}
           cartProducts={cartProducts}
           cartGiftcards={cartGiftcards}
         />
         {isAuthenticated && (
-          <RowCashbackToUse
-            onCashbackSelect={handleCashbackSelect}
-            selectedCashback={selectedCashback}
-          />
+          <RowCashbackToUse cashbackToSpend={cashbackToSpend} />
         )}
         <RowGiftcardToUse giftcardsToUse={giftcardsToUse} />
         <RowTotalCart
           cartProducts={cartProducts}
           cartGiftcards={cartGiftcards}
           giftcardsToUse={giftcardsToUse}
-          codePromoPercentage={codePromoPercentage}
-          selectedCashback={selectedCashback}
+          promocodePercentage={promocodePercentage}
+          cashbackToSpend={cashbackToSpend}
         />
       </TableFooter>
     </Table>

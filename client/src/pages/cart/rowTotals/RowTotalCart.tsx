@@ -11,15 +11,15 @@ interface RowTotalCartProps {
   cartProducts: CartProductsToBuyFrontType[];
   cartGiftcards: CartGiftcardsToBuyFrontType[];
   giftcardsToUse: GiftcardToUseFrontType[];
-  codePromoPercentage: number;
-  selectedCashback: number | null;
+  promocodePercentage: number;
+  cashbackToSpend: number | null;
 }
 const RowTotalCart: React.FC<RowTotalCartProps> = ({
   cartProducts,
   cartGiftcards,
   giftcardsToUse,
-  codePromoPercentage,
-  selectedCashback,
+  promocodePercentage,
+  cashbackToSpend,
 }) => {
   return (
     <TableRow className="font-extrabold">
@@ -33,8 +33,8 @@ const RowTotalCart: React.FC<RowTotalCartProps> = ({
               cartProducts,
               cartGiftcards,
               giftcardsToUse,
-              codePromoPercentage,
-              selectedCashback
+              promocodePercentage,
+              cashbackToSpend
             )
           )}
       </TableCell>

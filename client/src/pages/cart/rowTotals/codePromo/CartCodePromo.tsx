@@ -3,38 +3,33 @@ import { Input } from "@/components/ui/input";
 import { TableCell } from "@/components/ui/table";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircleIcon, XCircleIcon, PercentIcon } from "lucide-react";
 import { promoCodeSchema } from "./promoCodeSchema";
 import { Label } from "@/components/ui/label";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  applyPromoCode,
-  setAmountDiscountPromoCode,
-} from "@/redux/slice/priceAdjustmentsSlice";
 import { RootState } from "@/redux/store/store";
 import { calculateCodePromoDiscountOnCartTotal } from "@/utils/cartCalculs";
 import { PromocodeVerifyType } from "@/types/promocode/PromocodeTypes";
+import { setPromocode } from "@/redux/slice/priceAdjustmentsSlice";
 
 const CartCodePromo = ({
-  onPromotion,
-  codePromoPercentage,
+  promocodePercentage,
 }: {
-  onPromotion: (PromotionPercentage: number) => void;
-  codePromoPercentage: number;
+  promocodePercentage: number;
 }) => {
   const [apiError, setApiError] = useState<string | null>(null);
   const [validPromo, setValidPromo] = useState<boolean | null>(null);
   const cartCustomer = useSelector((state: RootState) => state.cart);
-  // const promocodeCode = useSelector(
-  //   (state: RootState) => state.priceAdjustments.promoCode
-  // );
+  const promocode = useSelector(
+    (state: RootState) => state.priceAdjustments.promocode.code
+  );
   const { cartProducts, cartGiftcards } = cartCustomer;
   const dispatch = useDispatch();
 
   const {
-    // reset,
+    reset,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -42,12 +37,13 @@ const CartCodePromo = ({
     resolver: zodResolver(promoCodeSchema),
     mode: "onChange",
   });
-  // useEffect(() => {
-  //   if (!promocodeCode) {
-  //     reset({ code: "" });
-  //   }
-  // }, [promocodeCode, reset]);
-  
+  // Reset le formulaire lorsque un produit est supprimé du panier
+  useEffect(() => {
+    if (!promocode) {
+      reset({ code: "" });
+    }
+  }, [promocode, reset]);
+
   const { triggerFetch } = useFetch<PromocodeVerifyType>(
     "/promocodes/verify-code",
     {
@@ -58,21 +54,21 @@ const CartCodePromo = ({
   const onSubmit = async (data: { code: string }) => {
     const codePromo = await triggerFetch({ code: data.code });
     if (codePromo) {
-      onPromotion(codePromo?.promocodePercentage);
-      dispatch(applyPromoCode(data.code));
       dispatch(
-        setAmountDiscountPromoCode(
-          calculateCodePromoDiscountOnCartTotal(
+        setPromocode({
+          code: codePromo.code,
+          percentage: codePromo.promocodePercentage,
+          amountDeducted: calculateCodePromoDiscountOnCartTotal(
             cartProducts,
             cartGiftcards,
-            codePromo?.promocodePercentage
-          )
-        )
+            codePromo.promocodePercentage
+          ),
+        })
       );
       setApiError(null);
       setValidPromo(true); // Code valide  // On appelle la fonction onPromotion avec la valeur du code de réduction
     } else {
-      onPromotion(0); // Pas de réduction
+      dispatch(setPromocode({ code: "", percentage: 0, amountDeducted: 0 }));
       setApiError("Code de réduction invalide");
       setValidPromo(false); // Code non valide
     }
@@ -94,10 +90,10 @@ const CartCodePromo = ({
             <span className="ml-1">Valider</span>
           </Button>
           {/* Icône de validation */}
-          {validPromo === true && (
+          {validPromo === true && promocode && (
             <>
               <CheckCircleIcon className="text-green-500" />
-              <span className="text-green-500">{codePromoPercentage}%</span>
+              <span className="text-green-500">{promocodePercentage}%</span>
             </>
           )}
           {validPromo === false && <XCircleIcon className="text-red-500" />}
