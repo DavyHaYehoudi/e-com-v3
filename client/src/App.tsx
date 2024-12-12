@@ -34,6 +34,8 @@ import CashbackHistoryPage from "./pages/customer/advantages/cashback/CashbackHi
 import GiftcardManual from "./pages/customer/advantages/giftcards/GiftcardManual";
 import GiftcardListPage from "./pages/customer/advantages/giftcards/GiftcardListPage";
 import GiftcardDetail from "./pages/customer/advantages/giftcards/GiftcardDetail";
+import TrackingNumberPage from "./pages/customer/orders/actions/TrackingNumberPage";
+import ContentOrderPage from "./pages/customer/orders/actions/orderDetail/ContentOrderPage";
 function App() {
   return (
     <ThemeProvider>
@@ -88,6 +90,14 @@ function App() {
                 <Route
                   path="customer/tableau-de-bord/commandes/liste"
                   element={<OrdersListPage />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/commandes/:orderId/livraison"
+                  element={<TrackingNumberPage />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/commandes/:orderId/contenu"
+                  element={<ContentOrderPage />}
                 />
                 <Route
                   path="customer/tableau-de-bord/avantages/cartes-cadeaux/emploi"

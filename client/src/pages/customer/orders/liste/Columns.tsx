@@ -9,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ClipboardButton from "@/components/shared/ClipboardButton";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/utils/pricesFormat";
 import { formatDate } from "@/utils/formatDate";
@@ -136,7 +135,7 @@ export const columns: ColumnDef<OrderCustomerDBType>[] = [
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
-          {trackingNumber || "En cours..."}
+          {trackingNumber?.trackingNumber || "En cours..."}
         </div>
       );
     },
@@ -183,7 +182,6 @@ export const columns: ColumnDef<OrderCustomerDBType>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const orderNumber: string = row.getValue("orderNumber");
       const orderId: string = row.original._id;
       return (
         <DropdownMenu>
@@ -195,14 +193,6 @@ export const columns: ColumnDef<OrderCustomerDBType>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem className="flex flex-col">
-              <span>Copier le numéro de commande</span>
-              <span className="flex items-center gap-2">
-                {" "}
-                {orderNumber}
-                <ClipboardButton text={orderNumber} />
-              </span>
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Link

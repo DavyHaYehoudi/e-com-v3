@@ -23,11 +23,9 @@ const ProductImageItem: React.FC<ProductImageItemProps> = ({
           {" "}
           <a href={`/produits/${productId}`}>
             <img
-              className="w-full object-center rounded-[16px] cursor-pointer"
+              className="w-[150px] h-[150px] object-center rounded-[16px] cursor-pointer"
               src={`/images/${path}`}
               alt={name}
-              width={150}
-              height={150}
             />
           </a>
         </TooltipTrigger>

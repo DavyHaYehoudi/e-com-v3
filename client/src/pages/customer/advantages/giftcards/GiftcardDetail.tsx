@@ -60,7 +60,7 @@ const GiftcardDetail = () => {
   return (
     <div>
       <h1 className="text-center mb-10">Historique de votre carte cadeau</h1>
-      <p className="text-blue-500 m-5 text-xs">
+      <p className="text-blue-300 m-5 text-xs">
         <Link to="/customer/tableau-de-bord/avantages/cartes-cadeaux/liste">
           Revenir à la liste
         </Link>{" "}

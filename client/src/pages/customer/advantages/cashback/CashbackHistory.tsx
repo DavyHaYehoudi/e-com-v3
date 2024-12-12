@@ -11,7 +11,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/utils/formatDate";
 import { Minus, Plus } from "lucide-react";
-import ClipboardButton from "@/components/shared/ClipboardButton";
 import { rewards } from "./data";
 import { CashbackInCustomerDB, LabelKeyCashbackType } from "@/types/customer/CustomerTypes";
 
@@ -87,8 +86,7 @@ const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
                   </Badge>
                   {item.orderNumber && (
                     <span className="flex items-center gap-2 mt-1">
-                      {item.orderNumber}
-                      <ClipboardButton text={item.orderNumber} />
+                      № de commande : {item.orderNumber}
                     </span>
                   )}
                 </TableCell>

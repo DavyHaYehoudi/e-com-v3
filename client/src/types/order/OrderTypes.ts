@@ -25,7 +25,7 @@ export interface OrderCreated {
 }
 
 export interface OrderItem {
-  productId: ProductDBType;
+  productId: string;
   name: string;
   variant: string;
   customerId: string;
@@ -43,8 +43,11 @@ export interface OrderItem {
   returnAt: string | null;
   _id: string;
 }
-
-export interface OrderCustomerDBType{
+interface TrackingInfo {
+  trackingNumber: string;
+  dateSending: string;
+}
+export interface OrderCustomerDBType {
   _id: string; // Identifiant unique de la commande
   customerId: string; // Identifiant du client
   orderStatusLabel: string; // Libellé du statut de la commande
@@ -62,7 +65,7 @@ export interface OrderCustomerDBType{
   orderAddressBilling: Address; // Adresse de facturation
   cashbackEarned: number; // Montant de cashback gagné
   cashbackSpent: number; // Montant de cashback utilisé
-  trackingNumber: string | null; // Numéro de suivi (si disponible)
+  trackingNumber: TrackingInfo | null; // Numéro de suivi (si disponible)
   orderItems: OrderItem[]; // Liste des articles commandés
   createdAt: string; // Date de création (format ISO)
   updatedAt: string; // Date de mise à jour (format ISO)

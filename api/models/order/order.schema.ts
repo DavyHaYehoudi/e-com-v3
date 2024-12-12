@@ -16,7 +16,7 @@ interface OrderAddress {
 
 interface TrackingInfo {
   trackingNumber: string;
-  dateSending: String;
+  dateSending: string;
 }
 
 interface OrderItem {
