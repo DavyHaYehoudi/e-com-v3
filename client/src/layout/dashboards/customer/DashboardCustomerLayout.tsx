@@ -8,7 +8,6 @@ import {
 import { SidebarApp } from "./SidebarApp";
 import SessionExpired from "@/components/modules/login/SessionExpired";
 import ThemeToggle from "@/components/shared/ThemeToggle";
-// import BreadcrumbCustomer from "./Breadcrumb";
 import { Outlet } from "react-router-dom";
 
 const DashboardCustomerLayout = () => {
@@ -20,9 +19,6 @@ const DashboardCustomerLayout = () => {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <div className="mt-10">
-              {/* <BreadcrumbCustomer /> */}
-            </div>
           </div>
           <div className="mr-2">
             <ThemeToggle />
