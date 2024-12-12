@@ -25,6 +25,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Link } from "react-router-dom";
 
 const GiftcardsTable = () => {
   const [giftcards, setGiftcards] = useState<GiftcardCustomerDBType[] | null>(
@@ -86,16 +87,18 @@ const GiftcardsTable = () => {
                 {formatDate(giftcard.createdAt)}
               </TableCell>
               <TableCell>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Binoculars />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Voir les détails</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Link
+                  to={`/customer/tableau-de-bord/avantages/cartes-cadeaux/${giftcard._id}`}
+                >
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Binoculars />
+                      </TooltipTrigger>
+                      <TooltipContent>Voir les détails</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </Link>
               </TableCell>
             </TableRow>
           ))}
