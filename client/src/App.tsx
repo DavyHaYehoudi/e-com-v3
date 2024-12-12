@@ -20,7 +20,12 @@ import PaymentSuccess from "./pages/payment/SuccessPage";
 import DashboardCustomerLayout from "./layout/dashboards/customer/DashboardCustomerLayout";
 import Identity from "./pages/customer/profile/Identity";
 import Avatar from "./pages/customer/profile/Avatar";
-
+import HomeDashboard from "@/pages/customer";
+import TermsOfSalesDashboard from "./pages/customer/politique/vente/conditions-generales";
+import LegalMentionsDashboard from "./pages/customer/politique/vente/mentions-legales";
+import ShippingAndReturnsDashboard from "./pages/customer/politique/vente/livraisons-et-retours";
+import PaymentsConditionsDashboard from "./pages/customer/politique/securite/paiements";
+import PersonalsData from "./pages/customer/politique/securite/donnees-personnelles";
 function App() {
   return (
     <ThemeProvider>
@@ -52,8 +57,38 @@ function App() {
               </Route>
               {/* Layout principal pour les clients */}
               <Route element={<DashboardCustomerLayout />}>
-              <Route path="customer/tableau-de-bord/profil/identite" element={<Identity />} />
-              <Route path="customer/tableau-de-bord/profil/avatar" element={<Avatar />} />
+                <Route
+                  path="customer/tableau-de-bord"
+                  element={<HomeDashboard />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/profil/identite"
+                  element={<Identity />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/profil/avatar"
+                  element={<Avatar />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/politique/vente/conditions-generales"
+                  element={<TermsOfSalesDashboard />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/politique/vente/mentions-legales"
+                  element={<LegalMentionsDashboard />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/politique/vente/livraisons-et-retours"
+                  element={<ShippingAndReturnsDashboard />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/politique/securite/paiements"
+                  element={<PaymentsConditionsDashboard />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/politique/securite/donnees-personnelles"
+                  element={<PersonalsData />}
+                />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
