@@ -3,22 +3,22 @@ import { useFetch } from "@/service/hooks/useFetch";
 export interface OrderCustomer {
   id: number;
   customer_id: number;
-  order_status_id: number;
-  payment_status_id: number;
-  confirmation_number: string;
-  total_price: number;
-  shipping_price: number;
-  cashback_earned: number;
-  cashback_spent: number;
-  created_at: string; // ISO 8601 format date string
+  orderStatusId: number;
+  paymentStatusId: number;
+  orderNumber: string;
+  totalPrice: number;
+  shippingPrice: number;
+  cashbackEarned: number;
+  cashbackSpent: number;
+  createdAt: string; // ISO 8601 format date string
   updated_at: string; // ISO 8601 format date string
-  code_promo_amount: number;
-  total_promo_products: number;
+  codePromoAmount: number;
+  totalPromoProducts: number;
   total_weight: number;
-  order_status_label: string;
-  order_status_color: string;
-  payment_status_label: string;
-  payment_status_color: string;
+  orderStatusLabel: string;
+  orderStatusColor: string;
+  paymentStatusLabel: string;
+  paymentStatusColor: string;
 }
 
 export interface OneOrderCustomer {
@@ -37,7 +37,7 @@ export interface Address {
   city: string;
   postal_code: string;
   country: string;
-  created_at: string; // ISO 8601 date string
+  createdAt: string; // ISO 8601 date string
   updated_at: string; // ISO 8601 date string
   order_id: number;
   firstName: string;

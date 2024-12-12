@@ -13,8 +13,8 @@ const CommonDetails: React.FC<CommonDetailsProps> = ({ giftcard }) => {
           " Offre commerciale"
         ) : (
           <span className="flex items-center gap-2">
-            commande {giftcard.confirmation_number}
-            <ClipboardButton text={giftcard.confirmation_number} />
+            commande {giftcard.orderNumber}
+            <ClipboardButton text={giftcard.orderNumber} />
           </span>
         )}
       </p>

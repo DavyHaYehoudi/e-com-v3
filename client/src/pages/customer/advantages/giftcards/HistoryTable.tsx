@@ -36,11 +36,11 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ giftcard }) => {
           giftcard.usage_history.length > 0 &&
           giftcard.usage_history.map((item) => (
             <>
-              <TableRow key={item.confirmation_number}>
+              <TableRow key={item.orderNumber}>
                 <TableCell className="flex items-center gap-2">
-                  {item.confirmation_number}
+                  {item.orderNumber}
                   <span className="ml-2">
-                    <ClipboardButton text={item.confirmation_number} />
+                    <ClipboardButton text={item.orderNumber} />
                   </span>{" "}
                 </TableCell>
                 <TableCell>{item.used_by_customer_id}</TableCell>

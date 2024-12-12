@@ -7,13 +7,13 @@ const RewardList = () => {
     <div className="p-6">
       {/* Titre principal */}
       <h2 className="text-2xl font-bold text-center mb-8">
-        Vos Récompenses Disponibles 🎉
+        Vos recompenses disponibles 🎉
       </h2>
       <p className="text-center text-gray-600 mb-10 dark:text-[var(--whiteSmoke)]">
         Découvrez toutes les façons dont vous pouvez gagner du cashback sur
         notre plateforme. Que ce soit pour vos achats réguliers, vos avis
         laissés ou encore votre anniversaire, nous avons une récompense pour
-        vous !
+        vous !
       </p>
 
       {/* Liste des récompenses */}

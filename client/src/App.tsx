@@ -26,6 +26,13 @@ import LegalMentionsDashboard from "./pages/customer/politique/vente/mentions-le
 import ShippingAndReturnsDashboard from "./pages/customer/politique/vente/livraisons-et-retours";
 import PaymentsConditionsDashboard from "./pages/customer/politique/securite/paiements";
 import PersonalsData from "./pages/customer/politique/securite/donnees-personnelles";
+import ShippingAddress from "./pages/customer/addresses/ShippingAddress";
+import BillingAddress from "./pages/customer/addresses/BillingAddress";
+import OrdersListPage from "./pages/customer/orders/liste/OrdersListPage";
+import RewardList from "./pages/customer/advantages/cashback/RewardList";
+import CashbackHistoryPage from "./pages/customer/advantages/cashback/CashbackHistoryPage";
+import GiftcardsTable from "./pages/customer/advantages/giftcards/GiftcardsTable";
+import GiftcardManual from "./pages/customer/advantages/giftcards/GiftcardManual";
 function App() {
   return (
     <ThemeProvider>
@@ -68,6 +75,34 @@ function App() {
                 <Route
                   path="customer/tableau-de-bord/profil/avatar"
                   element={<Avatar />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/adresses/livraison"
+                  element={<ShippingAddress />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/adresses/facturation"
+                  element={<BillingAddress />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/commandes/liste"
+                  element={<OrdersListPage />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/avantages/cartes-cadeaux/emploi"
+                  element={<GiftcardManual />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/avantages/cartes-cadeaux/liste"
+                  element={<GiftcardsTable />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/avantages/cashback/fonctionnement"
+                  element={<RewardList />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/avantages/cashback/historique"
+                  element={<CashbackHistoryPage />}
                 />
                 <Route
                   path="customer/tableau-de-bord/politique/vente/conditions-generales"

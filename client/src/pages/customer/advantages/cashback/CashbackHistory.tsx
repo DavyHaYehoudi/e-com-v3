@@ -85,10 +85,10 @@ const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
                   >
                     <span>{reward?.title}</span>
                   </Badge>
-                  {item.confirmation_number && (
+                  {item.orderNumber && (
                     <span className="flex items-center gap-2 mt-1">
-                      {item.confirmation_number}
-                      <ClipboardButton text={item.confirmation_number} />
+                      {item.orderNumber}
+                      <ClipboardButton text={item.orderNumber} />
                     </span>
                   )}
                 </TableCell>

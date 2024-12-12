@@ -4,7 +4,7 @@ export interface GiftCardUsage {
   used_by_customer_id: number;
   amount_used: number;
   used_at: string; // Date sous format ISO
-  confirmation_number: string;
+  orderNumber: string;
 }
 
 export interface GiftCardsCustomer {
@@ -15,7 +15,7 @@ export interface GiftCardsCustomer {
   is_issued_by_admin: boolean; // 0 ou 1, peut être traduit en boolean
   expiration_date: string; // Date sous format ISO
   orderId: number;
-  confirmation_number: string;
+  orderNumber: string;
   usage_history: GiftCardUsage[];
   createdAt: string; // Date sous format ISO
   updatedAt: string; // Date sous format ISO

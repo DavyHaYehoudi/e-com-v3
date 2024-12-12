@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { OrderCustomer } from "../../../../hooks/dashboard/customer/useOrdersCustomer";
+import { OrderCustomer } from "@/hooks/dashboard/customer/useOrdersCustomer";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import {
@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 
 export const columns: ColumnDef<OrderCustomer>[] = [
   {
-    accessorKey: "order_status_id",
+    accessorKey: "orderStatusId",
     header: ({ column }) => {
       return (
         <Button
@@ -31,8 +31,8 @@ export const columns: ColumnDef<OrderCustomer>[] = [
       );
     },
     cell: ({ row }) => {
-      const label = row.original.order_status_label; // Récupère le label
-      const color = row.original.order_status_color; // Récupère la couleur
+      const label = row.original.orderStatusLabel; // Récupère le label
+      const color = row.original.orderStatusColor; // Récupère la couleur
 
       return (
         <Badge
@@ -45,7 +45,7 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "payment_status_id",
+    accessorKey: "paymentStatusId",
     header: ({ column }) => {
       return (
         <Button
@@ -58,8 +58,8 @@ export const columns: ColumnDef<OrderCustomer>[] = [
       );
     },
     cell: ({ row }) => {
-      const label = row.original.payment_status_label; // Récupère le label
-      const color = row.original.payment_status_color; // Récupère la couleur
+      const label = row.original.paymentStatusLabel; // Récupère le label
+      const color = row.original.paymentStatusColor; // Récupère la couleur
 
       return (
         <Badge style={{ color: color }} className="text-white text-center">
@@ -69,17 +69,17 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "confirmation_number",
+    accessorKey: "orderNumber",
     header: "№ de commande",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("confirmation_number")}</div>
+      <div className="capitalize">{row.getValue("orderNumber")}</div>
     ),
   },
   {
-    accessorKey: "shipping_price",
+    accessorKey: "shippingPrice",
     header: () => <div className="text-right">Livraison</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("shipping_price"));
+      const amount = parseFloat(row.getValue("shippingPrice"));
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
@@ -90,10 +90,10 @@ export const columns: ColumnDef<OrderCustomer>[] = [
   },
 
   {
-    accessorKey: "cashback_earned",
+    accessorKey: "cashbackEarned",
     header: () => <div className="text-right">Cashback capitalisé</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("cashback_earned"));
+      const amount = parseFloat(row.getValue("cashbackEarned"));
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
@@ -103,10 +103,10 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "cashback_spent",
+    accessorKey: "cashbackSpent",
     header: () => <div className="text-right">Cashback dépensé</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("cashback_spent"));
+      const amount = parseFloat(row.getValue("cashbackSpent"));
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
@@ -116,10 +116,10 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "code_promo_amount",
+    accessorKey: "codePromoAmount",
     header: () => <div className="text-right">Montant du code promo</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("code_promo_amount"));
+      const amount = parseFloat(row.getValue("codePromoAmount"));
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
@@ -129,10 +129,10 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "total_promo_products",
+    accessorKey: "totalPromoProducts",
     header: () => <div className="text-right">Promotions des produits</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("total_promo_products"));
+      const amount = parseFloat(row.getValue("totalPromoProducts"));
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
@@ -142,10 +142,10 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "total_price",
+    accessorKey: "totalPrice",
     header: () => <div className="text-right">Total</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("total_price"));
+      const amount = parseFloat(row.getValue("totalPrice"));
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
@@ -155,7 +155,7 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "created_at",
+    accessorKey: "createdAt",
     header: ({ column }) => {
       return (
         <div className="text-right">
@@ -170,7 +170,7 @@ export const columns: ColumnDef<OrderCustomer>[] = [
       );
     },
     cell: ({ row }) => {
-      const orderDate: string = row.getValue("created_at");
+      const orderDate: string = row.getValue("createdAt");
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
@@ -183,7 +183,7 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const orderNumber: string = row.getValue("confirmation_number");
+      const orderNumber: string = row.getValue("orderNumber");
       const orderId: number = row.original.id;
       return (
         <DropdownMenu>
