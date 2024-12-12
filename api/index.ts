@@ -20,12 +20,13 @@ import promocodeRoutes from "./routes/publicAccess/promocode.routes.js";
 import reviewsRoutes from "./routes/publicAccess/review.routes.js";
 import productRoutes from "./routes/publicAccess/product.routes.js";
 import giftcardRoutes from "./routes/publicAccess/giftcard.routes.js";
-import paymentRoutes from "./routes/publicAccess/payment.routes.js"
+import paymentRoutes from "./routes/publicAccess/payment.routes.js";
 // Customer routes
 import customerRoutes from "./routes/customerAccess/customer.routes.js";
 import reviewRoutesCustomer from "./routes/customerAccess/review.routes.js";
 import giftcardRoutesCustomer from "./routes/customerAccess/giftcard.routes.js";
-import paymentRoutesCustomer from "./routes/customerAccess/payment.routes.js"
+import paymentRoutesCustomer from "./routes/customerAccess/payment.routes.js";
+import orderRoutesCustomer from "./routes/customerAccess/order.routes.js";
 // Admin routes
 import customerRoutesAdmin from "./routes/adminAccess/customer.routes.js";
 import tagRoutesAdmin from "./routes/adminAccess/tag.routes.js";
@@ -37,6 +38,7 @@ import productRoutesAdmin from "./routes/adminAccess/product.routes.js";
 import giftcardRoutesAdmin from "./routes/adminAccess/giftcard.routes.js";
 import paymentStatusAdmin from "./routes/adminAccess/paymentStatus.routes.js";
 import orderStatusAdmin from "./routes/adminAccess/orderStatus.routes.js";
+import orderRoutesAdmin from "./routes/adminAccess/order.routes.js";
 
 // Public routes
 app.use("/api/auth", authRoutes);
@@ -52,6 +54,7 @@ app.use("/api/customer", customerRoutes);
 app.use("/api/reviews", reviewRoutesCustomer);
 app.use("/api/giftcards", giftcardRoutesCustomer);
 app.use("/api/payment", paymentRoutesCustomer);
+app.use("/api/orders", orderRoutesCustomer);
 // Admin routes
 app.use("/api/admin/customers", verifyToken, adminAccess, customerRoutesAdmin);
 app.use("/api/admin/tags", verifyToken, adminAccess, tagRoutesAdmin);
@@ -78,6 +81,7 @@ app.use(
   paymentStatusAdmin
 );
 app.use("/api/admin/order-status", verifyToken, adminAccess, orderStatusAdmin);
+app.use("/api/admin/orders", verifyToken, adminAccess, orderRoutesAdmin);
 
 app.use(errorHandler);
 

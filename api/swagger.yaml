@@ -394,6 +394,32 @@ paths:
           description: Not found - The order doesn't exist.
       security:
         - api_key: []
+  /admin/orders/customer/{customerId}:
+    get:
+      tags:
+        - order
+      summary: Show the customer order.
+      description: Show the customer order.
+      parameters:
+        - name:  customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderOneGET'       
+        '403':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
   /orderItems/{orderId}:
     get:
       tags:
