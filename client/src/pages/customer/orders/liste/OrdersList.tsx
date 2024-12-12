@@ -20,10 +20,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { columns } from "./Columns";
-import { OrdersCustomerFetch } from "../../../../hooks/dashboard/customer/useOrdersCustomer";
+import { OrderCustomerDBType } from "@/types/order/OrderTypes";
 
 interface OrdersListProps {
-  data: OrdersCustomerFetch;
+  data: OrderCustomerDBType[];
 }
 const OrdersList: React.FC<OrdersListProps> = ({ data }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);

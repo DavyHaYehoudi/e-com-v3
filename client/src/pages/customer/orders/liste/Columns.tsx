@@ -1,5 +1,4 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { OrderCustomer } from "@/hooks/dashboard/customer/useOrdersCustomer";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import {
@@ -15,8 +14,9 @@ import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/utils/pricesFormat";
 import { formatDate } from "@/utils/formatDate";
 import { Link } from "react-router-dom";
+import { OrderCustomerDBType } from "@/types/order/OrderTypes";
 
-export const columns: ColumnDef<OrderCustomer>[] = [
+export const columns: ColumnDef<OrderCustomerDBType>[] = [
   {
     accessorKey: "orderStatusId",
     header: ({ column }) => {
@@ -76,20 +76,6 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     ),
   },
   {
-    accessorKey: "shippingPrice",
-    header: () => <div className="text-right">Livraison</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("shippingPrice"));
-
-      return (
-        <div className="text-right font-medium whitespace-nowrap">
-          {formatPrice(amount)}
-        </div>
-      );
-    },
-  },
-
-  {
     accessorKey: "cashbackEarned",
     header: () => <div className="text-right">Cashback capitalisé</div>,
     cell: ({ row }) => {
@@ -116,10 +102,10 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "codePromoAmount",
+    accessorKey: "promocodeAmount",
     header: () => <div className="text-right">Montant du code promo</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("codePromoAmount"));
+      const amount = parseFloat(row.getValue("promocodeAmount"));
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
@@ -129,14 +115,28 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "totalPromoProducts",
+    accessorKey: "totalPromotionOnProduct",
     header: () => <div className="text-right">Promotions des produits</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("totalPromoProducts"));
+      const amount = parseFloat(row.getValue("totalPromotionOnProduct"));
 
       return (
         <div className="text-right font-medium whitespace-nowrap">
           {formatPrice(amount)}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "trackingNumber",
+    header: () => <div className="text-right">Numéro de suivi</div>,
+    cell: ({ row }) => {
+      // const trackingNumber= row.getValue("trackingNumber");
+      const trackingNumber = row.original.trackingNumber;
+
+      return (
+        <div className="text-right font-medium whitespace-nowrap">
+          {trackingNumber || "En cours..."}
         </div>
       );
     },
@@ -184,7 +184,7 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const orderNumber: string = row.getValue("orderNumber");
-      const orderId: number = row.original.id;
+      const orderId: string = row.original._id;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -221,20 +221,7 @@ export const columns: ColumnDef<OrderCustomer>[] = [
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link
-                to={`/customer/tableau-de-bord/commandes/${orderId}/numeros-de-suivi`}
-              >
-                {" "}
-                Numéros de suivi
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link
-                to={`/customer/tableau-de-bord/commandes/${orderId}/contacter-responsable`}
-              >
-                {" "}
-                Contacter un responsable
-              </Link>
+              <Link to="/contact"> Contacter un responsable</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -1,12 +1,11 @@
-import useOrdersCustomer, {
-  OrdersCustomerFetch,
-} from "@/hooks/dashboard/customer/useOrdersCustomer";
+import useOrdersCustomer from "@/hooks/dashboard/customer/useOrdersCustomer";
 import OrdersList from "./OrdersList";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { OrderCustomerDBType } from "@/types/order/OrderTypes";
 
 const OrdersListPage = () => {
-  const [data, setData] = useState<OrdersCustomerFetch>([]);
+  const [data, setData] = useState<OrderCustomerDBType[]>([]);
   const { ordersCustomerFetch } = useOrdersCustomer();
   useEffect(() => {
     const fetchOrders = async () => {

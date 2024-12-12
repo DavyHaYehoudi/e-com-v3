@@ -42,8 +42,10 @@ interface OrderItem {
 export interface OrderDocument extends Document {
   customerId: Schema.Types.ObjectId;
   orderStatusLabel: string;
+  orderStatusColor: string;
   orderStatusNumber: number;
   paymentStatusLabel: string;
+  paymentStatusColor: string;
   paymentStatusNumber: number;
   orderNumber: string;
   promocodeAmount: number;
@@ -105,8 +107,10 @@ const OrderSchema = new Schema<OrderDocument>(
     },
     orderStatusLabel: { type: String, required: true },
     orderStatusNumber: { type: Number, required: true },
+    orderStatusColor: { type: String, required: true },
     paymentStatusLabel: { type: String, required: true },
     paymentStatusNumber: { type: Number, required: true },
+    paymentStatusColor: { type: String, required: true },
     orderNumber: { type: String, required: true, unique: true },
     promocodeAmount: { type: Number, default: 0 },
     promocodePercentage: { type: Number, default: 0 },
