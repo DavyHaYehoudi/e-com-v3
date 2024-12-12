@@ -9,7 +9,7 @@ export const generateToken = (
   const token = jwt.sign(
     { id: customerId, email, role },
     environment.JWT_SECRET,
-    { expiresIn: "1d" }
+    { expiresIn: "15d" }
   );
   return token;
 };

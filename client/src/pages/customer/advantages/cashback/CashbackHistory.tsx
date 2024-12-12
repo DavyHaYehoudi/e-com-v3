@@ -9,32 +9,33 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import {
-  CashBackHistoryResponse,
-  ReasonKey,
-} from "../../../../hooks/dashboard/customer/useCustomerInfo";
 import { formatDate } from "@/utils/formatDate";
 import { Minus, Plus } from "lucide-react";
 import ClipboardButton from "@/components/shared/ClipboardButton";
 import { rewards } from "./data";
+import { CashbackInCustomerDB, LabelKeyCashbackType } from "@/types/customer/CustomerTypes";
 
 interface CashbackHistoryProps {
-  history: CashBackHistoryResponse | null;
+  history: CashbackInCustomerDB[] | null;
 }
 
 // Utilitaire pour récupérer un motif et ses styles à partir des données centralisées
-const getRewardByReason = (reason: ReasonKey) => {
-  switch (reason) {
-    case "Order":
+const getRewardByReason = (label: LabelKeyCashbackType) => {
+  switch (label) {
+    case "order":
       return rewards.find((reward) => reward.title === "Commande");
-    case "Loyalty":
+    case "loyalty":
       return rewards.find((reward) => reward.title === "Fidélité");
-    case "Birthday":
+    case "birthday":
       return rewards.find((reward) => reward.title === "Anniversaire");
-    case "Review":
+    case "review":
       return rewards.find((reward) => reward.title === "Avis produit");
-    case "Referral":
+    case "referral":
       return rewards.find((reward) => reward.title === "Parrainage");
+    case "correction":
+      return rewards.find((reward) => reward.title === "Correction");
+    case "other":
+      return rewards.find((reward) => reward.title === "Autre");
     default:
       return { title: "Autre", color: "bg-gray-500 text-white" };
   }
@@ -71,13 +72,12 @@ const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
       </TableHeader>
       <TableBody>
         {history &&
-          history.cashBacks &&
-          history.cashBacks.length > 0 &&
-          history.cashBacks.map((item) => {
-            const reward = getRewardByReason(item.reason);
+          history.length > 0 &&
+          history.map((item) => {
+            const reward = getRewardByReason(item.label);
 
             return (
-              <TableRow key={item.transaction_id}>
+              <TableRow key={item._id}>
                 {/* Colonne "Motif" */}
                 <TableCell className="font-medium">
                   <Badge
@@ -96,23 +96,23 @@ const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
                 {/* Colonne "Capitalisé" */}
                 <TableCell
                   className={`w-1/4 truncate ${
-                    item.cash_back_earned_for_this_transaction > 0
+                    item.cashbackEarned > 0
                       ? "text-green-500 font-bold"
                       : ""
                   }`}
                 >
-                  {item.cash_back_earned_for_this_transaction}
+                  {item.cashbackEarned}
                 </TableCell>
 
                 {/* Colonne "Dépensé" */}
                 <TableCell
                   className={`w-1/4 truncate ${
-                    item.cash_back_spent_for_this_transaction > 0
+                    item.cashbackSpent > 0
                       ? "text-red-500 font-bold"
                       : ""
                   }`}
                 >
-                  {item.cash_back_spent_for_this_transaction}
+                  {item.cashbackSpent}
                 </TableCell>
 
                 {/* Colonne "Date" */}

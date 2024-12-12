@@ -246,7 +246,8 @@ export const createOrderService = async (
       const { _id, amountToUse } = giftcard;
       const giftcardUpdated = await updateGiftcardBalanceService(
         _id,
-        amountToUse
+        amountToUse,
+        customerId
       );
       const giftcardUpdatedFormatted = {
         amountUsed: amountToUse,

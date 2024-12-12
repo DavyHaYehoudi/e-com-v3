@@ -31,8 +31,8 @@ import BillingAddress from "./pages/customer/addresses/BillingAddress";
 import OrdersListPage from "./pages/customer/orders/liste/OrdersListPage";
 import RewardList from "./pages/customer/advantages/cashback/RewardList";
 import CashbackHistoryPage from "./pages/customer/advantages/cashback/CashbackHistoryPage";
-import GiftcardsTable from "./pages/customer/advantages/giftcards/GiftcardsTable";
 import GiftcardManual from "./pages/customer/advantages/giftcards/GiftcardManual";
+import GiftcardListPage from "./pages/customer/advantages/giftcards/GiftcardListPage";
 function App() {
   return (
     <ThemeProvider>
@@ -94,7 +94,7 @@ function App() {
                 />
                 <Route
                   path="customer/tableau-de-bord/avantages/cartes-cadeaux/liste"
-                  element={<GiftcardsTable />}
+                  element={<GiftcardListPage />}
                 />
                 <Route
                   path="customer/tableau-de-bord/avantages/cashback/fonctionnement"

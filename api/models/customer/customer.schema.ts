@@ -23,25 +23,28 @@ const CartGiftCardSchema = new Schema<GiftcardInCartType>({
   quantity: { type: Number, required: true, min: 1 }, // Quantité minimale de 1
 });
 // Sous-schéma pour le cashback
-const CashbackSchema = new Schema<CashbackType>({
-  cashbackEarned: { type: Number, required: true, min: 0 }, // Cashback gagné doit être >= 0
-  cashbackSpent: { type: Number, required: true, min: 0 }, // Cashback dépensé doit être >= 0
-  label: {
-    type: String,
-    required: true,
-    enum: [
-      "loyalty",
-      "birthday",
-      "order",
-      "other",
-      "review",
-      "referral",
-      "correction",
-    ], // Énumération
+const CashbackSchema = new Schema<CashbackType>(
+  {
+    cashbackEarned: { type: Number, required: true, min: 0 }, // Cashback gagné doit être >= 0
+    cashbackSpent: { type: Number, required: true, min: 0 }, // Cashback dépensé doit être >= 0
+    label: {
+      type: String,
+      required: true,
+      enum: [
+        "loyalty",
+        "birthday",
+        "order",
+        "other",
+        "review",
+        "referral",
+        "correction",
+      ], // Énumération
+    },
+    orderNumber: { type: String, default: null }, // Référence facultative
+    reviewId: { type: Schema.Types.ObjectId, ref: "Review", default: null }, // Référence facultative
   },
-  orderNumber: { type: String, default: null }, // Référence facultative
-  reviewId: { type: Schema.Types.ObjectId, ref: "Review", default: null }, // Référence facultative
-});
+  { timestamps: true }
+);
 // Définir le schéma Mongoose
 const CustomerSchema: Schema = new Schema<ICustomer>(
   {
@@ -92,7 +95,7 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
       },
       phone: {
         type: String,
-        match: /^\+[0-9]{1,3}\s*[0-9]{1,15}$/, // Validation de format
+        match: /^0[1-9][0-9]{8}$/, // Numéro de téléphone français au format simple
       },
       streetNumber: {
         type: String,
@@ -154,7 +157,7 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
       },
       phone: {
         type: String,
-        match: /^\+[0-9]{1,3}\s*[0-9]{1,15}$/, // Validation de format
+        match: /^0[1-9][0-9]{8}$/, // Numéro de téléphone français au format simple
       },
       streetNumber: {
         type: String,
@@ -209,7 +212,7 @@ const CustomerSchema: Schema = new Schema<ICustomer>(
     },
     phone: {
       type: String,
-      match: /^\+[0-9]{1,3}\s*[0-9]{1,15}$/, // Validation de format
+      match: /^0[1-9][0-9]{8}$/, // Numéro de téléphone français au format simple
       default: "",
     },
     avatarUrl: {

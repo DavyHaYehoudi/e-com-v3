@@ -25,9 +25,14 @@ export const createGiftcardWhenOrderService = async (
 };
 export const updateGiftcardBalanceService = async (
   giftcardId: string,
-  amountToUse: number
+  amountToUse: number,
+  customerId: string
 ) => {
-  return await updateGiftcardBalanceRepository(giftcardId, amountToUse);
+  return await updateGiftcardBalanceRepository(
+    giftcardId,
+    amountToUse,
+    customerId
+  );
 };
 // ADMIN
 export const getAllGiftcardsService = async () => {

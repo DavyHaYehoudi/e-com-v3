@@ -21,20 +21,19 @@ export interface GiftCardDocument extends Document {
   updatedAt: Date;
 }
 
-const GiftCardUsageSchema = new Schema<GiftCardUsage>({
-  usedByCustomerId: {
-    type: Schema.Types.ObjectId,
-    ref: "Customer",
-    required: true,
+const GiftCardUsageSchema = new Schema<GiftCardUsage>(
+  {
+    usedByCustomerId: {
+      type: Schema.Types.ObjectId,
+      ref: "Customer",
+      required: true,
+    },
+    amountUsed: { type: Number, required: true },
   },
-  amountUsed: { type: Number, required: true },
-  usedAt: { type: Date, required: true },
-  usedOrderId: {
-    type: Schema.Types.ObjectId,
-    ref: "Order",
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 // Fonction pour générer un code aléatoire
 const generateRandomCode = (): string => {
   const characters =
@@ -66,7 +65,6 @@ const GiftCardSchema = new Schema<GiftCardDocument>(
       type: String,
       default: () => addYears(new Date(), 1), // Définit la date d'expiration par défaut à un an à compter de la création
     },
-    buyOrderId: { type: Schema.Types.ObjectId, ref: "Order", required: false }, // Optionnel si non systématiquement généré
     usageHistory: { type: [GiftCardUsageSchema], default: [] }, // Historique des usages
   },
   {

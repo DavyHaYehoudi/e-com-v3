@@ -18,27 +18,29 @@ const RewardList = () => {
 
       {/* Liste des récompenses */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {rewards.map((reward, index) => (
-          <Card
-            key={index}
-            className="shadow-lg hover:shadow-xl transition-shadow duration-300"
-          >
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Badge
-                  className={`py-1 px-3 rounded-lg text-sm ${reward.color}`}
-                >
-                  {reward.title}
-                </Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 dark:text-[var(--whiteSmoke)]">
-                {reward.description}
-              </p>
-            </CardContent> 
-          </Card>
-        ))}
+        {rewards
+          .filter((reward) => !reward.hidden)
+          .map((reward, index) => (
+            <Card
+              key={index}
+              className="shadow-lg hover:shadow-xl transition-shadow duration-300"
+            >
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Badge
+                    className={`py-1 px-3 rounded-lg text-sm ${reward.color}`}
+                  >
+                    {reward.title}
+                  </Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-700 dark:text-[var(--whiteSmoke)]">
+                  {reward.description}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
       </div>
     </div>
   );

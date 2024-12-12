@@ -40,11 +40,20 @@ export interface CartGiftcardsInCustomerDB {
 export interface CashbackInCustomerDB {
   cashbackEarned: number;
   cashbackSpent: number;
-  label: string;
+  label: LabelKeyCashbackType;
   orderNumber: string | null;
   reviewId: string | null;
   _id: string;
+  createdAt: string;
 }
+export type LabelKeyCashbackType =
+  | "loyalty"
+  | "birthday"
+  | "order"
+  | "other"
+  | "review"
+  | "referral"
+  | "correction";
 
 export interface Address {
   company?: string;

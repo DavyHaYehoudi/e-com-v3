@@ -14,14 +14,22 @@ import { toast } from "sonner";
 import { formatPrice } from "@/utils/pricesFormat";
 import ValidBadge from "@/components/shared/badge/ValidBadge";
 import NoValidBadge from "@/components/shared/badge/NoValidBadge";
-import Actions from "./Actions";
-import useGiftcardsCustomer, {
-  GiftCardsCustomer,
-} from "../../../../hooks/dashboard/customer/useGiftcardsCustomer";
+import useGiftcardsCustomer from "../../../../hooks/dashboard/customer/useGiftcardsCustomer";
 import { isGiftCardValid } from "../../utils/giftcardValidity";
+import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
+import { formatDate } from "@/utils/formatDate";
+import { Binoculars } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const GiftcardsTable = () => {
-  const [giftcards, setGiftcards] = useState<GiftCardsCustomer[] | null>(null);
+  const [giftcards, setGiftcards] = useState<GiftcardCustomerDBType[] | null>(
+    null
+  );
   const { giftcardsFetch } = useGiftcardsCustomer();
   useEffect(() => {
     const fetchGiftcardsCustomer = async () => {
@@ -48,6 +56,7 @@ const GiftcardsTable = () => {
           <TableHead>Valeur initiale</TableHead>
           <TableHead>Reste</TableHead>
           <TableHead>Valide</TableHead>
+          <TableHead>Date d'achat</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
@@ -58,7 +67,7 @@ const GiftcardsTable = () => {
             <TableRow key={giftcard.code}>
               <TableCell className="font-medium">{giftcard.code}</TableCell>
               <TableCell className="whitespace-nowrap">
-                {formatPrice(giftcard.initial_value)}
+                {formatPrice(giftcard.initialValue)}
               </TableCell>
               <TableCell className="whitespace-nowrap">
                 {formatPrice(giftcard.balance)}
@@ -66,15 +75,27 @@ const GiftcardsTable = () => {
               <TableCell>
                 {isGiftCardValid({
                   balance: giftcard.balance,
-                  expiration_date: giftcard.expiration_date,
+                  expiration_date: giftcard.expirationDate,
                 }) ? (
                   <ValidBadge />
                 ) : (
                   <NoValidBadge />
                 )}
               </TableCell>
+              <TableCell className="whitespace-nowrap">
+                {formatDate(giftcard.createdAt)}
+              </TableCell>
               <TableCell>
-                <Actions giftcard={giftcard} />
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Binoculars />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Voir les détails</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </TableCell>
             </TableRow>
           ))}

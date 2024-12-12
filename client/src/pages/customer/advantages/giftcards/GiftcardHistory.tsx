@@ -5,11 +5,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import HistoryTable from "./HistoryTable";
-import CommonDetails from "./CommonDetails";
-import { GiftCardsCustomer } from "../../../../hooks/dashboard/customer/useGiftcardsCustomer";
+import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
+import { formatDate } from "@/utils/formatDate";
 
 interface GiftcardHistoryProps {
-  giftcard: GiftCardsCustomer;
+  giftcard: GiftcardCustomerDBType;
 }
 const GiftcardHistory: React.FC<GiftcardHistoryProps> = ({ giftcard }) => {
   return (
@@ -20,7 +20,7 @@ const GiftcardHistory: React.FC<GiftcardHistoryProps> = ({ giftcard }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="md:w-[800px] w-[300px]">
-        <CommonDetails giftcard={giftcard} />
+      <p>Date d&apos;achat : {formatDate(giftcard.createdAt)}</p>
         <HistoryTable giftcard={giftcard} />
       </DropdownMenuContent>
     </DropdownMenu>

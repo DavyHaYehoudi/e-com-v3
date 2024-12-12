@@ -56,7 +56,8 @@ export const createGiftcardWhenOrderRepository = async (
 // CUSTOMER
 export const updateGiftcardBalanceRepository = async (
   giftcardId: string,
-  amountToUse: number
+  amountToUse: number,
+  customerId: string
 ) => {
   try {
     const giftcardToUpdate = await GiftCardModel.findById(giftcardId);
@@ -72,15 +73,21 @@ export const updateGiftcardBalanceRepository = async (
     if (newBalance < 0) {
       throw new BadRequestError("Not enough balance");
     }
+    // Nouvelle entrée pour l'historique d'utilisation
+    const newUsageEntry = {
+      usedByCustomerId: customerId,
+      amountUsed: amountToUse,
+    };
     return (await GiftCardModel.findByIdAndUpdate(
       giftcardId,
-      { balance: newBalance },
+      { balance: newBalance, $push: { usageHistory: newUsageEntry } },
       { new: true }
     )) as GiftCardDocument;
   } catch (error: any) {
     throw new BadRequestError(`BadRequestError : ${error}`);
   }
 };
+
 // ADMIN
 export const getAllGiftcardsRepository = async () => {
   return await GiftCardModel.find();

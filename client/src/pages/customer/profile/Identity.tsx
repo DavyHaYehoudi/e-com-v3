@@ -20,7 +20,7 @@ import { IdentityFormData, identitySchema } from "./identitySchema";
 
 const Identity = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const { profileFetch, updateProfile } = useCustomerInfo();
+  const { customerInfoFetch, customerInfoUpdate } = useCustomerInfo();
 
   // React Hook Form setup avec Zod
   const {
@@ -37,7 +37,7 @@ const Identity = () => {
       email: "",
       phone: "",
       emailMarketingConsent: false,
-      birthday: "",
+      birthdate: "",
     },
   });
 
@@ -45,7 +45,7 @@ const Identity = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const data = await profileFetch();
+        const data = await customerInfoFetch();
         if (data) reset(data); // Remplit le formulaire avec les données reçues
       } catch (error) {
         console.error("Erreur lors de la récupération du profil :", error);
@@ -54,15 +54,17 @@ const Identity = () => {
     };
 
     fetchProfile();
-  }, [profileFetch, reset]);
+  }, [customerInfoFetch, reset]);
 
   // Gestion de la soumission du formulaire
   const onSubmit = async (data: IdentityFormData) => {
+    console.log("dans onSubmit");
+
     try {
-      if (data.birthday) {
-        data.birthday = new Date(data.birthday).toISOString().split("T")[0];
+      if (data.birthdate) {
+        data.birthdate = new Date(data.birthdate).toISOString().split("T")[0];
       }
-      updateProfile(data);
+      customerInfoUpdate(data);
       toast.success("Profil mis à jour avec succès !");
       setIsEditing(false);
     } catch (error) {
@@ -94,9 +96,7 @@ const Identity = () => {
               disabled={!isEditing}
             />
             {errors.firstName && (
-              <p className="text-sm text-red-500">
-                {errors.firstName.message}
-              </p>
+              <p className="text-sm text-red-500">{errors.firstName.message}</p>
             )}
           </div>
 
@@ -141,9 +141,9 @@ const Identity = () => {
 
           {/* Date de naissance */}
           <div>
-            <Label htmlFor="birthday">Date de naissance</Label>
+            <Label htmlFor="birthdate">Date de naissance</Label>
             <Controller
-              name="birthday"
+              name="birthdate"
               control={control}
               render={({ field }) => (
                 <DatePicker
@@ -155,27 +155,38 @@ const Identity = () => {
                 />
               )}
             />
-            {errors.birthday && (
-              <p className="text-sm text-red-500">{errors.birthday.message}</p>
+            {errors.birthdate && (
+              <p className="text-sm text-red-500">{errors.birthdate.message}</p>
             )}
           </div>
 
           {/* Consentement aux mails commerciaux */}
           <div className="flex items-center gap-2">
             <Label htmlFor="emailMarketingConsent">
-              Recevoir des emails commerciaux
+              {/* Recevoir des emails commerciaux */}
             </Label>
             <Controller
               name="emailMarketingConsent"
               control={control}
               render={({ field }) => (
-                <Switch
-                  id="emailMarketingConsent"
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                  disabled={!isEditing}
-                  className="bg-gray-200  border-gray-300 dark:border-gray-500 "
-                />
+                <>
+                  <Switch
+                    id="emailMarketingConsent"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={!isEditing}
+                    className="bg-gray-200  border-gray-300 dark:border-gray-500 "
+                  />
+                  {field.value ? (
+                    <span className="text-xs text-blue-500">
+                      Je recevrai des mails commerciaux.
+                    </span>
+                  ) : (
+                    <span className="text-xs text-gray-500">
+                      Vous ne recevrez pas de mails commerciaux.
+                    </span>
+                  )}
+                </>
               )}
             />
             {errors.emailMarketingConsent && (
@@ -188,7 +199,14 @@ const Identity = () => {
         <CardFooter className="flex justify-end gap-2">
           {isEditing ? (
             <>
-              <Button variant="outline" onClick={() => setIsEditing(false)}>
+              <Button
+                variant="outline"
+                onClick={(event) => {
+                  event.preventDefault(); // Empêche la soumission
+                  setIsEditing(false); // Quitte le mode édition
+                  reset();
+                }}
+              >
                 Annuler
               </Button>
               <Button type="submit">Enregistrer</Button>

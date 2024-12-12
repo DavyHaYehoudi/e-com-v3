@@ -10,7 +10,7 @@ export const identitySchema = z.object({
     .regex(/^\+?[0-9]{7,15}$/, "Numéro de téléphone invalide")
     .nullable()
     .optional(),
-  birthday: z.string().optional().nullable(), // Format YYYY-MM-DD
+  birthdate: z.string().optional().nullable(), // Format YYYY-MM-DD
   emailMarketingConsent: z.boolean().optional(), 
 });
 

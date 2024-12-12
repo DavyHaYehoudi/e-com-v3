@@ -1716,31 +1716,14 @@ components:
     GiftcardCheckInPOST:
       type: object
       properties:
-        id:
-          type: number
-          example: 23
-        firstHolderId:
+        _id:
           type: string
-          example: 098754838475987
         code:
           type: string
           example: 09hdf987BSK987
-        orderId:
-          type: number
-          nullable: true
-          example: null
-        initialValue:
-          type: integer
-          example: 50
         balance:
           type: integer
           example: 30
-        isIssuedByAdmin:
-          type: boolean
-          example: false
-        expirationDate:
-          type: string
-          example: 08/08/2025
     GiftcardGET:
       type: object
       properties:
@@ -1762,9 +1745,6 @@ components:
         expirationDate:
           type: string
           example: 08/08/2025
-        buyOrderId:
-          type: string
-          example: "98702"
         usageHistory:           
           type: array
           items:
@@ -1776,12 +1756,8 @@ components:
               amountUsed:
                 type: integer
                 example: 20
-              usedAt:
+              createdAt:
                 type: string
-                example: 05/06/2025
-              usedOrderId:
-                type: string
-                example: "93857"
         createdAt:
           type: string
           example: 2024-03-21T17:50:38.100Z

@@ -1,13 +1,21 @@
-import { CashBackHistoryResponse } from "../../../../hooks/dashboard/customer/useCustomerInfo";
 import { FolderInput, FolderOutput, BadgeEuro } from "lucide-react";
 import { formatPrice } from "@/utils/pricesFormat";
 import { Separator } from "@/components/ui/separator";
+import { CashbackInCustomerDB } from "@/types/customer/CustomerTypes";
 
 interface CashbackSummaryProps {
-  history: CashBackHistoryResponse | null;
+  history: CashbackInCustomerDB[] | null;
 }
 
 const CashbackSummary: React.FC<CashbackSummaryProps> = ({ history }) => {
+  const totalCashbackEarned =
+    history &&
+    history.length > 0 &&
+    history.reduce((acc, b) => acc + b.cashbackEarned, 0);
+  const totalCashbackSpent =
+    history &&
+    history.length > 0 &&
+    history.reduce((acc, b) => acc + b.cashbackSpent, 0);
   return (
     <div className="flex items-center justify-center flex-wrap gap-4 2xl:gap-16">
       {/* Section 1 */}
@@ -17,7 +25,7 @@ const CashbackSummary: React.FC<CashbackSummaryProps> = ({ history }) => {
           Cashback
           <br /> capitalisé :{" "}
           <span className="font-bold">
-            {history ? formatPrice(history.total_earned) : "N.C."}
+            {totalCashbackEarned ? formatPrice(totalCashbackEarned) : "N.C."}
           </span>
         </p>
       </div>
@@ -33,7 +41,7 @@ const CashbackSummary: React.FC<CashbackSummaryProps> = ({ history }) => {
           Cashback
           <br /> dépensé :{" "}
           <span className="font-bold">
-            {history ? formatPrice(history.total_spent) : "N.C."}
+            {totalCashbackSpent ? formatPrice(totalCashbackSpent) : "N.C."}
           </span>
         </p>
       </div>
@@ -50,8 +58,8 @@ const CashbackSummary: React.FC<CashbackSummaryProps> = ({ history }) => {
           <br /> disponible :{" "}
           <span className="font-bold">
             {" "}
-            {history
-              ? formatPrice(history.total_earned - history.total_spent)
+            {totalCashbackEarned && totalCashbackSpent
+              ? formatPrice(totalCashbackEarned - totalCashbackSpent)
               : "N.C."}
           </span>
         </p>

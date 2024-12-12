@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { FileText } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -19,7 +18,7 @@ import { AddressesFormValues, AddressesSchema } from "./addressesSchema";
 
 const BillingAddress = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const { updateBillingAddress, billingAddressFetch } = useCustomerInfo();
+  const { customerInfoFetch, customerInfoUpdate } = useCustomerInfo();
 
   // React Hook Form setup avec Zod
   const {
@@ -35,10 +34,10 @@ const BillingAddress = () => {
       lastName: "",
       phone: "",
       email: "",
-      street_number: "",
+      streetNumber: "",
       address1: "",
       address2: "",
-      postal_code: "",
+      postalCode: "",
       city: "",
       country: "",
     },
@@ -48,8 +47,8 @@ const BillingAddress = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const data = await billingAddressFetch();
-        if (data) reset(data); // Remplit le formulaire avec les données reçues
+        const data = await customerInfoFetch();
+        if (data) reset(data.billingAddress); // Remplit le formulaire avec les données reçues
       } catch (error) {
         console.error("Erreur lors de la récupération du profil :", error);
         toast.error("Impossible de charger vos informations.");
@@ -57,12 +56,12 @@ const BillingAddress = () => {
     };
 
     fetchProfile();
-  }, [billingAddressFetch, reset]);
+  }, [customerInfoFetch, reset]);
 
   // Gestion de la soumission du formulaire
   const onSubmit = async (data: AddressesFormValues) => {
     try {
-      updateBillingAddress(data);
+      customerInfoUpdate({ billingAddress: data });
       toast.success("Adresse de facturation mise à jour avec succès !");
       setIsEditing(false);
     } catch (error) {
@@ -112,9 +111,7 @@ const BillingAddress = () => {
               disabled={!isEditing}
             />
             {errors.firstName && (
-              <p className="text-sm text-red-500">
-                {errors.firstName.message}
-              </p>
+              <p className="text-sm text-red-500">{errors.firstName.message}</p>
             )}
           </div>
 
@@ -159,15 +156,15 @@ const BillingAddress = () => {
 
           {/* Numéro de voie */}
           <div>
-            <Label htmlFor="street_number">Numéro de voie</Label>
+            <Label htmlFor="streetNumber">Numéro de voie</Label>
             <Input
-              {...register("street_number")}
+              {...register("streetNumber")}
               placeholder="Entrez le numéro de voie"
               disabled={!isEditing}
             />
-            {errors.street_number && (
+            {errors.streetNumber && (
               <p className="text-sm text-red-500">
-                {errors.street_number.message}
+                {errors.streetNumber.message}
               </p>
             )}
           </div>
@@ -200,15 +197,15 @@ const BillingAddress = () => {
 
           {/* Code postal */}
           <div>
-            <Label htmlFor="postal_code">Code postal</Label>
+            <Label htmlFor="postalCode">Code postal</Label>
             <Input
-              {...register("postal_code")}
+              {...register("postalCode")}
               placeholder="Entrez le code postal"
               disabled={!isEditing}
             />
-            {errors.postal_code && (
+            {errors.postalCode && (
               <p className="text-sm text-red-500">
-                {errors.postal_code.message}
+                {errors.postalCode.message}
               </p>
             )}
           </div>

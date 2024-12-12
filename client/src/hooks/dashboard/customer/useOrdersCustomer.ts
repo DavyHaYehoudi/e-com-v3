@@ -31,11 +31,11 @@ export interface Address {
   company: string | null; // Permet `null` pour les valeurs vides
   email: string;
   phone: string;
-  street_number: string;
+  streetNumber: string;
   address1: string;
   address2: string | null; // Permet `null` pour les lignes d'adresse optionnelles
   city: string;
-  postal_code: string;
+  postalCode: string;
   country: string;
   createdAt: string; // ISO 8601 date string
   updated_at: string; // ISO 8601 date string

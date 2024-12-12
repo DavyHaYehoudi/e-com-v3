@@ -8,13 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import ClipboardButton from "@/components/shared/ClipboardButton";
 import { formatDate } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/pricesFormat";
-import { GiftCardsCustomer } from "../../../../hooks/dashboard/customer/useGiftcardsCustomer";
+import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
 
 interface HistoryTableProps {
-  giftcard: GiftCardsCustomer;
+  giftcard: GiftcardCustomerDBType;
 }
 const HistoryTable: React.FC<HistoryTableProps> = ({ giftcard }) => {
   return (
@@ -24,7 +23,6 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ giftcard }) => {
       </TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>Commande</TableHead>
           <TableHead>Utilisateur</TableHead>
           <TableHead>Date d&apos;usage</TableHead>
           <TableHead>Montant utilisé</TableHead>
@@ -32,20 +30,14 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ giftcard }) => {
       </TableHeader>
       <TableBody>
         {giftcard &&
-          giftcard.usage_history &&
-          giftcard.usage_history.length > 0 &&
-          giftcard.usage_history.map((item) => (
+          giftcard.usageHistory &&
+          giftcard.usageHistory.length > 0 &&
+          giftcard.usageHistory.map((item,index) => (
             <>
-              <TableRow key={item.orderNumber}>
-                <TableCell className="flex items-center gap-2">
-                  {item.orderNumber}
-                  <span className="ml-2">
-                    <ClipboardButton text={item.orderNumber} />
-                  </span>{" "}
-                </TableCell>
-                <TableCell>{item.used_by_customer_id}</TableCell>
-                <TableCell>{formatDate(item.used_at)}</TableCell>
-                <TableCell>{formatPrice(item.amount_used)}</TableCell>
+              <TableRow key={index}>
+                <TableCell>{item.usedByCustomerId}</TableCell>
+                <TableCell>{formatDate(item.createdAt)}</TableCell>
+                <TableCell>{formatPrice(item.amountUsed)}</TableCell>
               </TableRow>
             </>
           ))}

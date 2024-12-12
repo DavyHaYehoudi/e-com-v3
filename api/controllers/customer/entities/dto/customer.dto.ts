@@ -8,7 +8,9 @@ export const updateCustomerSchema = z.object({
     .regex(/^0[1-9][0-9]{8}$/, "Invalid phone number")
     .optional(),
   avatarUrl: z.string().url().optional(),
-  birthdate: z.string().optional(),
+  birthdate: z
+  .string()
+  .optional(),
   shippingAddress: z
     .object({
       company: z.string().max(20).optional(),
@@ -43,7 +45,7 @@ export const updateCustomerSchema = z.object({
       city: z.string().max(50).optional(),
       postalCode: z.string().max(10).optional(),
       country: z.string().max(50).optional(),
-    })
+    }) 
     .optional(),
   cartProducts: z
     .array(
