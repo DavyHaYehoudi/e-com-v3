@@ -74,6 +74,7 @@ const GiftcardDetail = () => {
             <TableRow>
               <TableHead>Utilisateur</TableHead>
               <TableHead>Date d&apos;usage</TableHead>
+              <TableHead>Montant initial</TableHead>
               <TableHead>Montant utilisé</TableHead>
             </TableRow>
           </TableHeader>
@@ -87,9 +88,10 @@ const GiftcardDetail = () => {
                     <TableCell>
                       {item.usedByCustomerId === customerInfo?._id
                         ? "Vous"
-                        : "Autre que vous"}
+                        : "Autre utilisateur"}
                     </TableCell>
                     <TableCell>{formatDate(item.createdAt)}</TableCell>
+                    <TableCell>{formatPrice(giftcard.initialValue)}</TableCell>
                     <TableCell>{formatPrice(item.amountUsed)}</TableCell>
                   </TableRow>
                 </>

@@ -1,5 +1,4 @@
 import { Address } from "../customer/CustomerTypes";
-import { ProductDBType } from "../product/ProductTypes";
 
 export interface OrderCreated {
   customerId: string;

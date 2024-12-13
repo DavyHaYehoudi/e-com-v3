@@ -2,8 +2,8 @@ import * as z from "zod";
 
 export const AddressesSchema = z.object({
   company: z.string().optional(),
-  firstName: z.string().min(1, "Prénom requis"),
-  lastName: z.string().min(1, "Nom requis"),
+  firstName: z.string().min(1, "Prénom requis").max(20,"Le prénom ne doit pas dépasser 20 caractères."),
+  lastName: z.string().min(1, "Nom requis").max(20,"Le prénom ne doit pas dépasser 20 caractères."),
   phone: z
     .string()
     .regex(/^\d+$/, "Seuls les chiffres sont acceptés")

@@ -20,7 +20,7 @@ import PaymentSuccess from "./pages/payment/SuccessPage";
 import DashboardCustomerLayout from "./layout/dashboards/customer/DashboardCustomerLayout";
 import Identity from "./pages/customer/profile/Identity";
 import Avatar from "./pages/customer/profile/Avatar";
-import HomeDashboard from "@/pages/customer";
+import HomeDashboardCustomer from "@/pages/customer/HomeDashboardCustomer";
 import TermsOfSalesDashboard from "./pages/customer/politique/vente/conditions-generales";
 import LegalMentionsDashboard from "./pages/customer/politique/vente/mentions-legales";
 import ShippingAndReturnsDashboard from "./pages/customer/politique/vente/livraisons-et-retours";
@@ -69,7 +69,7 @@ function App() {
               <Route element={<DashboardCustomerLayout />}>
                 <Route
                   path="customer/tableau-de-bord"
-                  element={<HomeDashboard />}
+                  element={<HomeDashboardCustomer />}
                 />
                 <Route
                   path="customer/tableau-de-bord/profil/identite"

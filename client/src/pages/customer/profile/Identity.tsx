@@ -58,8 +58,6 @@ const Identity = () => {
 
   // Gestion de la soumission du formulaire
   const onSubmit = async (data: IdentityFormData) => {
-    console.log("dans onSubmit");
-
     try {
       if (data.birthdate) {
         data.birthdate = new Date(data.birthdate).toISOString().split("T")[0];

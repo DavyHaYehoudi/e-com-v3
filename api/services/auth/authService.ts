@@ -27,9 +27,9 @@ export const storeAuthCodeService = async (email: string, authCode: string) => {
 export const verifyAuthCodeService = async (
   email: string,
   otp: string,
-  wishlistProducts: WishlistProducts,
-  cartProducts: CartProducts,
-  cartGiftcards: CartGiftcards
+  wishlistProducts?: WishlistProducts,
+  cartProducts?: CartProducts,
+  cartGiftcards?: CartGiftcards
 ) => {
   const isValid = await verifyAuthCodeRepository(email, otp);
   if (!isValid) {

@@ -1,15 +1,12 @@
-"use client";
-import { Address } from "@/app/(public)/types/AddressTypes";
 import { useFetch } from "@/service/hooks/useFetch";
+import { Address, CustomerDBType } from "@/types/customer/CustomerTypes";
 import { useEffect, useState } from "react";
 
 // Hook pour récupérer l'adresse de livraison (shipping address)
 const useShippingAddress = () => {
   const [shippingAddress, setShippingAddress] = useState<Address | null>(null);
-  const { data: shippingData, triggerFetch: fetchShipping } = useFetch<Address>(
-    "/customer/address?type=shipping",
-    { requiredCredentials: true }
-  );
+  const { data: customerInfo, triggerFetch: fetchShipping } =
+    useFetch<CustomerDBType>("/customer", { requiredCredentials: true });
 
   useEffect(() => {
     const getShippingAddress = async () => {
@@ -20,10 +17,10 @@ const useShippingAddress = () => {
   }, []); // Appel au montage seulement
 
   useEffect(() => {
-    if (shippingData) {
-      setShippingAddress(shippingData);
+    if (customerInfo) {
+      setShippingAddress(customerInfo.shippingAddress);
     }
-  }, [shippingData]);
+  }, [customerInfo]);
 
   return shippingAddress;
 };

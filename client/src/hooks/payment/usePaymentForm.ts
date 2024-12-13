@@ -50,13 +50,13 @@ const usePaymentForm = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const orderInfo = await getOrderInformation();
-    const orderNumber = orderInfo?.order.orderNumber;
-    const firstName = orderInfo?.firstName;
-
     if (!stripe || !elements) {
       return;
     }
+    const orderInfo = await getOrderInformation(); // Création de la commande
+    const orderNumber = orderInfo?.order.orderNumber;
+    const firstName = orderInfo?.firstName;
+
 
     setIsLoading(true);
 

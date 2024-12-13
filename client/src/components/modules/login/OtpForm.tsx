@@ -58,7 +58,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
     reSendOtp({ email });
     setInputKey((prevKey) => prevKey + 1); // Change la clé pour recréer `InputOTP`
     form.reset({ otp: "" }); // Réinitialise le champ OTP
-    toast("Un code OTP a été renvoyé");
+    toast("Un nouveau code OTP a été renvoyé");
   };
   const wishlistCustomer = useSelector((state: RootState) => state.wishlist);
   const cartCustomer = useSelector((state: RootState) => state.cart);

@@ -10,22 +10,22 @@ interface ClientSecretType {
 const useClientSecret = () => {
   const [clientSecret, setClientSecret] = useState("");
   const [amount, setAmount] = useState(0);
-  const giftCardIds = useSelector(
+  const giftcardsToUse = useSelector(
     (state: RootState) => state.priceAdjustments.giftcards
   );
-  const codePromo = useSelector(
+  const promocode = useSelector(
     (state: RootState) => state.priceAdjustments.promocode
   );
-  const cashBackToSpend = useSelector(
+  const cashbackToSpend = useSelector(
     (state: RootState) => state.priceAdjustments.cashBackToSpend
   );
   const emailCustomer = useSelector(
     (state: RootState) => state.auth.user?.email
   );
   const bodyData = {
-    codePromo,
-    giftCardIds,
-    cashBackToSpend,
+    giftcardsToUse,
+    cashbackToSpend,
+    promocode: promocode.code,
     emailCustomer,
   };
   const { data, triggerFetch } = useFetch<ClientSecretType>("/payment/intent", {
@@ -35,7 +35,7 @@ const useClientSecret = () => {
 
   useEffect(() => {
     if (!data) {
-      triggerFetch({ bodyData });
+      triggerFetch(bodyData);
     } else {
       setClientSecret(data.clientSecret);
       setAmount(data.amount);
