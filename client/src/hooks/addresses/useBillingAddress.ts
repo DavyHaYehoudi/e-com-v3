@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const useBillingAddress = () => {
   const [billingAddress, setBillingAddress] = useState<Address | null>(null);
   const { data: customerInfo, triggerFetch: fetchBilling } =
-    useFetch<CustomerDBType>("/customer/address?type=billing", {
+    useFetch<CustomerDBType>("/customer", {
       requiredCredentials: true,
     });
 

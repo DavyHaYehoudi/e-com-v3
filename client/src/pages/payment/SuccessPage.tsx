@@ -37,7 +37,7 @@ const PaymentSuccess = () => {
   const firstName = searchParams.get("firstName");
   useEffect(() => {
     if (orderNumber) {
-      const bodyData = { orderNumber, status: "paid" };
+      const bodyData = { orderNumber, statusNumber: 1 };
       triggerFetch(bodyData)
         .then(() => {
           setOrderPendingCreated(true);

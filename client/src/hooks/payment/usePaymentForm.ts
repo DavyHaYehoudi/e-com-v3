@@ -50,13 +50,13 @@ const usePaymentForm = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    if (!stripe || !elements) {
-      return;
-    }
-    const orderInfo = await getOrderInformation(); // Création de la commande
+    const orderInfo = await getOrderInformation();
     const orderNumber = orderInfo?.order.orderNumber;
     const firstName = orderInfo?.firstName;
 
+    if (!stripe || !elements) {
+      return;
+    }
 
     setIsLoading(true);
 
@@ -72,7 +72,7 @@ const usePaymentForm = () => {
     if (error) {
       if (error.type === "card_error" || error.type === "validation_error") {
         setMessage(error.message || "");
-        const bodyData = { orderNumber, status: "failed" };
+        const bodyData = { orderNumber, statusNumber: 3 };
         triggerFetch(bodyData);
       } else {
         setMessage("An unexpected error occurred.");

@@ -1,4 +1,4 @@
-import { Address } from "@/app/(public)/types/AddressTypes";
+import { Address } from "@/types/customer/CustomerTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // État initial du slice avec les adresses `shipping` et `billing` initialement nulles

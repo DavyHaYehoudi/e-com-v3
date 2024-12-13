@@ -3,6 +3,7 @@ import usePaymentForm from "../../hooks/payment/usePaymentForm";
 import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/utils/pricesFormat";
+import { useState } from "react";
 
 interface CheckoutProps {
   amount: number;
@@ -17,10 +18,21 @@ const CheckoutForm: React.FC<CheckoutProps> = ({ amount }) => {
     message,
   } = usePaymentForm();
 
+  const [isPaymentValid, setIsPaymentValid] = useState(false);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handlePaymentElementChange = (event: any) => {
+    setIsPaymentValid(event.complete); // `event.complete` est true si tous les champs sont valides
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <PaymentElement id="payment-element" options={paymentElementOptions} />
+        <PaymentElement
+          id="payment-element"
+          options={paymentElementOptions}
+          onChange={handlePaymentElementChange}
+        />
 
         <div className="text-center m-5">
           {isLoading ? (
@@ -31,7 +43,7 @@ const CheckoutForm: React.FC<CheckoutProps> = ({ amount }) => {
           ) : (
             <Button
               className="bg-green-500 hover:bg-green-600 dark:text-[var(--whiteSmoke)] font-bold"
-              disabled={isLoading || !stripe || !elements}
+              disabled={isLoading || !stripe || !elements || !isPaymentValid}
               type="submit"
             >
               Payer : {formatPrice(amount)}

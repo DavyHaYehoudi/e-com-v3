@@ -4,8 +4,6 @@ import { CreatedOrderDBType } from "@/types/payment/PaymentTypes";
 import { useSelector } from "react-redux";
 
 const useCreatePendingOrder = () => {
-  console.log('useCreatePendingOrder');
-  
   const giftcardsToUse = useSelector(
     (state: RootState) => state.priceAdjustments.giftcards
   );

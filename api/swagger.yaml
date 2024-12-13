@@ -1339,7 +1339,31 @@ paths:
           description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
-
+  /payment/status:
+    patch:
+      tags:
+        - payment
+      summary: update status payment (paid - failed - pending).
+      description: update status payment (paid - failed - pending).
+      requestBody:
+        description: update status payment (paid - failed - pending).
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderNumber:
+                  type: string
+                statusNumber:
+                  type: integer
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
 components:
   schemas:
     Address:
