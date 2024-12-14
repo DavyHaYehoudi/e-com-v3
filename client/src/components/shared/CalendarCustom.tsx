@@ -8,15 +8,25 @@ import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import { fr } from "date-fns/locale";
 
-export function DatePicker({
+export interface DatePickerProps {
+  value: Date | null; // Accepte une date ou null
+  onChange: (date: Date) => void; // Callback pour gérer la sélection de date
+  disabled?: boolean; // Désactiver le bouton si nécessaire
+  captionLayout?: "label" | "dropdown" | "dropdown-months" | "dropdown-years";
+  startMonth?: Date;
+  endMonth?: Date;
+  showOutsideDays?: boolean;
+}
+
+const CalendarCustom = ({
   value,
   onChange,
-  disabled,
-}: {
-  value: Date | null; // Accepter `null` comme valeur
-  onChange: (date: Date) => void;
-  disabled: boolean;
-}) {
+  disabled = false,
+  showOutsideDays = true,
+  startMonth,
+  endMonth,
+  captionLayout,
+}: DatePickerProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -35,17 +45,18 @@ export function DatePicker({
       <PopoverContent className="w-auto p-0" align="start">
         <DayPicker
           mode="single"
-          captionLayout="dropdown"
-          selected={value ?? undefined} // Passe un objet `Date` ou `null`
-          onSelect={(date) =>
-            date && onChange(new Date(date.setHours(12, 0, 0)))
-          } // Définit l'heure à midi pour éviter le décalage
-          startMonth={new Date(1960, 0)} // Début de la plage (janvier 1960)
-          endMonth={new Date(2010, 11)} // Fin de la plage (décembre 2030)
+          captionLayout={captionLayout}
+          selected={value ?? undefined} // Passe un objet `Date` ou undefined
+          onSelect={(date) => {
+            if (date) onChange(new Date(date.setHours(12, 0, 0))); // Définit l'heure à midi
+          }}
           locale={fr}
-          showOutsideDays={true}
+          showOutsideDays={showOutsideDays}
+          startMonth={startMonth}
+          endMonth={endMonth}
         />
       </PopoverContent>
     </Popover>
   );
-}
+};
+export default CalendarCustom;

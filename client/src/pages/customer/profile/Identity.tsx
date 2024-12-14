@@ -15,8 +15,9 @@ import {
 import useCustomerInfo from "../../../hooks/dashboard/customer/useCustomerInfo";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
-import { DatePicker } from "./DatePicker";
+// import { DatePicker } from "../../../components/shared/DatePicker";
 import { IdentityFormData, identitySchema } from "./identitySchema";
+import CalendarCustom from "@/components/shared/CalendarCustom";
 
 const Identity = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -144,12 +145,15 @@ const Identity = () => {
               name="birthdate"
               control={control}
               render={({ field }) => (
-                <DatePicker
-                  value={field.value ? new Date(field.value) : null} // Conversion explicite
+                <CalendarCustom
+                  captionLayout="dropdown"
+                  value={field.value ? new Date(field.value) : null}
                   onChange={(date) =>
                     field.onChange(date.toISOString().split("T")[0])
-                  } // Renvoyer en ISO simple
+                  }
                   disabled={!isEditing}
+                  startMonth={new Date(1960, 0)}
+                  endMonth={new Date(2010, 11)}
                 />
               )}
             />
