@@ -14,8 +14,8 @@ import { toast } from "sonner";
 import { formatPrice } from "@/utils/pricesFormat";
 import ValidBadge from "@/components/shared/badge/ValidBadge";
 import NoValidBadge from "@/components/shared/badge/NoValidBadge";
-import useGiftcardsCustomer from "../../../../hooks/dashboard/customer/useGiftcardsCustomer";
-import { isGiftCardValid } from "../../utils/giftcardValidity";
+import useGiftcardsCustomer from "@/hooks/dashboard/customer/useGiftcardsCustomer";
+import { isGiftCardValid } from "@/utils/giftcardValidity";
 import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
 import { formatDate } from "@/utils/formatDate";
 import { Binoculars } from "lucide-react";
@@ -76,7 +76,7 @@ const GiftcardsTable = () => {
               <TableCell>
                 {isGiftCardValid({
                   balance: giftcard.balance,
-                  expiration_date: giftcard.expirationDate,
+                  expirationDate: giftcard.expirationDate,
                 }) ? (
                   <ValidBadge />
                 ) : (

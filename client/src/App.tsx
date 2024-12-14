@@ -36,6 +36,21 @@ import GiftcardListPage from "./pages/customer/advantages/giftcards/GiftcardList
 import GiftcardDetail from "./pages/customer/advantages/giftcards/GiftcardDetail";
 import TrackingNumberPage from "./pages/customer/orders/actions/TrackingNumberPage";
 import ContentOrderPage from "./pages/customer/orders/actions/orderDetail/ContentOrderPage";
+import HomeDashboardAdmin from "./pages/admin/HomeDashboardAdmin";
+import DashboardAdminLayout from "./layout/dashboards/admin/DashboardAdminLayout";
+import CustomersPage from "./pages/admin/activity/CustomersPage";
+import OrdersPage from "./pages/admin/activity/OrdersPage";
+import ProductCreate from "./pages/admin/catalogue/products/ProductCreate";
+import CategoriesPage from "./pages/admin/catalogue/classifying/CategoriesPage";
+import TagsPage from "./pages/admin/catalogue/classifying/TagsPage";
+import GiftcardsPage from "./pages/admin/advantages/giftcards/GiftcardsPage";
+import GiftcardToOffer from "./pages/admin/advantages/giftcards/GiftcardToOffer";
+import PromocodesPage from "./pages/admin/advantages/promocodes/PromocodesPage";
+import PromocodeCreate from "./pages/admin/advantages/promocodes/PromocodeCreate";
+import MarketingPage from "./pages/admin/marketing/MarketingPage";
+import MarketingCreate from "./pages/admin/marketing/MarketingCreate";
+import ReviewsPage from "./pages/admin/reviews/ReviewsPage";
+import ProductsPageAdmin from "./pages/admin/catalogue/products/ProductsPageAdmin";
 function App() {
   return (
     <ThemeProvider>
@@ -139,6 +154,65 @@ function App() {
                   path="customer/tableau-de-bord/politique/securite/donnees-personnelles"
                   element={<PersonalsData />}
                 />
+              </Route>
+              {/* Layout principal pour l'admin */}
+              <Route element={<DashboardAdminLayout />}>
+                <Route
+                  path="admin/tableau-de-bord"
+                  element={<HomeDashboardAdmin />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/activite/clients/liste"
+                  element={<CustomersPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/activite/commandes/liste"
+                  element={<OrdersPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/catalogue/produits/liste"
+                  element={<ProductsPageAdmin />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/catalogue/produits/ajouter"
+                  element={<ProductCreate />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/catalogue/categories"
+                  element={<CategoriesPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/catalogue/tags"
+                  element={<TagsPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/avantages/cartes-cadeaux/liste"
+                  element={<GiftcardsPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/avantages/cartes-cadeaux/offrir"
+                  element={<GiftcardToOffer />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/avantages/code-promo/liste"
+                  element={<PromocodesPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/avantages/code-promo/ajouter"
+                  element={<PromocodeCreate />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/marketing/liste"
+                  element={<MarketingPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/marketing/ajouter"
+                  element={<MarketingCreate />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/retours/avis"
+                  element={<ReviewsPage />}
+                ></Route>
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

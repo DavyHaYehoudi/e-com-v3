@@ -1,18 +1,19 @@
+
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { SidebarAppCustomer } from "./SidebarAppCustomer";
 import SessionExpired from "@/components/modules/login/SessionExpired";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import { Outlet } from "react-router-dom";
+import { SidebarAppAdmin } from "./SidebarAppAdmin";
 
-const DashboardCustomerLayout = () => {
+const DashboardAdminLayout = () => {
   return (
     <SidebarProvider>
-      <SidebarAppCustomer />
+      <SidebarAppAdmin />
       <SidebarInset>
         <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
@@ -23,7 +24,8 @@ const DashboardCustomerLayout = () => {
             <ThemeToggle />
           </div>
         </header>
-        <main className="p-4 mt-16"></main>
+        <main className="p-4 mt-16">
+        </main>
         <Outlet />
       </SidebarInset>
       {/* Modale de session expirée */}
@@ -32,4 +34,4 @@ const DashboardCustomerLayout = () => {
   );
 };
 
-export default DashboardCustomerLayout;
+export default DashboardAdminLayout;

@@ -1,9 +1,9 @@
 export function isGiftCardValid(giftCard: {
   balance: number;
-  expiration_date: string;
+  expirationDate: string;
 }): boolean {
   const currentDate = new Date();
-  const expirationDate = new Date(giftCard.expiration_date);
+  const expirationDate = new Date(giftCard.expirationDate);
 
   return giftCard.balance > 0 && expirationDate > currentDate;
 }

@@ -11,10 +11,10 @@ import useAuth from "@/hooks/useAuth";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { LogOut, House } from "lucide-react";
-import { SidebarSection } from "./SidebarSection";
+import { SidebarSection } from "../SidebarSection";
 import { Link } from "react-router-dom";
 
-export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function SidebarAppAdmin({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { handleAuthentication, handleLogout } = useAuth();
   const isConnected = useSelector(
     (state: RootState) => state.auth.isAuthenticated
@@ -23,10 +23,11 @@ export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
-        <SidebarSection items={data.account} title="Gestion du compte" />
-        <SidebarSection items={data.activities} title="Activités" />
+        <SidebarSection items={data.activity} title="Activité" />
+        <SidebarSection items={data.catalogue} title="Catalogue" />
         <SidebarSection items={data.advantages} title="Avantages" />
-        <SidebarSection items={data.policy} title="Politique" />
+        <SidebarSection items={data.marketing} title="Marketing" />
+        <SidebarSection items={data.review} title="Avis" />
       </SidebarContent>
       <SidebarFooter>
         <Link

@@ -26,7 +26,6 @@ interface SidebarSectionProps {
     items?: {
       title: string;
       url: string;
-      hidden: boolean;
     }[];
   }[];
 }
@@ -53,17 +52,15 @@ export function SidebarSection({ title, items }: SidebarSectionProps) {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarMenuSub>
-                  {item.items
-                    ?.filter((subItem) => !subItem.hidden)
-                    .map((subItem) => (
-                      <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild>
-                          <a href={subItem.url}>
-                            <span>{subItem.title}</span>
-                          </a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
+                  {item.items?.map((subItem) => (
+                    <SidebarMenuSubItem key={subItem.title}>
+                      <SidebarMenuSubButton asChild>
+                        <a href={subItem.url}>
+                          <span>{subItem.title}</span>
+                        </a>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>
