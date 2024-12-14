@@ -79,10 +79,6 @@ export const data = {
           title: "Liste",
           url: "/admin/tableau-de-bord/avantages/cartes-cadeaux/liste",
         },
-        {
-          title: "Offrir",
-          url: "/admin/tableau-de-bord/avantages/cartes-cadeaux/offrir",
-        },
       ],
     },
     {

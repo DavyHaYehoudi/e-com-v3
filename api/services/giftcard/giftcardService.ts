@@ -35,7 +35,10 @@ export const updateGiftcardBalanceService = async (
   );
 };
 // ADMIN
-export const getAllGiftcardsService = async () => {
+export const getAllGiftcardsService = async (customerId?: string) => {
+  if (customerId) {
+    return await getCustomerGiftcardsRepository(customerId);
+  }
   return await getAllGiftcardsRepository();
 };
 // ADMIN

@@ -18,7 +18,12 @@ export const createAdminGiftCardSchema = z.object({
     }),
 });
 
+export const getQueryGiftcardSchema = z.object({
+  customerId: z.string().regex(/^[a-f\d]{24}$/i, "Invalid MongoDB ObjectId"),
+});
+
 // Définition du type dérivé pour réutilisation
 export type CreateAdminGiftcardInput = z.infer<
   typeof createAdminGiftCardSchema
 >;
+export type getQueryGiftcardSchemaType = z.infer<typeof getQueryGiftcardSchema>;

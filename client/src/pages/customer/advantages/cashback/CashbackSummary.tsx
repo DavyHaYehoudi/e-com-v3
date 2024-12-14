@@ -25,7 +25,9 @@ const CashbackSummary: React.FC<CashbackSummaryProps> = ({ history }) => {
           Cashback
           <br /> capitalisé :{" "}
           <span className="font-bold">
-            {totalCashbackEarned ? formatPrice(totalCashbackEarned) : "N.C."}
+            {typeof totalCashbackEarned === "number"
+              ? formatPrice(totalCashbackEarned)
+              : "N.C."}
           </span>
         </p>
       </div>
@@ -41,7 +43,9 @@ const CashbackSummary: React.FC<CashbackSummaryProps> = ({ history }) => {
           Cashback
           <br /> dépensé :{" "}
           <span className="font-bold">
-            {totalCashbackSpent ? formatPrice(totalCashbackSpent) : "N.C."}
+            {typeof totalCashbackSpent === "number"
+              ? formatPrice(totalCashbackSpent)
+              : "N.C."}
           </span>
         </p>
       </div>
@@ -58,7 +62,8 @@ const CashbackSummary: React.FC<CashbackSummaryProps> = ({ history }) => {
           <br /> disponible :{" "}
           <span className="font-bold">
             {" "}
-            {totalCashbackEarned && totalCashbackSpent
+            {typeof totalCashbackEarned === "number" &&
+            typeof totalCashbackSpent === "number"
               ? formatPrice(totalCashbackEarned - totalCashbackSpent)
               : "N.C."}
           </span>

@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { createAdminGiftCardSchema } from "./entities/dto/giftcard.dto.js";
+import {
+  createAdminGiftCardSchema,
+  getQueryGiftcardSchemaType,
+} from "./entities/dto/giftcard.dto.js";
 import {
   createAdminGiftcardService,
   deleteGiftcardService,
@@ -39,12 +42,13 @@ export const getCustomerGiftcards = async (
 };
 // ADMIN - Récupérer toutes les cartes cadeaux
 export const getAllGiftcards = async (
-  req: Request,
+  req: Request<{}, {}, {}, getQueryGiftcardSchemaType>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const giftcards = await getAllGiftcardsService();
+    const { customerId } = req.query;
+    const giftcards = await getAllGiftcardsService(customerId);
     res.json(giftcards);
   } catch (error) {
     next(error);

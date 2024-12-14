@@ -10,16 +10,16 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/utils/formatDate";
-import { rewards } from "./data";
 import {
   CashbackInCustomerDB,
   LabelKeyCashbackType,
 } from "@/types/customer/CustomerTypes";
+import { rewards } from "@/pages/customer/advantages/cashback/data";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import useCashback from "@/hooks/dashboard/admin/useCashback";
+import { toast } from "sonner";
 import { formatPrice } from "@/utils/pricesFormat";
-
-interface CashbackHistoryProps {
-  history: CashbackInCustomerDB[] | null;
-}
 
 // Utilitaire pour récupérer un motif et ses styles à partir des données centralisées
 const getRewardByReason = (label: LabelKeyCashbackType) => {
@@ -43,25 +43,54 @@ const getRewardByReason = (label: LabelKeyCashbackType) => {
   }
 };
 
-const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
+const CashbackHistory = () => {
+  const [history, setHistory] = useState<CashbackInCustomerDB[]>([]);
+  const { customerId } = useParams();
+  const { cashbackFetch } = useCashback(customerId);
+  // Charger les données de l'historique du cashback
+  useEffect(() => {
+    const fetchCashbackHistory = async () => {
+      try {
+        const data = await cashbackFetch();
+        if (data) setHistory(data);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération de votre historique :",
+          error
+        );
+        toast.error("Impossible de charger vos informations.");
+      }
+    };
+
+    fetchCashbackHistory();
+  }, [cashbackFetch]);
+  const totalCashbackEarned =
+    history &&
+    history.length > 0 &&
+    history.reduce((acc, b) => acc + b.cashbackEarned, 0);
+  const totalCashbackSpent =
+    history &&
+    history.length > 0 &&
+    history.reduce((acc, b) => acc + b.cashbackSpent, 0);
   return (
     <Table>
-      <TableCaption>Historique de votre cashback.</TableCaption>
+      <TableCaption>Historique du cashback du client.</TableCaption>
       <TableHeader>
         <TableRow>
           {/* Colonne "Motif" */}
           <TableHead>Motif</TableHead>
           {/* Colonne "Capitalisé" */}
           <TableHead className="text-center">Capitalisé</TableHead>
+
           {/* Colonne "Dépensé" */}
           <TableHead className="text-center">Dépensé</TableHead>
+
           {/* Colonne "Date" */}
           <TableHead className="px-0 text-center">Date</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {history &&
-          history.length > 0 &&
+        {history.length > 0 &&
           history.map((item) => {
             const reward = getRewardByReason(item.label);
 
@@ -100,14 +129,46 @@ const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
                 </TableCell>
 
                 {/* Colonne "Date" */}
-                <TableCell className="whitespace-nowrap  text-center ">
+                <TableCell className="whitespace-nowrap text-center ">
                   {formatDate(item.createdAt)}
                 </TableCell>
               </TableRow>
             );
           })}
       </TableBody>
-      <TableFooter></TableFooter>
+      <TableFooter>
+        <TableRow>
+          <TableCell colSpan={3} className="py-2 text-right">
+            Total capitalisé :
+          </TableCell>
+          <TableCell className="py-2 text-center text-green-500 ">
+            {typeof totalCashbackEarned === "number"
+              ? formatPrice(totalCashbackEarned)
+              : "N.C."}
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell colSpan={3} className="py-2 text-right">
+            Total dépensé :
+          </TableCell>
+          <TableCell className="py-2 text-center text-red-500 ">
+            {typeof totalCashbackSpent === "number"
+              ? formatPrice(totalCashbackSpent)
+              : "N.C."}
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell colSpan={3} className="py-2 text-right">
+            Total restant :
+          </TableCell>
+          <TableCell className="py-2 text-center text-green-500 font-bold">
+            {typeof totalCashbackEarned === "number" &&
+            typeof totalCashbackSpent === "number"
+              ? formatPrice(totalCashbackEarned - totalCashbackSpent)
+              : "N.C."}
+          </TableCell>
+        </TableRow>
+      </TableFooter>
     </Table>
   );
 };

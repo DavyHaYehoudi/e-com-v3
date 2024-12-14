@@ -51,7 +51,7 @@ export const columns: ColumnDef<OrderCustomerDBType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Payment
+          Paiement
           <ArrowUpDown />
         </Button>
       );

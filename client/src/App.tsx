@@ -38,19 +38,22 @@ import TrackingNumberPage from "./pages/customer/orders/actions/TrackingNumberPa
 import ContentOrderPage from "./pages/customer/orders/actions/orderDetail/ContentOrderPage";
 import HomeDashboardAdmin from "./pages/admin/HomeDashboardAdmin";
 import DashboardAdminLayout from "./layout/dashboards/admin/DashboardAdminLayout";
-import CustomersPage from "./pages/admin/activity/CustomersPage";
+import CustomersPage from "./pages/admin/activity/customers/CustomersPage";
 import OrdersPage from "./pages/admin/activity/OrdersPage";
 import ProductCreate from "./pages/admin/catalogue/products/ProductCreate";
 import CategoriesPage from "./pages/admin/catalogue/classifying/CategoriesPage";
 import TagsPage from "./pages/admin/catalogue/classifying/TagsPage";
 import GiftcardsPage from "./pages/admin/advantages/giftcards/GiftcardsPage";
-import GiftcardToOffer from "./pages/admin/advantages/giftcards/GiftcardToOffer";
+import GiftcardToOffer from "./pages/admin/activity/customers/GiftcardToOffer";
 import PromocodesPage from "./pages/admin/advantages/promocodes/PromocodesPage";
 import PromocodeCreate from "./pages/admin/advantages/promocodes/PromocodeCreate";
 import MarketingPage from "./pages/admin/marketing/MarketingPage";
 import MarketingCreate from "./pages/admin/marketing/MarketingCreate";
 import ReviewsPage from "./pages/admin/reviews/ReviewsPage";
 import ProductsPageAdmin from "./pages/admin/catalogue/products/ProductsPageAdmin";
+import CustomerSheet from "./pages/admin/activity/customers/CustomerSheet";
+import CustomerHistory from "./pages/admin/activity/customers/CustomerHistory";
+import CashbackToOffer from "./pages/admin/activity/customers/CashbackToOffer";
 function App() {
   return (
     <ThemeProvider>
@@ -166,6 +169,22 @@ function App() {
                   element={<CustomersPage />}
                 ></Route>
                 <Route
+                  path="admin/tableau-de-bord/activite/clients/:customerId/fiche"
+                  element={<CustomerSheet />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/activite/clients/:customerId/historique"
+                  element={<CustomerHistory />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/activite/clients/:customerId/offrir-carte-cadeau"
+                  element={<GiftcardToOffer />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/activite/clients/:customerId/offrir-cashback"
+                  element={<CashbackToOffer />}
+                ></Route>
+                <Route
                   path="admin/tableau-de-bord/activite/commandes/liste"
                   element={<OrdersPage />}
                 ></Route>
@@ -188,10 +207,6 @@ function App() {
                 <Route
                   path="admin/tableau-de-bord/avantages/cartes-cadeaux/liste"
                   element={<GiftcardsPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/avantages/cartes-cadeaux/offrir"
-                  element={<GiftcardToOffer />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/avantages/code-promo/liste"
