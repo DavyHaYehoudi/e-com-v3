@@ -1542,8 +1542,6 @@ components:
           type: string
         orderNumber:
           type: string
-        reviewId:
-          type: string
     CashbackPOST:
       type: object
       properties:
@@ -1552,10 +1550,6 @@ components:
         cashbackSpent:
           type: integer
         label:
-          type: string
-        orderNumber:
-          type: string
-        reviewId:
           type: string
     OrderOneGET:
       type: object
@@ -1760,6 +1754,8 @@ components:
         label:
           type: string
           example: Bracelet
+        productCount:
+          type: integer
     CategoryPOST:
       required:
         - label
@@ -1774,6 +1770,8 @@ components:
         label:
           type: string
           example: Elégance
+        productCount:
+          type: integer
     TagPOST:
       required:
         - label

@@ -23,9 +23,30 @@ export const createTagRepository = async (data: CreateTagDTO) => {
 // Récupérer tous les tags
 export const getAllTagsRepository = async () => {
   try {
-    return await Tag.find();
+    const tagsWithProductCounts = await Tag.aggregate([
+      {
+        $lookup: {
+          from: "products", // Nom de la collection des produits
+          localField: "_id", // Champ local dans la collection Tag
+          foreignField: "tags", // Champ dans la collection Product
+          as: "products", // Alias pour les données jointes
+        },
+      },
+      {
+        $addFields: {
+          productCount: { $size: "$products" }, // Compte les produits liés
+        },
+      },
+      {
+        $project: {
+          products: 0, // Exclut le tableau de produits de la réponse
+        },
+      },
+    ]);
+
+    return tagsWithProductCounts;
   } catch (error: any) {
-    throw new Error(`Error retrieving tags : ${error.message}`);
+    throw new Error(`Error retrieving tags with product counts: ${error.message}`);
   }
 };
 
