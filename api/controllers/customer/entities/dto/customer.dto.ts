@@ -81,10 +81,6 @@ export const updateCustomerSchema = z.object({
 });
 export type FieldsUpdateCustomerDTO = z.infer<typeof updateCustomerSchema>;
 
-// Schéma pour valider les ObjectId de MongoDB
-const objectIdSchema = z
-  .string()
-  .regex(/^[a-fA-F0-9]{24}$/, "Invalid MongoDB ObjectId");
 
 // Schéma Zod pour CashbackType
 export const cashbackSchema = z.object({
@@ -96,14 +92,10 @@ export const cashbackSchema = z.object({
     "loyalty",
     "birthday",
     "order",
-    "other",
     "review",
     "referral",
     "correction",
   ]),
-  // Référence facultative pour les commandes
-  orderNumber: z.string().optional().nullable().default(null),
-  reviewId: objectIdSchema.optional().nullable().default(null),
 });
 
 // Export du type TypeScript dérivé de Zod

@@ -15,7 +15,6 @@ import {
 import useCustomerInfo from "../../../hooks/dashboard/customer/useCustomerInfo";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
-// import { DatePicker } from "../../../components/shared/DatePicker";
 import { IdentityFormData, identitySchema } from "./identitySchema";
 import CalendarCustom from "@/components/shared/CalendarCustom";
 

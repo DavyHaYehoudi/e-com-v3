@@ -42,9 +42,8 @@ export interface CashbackInCustomerDB {
   cashbackSpent: number;
   label: LabelKeyCashbackType;
   orderNumber: string | null;
-  reviewId: string | null;
   _id: string;
-  createdAt: string;
+  createdAt: Date;
 }
 export type LabelKeyCashbackType =
   | "loyalty"

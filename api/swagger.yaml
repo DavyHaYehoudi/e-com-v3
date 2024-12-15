@@ -253,6 +253,12 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/CashbackPOST' 
+        
       responses:
         '204':
           description: Successful operation
@@ -1526,6 +1532,19 @@ components:
         avatarUrl:
           type: string
     CashbackGET:
+      type: object
+      properties:
+        cashbackEarned:
+          type: integer
+        cashbackSpent:
+          type: integer
+        label:
+          type: string
+        orderNumber:
+          type: string
+        reviewId:
+          type: string
+    CashbackPOST:
       type: object
       properties:
         cashbackEarned:

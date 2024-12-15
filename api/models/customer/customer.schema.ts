@@ -41,7 +41,6 @@ const CashbackSchema = new Schema<CashbackType>(
       ], // Énumération
     },
     orderNumber: { type: String, default: null }, // Référence facultative
-    reviewId: { type: Schema.Types.ObjectId, ref: "Review", default: null }, // Référence facultative
   },
   { timestamps: true }
 );

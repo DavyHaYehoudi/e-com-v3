@@ -7,7 +7,7 @@ export const createOrderRepository = async (orderData: orderDataCreateType) => {
 
 // Récupérer toutes les commandes d'un customer
 export const getOrdersCustomerRepository = async (customerId: string) => {
-  return await OrderModel.find({ customerId });
+  return await OrderModel.find({ customerId }).sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
 };
 
 // Récupérer une commande par son orderId et qui est du customer
@@ -20,7 +20,7 @@ export const getOrderCustomerByIdRepository = async (
 
 // Admin - Récupérer toutes les commandes
 export const getAllOrdersRepository = async () => {
-  return await OrderModel.find();
+  return await OrderModel.find().sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
 };
 // Admin - Récupérer une commande par son orderId
 export const getOrderCustomerByIdFromAdminRepository = async (

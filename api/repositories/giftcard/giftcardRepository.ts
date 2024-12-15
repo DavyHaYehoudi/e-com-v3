@@ -25,7 +25,8 @@ export const getCustomerGiftcardsRepository = async (customerId: string) => {
         { firstHolderId: customerId }, // Vérifie si le customer est le détenteur initial
         { "usageHistory.usedByCustomerId": customerId }, // Vérifie si le customer a utilisé la carte
       ],
-    });
+    }).sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier)
+    ;
 
     return giftcards;
   } catch (error) {
@@ -90,7 +91,7 @@ export const updateGiftcardBalanceRepository = async (
 
 // ADMIN
 export const getAllGiftcardsRepository = async () => {
-  return await GiftCardModel.find();
+  return await GiftCardModel.find().sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
 };
 // ADMIN
 export const createAdminGiftcardRepository = async (

@@ -14,8 +14,15 @@ const useCustomerInfo = (customerId?: string) => {
       requiredCredentials: true,
     }
   );
-  const { triggerFetch: customerInfoUpdate } = useFetch(
+  const { triggerFetch: customerUpdate } = useFetch(
     `/admin/customers/${customerId}`,
+    {
+      method: "PATCH",
+      requiredCredentials: true,
+    }
+  );
+  const { triggerFetch: customerCashbackUpdate } = useFetch(
+    `/admin/customers/cashback/${customerId}`,
     {
       method: "PATCH",
       requiredCredentials: true,
@@ -25,7 +32,8 @@ const useCustomerInfo = (customerId?: string) => {
   return {
     customersInfoFetch,
     customerInfoFetch,
-    customerInfoUpdate,
+    customerUpdate,
+    customerCashbackUpdate
   };
 };
 

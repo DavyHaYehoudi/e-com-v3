@@ -77,7 +77,7 @@ export const updateCustomerRepository = async (
 export const getAllCustomersRepository = async () => {
   try {
     // Récupère tous les clients
-    const customers = await Customer.find();
+    const customers = await Customer.find().sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
     return customers;
   } catch (error: any) {
     throw error;
@@ -86,7 +86,7 @@ export const getAllCustomersRepository = async () => {
 export const getCashbackHistoryCustomer = async (customerId: string) => {
   try {
     // Récupère l'historique de cashback du client
-    const customer = await Customer.findById(customerId);
+    const customer = await Customer.findById(customerId).sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
     if (!customer) {
       throw new NotFoundError("Client not found with this ID.");
     }

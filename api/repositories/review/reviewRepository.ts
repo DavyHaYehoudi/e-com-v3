@@ -6,7 +6,9 @@ import { UpdateReviewCustomerDTO } from "../../controllers/review/entities/dto/r
 // PUBLIC
 export const getReviewsOfOneProductRepository = async (productId: string) => {
   try {
-    return await Review.find({ productId, isValidateByAdmin: true });
+    return await Review.find({ productId, isValidateByAdmin: true }).sort({
+      createdAt: -1,
+    }); // Trie par date décroissante (les plus récentes en premier);
   } catch (error: any) {
     throw new Error(
       `Error retrieving reviews of one product: ${error.message}`
@@ -16,7 +18,7 @@ export const getReviewsOfOneProductRepository = async (productId: string) => {
 // ADMIN
 export const getAllReviewsRepository = async () => {
   try {
-    return await Review.find();
+    return await Review.find().sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
   } catch (error: any) {
     throw new Error(`Error retrieving reviews : ${error.message}`);
   }

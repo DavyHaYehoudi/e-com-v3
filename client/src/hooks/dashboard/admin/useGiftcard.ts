@@ -9,9 +9,17 @@ const useGiftcardsCustomer = (customerId?: string) => {
       requiredCredentials: true,
     }
   );
+  const { triggerFetch: giftcardToOffer } = useFetch(
+    `/admin/giftcards${query}`,
+    {
+      method:"POST",
+      requiredCredentials: true,
+    }
+  );
 
   return {
     giftcardsFetch,
+    giftcardToOffer
   };
 };
 

@@ -71,7 +71,8 @@ export const getAllProductsRepository = async (
     .populate("categories", "_id label")
     .populate("tags", "_id label")
     .limit(limit)
-    .lean();
+    .lean()
+    .sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
 };
 
 export const getProductByIdRepository = async (

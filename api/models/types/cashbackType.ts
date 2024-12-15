@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 export interface CashbackType {
   cashbackEarned: number;
   cashbackSpent: number;
@@ -12,5 +10,4 @@ export interface CashbackType {
     | "referral"
     | "correction";
   orderNumber: string | null;
-  reviewId: mongoose.Types.ObjectId | null;
 }

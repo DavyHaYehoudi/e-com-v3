@@ -53,7 +53,7 @@ import ReviewsPage from "./pages/admin/reviews/ReviewsPage";
 import ProductsPageAdmin from "./pages/admin/catalogue/products/ProductsPageAdmin";
 import CustomerSheet from "./pages/admin/activity/customers/CustomerSheet";
 import CustomerHistory from "./pages/admin/activity/customers/CustomerHistory";
-import CashbackToOffer from "./pages/admin/activity/customers/CashbackToOffer";
+import ManageCashback from "./pages/admin/activity/customers/CashbackToOffer";
 function App() {
   return (
     <ThemeProvider>
@@ -182,7 +182,7 @@ function App() {
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/activite/clients/:customerId/offrir-cashback"
-                  element={<CashbackToOffer />}
+                  element={<ManageCashback />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/activite/commandes/liste"
