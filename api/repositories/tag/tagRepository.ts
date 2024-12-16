@@ -1,8 +1,10 @@
 import { CreateTagDTO } from "../../controllers/tag/entities/dto/tag.dto.js";
 import {
+  BadRequestError,
   MongooseDuplicateError,
   NotFoundError,
 } from "../../exceptions/CustomErrors.js";
+import { ProductModel } from "../../models/product/product.schema.js";
 import Tag from "../../models/tag/tag.schema.js";
 
 // Créer un tag
@@ -80,13 +82,20 @@ export const updateTagRepository = async (
 
 // Supprimer un tag
 export const deleteTagRepository = async (tagId: string) => {
-  try {
-    const deletedTag = await Tag.findByIdAndDelete(tagId);
-    if (!deletedTag) {
-      throw new NotFoundError(`Tag with ID ${tagId} not found`);
-    }
-    return deletedTag;
-  } catch (error: any) {
-    throw new Error(`Error deleting tag : ${error.message}`);
+  // Vérifier si le tag est utilisé dans un produit
+  const productsUsingTag = await ProductModel.find({
+    tags: { $in: [tagId] },
+  }).exec();
+
+  if (productsUsingTag.length > 0) {
+    // Si le tag est associé à des produits, ne pas permettre la suppression
+    throw new BadRequestError(
+      `This tag is used in one or more products and cannot be removed.`
+    );
   }
+  const deletedTag = await Tag.findByIdAndDelete(tagId);
+  if (!deletedTag) {
+    throw new NotFoundError(`Tag with ID ${tagId} not found`);
+  }
+  return deletedTag;
 };

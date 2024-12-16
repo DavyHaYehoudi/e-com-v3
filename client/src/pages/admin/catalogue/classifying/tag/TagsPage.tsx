@@ -36,9 +36,16 @@ const TagsPage = () => {
   };
 
   const handleAddTag = (label: string) => {
+    const isExistedLabel = tags.some((tag) => tag.label === label);
+    if (isExistedLabel) {
+      toast.error("Ce tag existe déjà.");
+      return;
+    }
     createTag({ label }).then((result) => {
       if (result) {
-        setTags((prevTags) => [result, ...prevTags]);
+        const formatResult = { ...result, productCount: 0 };
+        setTags((prevTags) => [formatResult, ...prevTags]);
+        toast.success("Tag créé avec succès.");
       } else {
         toast.error("Erreur lors de la création du tag.");
       }
@@ -47,7 +54,13 @@ const TagsPage = () => {
 
   // Fonction pour supprimer un tag (appelée depuis TagsList)
   const handleDeleteTag = () => {
-    deleteTag(selectedTag.tagId).then(() => {
+    deleteTag(selectedTag.tagId).then((result) => {
+      if (!result) {
+        return toast.error(
+          "Impossible de supprimer le tag, des produits lui sont associés"
+        );
+      }
+
       setTags((prevTags) =>
         prevTags.filter((tag) => tag._id !== selectedTag.tagId)
       ); // Mettre à jour localement
@@ -57,7 +70,12 @@ const TagsPage = () => {
 
   // Fonction pour update un tag
   const handleEditTag = (updatedLabel: string) => {
-    updateTag({ label: updatedLabel }).then(() => {
+    const isExistedLabel = tags.some((tag) => tag.label === updatedLabel);
+    if (isExistedLabel) {
+      toast.error("Ce tag existe déjà.");
+      return;
+    }
+    updateTag({ label: updatedLabel.trim() }).then(() => {
       const updatedTags = tags.map((tag) =>
         tag._id === selectedTag.tagId ? { ...tag, label: updatedLabel } : tag
       );

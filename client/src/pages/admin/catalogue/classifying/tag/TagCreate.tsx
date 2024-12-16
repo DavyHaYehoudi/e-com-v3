@@ -25,7 +25,6 @@ const TagCreate: React.FC<TagCreateProps> = ({ onAddTag }) => {
     try {
       onAddTag(data.label.trim()); // Notifie le parent avec le nouveau tag
       reset(); // Réinitialise le formulaire
-      toast.success("Tag ajouté avec succès !");
     } catch (error) {
       console.error("Erreur lors de la création du tag :", error);
       toast.error("Impossible d'ajouter le tag.");
