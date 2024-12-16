@@ -4,6 +4,7 @@ import {
   createTagService,
   deleteTagService,
   getAllTagsService,
+  updateTagService,
 } from "../../services/tag/tagService.js";
 
 // Récupérer tous les tags
@@ -35,6 +36,21 @@ export const createTag = async (
     next(error);
   }
 };
+// ADMIN - Modifier un tag
+export const updateTag = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const tagId = req.params.tagId;
+    const tagData = createTagSchema.parse(req.body);
+    const updatedTag = await updateTagService(tagId, tagData);
+    res.json(updatedTag);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // ADMIN - Supprimer un tag
 export const deleteTag = async (
@@ -45,7 +61,7 @@ export const deleteTag = async (
   try {
     const tagId = req.params.tagId;
     await deleteTagService(tagId);
-    res.status(204).json({});
+    res.status(200).json({});
   } catch (error) {
     next(error);
   }

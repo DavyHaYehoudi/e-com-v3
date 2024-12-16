@@ -35,7 +35,7 @@ const TagCreate: React.FC<TagCreateProps> = ({ onAddTag }) => {
   return (
     <div className="flex justify-center items-center p-4">
       <Card className="w-full max-w-lg p-6 shadow-md">
-        <h2 className="text-xl font-semibold mb-4 text-center">Créer un Tag</h2>
+        <h2 className="text-xl font-semibold mb-4 text-center">Creer un Tag</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Champ nom */}
           <div>
@@ -47,7 +47,6 @@ const TagCreate: React.FC<TagCreateProps> = ({ onAddTag }) => {
               type="text"
               placeholder="Nom du tag"
               className="w-full"
-              autoFocus
             />
             {errors.label && (
               <p className="text-red-500 text-sm mt-1">

@@ -3,6 +3,7 @@ import {
   createCategoryService,
   deleteCategoryService,
   getAllCategoriesService,
+  updateCategoryService,
 } from "../../services/category/categoryService.js";
 import { createCategorySchema } from "./entities/dto/category.dto.js";
 
@@ -33,6 +34,26 @@ export const createCategory = async (
     next(error);
   }
 };
+// Update une catégorie
+export const updateCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const categoryId = req.params.categoryId;
+    const categoryData = createCategorySchema.parse(req.body);
+    const updatedCategory = await updateCategoryService(
+      categoryId,
+      categoryData
+    );
+    res.json(updatedCategory);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
 // ADMIN - Supprimer une catégorie
 export const deleteCategory = async (
   req: Request,

@@ -671,6 +671,34 @@ paths:
       security:
         - api_key: []
   /admin/categories/{categoryId}:
+    patch:
+      tags:
+        - category
+      summary: Update a category.
+      description: Update a category. The label must be unique.
+      parameters:
+        - name: categoryId
+          in: path
+          description: Category id to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update a category in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryPATCH'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '409':
+          description: Conflict - The label is not unique.
+      security:
+        - api_key: []
     delete:
       tags:
         - category
@@ -734,6 +762,34 @@ paths:
       security:
         - api_key: []
   /admin/tags/{tagId}:
+    patch:
+      tags:
+        - tag
+      summary: Update a tag.
+      description: Update a tag. The label must be unique.
+      parameters:
+        - name: tagId
+          in: path
+          description: Tag id to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update a tag tag in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagPATCH'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '409':
+          description: Conflict - The label is not unique.
+      security:
+        - api_key: []
     delete:
       tags:
         - tag
@@ -1764,6 +1820,11 @@ components:
         label:
           type: string
           example: Bracelet
+    CategoryPATCH:
+      type: object
+      properties:
+        label:
+          type: string
     TagGET:
       type: object
       properties:
@@ -1780,6 +1841,11 @@ components:
         label:
           type: string
           example: Elégance
+    TagPATCH:
+      type: object
+      properties:
+        label:
+          type: string
     GiftcardCheckInPOST:
       type: object
       properties:

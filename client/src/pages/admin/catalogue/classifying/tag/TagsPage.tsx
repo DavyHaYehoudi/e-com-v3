@@ -5,9 +5,22 @@ import { useEffect, useState } from "react";
 import { TagDBType } from "@/types/tag/TagTypes";
 import { toast } from "sonner";
 
+export interface SelectedTag {
+  tagId: string;
+  label: string;
+}
+
 const TagsPage = () => {
   const [tags, setTags] = useState<TagDBType[]>([]);
-  const { getTags, deleteTag, createTag } = useTag();
+  const [selectedTag, setSelectedTag] = useState<SelectedTag>({
+    tagId: "",
+    label: "",
+  });
+  console.log("selectedTag:", selectedTag);
+  console.log("tags:", tags);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const { getTags, createTag } = useTag();
 
   // Fonction pour récupérer tous les tags
   const fetchTags = async () => {
@@ -33,15 +46,19 @@ const TagsPage = () => {
   };
 
   // Fonction pour supprimer un tag (appelée depuis TagsList)
-  const handleDeleteTag = async (tagId: string) => {
-    try {
-      await deleteTag(tagId); // Suppression dans l'API
-      setTags((prevTags) => prevTags.filter((tag) => tag._id !== tagId)); // Mettre à jour localement
-      toast.success("Tag supprimé avec succès !");
-    } catch (error) {
-      console.error("Erreur lors de la suppression du tag :", error);
-      toast.error("Échec de la suppression du tag.");
-    }
+  const handleDeleteTag = (tagId: string | null) => {
+    console.log("tagId:", tagId);
+    setTags((prevTags) => prevTags.filter((tag) => tag._id !== tagId)); // Mettre à jour localement
+    // fetchTags();
+  };
+
+  // Fonction pour update un tag
+  const handleEditTag = (tagId: string | null, updatedLabel: string) => {
+    console.log("tagId:", tagId, "updatedLabel:", updatedLabel);
+    const updatedTags = tags.map((tag) =>
+      tag._id === tagId ? { ...tag, label: updatedLabel } : tag
+    );
+    setTags(updatedTags);
   };
 
   // Charger les tags au montage
@@ -55,8 +72,17 @@ const TagsPage = () => {
       {/* Passer handleAddTag en prop pour notifier le parent */}
       <TagCreate onAddTag={handleAddTag} />
       <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
-        {/* Passer tags et handleDeleteTag à TagsList */}
-        <TagsList data={tags} onDeleteTag={handleDeleteTag} />
+        <TagsList
+          data={tags}
+          handleDeleteTag={handleDeleteTag}
+          handleEditTag={handleEditTag}
+          isEditOpen={isEditOpen}
+          isDeleteOpen={isDeleteOpen}
+          setIsDeleteOpen={setIsDeleteOpen}
+          setIsEditOpen={setIsEditOpen}
+          selectedTag={selectedTag}
+          setSelectedTag={setSelectedTag}
+        />
       </div>
     </div>
   );

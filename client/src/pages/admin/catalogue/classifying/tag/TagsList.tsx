@@ -30,12 +30,31 @@ import {
 } from "@/components/ui/table";
 import { TagDBType } from "@/types/tag/TagTypes";
 import { TagColumns } from "./TagColumns";
+import { SelectedTag } from "./TagsPage";
 
 interface TagsListProps {
   data: TagDBType[];
-  onDeleteTag: (tagId: string) => void;
+  handleDeleteTag: (tagId: string) => void;
+  handleEditTag: (tagId: string, updatedLabel: string) => void;
+  isDeleteOpen: boolean;
+  isEditOpen: boolean;
+  selectedTag: SelectedTag;
+  setIsDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedTag: React.Dispatch<React.SetStateAction<SelectedTag>>;
 }
-const TagsList: React.FC<TagsListProps> = ({ data, onDeleteTag }) => {
+
+const TagsList: React.FC<TagsListProps> = ({
+  data,
+  handleDeleteTag,
+  handleEditTag,
+  isDeleteOpen,
+  isEditOpen,
+  setIsDeleteOpen,
+  setIsEditOpen,
+  selectedTag,
+  setSelectedTag,
+}) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -44,9 +63,33 @@ const TagsList: React.FC<TagsListProps> = ({ data, onDeleteTag }) => {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  const columns = React.useMemo(
+    () =>
+      TagColumns(
+        isDeleteOpen,
+        isEditOpen,
+        setIsDeleteOpen,
+        setIsEditOpen,
+        handleDeleteTag,
+        handleEditTag,
+        selectedTag,
+        setSelectedTag
+      ),
+    [
+      isDeleteOpen,
+      isEditOpen,
+      setIsDeleteOpen,
+      setIsEditOpen,
+      handleDeleteTag,
+      handleEditTag,
+      selectedTag,
+      setSelectedTag,
+    ]
+  );
+
   const table = useReactTable({
     data,
-    columns: TagColumns,
+    columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -121,7 +164,8 @@ const TagsList: React.FC<TagsListProps> = ({ data, onDeleteTag }) => {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  key={row.id}
+                  // key={row.id}
+                  key={row.original._id}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (

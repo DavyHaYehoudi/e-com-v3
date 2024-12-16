@@ -41,8 +41,8 @@ import DashboardAdminLayout from "./layout/dashboards/admin/DashboardAdminLayout
 import CustomersPage from "./pages/admin/activity/customers/CustomersPage";
 import OrdersPage from "./pages/admin/activity/OrdersPage";
 import ProductCreate from "./pages/admin/catalogue/products/ProductCreate";
-import CategoriesPage from "./pages/admin/catalogue/classifying/CategoriesPage";
-import TagsPage from "./pages/admin/catalogue/classifying/TagsPage";
+import CategoriesPage from "./pages/admin/catalogue/classifying/category/CategoriesPage";
+import TagsPage from "./pages/admin/catalogue/classifying/tag/TagsPage";
 import GiftcardsPage from "./pages/admin/advantages/giftcards/GiftcardsPage";
 import GiftcardToOffer from "./pages/admin/activity/customers/GiftcardToOffer";
 import PromocodesPage from "./pages/admin/advantages/promocodes/PromocodesPage";

@@ -46,7 +46,35 @@ export const getAllTagsRepository = async () => {
 
     return tagsWithProductCounts;
   } catch (error: any) {
-    throw new Error(`Error retrieving tags with product counts: ${error.message}`);
+    throw new Error(
+      `Error retrieving tags with product counts: ${error.message}`
+    );
+  }
+};
+
+// Modifier un tag
+export const updateTagRepository = async (
+  tagId: string,
+  data: CreateTagDTO
+) => {
+  try {
+    const updatedTag = await Tag.findByIdAndUpdate(
+      tagId,
+      { label: data.label },
+      { new: true }
+    );
+    if (!updatedTag) {
+      throw new NotFoundError(`Tag with ID ${tagId} not found`);
+    }
+    return updatedTag;
+  } catch (error: any) {
+    if (error.code === 11000) {
+      // MongoDB Duplicate Key Error
+      throw new MongooseDuplicateError(
+        `A tag with the label "${data.label}" already exists.`
+      );
+    }
+    throw new Error(`Error updating tag : ${error.message}`);
   }
 };
 
