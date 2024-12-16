@@ -16,11 +16,11 @@ const TagsPage = () => {
     tagId: "",
     label: "",
   });
-  console.log("selectedTag:", selectedTag);
-  console.log("tags:", tags);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const { getTags, createTag } = useTag();
+  const { getTags, createTag, deleteTag, updateTag } = useTag(
+    selectedTag.tagId
+  );
 
   // Fonction pour récupérer tous les tags
   const fetchTags = async () => {
@@ -46,19 +46,24 @@ const TagsPage = () => {
   };
 
   // Fonction pour supprimer un tag (appelée depuis TagsList)
-  const handleDeleteTag = (tagId: string | null) => {
-    console.log("tagId:", tagId);
-    setTags((prevTags) => prevTags.filter((tag) => tag._id !== tagId)); // Mettre à jour localement
-    // fetchTags();
+  const handleDeleteTag = () => {
+    deleteTag(selectedTag.tagId).then(() => {
+      setTags((prevTags) =>
+        prevTags.filter((tag) => tag._id !== selectedTag.tagId)
+      ); // Mettre à jour localement
+      toast.success("Tag supprimé avec succès.");
+    });
   };
 
   // Fonction pour update un tag
-  const handleEditTag = (tagId: string | null, updatedLabel: string) => {
-    console.log("tagId:", tagId, "updatedLabel:", updatedLabel);
-    const updatedTags = tags.map((tag) =>
-      tag._id === tagId ? { ...tag, label: updatedLabel } : tag
-    );
-    setTags(updatedTags);
+  const handleEditTag = (updatedLabel: string) => {
+    updateTag({ label: updatedLabel }).then(() => {
+      const updatedTags = tags.map((tag) =>
+        tag._id === selectedTag.tagId ? { ...tag, label: updatedLabel } : tag
+      );
+      setTags(updatedTags);
+      toast.success("Tag modifié avec succès.");
+    });
   };
 
   // Charger les tags au montage

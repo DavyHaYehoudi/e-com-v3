@@ -77,7 +77,7 @@ const GenericModal: React.FC<GenericModalProps> = ({
           ))}
         </div>
         <DialogFooter>
-        <Button variant="outline" onClick={() => setIsOpen(false)}>
+          <Button variant="outline" onClick={() => setIsOpen(false)}>
             Annuler
           </Button>
           <Button type="submit" onClick={handleSave}>

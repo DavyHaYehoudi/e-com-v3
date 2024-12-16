@@ -16,8 +16,8 @@ interface TagActionsProps {
   label: string;
   isDeleteOpen: boolean;
   isEditOpen: boolean;
-  handleDeleteTag: (tagId: string) => void;
-  handleEditTag: (tagId: string, updatedLabel: string) => void;
+  handleDeleteTag: () => void;
+  handleEditTag: (updatedLabel: string) => void;
   setIsDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedTag: SelectedTag;
@@ -42,9 +42,7 @@ const TagActions: React.FC<TagActionsProps> = ({
         setIsDeleteOpen={setIsDeleteOpen}
         itemNameToDelete={selectedTag.label}
         onConfirm={() => {
-          if (selectedTag) {
-            handleDeleteTag(selectedTag.tagId);
-          }
+          handleDeleteTag();
           setIsDeleteOpen(false);
           setSelectedTag((prev) => ({ ...prev, tagId: "", label: "" }));
         }}
@@ -62,7 +60,7 @@ const TagActions: React.FC<TagActionsProps> = ({
         ]}
         onSubmit={(data) => {
           const updatedLabel = data["label"]; // Récupère la valeur modifiée
-          handleEditTag(tagId, updatedLabel); // Appel de la fonction avec tagId et updatedLabel
+          handleEditTag(updatedLabel); // Appel de la fonction avec tagId et updatedLabel
         }}
       />
       <DropdownMenu>

@@ -12,8 +12,8 @@ export const TagColumns = (
   isEditOpen: boolean,
   setIsDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>,
   setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  handleDeleteTag: (tagId: string) => void,
-  handleEditTag: (tagId: string, updatedLabel: string) => void,
+  handleDeleteTag: () => void,
+  handleEditTag: (updatedLabel: string) => void,
   selectedTag: SelectedTag,
   setSelectedTag: React.Dispatch<React.SetStateAction<SelectedTag>>
 ): ColumnDef<TagDBType>[] => [

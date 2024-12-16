@@ -9,6 +9,13 @@ const useTag = (tagId?: string) => {
     method: "POST",
     requiredCredentials: true,
   });
+  const { triggerFetch: updateTag } = useFetch<TagDBType>(
+    `/admin/tags/${tagId}`,
+    {
+      method: "PATCH",
+      requiredCredentials: true,
+    }
+  );
   const { triggerFetch: deleteTag } = useFetch(`/admin/tags/${tagId}`, {
     method: "DELETE",
     requiredCredentials: true,
@@ -17,6 +24,7 @@ const useTag = (tagId?: string) => {
   return {
     getTags,
     createTag,
+    updateTag,
     deleteTag,
   };
 };

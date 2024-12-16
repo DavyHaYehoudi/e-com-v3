@@ -34,8 +34,8 @@ import { SelectedTag } from "./TagsPage";
 
 interface TagsListProps {
   data: TagDBType[];
-  handleDeleteTag: (tagId: string) => void;
-  handleEditTag: (tagId: string, updatedLabel: string) => void;
+  handleDeleteTag: () => void;
+  handleEditTag: (updatedLabel: string) => void;
   isDeleteOpen: boolean;
   isEditOpen: boolean;
   selectedTag: SelectedTag;
