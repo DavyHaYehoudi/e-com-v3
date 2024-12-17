@@ -1,9 +1,11 @@
 import { CreateCategoryDTO } from "../../controllers/category/entities/dto/category.dto.js";
 import {
+  BadRequestError,
   MongooseDuplicateError,
   NotFoundError,
 } from "../../exceptions/CustomErrors.js";
 import Category from "../../models/category/category.schema.js";
+import { ProductModel } from "../../models/product/product.schema.js";
 
 export const getAllCategoriesRepository = async () => {
   // await Category.syncIndexes();
@@ -79,13 +81,20 @@ export const updateCategoryRepository = async (
 };
 
 export const deleteCategoryRepository = async (categoryId: string) => {
-  try {
-    const deletedCategory = await Category.findByIdAndDelete(categoryId);
-    if (!deletedCategory) {
-      throw new NotFoundError(`Category with ID ${categoryId} not found`);
-    }
-    return deletedCategory;
-  } catch (error: any) {
-    throw new Error(`Error deleting category : ${error.message}`);
+  // Vérifier si la catégorie est utilisée dans un produit
+  const productsUsingCategory = await ProductModel.find({
+    categories: { $in: [categoryId] },
+  }).exec();
+
+  if (productsUsingCategory.length > 0) {
+    // Si la catégorie est associée à des produits, ne pas permettre la suppression
+    throw new BadRequestError(
+      `This category is used in one or more products and cannot be removed.`
+    );
   }
+  const deletedCategory = await Category.findByIdAndDelete(categoryId);
+  if (!deletedCategory) {
+    throw new NotFoundError(`Category with ID ${categoryId} not found`);
+  }
+  return deletedCategory;
 };

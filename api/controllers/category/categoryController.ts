@@ -63,7 +63,7 @@ export const deleteCategory = async (
   try {
     const categoryId = req.params.categoryId;
     await deleteCategoryService(categoryId);
-    res.status(204).json({});
+    res.status(200).json({});
   } catch (error) {
     next(error);
   }

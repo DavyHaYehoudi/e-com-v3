@@ -9,58 +9,70 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal, SquarePen, Trash2 } from "lucide-react";
 import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
 import GenericModal from "@/components/shared/dialog/GenericModal";
-import { SelectedTag } from "./TagsPage";
+import { SelectedCategory } from "./CategoriesPage";
 
-interface TagActionsProps {
-  tagId: string;
+interface CategoryActionsProps {
+  categoryId: string;
   label: string;
   isDeleteOpen: boolean;
   isEditOpen: boolean;
-  handleDeleteTag: () => void;
-  handleEditTag: (updatedLabel: string) => void;
+  handleDeleteCategory: () => void;
+  handleEditCategory: (updatedLabel: string) => void;
   setIsDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedTag: SelectedTag;
-  setSelectedTag: React.Dispatch<React.SetStateAction<SelectedTag>>;
+  selectedCategory: SelectedCategory;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<SelectedCategory>>;
 }
-const TagActions: React.FC<TagActionsProps> = ({
-  tagId,
+const CategoryActions: React.FC<CategoryActionsProps> = ({
+  categoryId,
   label,
-  handleDeleteTag,
+  handleDeleteCategory,
   isDeleteOpen,
   isEditOpen,
   setIsDeleteOpen,
   setIsEditOpen,
-  handleEditTag,
-  selectedTag,
-  setSelectedTag,
+  handleEditCategory,
+  selectedCategory,
+  setSelectedCategory,
 }) => {
   return (
     <>
       <DeleteAlert
         isDeleteOpen={isDeleteOpen}
         setIsDeleteOpen={setIsDeleteOpen}
-        itemNameToDelete={selectedTag.label}
+        itemNameToDelete={selectedCategory.label}
         onConfirm={() => {
-          handleDeleteTag();
+          handleDeleteCategory();
           setIsDeleteOpen(false);
-          setSelectedTag((prev) => ({ ...prev, tagId: "", label: "" }));
+          setSelectedCategory((prev) => ({
+            ...prev,
+            categoryId: "",
+            label: "",
+          }));
         }}
         onCancel={() => {
           setIsDeleteOpen(false);
-          setSelectedTag((prev) => ({ ...prev, tagId: "", label: "" }));
+          setSelectedCategory((prev) => ({
+            ...prev,
+            categoryId: "",
+            label: "",
+          }));
         }}
       />
       <GenericModal
         isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}
-        title="Modifier le tag"
+        title="Modifier la categorie"
         fields={[
-          { id: "label", label: "Nom du tag", value: selectedTag.label },
+          {
+            id: "label",
+            label: "Nom de la catégorie",
+            value: selectedCategory.label,
+          },
         ]}
         onSubmit={(data) => {
           const updatedLabel = data["label"]; // Récupère la valeur modifiée
-          handleEditTag(updatedLabel); // Appel de la fonction avec tagId et updatedLabel
+          handleEditCategory(updatedLabel); // Appel de la fonction avec categoryId et updatedLabel
         }}
       />
       <DropdownMenu>
@@ -78,7 +90,7 @@ const TagActions: React.FC<TagActionsProps> = ({
             <button
               onClick={() => {
                 setIsEditOpen(true);
-                setSelectedTag((prev) => ({ ...prev, tagId, label }));
+                setSelectedCategory((prev) => ({ ...prev, categoryId, label }));
               }}
               className="w-full justify-start flex rounded-md p-2 transition-all duration-75 hover:bg-neutral-100 hover:text-yellow-500 "
             >
@@ -91,7 +103,7 @@ const TagActions: React.FC<TagActionsProps> = ({
             <button
               onClick={() => {
                 setIsDeleteOpen(true);
-                setSelectedTag((prev) => ({ ...prev, tagId, label }));
+                setSelectedCategory((prev) => ({ ...prev, categoryId, label }));
               }}
               className="w-full justify-start flex text-red-500 rounded-md p-2 transition-all duration-75 hover:bg-neutral-100"
             >
@@ -105,4 +117,4 @@ const TagActions: React.FC<TagActionsProps> = ({
   );
 };
 
-export default TagActions;
+export default CategoryActions;
