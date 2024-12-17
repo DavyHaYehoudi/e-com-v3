@@ -1,5 +1,8 @@
 import { CreateCodePromoDTO } from "../../controllers/promocode/entities/dto/promocode.dto.js";
-import { NotFoundError } from "../../exceptions/CustomErrors.js";
+import {
+  MongooseDuplicateError,
+  NotFoundError,
+} from "../../exceptions/CustomErrors.js";
 import { Promocode } from "../../models/promocode/promocode.schema.js";
 import { isAfter, isBefore, parseISO } from "date-fns";
 
@@ -20,7 +23,13 @@ export const createPromocodeRepository = async (data: CreateCodePromoDTO) => {
       endDate,
     });
   } catch (error: any) {
-    throw new Error(`Error creating promo code: ${error.message}`);
+    if (error.code === 11000) {
+      // MongoDB Duplicate Key Error
+      throw new MongooseDuplicateError(
+        `A promocode with the code "${data.code}" already exists.`
+      );
+    }
+    throw new Error(`Error creating promocode : ${error.message}`);
   }
 };
 export const deletePromocodeRepository = async (promocodeId: string) => {

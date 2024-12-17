@@ -90,10 +90,6 @@ export const data = {
           title: "Liste",
           url: "/admin/tableau-de-bord/avantages/code-promo/liste",
         },
-        {
-          title: "Ajouter",
-          url: "/admin/tableau-de-bord/avantages/code-promo/ajouter",
-        },
       ],
     },
   ],

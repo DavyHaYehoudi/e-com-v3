@@ -78,9 +78,9 @@ const GiftcardsTable = () => {
                   balance: giftcard.balance,
                   expirationDate: giftcard.expirationDate,
                 }) ? (
-                  <ValidBadge />
+                  <ValidBadge label="créditée" />
                 ) : (
-                  <NoValidBadge />
+                  <NoValidBadge label="épuisée" />
                 )}
               </TableCell>
               <TableCell className="whitespace-nowrap">

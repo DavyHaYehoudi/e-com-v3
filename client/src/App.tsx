@@ -46,7 +46,6 @@ import TagsPage from "./pages/admin/catalogue/classifying/tag/TagsPage";
 import GiftcardsPage from "./pages/admin/advantages/giftcards/GiftcardsPage";
 import GiftcardToOffer from "./pages/admin/activity/customers/GiftcardToOffer";
 import PromocodesPage from "./pages/admin/advantages/promocodes/PromocodesPage";
-import PromocodeCreate from "./pages/admin/advantages/promocodes/PromocodeCreate";
 import MarketingPage from "./pages/admin/marketing/MarketingPage";
 import MarketingCreate from "./pages/admin/marketing/MarketingCreate";
 import ReviewsPage from "./pages/admin/reviews/ReviewsPage";
@@ -211,10 +210,6 @@ function App() {
                 <Route
                   path="admin/tableau-de-bord/avantages/code-promo/liste"
                   element={<PromocodesPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/avantages/code-promo/ajouter"
-                  element={<PromocodeCreate />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/marketing/liste"
