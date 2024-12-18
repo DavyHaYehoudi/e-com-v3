@@ -29,6 +29,7 @@ const otpSchema = z.object({
 interface OtpFormProps {
   email: string;
   authenticate: (token: string) => void;
+  changeEmail: () => void;
 }
 interface AuthResponse {
   token: string;
@@ -36,7 +37,11 @@ interface AuthResponse {
 interface OnSubmitData {
   otp: string;
 }
-const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
+const OtpForm: React.FC<OtpFormProps> = ({
+  email,
+  authenticate,
+  changeEmail,
+}) => {
   const [inputKey, setInputKey] = useState(0); // Clé pour forcer la réinitialisation
 
   const form = useForm({
@@ -141,9 +146,15 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
       </form>
       <p
         onClick={resendOTP}
-        className="text-slate-600 italic underline cursor-pointer text-end"
+        className="italic underline cursor-pointer text-end"
       >
         Renvoyer un code OTP
+      </p>
+      <p
+        onClick={changeEmail}
+        className="italic underline cursor-pointer text-end"
+      >
+        Changer d'email
       </p>
     </Form>
   );

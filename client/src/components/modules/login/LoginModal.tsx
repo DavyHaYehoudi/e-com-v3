@@ -22,7 +22,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
   label = "",
 }) => {
   const [emailSent, setEmailSent] = useState<string | null>(null);
-
+  const changeEmail = () => {
+    setEmailSent(null);
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -44,7 +46,11 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 }
               />
             ) : (
-              <OtpForm email={emailSent} authenticate={authenticate} />
+              <OtpForm
+                email={emailSent}
+                authenticate={authenticate}
+                changeEmail={changeEmail}
+              />
             )}
           </DialogDescription>
         </DialogHeader>
