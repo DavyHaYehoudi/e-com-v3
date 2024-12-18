@@ -8,10 +8,17 @@ const useReviews = (reviewId?: string) => {
       requiredCredentials: true,
     }
   );
-  const { triggerFetch: approvedReview } = useFetch<ReviewDBType>(
+  const { triggerFetch: approvedReview } = useFetch(
     `/admin/reviews/${reviewId}`,
     {
       method: "PATCH",
+      requiredCredentials: true,
+    }
+  );
+  const { triggerFetch: deleteReview } = useFetch(
+    `/admin/reviews/${reviewId}`,
+    {
+      method: "DELETE",
       requiredCredentials: true,
     }
   );
@@ -19,6 +26,7 @@ const useReviews = (reviewId?: string) => {
   return {
     getAllReviews,
     approvedReview,
+    deleteReview,
   };
 };
 

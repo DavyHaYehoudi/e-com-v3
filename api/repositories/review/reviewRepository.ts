@@ -68,14 +68,10 @@ export const createReviewRepository = async (
 
 // ADMIN
 export const deleteReviewRepository = async (reviewId: string) => {
-  const result = await Review.deleteOne({
-    _id: reviewId,
-    status: "pending",
-  });
-
-  if (result.deletedCount === 0) {
-    throw new NotFoundError(
-      `Review with ID ${reviewId} not found or review already approved by admin`
-    );
+  try {
+    const deletedReview = await Review.findByIdAndDelete(reviewId);
+    return deletedReview;
+  } catch (error: any) {
+    throw new NotFoundError(`Review with ID ${reviewId} not found`);
   }
 };

@@ -8,30 +8,40 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Star } from "lucide-react";
+import { Star, Trash2 } from "lucide-react";
 import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
 import { useEffect, useState } from "react";
-import { ReviewDBType } from "@/types/review/ReviewTypes";
+import { ReviewDBType, StatusType } from "@/types/review/ReviewTypes";
 import { CustomerDBType } from "@/types/customer/CustomerTypes";
 import useReviews from "@/hooks/dashboard/admin/useReview";
-import { StatusType } from "./ReviewsPage";
 import { toast } from "sonner";
 import ReviewStatusBadge from "./ReviewStatusBadge";
+import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
 
 interface ReviewCardProps {
   review: ReviewDBType;
   customerId: string;
   handleEditStatus: (status: StatusType, reviewId: string) => void;
+  handleDeleteReview: (reviewId: string) => void;
+  isDeleteOpen: boolean;
+  setIsDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedReviewId: string;
+  setSelectedReviewId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({
   review,
   customerId,
   handleEditStatus,
+  handleDeleteReview,
+  isDeleteOpen,
+  setIsDeleteOpen,
+  selectedReviewId,
+  setSelectedReviewId,
 }) => {
   const [customer, setCustomer] = useState<CustomerDBType | null>(null);
   const { customerInfoFetch } = useCustomerInfo(customerId);
-  const { approvedReview } = useReviews(review._id);
+  const { approvedReview, deleteReview } = useReviews(review._id);
 
   useEffect(() => {
     const fetchCustomerInfo = async () => {
@@ -63,61 +73,88 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
       }
     });
   };
+  const removeReview = () => {
+    deleteReview(selectedReviewId).then((result) => {
+      if (result) {
+        handleDeleteReview(selectedReviewId);
+        toast.success("Avis supprimé avec succès.");
+      } else {
+        toast.error("Erreur lors de la suppression de l'avis.");
+      }
+    });
+  };
 
   return (
-    <Card className="w-full max-w-lg p-4">
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <Avatar>
-              <AvatarImage src={customer.avatarUrl} alt="Avatar" />
-              <AvatarFallback>
-                {customer.firstName.charAt(0)}
-                {customer.lastName.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-bold">
-                {customer.firstName} {customer.lastName}
-              </p>
-              <p className="text-sm text-gray-500">
-                {new Date(review.createdAt).toLocaleDateString()}
-              </p>
+    <>
+      <Card className="w-full max-w-lg p-4 relative">
+        <span
+          onClick={() => {
+            setSelectedReviewId(review._id);
+            setIsDeleteOpen(true);
+          }}
+        >
+          <Trash2 className="absolute right-2 cursor-pointer" />
+        </span>
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-4">
+              <Avatar>
+                <AvatarImage src={customer.avatarUrl} alt="Avatar" />
+                <AvatarFallback>
+                  {customer.firstName.charAt(0)}
+                  {customer.lastName.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="font-bold">
+                  {customer.firstName} {customer.lastName}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </p>
+              </div>
             </div>
+            <ReviewStatusBadge status={review.status} />
           </div>
-          <ReviewStatusBadge status={review.status} />
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="flex items-center space-x-2">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={`h-4 w-4 ${
-                i < review.rating ? "text-yellow-500" : "text-gray-300"
-              }`}
-            />
-          ))}
-        </div>
-        <p className="mt-2">{review.reviewText}</p>
-        <Separator className="my-4" />
-        <div className="flex space-x-4">
-          <Select
-            defaultValue={review.status}
-            onValueChange={(value: StatusType) => updateReviewStatus(value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Changer le statut" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="approved">Approuvé</SelectItem>
-              <SelectItem value="pending">En attente</SelectItem>
-              <SelectItem value="refused">Refusé</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </CardContent>
-    </Card>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center space-x-2">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={`h-4 w-4 ${
+                  i < review.rating ? "text-yellow-500" : "text-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+          <p className="mt-2">{review.reviewText}</p>
+          <Separator className="my-4" />
+          <div className="flex space-x-4">
+            <Select
+              defaultValue={review.status}
+              onValueChange={(value: StatusType) => updateReviewStatus(value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Changer le statut" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="approved">Approuvé</SelectItem>
+                <SelectItem value="pending">En attente</SelectItem>
+                <SelectItem value="refused">Refusé</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
+      <DeleteAlert
+        isDeleteOpen={isDeleteOpen}
+        setIsDeleteOpen={setIsDeleteOpen}
+        onConfirm={removeReview}
+        itemNameToDelete="cet avis"
+        onCancel={() => setIsDeleteOpen(false)}
+      />
+    </>
   );
 };
 

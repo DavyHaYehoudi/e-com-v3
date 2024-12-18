@@ -79,7 +79,7 @@ export const deleteReview = async (
   try {
     const reviewId = req.params.reviewId;
     await deleteReviewService(reviewId);
-    res.status(204).json({});
+    res.status(200).json({});
   } catch (error) {
     next(error);
   }
