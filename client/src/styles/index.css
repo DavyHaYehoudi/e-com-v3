@@ -284,3 +284,10 @@ footer {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
+/* Librairie Quill pour le contenu HTML des campagnes de marketing */
+.ql-toolbar {
+  z-index: 10; /* S'assurer que la toolbar est visible */
+  background-color: white; /* Améliorer la visibilité */
+  border-radius: 0.5rem;
+}

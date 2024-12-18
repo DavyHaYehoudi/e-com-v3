@@ -48,7 +48,7 @@ export const updateCampaign = async (
     const validateFields = updateMarketingCampaignSchema.parse(req.body);
     const campaignId = req.params.campaignId;
     await updateCampaignService(campaignId, validateFields);
-    res.status(204).json({});
+    res.status(200).json({});
   } catch (error) {
     console.error(error);
     next(error);
@@ -63,7 +63,7 @@ export const deleteCampaign = async (
   try {
     const campaignId = req.params.campaignId;
     await deleteCampaignService(campaignId);
-    res.status(204).json({});
+    res.status(200).json({});
   } catch (error) {
     next(error);
   }

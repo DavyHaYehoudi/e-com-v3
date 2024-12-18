@@ -40,7 +40,9 @@
       "@/types/*": [
         "src/types/*"
       ]
-    }
+    },
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": [
     "src/**/*"
