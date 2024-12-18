@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { addYears, format } from "date-fns";
 import useGiftcardsCustomer from "@/hooks/dashboard/admin/useGiftcard";
-import { Link } from "react-router-dom";
+import NavBackDashboard from "@/components/shared/NavBackDashboard";
 
 // Schéma Zod pour validation
 const giftCardSchema = z.object({
@@ -85,11 +85,11 @@ const OfferGiftCard: React.FC = () => {
 
   return (
     <div>
-      <p className="text-blue-300 m-5 text-xs">
-        <Link to="/admin/tableau-de-bord/activite/clients/liste">
-          Revenir à la liste
-        </Link>{" "}
-      </p>
+      <NavBackDashboard
+        path="activite/clients/liste"
+        text="Revenir à la liste des clients"
+        role="admin"
+      />
       <div className="max-w-lg mx-auto p-6 bg-gray-100 dark:bg-gray-800 rounded-xl shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">
           Offrir une Carte Cadeau

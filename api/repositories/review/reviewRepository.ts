@@ -1,12 +1,14 @@
-import { NotFoundError } from "../../exceptions/CustomErrors.js";
+import {
+  BadRequestError,
+  NotFoundError,
+} from "../../exceptions/CustomErrors.js";
 import Review from "../../models/review/review.schema.js";
 import { CreateReviewDTO } from "../../controllers/review/entities/dto/review.dto.js";
-import { UpdateReviewCustomerDTO } from "../../controllers/review/entities/dto/review.dto.js";
 
 // PUBLIC
 export const getReviewsOfOneProductRepository = async (productId: string) => {
   try {
-    return await Review.find({ productId, isValidateByAdmin: true }).sort({
+    return await Review.find({ productId, status: "approved" }).sort({
       createdAt: -1,
     }); // Trie par date décroissante (les plus récentes en premier);
   } catch (error: any) {
@@ -34,7 +36,7 @@ export const getReviewRepository = async (reviewId: string) => {
 // ADMIN
 export const approveReviewRepository = async (
   reviewId: string,
-  toggleValidate: boolean
+  status: string
 ) => {
   const review = await Review.findById(reviewId);
 
@@ -42,55 +44,38 @@ export const approveReviewRepository = async (
     throw new NotFoundError(`Review with ID ${reviewId} not found`);
   }
 
-  if (toggleValidate) {
-    review.isValidateByAdmin = !review.isValidateByAdmin;
-    await review.save();
-  }
+  await Review.findByIdAndUpdate(reviewId, { status });
 };
 // CUSTOMER
 export const createReviewRepository = async (
   customerId: string,
   reviewData: CreateReviewDTO
 ) => {
+  const existingReview = await Review.findOne({
+    customerId,
+    productId: reviewData.productId,
+  });
+
+  if (existingReview) {
+    throw new BadRequestError("Already left a review for this product.");
+  }
+
   return await Review.create({
     customerId,
     ...reviewData,
   });
 };
-// CUSTOMER
-export const updateReviewRepository = async (
-  customerId: string,
-  reviewId: string,
-  updatedFields: UpdateReviewCustomerDTO
-) => {
-  const review = await Review.findOneAndUpdate(
-    { _id: reviewId, customerId, isValidateByAdmin: false },
-    updatedFields,
-    { new: true, runValidators: true } // Retourner le document mis à jour
-  );
 
-  if (!review) {
-    throw new NotFoundError(
-      `Review with ID ${reviewId} not found for customer ID ${customerId} or review already approved by admin`
-    );
-  }
-
-  return review;
-};
-// CUSTOMER
-export const deleteReviewRepository = async (
-  customerId: string,
-  reviewId: string
-) => {
+// ADMIN
+export const deleteReviewRepository = async (reviewId: string) => {
   const result = await Review.deleteOne({
     _id: reviewId,
-    customerId,
-    isValidateByAdmin: false,
+    status: "pending",
   });
 
   if (result.deletedCount === 0) {
     throw new NotFoundError(
-      `Review with ID ${reviewId} not found for customer ID ${customerId} or review already approved by admin`
+      `Review with ID ${reviewId} not found or review already approved by admin`
     );
   }
 };

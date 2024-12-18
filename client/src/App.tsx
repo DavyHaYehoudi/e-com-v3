@@ -53,6 +53,7 @@ import ProductsPageAdmin from "./pages/admin/catalogue/products/ProductsPageAdmi
 import CustomerSheet from "./pages/admin/activity/customers/CustomerSheet";
 import CustomerHistory from "./pages/admin/activity/customers/CustomerHistory";
 import ManageCashback from "./pages/admin/activity/customers/CashbackToOffer";
+import LeaveReviewPage from "./pages/customer/orders/actions/LeaveReviewPage";
 function App() {
   return (
     <ThemeProvider>
@@ -115,6 +116,10 @@ function App() {
                 <Route
                   path="customer/tableau-de-bord/commandes/:orderId/contenu"
                   element={<ContentOrderPage />}
+                />
+                <Route
+                  path="customer/tableau-de-bord/commandes/:orderId/avis"
+                  element={<LeaveReviewPage />}
                 />
                 <Route
                   path="customer/tableau-de-bord/avantages/cartes-cadeaux/emploi"

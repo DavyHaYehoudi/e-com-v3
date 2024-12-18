@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import NavBackDashboard from "@/components/shared/NavBackDashboard";
 
 // Schéma Zod pour la validation
 const cashbackSchema = z.object({
@@ -83,7 +83,6 @@ const ManageCashback: React.FC = () => {
 
   // Gérer l'envoi des données
   const onSubmit: SubmitHandler<CashbackFormValues> = (data) => {
-    console.log("data:", data);
     // On détermine si on a un cashback à ajouter ou à déduire
     const cashbackData =
       selectedLabel === "correction"
@@ -104,11 +103,11 @@ const ManageCashback: React.FC = () => {
 
   return (
     <div>
-      <p className="text-blue-300 m-5 text-xs">
-        <Link to="/admin/tableau-de-bord/activite/clients/liste">
-          Revenir à la liste
-        </Link>{" "}
-      </p>
+      <NavBackDashboard
+        path="activite/clients/liste"
+        text="Revenir à la liste des clients"
+        role="admin"
+      />
       <div className="max-w-2xl mx-auto p-6 bg-gray-100 dark:bg-gray-800 rounded-xl shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">
           Gestion du Cashback

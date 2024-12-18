@@ -7,7 +7,7 @@ export interface IReview extends Document {
   productId?: Schema.Types.ObjectId; // ID du produit (optionnel)
   reviewText: string; // Texte du commentaire
   rating: number; // Note (1 à 5 étoiles)
-  isValidateByAdmin: boolean; // Indique si le commentaire est validé par l'admin
+  status: string; // Indique si le commentaire est validé/en attente/refusé par l'admin
 }
 
 // Schéma Mongoose
@@ -22,7 +22,11 @@ const ReviewSchema = new Schema<IReview>(
     productId: { type: Schema.Types.ObjectId, ref: "Product", default: null },
     reviewText: { type: String, required: true, maxlength: 500 },
     rating: { type: Number, required: true, min: 1, max: 5, default: 5 },
-    isValidateByAdmin: { type: Boolean, default: false },
+    status: {
+      type: String,
+      default: "pending",
+      enum: ["pending", "approved", "refused"], // Énumération
+    },
   },
 
   { timestamps: true }

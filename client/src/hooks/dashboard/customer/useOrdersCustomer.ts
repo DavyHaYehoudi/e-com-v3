@@ -15,17 +15,10 @@ const useOrdersCustomer = (id?: string) => {
       requiredCredentials: true,
     }
   );
-  // const { triggerFetch: orderItemsCustomerFetch } = useFetch<OrderItemList>(
-  //   `/order-items/${id}`,
-  //   {
-  //     requiredCredentials: true,
-  //   }
-  // );
 
   return {
     ordersCustomerFetch,
     oneOrderCustomerFetch,
-    // orderItemsCustomerFetch,
   };
 };
 

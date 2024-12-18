@@ -1,3 +1,4 @@
+import NavBackDashboard from "@/components/shared/NavBackDashboard";
 import {
   Table,
   TableBody,
@@ -14,7 +15,6 @@ import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
 import { formatDate } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/pricesFormat";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -60,11 +60,11 @@ const GiftcardDetail = () => {
   return (
     <div>
       <h1 className="text-center mb-10">Historique de votre carte cadeau</h1>
-      <p className="text-blue-300 m-5 text-xs">
-        <Link to="/customer/tableau-de-bord/avantages/cartes-cadeaux/liste">
-          Revenir à la liste
-        </Link>{" "}
-      </p>
+      <NavBackDashboard
+        path="avantages/cartes-cadeaux/liste"
+        text="Revenir à la liste des cartes cadeaux"
+        role="customer"
+      />
       <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
         <Table>
           <TableCaption>

@@ -211,6 +211,14 @@ export const columns: ColumnDef<OrderCustomerDBType>[] = [
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
+              <Link
+                to={`/customer/tableau-de-bord/commandes/${orderId}/avis`}
+              >
+                {" "}
+                Donner un avis
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
               <Link to="/contact"> Contacter un responsable</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>

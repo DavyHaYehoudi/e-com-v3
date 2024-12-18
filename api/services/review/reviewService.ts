@@ -1,14 +1,10 @@
-import {
-  UpdateReviewCustomerDTO,
-  CreateReviewDTO,
-} from "../../controllers/review/entities/dto/review.dto.js";
+import { CreateReviewDTO } from "../../controllers/review/entities/dto/review.dto.js";
 import {
   approveReviewRepository,
   deleteReviewRepository,
   getAllReviewsRepository,
   getReviewRepository,
   getReviewsOfOneProductRepository,
-  updateReviewRepository,
   createReviewRepository,
 } from "../../repositories/review/reviewRepository.js";
 
@@ -27,9 +23,9 @@ export const getReviewService = async (reviewId: string) => {
 // ADMIN
 export const approveReviewService = async (
   reviewId: string,
-  toggleValidate: boolean
+  status: string
 ) => {
-  return await approveReviewRepository(reviewId, toggleValidate);
+  return await approveReviewRepository(reviewId, status);
 };
 // CUSTOMER
 export const createReviewService = async (
@@ -38,18 +34,8 @@ export const createReviewService = async (
 ) => {
   return await createReviewRepository(customerId, reviewData);
 };
-// CUSTOMER
-export const updateReviewService = async (
-  customerId: string,
-  reviewId: string,
-  updatedFields: UpdateReviewCustomerDTO
-) => {
-  return await updateReviewRepository(customerId, reviewId, updatedFields);
-};
-// CUSTOMER
-export const deleteReviewService = async (
-  customerId: string,
-  reviewId: string
-) => {
-  return await deleteReviewRepository(customerId, reviewId);
+
+// ADMIN
+export const deleteReviewService = async (reviewId: string) => {
+  return await deleteReviewRepository(reviewId);
 };

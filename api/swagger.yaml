@@ -1089,79 +1089,6 @@ paths:
           description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
-  /reviews/{reviewId}:
-    get:
-      tags:
-        - review
-      summary: Show the customer review.
-      description: Show the customer review.
-      parameters:
-        - name: reviewId
-          in: path
-          description: Id of the review written by the customer.
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema: 
-               $ref: '#/components/schemas/ReviewGET'       
-        '401':
-          description: Unauthorized - Customer is not authenticated
-        '404':
-          description: Not found - The review doesn't exist.
-      security:
-        - api_key: []
-    patch:
-      tags:
-        - review
-      summary: Update an existent customer review.
-      description: Update an existent customer review.
-      parameters:
-        - name: reviewId
-          in: path
-          description: Id of the review written by the customer.
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReviewPATCH' 
-      responses:
-        '204':
-          description: successful operation
-        '401':
-          description: Unauthorized - Customer is not authenticated
-        '404':
-          description: Not found - The customer or the review doesn't exist.
-      security:
-        - api_key: []
-    delete:
-      tags:
-        - review
-      summary: Delete a customer review.
-      description: Delete a customer review.
-      parameters:
-        - name: reviewId
-          in: path
-          description: Id of the review written by the customer.
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: successful operation
-        '401':
-          description: Unauthorized - Customer is not authenticated
-        '404':
-          description: Not found - The customer or the review doesn't exist.
-      security:
-        - api_key: []
   /admin/reviews:
     get:
       tags:
@@ -1204,6 +1131,27 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The review doesn't exist.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - review
+      summary: Delete a customer review.
+      description: Delete a customer review.
+      parameters:
+        - name: reviewId
+          in: path
+          description: Id of the review written by the customer.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: successful operation
         '403':
           description: Unauthorized - Admin is not authenticated
         '404':
@@ -1920,7 +1868,7 @@ components:
         code:
           type: string
           example: Bonjour-10
-        start-date:
+        startDate:
           type: string
           example: 01/01/2025
         endDate:
@@ -2008,9 +1956,9 @@ components:
     ReviewAdminPATCH:
       type: object
       properties:
-        toggleValidate:
-          type: boolean
-          example: true
+        status:
+          type: string
+          example: approved
     PaymentIntentPOST:
       type: object
       properties:
