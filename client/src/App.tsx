@@ -54,6 +54,7 @@ import CustomerSheet from "./pages/admin/activity/customers/CustomerSheet";
 import CustomerHistory from "./pages/admin/activity/customers/CustomerHistory";
 import ManageCashback from "./pages/admin/activity/customers/CashbackToOffer";
 import LeaveReviewPage from "./pages/customer/orders/actions/LeaveReviewPage";
+import GiftcardHistoryPage from "./pages/admin/advantages/giftcards/GiftcardHistoryPage";
 function App() {
   return (
     <ThemeProvider>
@@ -211,6 +212,10 @@ function App() {
                 <Route
                   path="admin/tableau-de-bord/avantages/cartes-cadeaux/liste"
                   element={<GiftcardsPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/avantages/cartes-cadeaux/:giftcardId"
+                  element={<GiftcardHistoryPage />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/avantages/code-promo/liste"

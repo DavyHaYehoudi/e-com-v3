@@ -5,6 +5,7 @@ import {
   deleteGiftcardRepository,
   getAllGiftcardsRepository,
   getCustomerGiftcardsRepository,
+  getGiftcardByIdRepository,
   giftcardCheckRepository,
   updateGiftcardBalanceRepository,
 } from "../../repositories/giftcard/giftcardRepository.js";
@@ -40,6 +41,10 @@ export const getAllGiftcardsService = async (customerId?: string) => {
     return await getCustomerGiftcardsRepository(customerId);
   }
   return await getAllGiftcardsRepository();
+};
+// ADMIN - Récupérer une carte cadeau
+export const getGiftcardByIdService = async (giftcardId: string) => {
+  return await getGiftcardByIdRepository(giftcardId);
 };
 // ADMIN
 export const createAdminGiftcardService = async (

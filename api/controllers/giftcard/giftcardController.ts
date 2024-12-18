@@ -8,6 +8,7 @@ import {
   deleteGiftcardService,
   getAllGiftcardsService,
   getCustomerGiftcardsService,
+  getGiftcardByIdService,
   giftcardCheckService,
 } from "../../services/giftcard/giftcardService.js";
 import { CustomJwtPayload } from "../../middlewares/authMiddleware";
@@ -50,6 +51,20 @@ export const getAllGiftcards = async (
     const { customerId } = req.query;
     const giftcards = await getAllGiftcardsService(customerId);
     res.json(giftcards);
+  } catch (error) {
+    next(error);
+  }
+};
+// ADMIN - Récupérer une carte cadeau
+export const getGiftcardById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const giftcardId = req.params.giftcardId;
+    const giftcard = await getGiftcardByIdService(giftcardId);
+    res.json(giftcard);
   } catch (error) {
     next(error);
   }

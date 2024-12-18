@@ -23,7 +23,7 @@ import { useParams } from "react-router-dom";
 const GiftcardsHistory = () => {
   const [giftcards, setGiftcards] = useState<GiftcardCustomerDBType[]>([]);
   const { customerId } = useParams();
-  const { giftcardsFetch } = useGiftcardsCustomer(customerId);
+  const { giftcardsFetch } = useGiftcardsCustomer({ customerId });
   useEffect(() => {
     const fetchGiftcardsCustomer = async () => {
       try {

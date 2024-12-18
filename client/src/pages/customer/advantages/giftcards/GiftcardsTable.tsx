@@ -18,7 +18,7 @@ import useGiftcardsCustomer from "@/hooks/dashboard/customer/useGiftcardsCustome
 import { isGiftCardValid } from "@/utils/giftcardValidity";
 import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
 import { formatDate } from "@/utils/formatDate";
-import { Binoculars } from "lucide-react";
+import { FileStack } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -93,7 +93,7 @@ const GiftcardsTable = () => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
-                        <Binoculars />
+                        <FileStack />
                       </TooltipTrigger>
                       <TooltipContent>Voir les détails</TooltipContent>
                     </Tooltip>

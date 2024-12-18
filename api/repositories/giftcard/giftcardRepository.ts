@@ -93,6 +93,10 @@ export const updateGiftcardBalanceRepository = async (
 export const getAllGiftcardsRepository = async () => {
   return await GiftCardModel.find().sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
 };
+// ADMIN - Récupérer une carte cadeau
+export const getGiftcardByIdRepository = async (giftcardId: string) => {
+  return await GiftCardModel.findById(giftcardId);
+};
 // ADMIN
 export const createAdminGiftcardRepository = async (
   data: CreateAdminGiftcardInput

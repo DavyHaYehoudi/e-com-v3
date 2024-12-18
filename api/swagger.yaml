@@ -906,6 +906,25 @@ paths:
       security:
         - api_key: []
   /admin/giftcards/{giftcardId}:
+    get:
+      tags:
+        - giftcard
+      summary: Show one giftcard.
+      description: Show one giftcard.
+      parameters:
+        - name: giftcardId
+          in: path
+          description: Id of the giftcard.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+                  $ref: '#/components/schemas/GiftcardGET'   
     delete:
       tags:
         - giftcard

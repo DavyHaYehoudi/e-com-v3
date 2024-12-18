@@ -1,7 +1,14 @@
 import { useFetch } from "@/service/hooks/useFetch";
 import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
 
-const useGiftcardsCustomer = (customerId?: string) => {
+interface useGiftcardsCustomerType {
+  customerId?: string;
+  giftcardId?: string;
+}
+const useGiftcardsCustomer = ({
+  customerId,
+  giftcardId,
+}: useGiftcardsCustomerType) => {
   const query = customerId ? `?customerId=${customerId}` : "";
   const { triggerFetch: giftcardsFetch } = useFetch<GiftcardCustomerDBType[]>(
     `/admin/giftcards${query}`,
@@ -9,17 +16,38 @@ const useGiftcardsCustomer = (customerId?: string) => {
       requiredCredentials: true,
     }
   );
+  const { triggerFetch: fetchAllGiftcards } = useFetch<
+    GiftcardCustomerDBType[]
+  >(`/admin/giftcards`, {
+    requiredCredentials: true,
+  });
   const { triggerFetch: giftcardToOffer } = useFetch(
     `/admin/giftcards${query}`,
     {
-      method:"POST",
+      method: "POST",
+      requiredCredentials: true,
+    }
+  );
+  const { triggerFetch: fetchOneGiftcard } = useFetch<GiftcardCustomerDBType>(
+    `/admin/giftcards/${giftcardId}`,
+    {
+      requiredCredentials: true,
+    }
+  );
+  const { triggerFetch: deleteGiftcard } = useFetch(
+    `/admin/giftcards${giftcardId}`,
+    {
+      method: "DELETE",
       requiredCredentials: true,
     }
   );
 
   return {
+    fetchOneGiftcard,
+    fetchAllGiftcards,
     giftcardsFetch,
-    giftcardToOffer
+    giftcardToOffer,
+    deleteGiftcard,
   };
 };
 
