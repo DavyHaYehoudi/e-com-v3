@@ -40,7 +40,6 @@ import HomeDashboardAdmin from "./pages/admin/HomeDashboardAdmin";
 import DashboardAdminLayout from "./layout/dashboards/admin/DashboardAdminLayout";
 import CustomersPage from "./pages/admin/activity/customers/CustomersPage";
 import OrdersPage from "./pages/admin/activity/OrdersPage";
-import ProductCreate from "./pages/admin/catalogue/products/ProductCreate";
 import CategoriesPage from "./pages/admin/catalogue/classifying/category/CategoriesPage";
 import TagsPage from "./pages/admin/catalogue/classifying/tag/TagsPage";
 import GiftcardsPage from "./pages/admin/advantages/giftcards/GiftcardsPage";
@@ -56,6 +55,7 @@ import ManageCashback from "./pages/admin/activity/customers/CashbackToOffer";
 import LeaveReviewPage from "./pages/customer/orders/actions/LeaveReviewPage";
 import GiftcardHistoryPage from "./pages/admin/advantages/giftcards/GiftcardHistoryPage";
 import EditProduct from "./pages/admin/catalogue/products/EditProduct";
+import CreateProduct from "./pages/admin/catalogue/products/CreateProduct";
 function App() {
   return (
     <ThemeProvider>
@@ -200,7 +200,7 @@ function App() {
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/catalogue/produits/ajouter"
-                  element={<ProductCreate />}
+                  element={<CreateProduct />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/catalogue/produits/:productId"
