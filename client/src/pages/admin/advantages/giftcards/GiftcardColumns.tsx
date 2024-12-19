@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { formatDate } from "@/utils/formatDate";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { isPromocodeActive } from "@/utils/promocodeDate";
 import ValidBadge from "@/components/shared/badge/ValidBadge";
 import NoValidBadge from "@/components/shared/badge/NoValidBadge";
 import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";

@@ -70,7 +70,7 @@ export const updateProduct = async (
     const productId = req.params.productId;
     const productData = productSchema.parse(req.body);
     await updateProductService(productId, productData);
-    res.status(204).json({});
+    res.status(200).json({});
   } catch (error) {
     console.error(error);
     next(error);
@@ -85,7 +85,7 @@ export const deleteProduct = async (
   try {
     const productId = req.params.productId;
     await deleteProductService(productId);
-    res.status(204).json({});
+    res.status(200).json({});
   } catch (error) {
     next(error);
   }

@@ -55,6 +55,7 @@ import CustomerHistory from "./pages/admin/activity/customers/CustomerHistory";
 import ManageCashback from "./pages/admin/activity/customers/CashbackToOffer";
 import LeaveReviewPage from "./pages/customer/orders/actions/LeaveReviewPage";
 import GiftcardHistoryPage from "./pages/admin/advantages/giftcards/GiftcardHistoryPage";
+import EditProduct from "./pages/admin/catalogue/products/EditProduct";
 function App() {
   return (
     <ThemeProvider>
@@ -200,6 +201,10 @@ function App() {
                 <Route
                   path="admin/tableau-de-bord/catalogue/produits/ajouter"
                   element={<ProductCreate />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/catalogue/produits/:productId"
+                  element={<EditProduct />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/catalogue/categories"
