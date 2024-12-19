@@ -3,7 +3,7 @@ import {
   createCampaignService,
   deleteCampaignService,
   getAllCampaignsService,
-  updateCampaignService,
+  sendCampaignService,
 } from "../../services/campaign/campaignService.js";
 import {
   createMarketingCampaignSchema,
@@ -38,8 +38,8 @@ export const createCampaign = async (
     next(error);
   }
 };
-// ADMIN - Mettre à jour une campagne ou l'envoyer
-export const updateCampaign = async (
+// ADMIN - Envoyer une campagne ou l'envoyer
+export const sendCampaign = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -47,8 +47,11 @@ export const updateCampaign = async (
   try {
     const validateFields = updateMarketingCampaignSchema.parse(req.body);
     const campaignId = req.params.campaignId;
-    await updateCampaignService(campaignId, validateFields);
-    res.status(200).json({});
+    const campaignToSend = await sendCampaignService(
+      campaignId,
+      validateFields
+    );
+    res.status(200).json(campaignToSend);
   } catch (error) {
     console.error(error);
     next(error);

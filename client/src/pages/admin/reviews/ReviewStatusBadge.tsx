@@ -8,9 +8,9 @@ interface ReviewStatusBadgeProps {
 
 const ReviewStatusBadge: React.FC<ReviewStatusBadgeProps> = ({ status }) => {
   const statusComponents = {
-    approved: <ValidBadge label="Approved" />,
-    pending: <PendingBadge label="Pending" />,
-    refused: <NoValidBadge label="Refused" />,
+    approved: <ValidBadge label="Approuvé" />,
+    pending: <PendingBadge label="En attente" />,
+    refused: <NoValidBadge label="Refusé" />,
   };
 
   return statusComponents[status] || null; // Affiche le composant approprié ou rien si le statut est invalide

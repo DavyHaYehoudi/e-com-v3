@@ -19,7 +19,7 @@ export const createCampaignRepository = async (
     content: campaignData.content,
   });
 };
-export const updateCampaignRepository = async (
+export const sendCampaignRepository = async (
   campaignId: string,
   campaignData: UpdateMarketingCampaignDTO
 ) => {
@@ -29,27 +29,29 @@ export const updateCampaignRepository = async (
     throw new NotFoundError(`Campaign with ID ${campaignId} not found`);
   }
 
-  // Vérifier que la campagne n'a pas déjà été envoyée
   if (campaign.status === "sent") {
     throw new ForbiddenError(
       "Cannot update a campaign that has already been sent."
     );
   }
 
-  // Mettre à jour les champs
-  campaign.subject = campaignData.subject || campaign.subject;
-  campaign.content = campaignData.content || campaign.content;
-  campaign.status = campaignData.status || campaign.status;
+  // Mise à jour des champs nécessaires
+  const updatedCampaignData = {
+    status: "sent",
+    sendDate: new Date(),
+    recipients: campaignData.emails,
+    totalSent: campaignData.emails.length,
+  };
 
-  if (campaign.status === "sent") {
-    campaign.sendDate = new Date(); // Ajoute la date d'envoi
-    campaign.recipients = campaignData.emails || [];
-    campaign.totalSent = campaignData.emails.length; // Calcul le total envoyé
-  }
+  const updatedCampaign = await CampaignModel.findByIdAndUpdate(
+    campaignId,
+    { $set: updatedCampaignData },
+    { new: true }
+  );
 
-  await CampaignModel.updateOne({ _id: campaignId }, campaign.toObject());
-  return campaign;
+  return updatedCampaign;
 };
+
 export const deleteCampaignRepository = async (campaignId: string) => {
   const result = await CampaignModel.deleteOne({ _id: campaignId });
 

@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Quill } from "react-quill";
 import * as Emoji from "quill-emoji";
+import useMarketing from "@/hooks/dashboard/admin/useMarketing";
+import { toast } from "sonner";
 
 const createMarketingCampaignSchema = z.object({
   subject: z
@@ -19,6 +21,7 @@ const createMarketingCampaignSchema = z.object({
 type CreateMarketingCampaignDTO = z.infer<typeof createMarketingCampaignSchema>;
 
 const CreateMarketingCampaign: React.FC = () => {
+  const { createMarketing } = useMarketing();
   const {
     register,
     control,
@@ -31,16 +34,23 @@ const CreateMarketingCampaign: React.FC = () => {
 
   const onSubmit = async (data: CreateMarketingCampaignDTO) => {
     try {
-      console.log("Données soumises :", data);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      alert("Campagne ajoutée avec succès !");
+      const bodyData = {
+        subject: data.subject,
+        content: data.content,
+      };
+      await createMarketing(bodyData).then((result) => {
+        if (result) {
+          toast.success("Campagne ajoutée avec succès !");
+        }
+      });
       reset();
     } catch (error) {
       console.error("Erreur lors de l'ajout :", error);
       alert("Une erreur est survenue !");
     }
   };
-
+  const Font = ReactQuill.Quill.import("formats/font");
+  ReactQuill.Quill.register(Font, true);
   // Enregistrer le module Emoji dans Quill
   Quill.register("modules/emoji", Emoji);
 
@@ -71,11 +81,15 @@ const CreateMarketingCampaign: React.FC = () => {
             id="subject"
             {...register("subject")}
             className={`mt-2 block w-full p-3 border ${
-              errors.subject ? "border-red-500" : "border-gray-300 dark:border-gray-600"
+              errors.subject
+                ? "border-red-500"
+                : "border-gray-300 dark:border-gray-600"
             } rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-gray-200`}
           />
           {errors.subject && (
-            <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.subject.message}
+            </p>
           )}
         </div>
 
@@ -100,14 +114,18 @@ const CreateMarketingCampaign: React.FC = () => {
                   "emoji-textarea": true,
                   "emoji-shortname": true,
                 }}
-                className={`mt-2 h-64 w-full max-w-4xl ${
-                  errors.content ? "border-red-500" : "border-gray-300 dark:border-gray-600"
+                className={`mt-2 h-64 w-full  ${
+                  errors.content
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
                 } rounded-lg dark:bg-gray-700 dark:text-gray-200`}
               />
             )}
           />
           {errors.content && (
-            <p className="text-red-500 text-sm mt-1">{errors.content.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.content.message}
+            </p>
           )}
         </div>
 

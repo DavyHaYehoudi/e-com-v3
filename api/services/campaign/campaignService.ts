@@ -8,7 +8,7 @@ import {
   createCampaignRepository,
   deleteCampaignRepository,
   getAllCampaignsRepository,
-  updateCampaignRepository,
+  sendCampaignRepository,
 } from "../../repositories/campaign/campaignRepository.js";
 import { getCustomersWithEmailMarketingConsentService } from "../customer/customerService.js";
 
@@ -23,50 +23,48 @@ export const createCampaignService = async (
   const newCampaign = await createCampaignRepository(campaignData);
   return newCampaign;
 };
-// ADMIN - Mettre à jour une campagne ou l'envoyer
-export const updateCampaignService = async (
+// ADMIN - Envoyer une campagne
+export const sendCampaignService = async (
   campaignId: string,
   campaignData: UpdateMarketingCampaignDTO
 ) => {
-  await updateCampaignRepository(campaignId, campaignData);
-  if (
-    campaignData.status === "sent" &&
-    campaignData.emails &&
-    campaignData.emails.length > 0
-  ) {
-    const emailsFromFront = campaignData.emails;
-    // Récupérer les clients avec consentement à recevoir des e-mails marketing
-    const customersWithEmailMarketingConsentDB =
-      await getCustomersWithEmailMarketingConsentService();
-    if (customersWithEmailMarketingConsentDB.length === 0) {
-      throw new BadRequestError(
-        "Aucun client n'a accepté de recevoir des e-mails marketing."
+  const campaignToSend = await sendCampaignRepository(campaignId, campaignData);
+  if (!campaignToSend) {
+    return;
+  }
+  const emailsFromFront = campaignData.emails;
+  // Récupérer les clients avec consentement à recevoir des e-mails marketing
+  const customersWithEmailMarketingConsentDB =
+    await getCustomersWithEmailMarketingConsentService();
+  if (customersWithEmailMarketingConsentDB.length === 0) {
+    throw new BadRequestError(
+      "Aucun client n'a accepté de recevoir des e-mails marketing."
+    );
+  }
+  console.log(
+    "customersWithEmailMarketingConsentDB:",
+    customersWithEmailMarketingConsentDB
+  );
+  const filteredCustomers = customersWithEmailMarketingConsentDB.filter(
+    (customer) => emailsFromFront.includes(customer.email)
+  );
+  for (const customer of filteredCustomers) {
+    try {
+      await sendMarketingEmailToCustomer(
+        customer.email,
+        campaignToSend.subject,
+        customer.firstName,
+        campaignToSend.content
+      );
+      console.log(`Email marketing envoyé à ${customer.email}`);
+    } catch (error) {
+      console.error(
+        `Erreur lors de l'envoi de l'email marketing à ${customer.email}:`,
+        error
       );
     }
-    console.log(
-      "customersWithEmailMarketingConsentDB:",
-      customersWithEmailMarketingConsentDB
-    );
-    const filteredCustomers = customersWithEmailMarketingConsentDB.filter(
-      (customer) => emailsFromFront.includes(customer.email)
-    );
-    for (const customer of filteredCustomers) {
-      try {
-        await sendMarketingEmailToCustomer(
-          customer.email,
-          campaignData.subject,
-          customer.firstName,
-          campaignData.content
-        );
-        console.log(`Email marketing envoyé à ${customer.email}`);
-      } catch (error) {
-        console.error(
-          `Erreur lors de l'envoi de l'email marketing à ${customer.email}:`,
-          error
-        );
-      }
-    }
   }
+  return campaignToSend;
 };
 // ADMIN - Supprimer une campagne
 export const deleteCampaignService = async (campaignId: string) => {

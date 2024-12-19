@@ -3,7 +3,7 @@ import {
   createCampaign,
   deleteCampaign,
   getAllCampaigns,
-  updateCampaign,
+  sendCampaign,
 } from "../../controllers/campains/campaignController.js";
 
 const router = Router();
@@ -11,7 +11,7 @@ const router = Router();
 // campaign
 router.get("/", getAllCampaigns);
 router.post("/", createCampaign);
-router.patch("/:campaignId", updateCampaign);
+router.patch("/:campaignId", sendCampaign);
 router.delete("/:campaignId", deleteCampaign);
 
 export default router;

@@ -13,9 +13,9 @@ import { BadgeEuro, PercentIcon, GiftIcon } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useState } from "react";
-import { Loader } from "lucide-react";
 import { formatPrice } from "@/utils/pricesFormat";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 type CardProps = React.ComponentProps<typeof Card>;
 
 const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
@@ -109,7 +109,7 @@ const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
             disabled={isLoading}
           >
             {isLoading ? (
-              <Loader className="animate-spin text-gray-500" size={24} />
+              <LoadingSpinner />
             ) : (
               "Confirmer"
             )}

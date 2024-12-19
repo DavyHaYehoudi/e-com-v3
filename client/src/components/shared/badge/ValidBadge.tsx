@@ -6,7 +6,7 @@ interface ValidBadgeProps {
 const ValidBadge: React.FC<ValidBadgeProps> = ({ label }) => {
   return (
     <Badge
-      className="text-xs text-center font-bold px-2 py-1 rounded-full bg-green-500 text-[var(--whiteSmoke)]"
+      className="text-xs text-center font-bold px-2 py-1 rounded-full bg-green-500 text-[var(--whiteSmoke)] capitalize"
       variant="outline"
     >
       {label}

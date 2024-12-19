@@ -41,7 +41,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
 }) => {
   const [customer, setCustomer] = useState<CustomerDBType | null>(null);
   const { customerInfoFetch } = useCustomerInfo(customerId);
-  const { approvedReview, deleteReview } = useReviews(review._id);
+  const { approvedReview } = useReviews(review._id);
+  const { deleteReview } = useReviews(selectedReviewId);
 
   useEffect(() => {
     const fetchCustomerInfo = async () => {
@@ -74,7 +75,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
     });
   };
   const removeReview = () => {
-    deleteReview(selectedReviewId).then((result) => {
+    deleteReview().then((result) => {
       if (result) {
         handleDeleteReview(selectedReviewId);
         toast.success("Avis supprimé avec succès.");
@@ -87,14 +88,14 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   return (
     <>
       <Card className="w-full max-w-lg p-4 relative">
-        <span
+        <button
           onClick={() => {
             setSelectedReviewId(review._id);
             setIsDeleteOpen(true);
           }}
         >
           <Trash2 className="absolute right-2 cursor-pointer" />
-        </span>
+        </button>
         <CardHeader>
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
