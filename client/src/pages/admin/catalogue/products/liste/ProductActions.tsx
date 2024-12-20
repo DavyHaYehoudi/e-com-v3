@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Trash2, SquarePen } from "lucide-react";
 import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
 import { Link } from "react-router-dom";
-import { SelectedProduct } from "./ProductsPageAdmin";
+import { SelectedProduct } from "./liste/ProductsPageAdmin";
 
 interface ProductActionsProps {
   productId: string;

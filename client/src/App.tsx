@@ -48,14 +48,14 @@ import PromocodesPage from "./pages/admin/advantages/promocodes/PromocodesPage";
 import MarketingPage from "./pages/admin/marketing/MarketingPage";
 import MarketingCreate from "./pages/admin/marketing/MarketingCreate";
 import ReviewsPage from "./pages/admin/reviews/ReviewsPage";
-import ProductsPageAdmin from "./pages/admin/catalogue/products/ProductsPageAdmin";
+import ProductsPageAdmin from "./pages/admin/catalogue/products/liste/ProductsPageAdmin";
 import CustomerSheet from "./pages/admin/activity/customers/CustomerSheet";
 import CustomerHistory from "./pages/admin/activity/customers/CustomerHistory";
 import ManageCashback from "./pages/admin/activity/customers/CashbackToOffer";
 import LeaveReviewPage from "./pages/customer/orders/actions/LeaveReviewPage";
 import GiftcardHistoryPage from "./pages/admin/advantages/giftcards/GiftcardHistoryPage";
-import EditProduct from "./pages/admin/catalogue/products/EditProduct";
-import CreateProduct from "./pages/admin/catalogue/products/CreateProduct";
+import EditProduct from "./pages/admin/catalogue/products/sheetProduct/EditProduct";
+import CreateProduct from "./pages/admin/catalogue/products/sheetProduct/CreateProduct";
 function App() {
   return (
     <ThemeProvider>
