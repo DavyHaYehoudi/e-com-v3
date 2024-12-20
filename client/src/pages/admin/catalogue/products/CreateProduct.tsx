@@ -25,7 +25,9 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
+import CancelBtnDashboard from "@/components/shared/CancelBtnDashboard";
+import { add } from "date-fns";
+import { Switch } from "@/components/ui/switch";
 
 const CreateProduct: React.FC = () => {
   const [categories, setCategories] = useState<CategoryDBType[]>([]);
@@ -61,6 +63,7 @@ const CreateProduct: React.FC = () => {
     register,
     setValue,
     getValues,
+    watch,
     formState: { errors },
   } = useForm<ProductInputDTO>({
     resolver: zodResolver(productSchema),
@@ -71,11 +74,11 @@ const CreateProduct: React.FC = () => {
       promotionPercentage: 0,
       promotionEndDate: null,
       continueSelling: false,
-      quantityInStock: 0,
-      price: 0,
+      quantityInStock: 1,
+      price: 20,
       cashback: 0,
-      newUntil: null,
-      isPublished: false,
+      newUntil: add(new Date(), { months: 3 }),
+      isPublished: true,
       categories: [],
       tags: [],
       variants: [],
@@ -95,6 +98,8 @@ const CreateProduct: React.FC = () => {
 
   const onSubmit = (data: ProductInputDTO) => {
     console.log("Form Data", data);
+    console.log("categories", selectedCategories);
+    console.log("tags", selectedTags);
   };
 
   const handleCategorySelection = (id: string, isChecked: boolean) => {
@@ -108,12 +113,13 @@ const CreateProduct: React.FC = () => {
       isChecked ? [...prev, id] : prev.filter((tagId) => tagId !== id)
     );
   };
-
+  const promotionEndDate = watch("promotionEndDate");
+  const newUntil = watch("newUntil");
   return (
     <div>
       <h1 className="text-center mb-10">creer un produit</h1>
 
-      <Card className="p-6 2xl:w-1/3 mx-auto">
+      <Card className="p-6 xl:w-1/2 2xl:w-1/3 mx-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardHeader>
             {/* Nom du produit */}
@@ -158,18 +164,30 @@ const CreateProduct: React.FC = () => {
             {/* price */}
             <div className="mb-4">
               <Label htmlFor="price">Prix (€)</Label>
-              <Input id="price" type="number" {...register("price")} />
+              <Input
+                id="price"
+                type="number"
+                step="0.01" // Autorise les nombres décimaux
+                {...register("price", {
+                  setValueAs: (value) =>
+                    value === "" ? undefined : parseFloat(value), // Convertit en nombre ou undefined si vide
+                })}
+              />
               {errors.price && (
                 <p className="text-red-500">{errors.price.message}</p>
               )}
             </div>
+
             {/* stock */}
             <div className="mb-4">
               <Label htmlFor="stock">Stock</Label>
               <Input
                 id="stock"
                 type="number"
-                {...register("quantityInStock")}
+                {...register("quantityInStock", {
+                  setValueAs: (value) =>
+                    value === "" ? undefined : parseInt(value), // Convertit en nombre ou undefined si vide
+                })}
               />
               {errors.quantityInStock && (
                 <p className="text-red-500">{errors.quantityInStock.message}</p>
@@ -183,11 +201,20 @@ const CreateProduct: React.FC = () => {
               >
                 Cashback (€)
               </Label>
-              <Input id="cashback" type="number" {...register("cashback")} />
+              <Input
+                id="cashback"
+                type="number"
+                step="0.01" // Autorise les nombres décimaux
+                {...register("cashback", {
+                  setValueAs: (value) =>
+                    value === "" ? undefined : parseFloat(value), // Convertit en nombre ou undefined si vide
+                })}
+              />
               {errors.cashback && (
                 <p className="text-red-500">{errors.cashback.message}</p>
               )}
             </div>
+            {/* Classement */}
             <div className="my-20 p-4 border rounded-md">
               <h3 className=" mb-2">Classement</h3>
               {/* Catégories */}
@@ -263,55 +290,82 @@ const CreateProduct: React.FC = () => {
             {/* Promotion */}
             <div className="border rounded-md p-4">
               <h3 className=" mb-2">Promotion</h3>
-              <div className="mb-4 grid grid-cols-2 gap-4  p-4">
+              <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
                 <div>
-                  <Label htmlFor="promotionPercentage">
+                  <Label htmlFor="promotionPercentage" className="text-center">
                     Pourcentage de promotion (%)
                   </Label>
                   <Input
                     id="promotionPercentage"
                     type="number"
-                    {...register("promotionPercentage")}
+                    {...register("promotionPercentage", {
+                      setValueAs: (value) =>
+                        value === "" ? undefined : parseInt(value), // Convertit en nombre ou undefined si vide
+                    })}
                   />
                 </div>
-                <div>
-                  <Label htmlFor="promotionEndDate">
+                <div className="flex items-center gap-4 flex-wrap">
+                  <Label htmlFor="promotionEndDate" className="text-center">
                     Date de fin de promotion
                   </Label>
                   <Controller
                     control={control}
                     name="promotionEndDate"
                     render={({ field }) => (
-                      <CalendarCustom
-                        selected={field.value ? new Date(field.value) : null}
-                        onChange={(date) => field.onChange(formatISO(date))}
-                      />
+                      <div className="flex items-center gap-4 flex-wrap">
+                        <CalendarCustom
+                          value={promotionEndDate}
+                          onChange={(date) =>
+                            setValue("promotionEndDate", date)
+                          }
+                        />{" "}
+                        {field.value && (
+                          <CancelBtnDashboard
+                            onCancel={() => field.onChange(null)}
+                          />
+                        )}
+                      </div>
                     )}
                   />
+                  {errors.promotionEndDate && (
+                    <p className="text-red-500">
+                      {errors.promotionEndDate.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
             {/* Attributs */}
             <div className="border rounded-md p-4 my-20">
-              <h3 className=" mb-2">Attributs</h3>
+              <h3 className="mb-2">Attributs</h3>
               {/* Nouvelle date */}
-              <div className="mb-4 flex items-center gap-4">
+              <div className="mb-4 flex items-center gap-4 flex-wrap">
                 <Label
                   htmlFor="newUntil"
                   className="bg-blue-100 text-blue-800 p-1 rounded-md"
                 >
-                  Date de nouveauté
+                  Date de nouveauté - jusqu'au :
                 </Label>
                 <Controller
                   control={control}
                   name="newUntil"
                   render={({ field }) => (
-                    <CalendarCustom
-                      selected={field.value ? new Date(field.value) : null}
-                      onChange={(date) => field.onChange(formatISO(date))}
-                    />
+                    <div className="flex items-center gap-2">
+                      <CalendarCustom
+                        value={newUntil}
+                        onChange={(date) => setValue("newUntil", date)}
+                      />
+                      {field.value && (
+                        <CancelBtnDashboard
+                          onCancel={() => field.onChange(null)}
+                        />
+                      )}
+                    </div>
                   )}
                 />
+                {errors.newUntil && (
+                  <p className="text-red-500">{errors.newUntil.message}</p>
+                )}
               </div>
             </div>
             {/* Variantes */}
@@ -328,7 +382,7 @@ const CreateProduct: React.FC = () => {
                 </div>
               ))}
               <Button
-                className="bg-violet-500 hover:bg-violet-600 text-white"
+                className="bg-slate-500 hover:bg-slate-600 text-white"
                 onClick={() =>
                   addVariant({
                     combination: "",
@@ -346,14 +400,54 @@ const CreateProduct: React.FC = () => {
             <div className="border rounded-md p-4 my-20">
               <h3 className=" mb-2">Options</h3>
               <div className="mb-4 flex items-center gap-2">
-                <Checkbox id="isStar" {...register("isStar")} />
-                <Label htmlFor="isStar">
-                  Mettre ce produit en avant sur la page d'accueil
-                </Label>
+                <Controller
+                  name="isStar"
+                  control={control}
+                  render={({ field }) => (
+                    <>
+                      <Switch
+                        id="isStar"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="bg-gray-200  border-gray-300 dark:border-gray-500 "
+                      />
+                      {field.value ? (
+                        <span className="text-xs text-green-500">
+                          Produit mis en avant
+                        </span>
+                      ) : (
+                        <span className="text-xs text-gray-500">
+                          Produit ordinaire
+                        </span>
+                      )}
+                    </>
+                  )}
+                />
               </div>
               <div className="mb-4 flex items-center gap-2">
-                <Checkbox id="isPublished" {...register("isPublished")} />
-                <Label htmlFor="isPublished">Publier ce produit</Label>
+                <Controller
+                  name="isPublished"
+                  control={control}
+                  render={({ field }) => (
+                    <>
+                      <Switch
+                        id="isPublished"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="bg-gray-200  border-gray-300 dark:border-gray-500 "
+                      />
+                      {field.value ? (
+                        <span className="text-xs text-green-500">
+                          Produit publié
+                        </span>
+                      ) : (
+                        <span className="text-xs text-gray-500">
+                          Produit suspendu
+                        </span>
+                      )}
+                    </>
+                  )}
+                />
               </div>
             </div>
           </CardContent>
