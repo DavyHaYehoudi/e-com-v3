@@ -1,4 +1,3 @@
-import useCategory from "@/hooks/dashboard/admin/useCategory";
 import useCollection from "@/hooks/dashboard/admin/useCollection";
 import { CollectionDBType } from "@/types/collection/CollectionTypes/collectionTypes";
 import { useEffect, useState } from "react";
@@ -13,14 +12,19 @@ export interface SelectedCollection {
 
 const CollectionsPage = () => {
   const [collections, setCollections] = useState<CollectionDBType[]>([]);
-  const [selectedCollection, setSelectedCollection] = useState<SelectedCollection>({
-    collectionId: "",
-    label: "",
-  });
+  const [selectedCollection, setSelectedCollection] =
+    useState<SelectedCollection>({
+      collectionId: "",
+      label: "",
+    });
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const { getCollections, createCollection, deleteCollection, updateCollection } =
-    useCollection(selectedCollection.collectionId);
+  const {
+    getCollections,
+    createCollection,
+    deleteCollection,
+    updateCollection,
+  } = useCollection(selectedCollection.collectionId);
 
   // Fonction pour récupérer tous les collections
   const fetchCollections = async () => {

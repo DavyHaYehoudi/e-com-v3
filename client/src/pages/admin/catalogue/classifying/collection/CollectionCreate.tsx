@@ -13,7 +13,9 @@ interface CollectionCreateProps {
   onAddCollection: (newCollection: string) => void;
 }
 
-const CollectionCreate: React.FC<CollectionCreateProps> = ({ onAddCollection }) => {
+const CollectionCreate: React.FC<CollectionCreateProps> = ({
+  onAddCollection,
+}) => {
   const {
     register,
     handleSubmit,

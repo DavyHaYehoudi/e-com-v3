@@ -41,7 +41,9 @@ interface CollectionsListProps {
   selectedCollection: SelectedCollection;
   setIsDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedCollection: React.Dispatch<React.SetStateAction<SelectedCollection>>;
+  setSelectedCollection: React.Dispatch<
+    React.SetStateAction<SelectedCollection>
+  >;
 }
 
 const CollectionsList: React.FC<CollectionsListProps> = ({

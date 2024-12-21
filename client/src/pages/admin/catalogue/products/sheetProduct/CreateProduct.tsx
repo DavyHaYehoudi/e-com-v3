@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductInputDTO, productSchema } from "./productSchema";
 import useCategory from "@/hooks/dashboard/admin/useCategory";
@@ -21,17 +21,34 @@ import OptionSwitch from "./sections/OptionSwitch";
 import AttributeField from "./sections/AttributeField";
 import PromotionField from "./sections/PromotionField";
 import Classifying from "./sections/Classifying";
-import { Switch } from "@/components/ui/switch";
 import ImageUploader from "./sections/ImageUploader";
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
+import { CollectionDBType } from "@/types/collection/CollectionTypes/collectionTypes";
+import useCollection from "@/hooks/dashboard/admin/useCollection";
+import VariantsToAdd from "./sections/VariantsToAdd";
 
+export interface imagesCaroussel {
+  mainImage: File | null;
+  secondaryImages: File[];
+}
+export interface variantsToAddType {
+  combination: string;
+  mainImage: string;
+  secondaryImages: string[];
+}
 const CreateProduct: React.FC = () => {
   const [categories, setCategories] = useState<CategoryDBType[]>([]);
   const [tags, setTags] = useState<TagDBType[]>([]);
+  const [collections, setCollections] = useState<CollectionDBType[]>([]);
+  const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [isVariants, setIsVariants] = useState(false);
+  const [variantsAvailable, setVariantsAvailable] = useState(false);
   const [heroImage, setHeroImage] = useState<File | null>(null);
+  const [mainImage, setMainImage] = useState<File | null>(null);
+  const [secondaryImages, setSecondaryImages] = useState<File[]>([]);
+  const [variantsToAdd, setVariantsToAdd] = useState<variantsToAddType[]>([]);
+  const { getCollections } = useCollection();
   const { getCategories } = useCategory();
   const { getTags } = useTag();
 
@@ -44,7 +61,6 @@ const CreateProduct: React.FC = () => {
     };
     fetchTags();
   }, [getTags]);
-
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await getCategories();
@@ -54,6 +70,15 @@ const CreateProduct: React.FC = () => {
     };
     fetchCategories();
   }, [getCategories]);
+  useEffect(() => {
+    const fetchCollections = async () => {
+      const response = await getCollections();
+      if (response) {
+        setCollections(response);
+      }
+    };
+    fetchCollections();
+  }, [getCollections]);
 
   const {
     control,
@@ -85,30 +110,50 @@ const CreateProduct: React.FC = () => {
     },
   });
 
-  const {
-    fields: variantFields,
-    append: addVariant,
-    remove: removeVariant,
-  } = useFieldArray({
-    control,
-    name: "variants",
-  });
-
   const onSubmit = (data: ProductInputDTO) => {
     console.log("Form Data", data);
+    console.log("collections", selectedCategories);
     console.log("categories", selectedCategories);
     console.log("tags", selectedTags);
+    console.log("mainImage", mainImage);
+    console.log("secondaryImages", secondaryImages);
   };
 
+  const handleCollectionSelection = (id: string, isChecked: boolean) => {
+    setSelectedCollections((prev) =>
+      isChecked
+        ? [...prev, id]
+        : prev.filter((collectionId) => collectionId !== id)
+    );
+  };
   const handleCategorySelection = (id: string, isChecked: boolean) => {
     setSelectedCategories((prev) =>
       isChecked ? [...prev, id] : prev.filter((categoryId) => categoryId !== id)
     );
   };
-
   const handleTagSelection = (id: string, isChecked: boolean) => {
     setSelectedTags((prev) =>
       isChecked ? [...prev, id] : prev.filter((tagId) => tagId !== id)
+    );
+  };
+  const handleMainAndSecondaryImages = (images: imagesCaroussel) => {
+    setMainImage(images.mainImage);
+    setSecondaryImages(images.secondaryImages);
+    if (mainImage) {
+      setVariantsAvailable(true);
+    }
+  };
+  const handleVariantsToAdd = (variant: variantsToAddType) => {
+    const isCombinationExisted = variantsToAdd.some(
+      (vr) => vr.combination === variant.combination
+    );
+    if (!isCombinationExisted) {
+      setVariantsToAdd((prev) => [...prev, variant]);
+    }
+  };
+  const handleVariantToRemove = (combination: string) => {
+    setVariantsToAdd((prev) =>
+      prev.filter((variant) => variant.combination !== combination)
     );
   };
   const promotionEndDate = watch("promotionEndDate");
@@ -135,7 +180,7 @@ const CreateProduct: React.FC = () => {
               </div>
 
               {/* Image principale */}
-              <div className="flex flex-col items-center gap-4 my-20" >
+              <div className="flex flex-col items-center gap-4 my-20">
                 <Label>Image du produit sur la carte et dans le panier</Label>
                 <ImageUploaderBox
                   image={heroImage}
@@ -215,10 +260,13 @@ const CreateProduct: React.FC = () => {
             <div className="my-20 p-4 border rounded-md">
               <h3 className=" mb-2">Classement</h3>
               <Classifying
+                collections={collections}
                 categories={categories}
                 tags={tags}
+                selectedCollections={selectedCollections}
                 selectedCategories={selectedCategories}
                 selectedTags={selectedTags}
+                handleCollectionSelection={handleCollectionSelection}
                 handleCategorySelection={handleCategorySelection}
                 handleTagSelection={handleTagSelection}
               />
@@ -247,57 +295,19 @@ const CreateProduct: React.FC = () => {
                 getValues={getValues}
               />
             </div>
-            {/* Choix du produit avec/sans variant */}
-            <div className="flex items-center space-x-2 my-20">
-              <>
-                <Switch
-                  id="isVariantsSwitch"
-                  checked={isVariants}
-                  onCheckedChange={() => setIsVariants(!isVariants)}
-                  className="bg-gray-200 border-gray-300 dark:border-gray-500"
-                />
-                {isVariants ? (
-                  <Label className=" text-green-500" htmlFor="isVariantsSwitch">
-                    Le produit contient des variants.
-                  </Label>
-                ) : (
-                  <Label className=" text-gray-500" htmlFor="isVariantsSwitch">
-                    Le produit ne contient pas des variants.
-                  </Label>
-                )}
-              </>
+            {/* Caroussel */}
+            <div className="border rounded-md p-4">
+              <h3 className="mb-2">Caroussel d'images</h3>
+              <ImageUploader onImagesUpload={handleMainAndSecondaryImages} />
             </div>
-            <ImageUploader />
             {/* Variantes */}
-            {isVariants && (
-              <div className="mb-4">
-                <h3 className=" mb-2">Variantes</h3>
-                {variantFields.map((variant, index) => (
-                  <div key={variant.id} className="mb-4 border p-4">
-                    <Button
-                      variant="destructive"
-                      onClick={() => removeVariant(index)}
-                    >
-                      Supprimer cette variante
-                    </Button>
-                  </div>
-                ))}
-                <Button
-                  className="bg-slate-500 hover:bg-slate-600 text-white"
-                  onClick={() =>
-                    addVariant({
-                      combination: "",
-                      mainImage: "",
-                      secondaryImages: [],
-                      _id: "",
-                    })
-                  }
-                >
-                  Ajouter une variante
-                </Button>
-              </div>
-            )}
-
+            <VariantsToAdd
+              variantsAvailable={variantsAvailable}
+              variantsToAdd={variantsToAdd}
+              setVariantsToAdd={setVariantsToAdd}
+              removeVariant={handleVariantToRemove}
+              addVariant={handleVariantsToAdd}
+            />
             {/* Options */}
             <div className="border rounded-md p-4 my-20">
               <h3 className="mb-2">Options</h3>
