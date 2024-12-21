@@ -58,6 +58,10 @@ export const data = {
       isActive: true,
       items: [
         {
+          title: "Collections",
+          url: "/admin/tableau-de-bord/catalogue/collections",
+        },
+        {
           title: "Catégories",
           url: "/admin/tableau-de-bord/catalogue/categories",
         },

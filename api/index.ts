@@ -16,6 +16,7 @@ checkConnection();
 import authRoutes from "./routes/publicAccess/auth.routes.js";
 import tagRoutes from "./routes/publicAccess/tag.routes.js";
 import categoryRoutes from "./routes/publicAccess/category.routes.js";
+import collectionRoutes from "./routes/publicAccess/collection.routes.js";
 import promocodeRoutes from "./routes/publicAccess/promocode.routes.js";
 import reviewsRoutes from "./routes/publicAccess/review.routes.js";
 import productRoutes from "./routes/publicAccess/product.routes.js";
@@ -31,6 +32,7 @@ import orderRoutesCustomer from "./routes/customerAccess/order.routes.js";
 import customerRoutesAdmin from "./routes/adminAccess/customer.routes.js";
 import tagRoutesAdmin from "./routes/adminAccess/tag.routes.js";
 import categoryRoutesAdmin from "./routes/adminAccess/category.routes.js";
+import collectionRoutesAdmin from "./routes/adminAccess/collection.routes.js";
 import promocodeRoutesAdmin from "./routes/adminAccess/promocode.routes.js";
 import reviewRoutesAdmin from "./routes/adminAccess/review.routes.js";
 import campaignRoutesAdmin from "./routes/adminAccess/campaign.routes.js";
@@ -44,6 +46,7 @@ import orderRoutesAdmin from "./routes/adminAccess/order.routes.js";
 app.use("/api/auth", authRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/collections", collectionRoutes);
 app.use("/api/promocodes", promocodeRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/products", productRoutes);
@@ -59,6 +62,12 @@ app.use("/api/orders", orderRoutesCustomer);
 app.use("/api/admin/customers", verifyToken, adminAccess, customerRoutesAdmin);
 app.use("/api/admin/tags", verifyToken, adminAccess, tagRoutesAdmin);
 app.use("/api/admin/categories", verifyToken, adminAccess, categoryRoutesAdmin);
+app.use(
+  "/api/admin/collections",
+  verifyToken,
+  adminAccess,
+  collectionRoutesAdmin
+);
 app.use(
   "/api/admin/promocodes",
   verifyToken,

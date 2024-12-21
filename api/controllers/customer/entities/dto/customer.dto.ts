@@ -81,7 +81,6 @@ export const updateCustomerSchema = z.object({
 });
 export type FieldsUpdateCustomerDTO = z.infer<typeof updateCustomerSchema>;
 
-
 // Schéma Zod pour CashbackType
 export const cashbackSchema = z.object({
   cashbackEarned: z
@@ -96,6 +95,7 @@ export const cashbackSchema = z.object({
     "referral",
     "correction",
   ]),
+  orderNumber: z.string().optional().nullable(), // utile pour le typage lors de la création de la commande dans le service payment.service
 });
 
 // Export du type TypeScript dérivé de Zod

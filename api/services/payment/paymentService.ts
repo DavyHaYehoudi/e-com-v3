@@ -227,7 +227,6 @@ export const createOrderService = async (
       orderNumber,
       cashbackEarned: cashbackToEarn || 0,
       cashbackSpent: cashbackToSpend || 0,
-      reviewId: null,
     };
     await updateCashbackCustomerRepository(customerId, cashbackData);
     //8. Création des cartes cadeaux

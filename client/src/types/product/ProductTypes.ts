@@ -11,10 +11,8 @@ export interface ProductDBType {
   newUntil: string; // ISO date string
   isPublished: boolean;
   cashback: number;
-  categories: Array<{
-    _id: string;
-    label: string;
-  }>;
+  collections: CollectionProductType;
+  categories: CategoryProductType;
   tags: TagProductType[];
   variants: VariantProductType[];
   isStar: boolean;
@@ -28,6 +26,14 @@ export interface VariantProductType {
   mainImage: string;
   secondaryImages: string[];
   _id: string;
+}
+export interface CollectionProductType {
+  _id: string;
+  label: string;
+}
+export interface CategoryProductType {
+  _id: string;
+  label: string;
 }
 export interface TagProductType {
   _id: string;

@@ -13,6 +13,7 @@ tags:
   - name: order
   - name: orderItem
   - name: product
+  - name: collection
   - name: category
   - name: tag
   - name: giftcard
@@ -629,6 +630,97 @@ paths:
           description: Not found - The product doesn't exist.
       security:
         - api_key: []
+  /collections:
+    get:
+      tags:
+        - collection
+      summary: Finds all collections.
+      description: Finds all collections.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CollectionGET'          
+  /admin/collections:
+    post:
+      tags:
+        - collection
+      summary: Add a new collection.
+      description: Add a new collection. The label must be unique. A collection must be attached to a parent collection.
+      requestBody:
+        description: Create a new collection in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '409':
+          description: Conflict - The label is not unique.
+      security:
+        - api_key: []
+  /admin/collections/{collectionId}:
+    patch:
+      tags:
+        - collection
+      summary: Update a collection.
+      description: Update a collection. The label must be unique.
+      parameters:
+        - name: collectionId
+          in: path
+          description: Collection id to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update a collection in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionPATCH'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '409':
+          description: Conflict - The label is not unique.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - collection
+      summary: Delete a collection.
+      description: Delete a collection.
+      parameters:
+        - name: collectionId
+          in: path
+          description: Collection id to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The category doesn't exist.
+      security:
+        - api_key: []
   /categories:
     get:
       tags:
@@ -1220,7 +1312,7 @@ paths:
       security:
         - api_key: []
   /admin/marketing/campaigns/{campaignId}:
-    put:
+    patch:
       tags:
         - marketing
       summary: Update an existing compaign.
@@ -1788,6 +1880,27 @@ components:
           type: string
           example: Bracelet
     CategoryPATCH:
+      type: object
+      properties:
+        label:
+          type: string
+    CollectionGET:
+      type: object
+      properties:
+        label:
+          type: string
+          example: Printemps
+        productCount:
+          type: integer
+    CollectionPOST:
+      required:
+        - label
+      type: object
+      properties:
+        label:
+          type: string
+          example: Printemps
+    CollectionPATCH:
       type: object
       properties:
         label:

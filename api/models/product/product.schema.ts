@@ -13,6 +13,7 @@ export interface ProductDocument extends Document {
   newUntil: Date | null;
   isPublished: boolean;
   cashback: number;
+  collections: Types.ObjectId[];
   categories: Types.ObjectId[];
   tags: Types.ObjectId[];
   variants: {
@@ -40,6 +41,7 @@ const ProductSchema = new Schema<ProductDocument>(
     newUntil: { type: Date, default: new Date() },
     isPublished: { type: Boolean, default: false },
     cashback: { type: Number, default: 0 },
+    collections: [{ type: Schema.Types.ObjectId, ref: "Collection" }],
     categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
     variants: [

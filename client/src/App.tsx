@@ -56,6 +56,7 @@ import LeaveReviewPage from "./pages/customer/orders/actions/LeaveReviewPage";
 import GiftcardHistoryPage from "./pages/admin/advantages/giftcards/GiftcardHistoryPage";
 import EditProduct from "./pages/admin/catalogue/products/sheetProduct/EditProduct";
 import CreateProduct from "./pages/admin/catalogue/products/sheetProduct/CreateProduct";
+import CollectionsPage from "./pages/admin/catalogue/classifying/collection/CollectionsPage";
 function App() {
   return (
     <ThemeProvider>
@@ -205,6 +206,10 @@ function App() {
                 <Route
                   path="admin/tableau-de-bord/catalogue/produits/:productId"
                   element={<EditProduct />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/catalogue/collections"
+                  element={<CollectionsPage />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/catalogue/categories"
