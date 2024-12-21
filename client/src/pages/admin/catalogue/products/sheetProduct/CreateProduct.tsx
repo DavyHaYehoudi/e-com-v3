@@ -21,12 +21,17 @@ import OptionSwitch from "./sections/OptionSwitch";
 import AttributeField from "./sections/AttributeField";
 import PromotionField from "./sections/PromotionField";
 import Classifying from "./sections/Classifying";
+import { Switch } from "@/components/ui/switch";
+import ImageUploader from "./sections/ImageUploader";
+import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 
 const CreateProduct: React.FC = () => {
   const [categories, setCategories] = useState<CategoryDBType[]>([]);
   const [tags, setTags] = useState<TagDBType[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isVariants, setIsVariants] = useState(false);
+  const [heroImage, setHeroImage] = useState<File | null>(null);
   const { getCategories } = useCategory();
   const { getTags } = useTag();
 
@@ -55,6 +60,7 @@ const CreateProduct: React.FC = () => {
     handleSubmit,
     register,
     setValue,
+    getValues,
     watch,
     formState: { errors },
   } = useForm<ProductInputDTO>({
@@ -114,30 +120,30 @@ const CreateProduct: React.FC = () => {
       <Card className="p-6 xl:w-1/2 2xl:w-1/3 mx-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardHeader>
-            {/* Nom du produit */}
-            <div className="mb-4">
-              <Label htmlFor="name">Nom</Label>
-              <Input
-                id="name"
-                {...register("name")}
-                placeholder="Nom du produit"
-              />
-              {errors.name && (
-                <p className="text-red-500">{errors.name.message}</p>
-              )}
-            </div>
-            {/* Hero Image */}
-            <div className="mb-4">
-              <Label htmlFor="heroImage">Image principale</Label>
-              <Input
-                id="heroImage"
-                type="file"
-                accept="image/*"
-                {...register("heroImage")}
-              />
-              {errors.heroImage && (
-                <p className="text-red-500">{errors.heroImage.message}</p>
-              )}
+            <div>
+              {/* Nom du produit */}
+              <div className="mb-4">
+                <Label htmlFor="name">Nom</Label>
+                <Input
+                  id="name"
+                  {...register("name")}
+                  placeholder="Nom du produit"
+                />
+                {errors.name && (
+                  <p className="text-red-500">{errors.name.message}</p>
+                )}
+              </div>
+
+              {/* Image principale */}
+              <div className="flex flex-col items-center gap-4 my-20" >
+                <Label>Image du produit sur la carte et dans le panier</Label>
+                <ImageUploaderBox
+                  image={heroImage}
+                  setImage={setHeroImage}
+                  width={300}
+                  height={300}
+                />
+              </div>
             </div>
           </CardHeader>
           <CardContent>
@@ -169,7 +175,6 @@ const CreateProduct: React.FC = () => {
                 <p className="text-red-500">{errors.price.message}</p>
               )}
             </div>
-
             {/* stock */}
             <div className="mb-4">
               <Label htmlFor="stock">Stock</Label>
@@ -239,35 +244,59 @@ const CreateProduct: React.FC = () => {
                 value={newUntil}
                 setValue={setValue}
                 error={errors.newUntil?.message}
+                getValues={getValues}
               />
             </div>
-            {/* Variantes */}
-            <div className="mb-4">
-              <h3 className=" mb-2">Variantes</h3>
-              {variantFields.map((variant, index) => (
-                <div key={variant.id} className="mb-4 border p-4">
-                  <Button
-                    variant="destructive"
-                    onClick={() => removeVariant(index)}
-                  >
-                    Supprimer cette variante
-                  </Button>
-                </div>
-              ))}
-              <Button
-                className="bg-slate-500 hover:bg-slate-600 text-white"
-                onClick={() =>
-                  addVariant({
-                    combination: "",
-                    mainImage: "",
-                    secondaryImages: [],
-                    _id: "",
-                  })
-                }
-              >
-                Ajouter une variante
-              </Button>
+            {/* Choix du produit avec/sans variant */}
+            <div className="flex items-center space-x-2 my-20">
+              <>
+                <Switch
+                  id="isVariantsSwitch"
+                  checked={isVariants}
+                  onCheckedChange={() => setIsVariants(!isVariants)}
+                  className="bg-gray-200 border-gray-300 dark:border-gray-500"
+                />
+                {isVariants ? (
+                  <Label className=" text-green-500" htmlFor="isVariantsSwitch">
+                    Le produit contient des variants.
+                  </Label>
+                ) : (
+                  <Label className=" text-gray-500" htmlFor="isVariantsSwitch">
+                    Le produit ne contient pas des variants.
+                  </Label>
+                )}
+              </>
             </div>
+            <ImageUploader />
+            {/* Variantes */}
+            {isVariants && (
+              <div className="mb-4">
+                <h3 className=" mb-2">Variantes</h3>
+                {variantFields.map((variant, index) => (
+                  <div key={variant.id} className="mb-4 border p-4">
+                    <Button
+                      variant="destructive"
+                      onClick={() => removeVariant(index)}
+                    >
+                      Supprimer cette variante
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  className="bg-slate-500 hover:bg-slate-600 text-white"
+                  onClick={() =>
+                    addVariant({
+                      combination: "",
+                      mainImage: "",
+                      secondaryImages: [],
+                      _id: "",
+                    })
+                  }
+                >
+                  Ajouter une variante
+                </Button>
+              </div>
+            )}
 
             {/* Options */}
             <div className="border rounded-md p-4 my-20">
@@ -276,7 +305,7 @@ const CreateProduct: React.FC = () => {
                 name="isStar"
                 control={control}
                 id="isStar"
-                labelChecked="Produit mis en avant"
+                labelChecked="Produit mis en avant  🚀"
                 labelUnchecked="Produit ordinaire"
               />
               <OptionSwitch
@@ -285,6 +314,7 @@ const CreateProduct: React.FC = () => {
                 id="isPublished"
                 labelChecked="Produit publié"
                 labelUnchecked="Produit suspendu"
+                className="text-green-500"
               />
             </div>
           </CardContent>

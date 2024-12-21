@@ -9,6 +9,7 @@ interface OptionSwitchProps {
   labelChecked: string;
   labelUnchecked: string;
   id: string;
+  className?: string;
 }
 
 const OptionSwitch: React.FC<OptionSwitchProps> = ({
@@ -17,6 +18,7 @@ const OptionSwitch: React.FC<OptionSwitchProps> = ({
   labelChecked,
   labelUnchecked,
   id,
+  className,
 }) => {
   return (
     <div className="mb-4 flex items-center gap-2">
@@ -32,9 +34,9 @@ const OptionSwitch: React.FC<OptionSwitchProps> = ({
               className="bg-gray-200 border-gray-300 dark:border-gray-500"
             />
             {field.value ? (
-              <span className="text-xs text-green-500">{labelChecked}</span>
+              <span className={className}>{labelChecked}</span>
             ) : (
-              <span className="text-xs text-gray-500">{labelUnchecked}</span>
+              <span className=" text-gray-500">{labelUnchecked}</span>
             )}
           </>
         )}
