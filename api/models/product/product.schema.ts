@@ -6,11 +6,11 @@ export interface ProductDocument extends Document {
   description: string;
   heroImage: string;
   promotionPercentage: number;
-  promotionEndDate: Date | null;
+  promotionEndDate: string | Date | null;
   continueSelling: boolean;
   quantityInStock: number;
   price: number;
-  newUntil: Date | null;
+  newUntil: string | Date | null;
   isPublished: boolean;
   cashback: number;
   collections: Types.ObjectId[];

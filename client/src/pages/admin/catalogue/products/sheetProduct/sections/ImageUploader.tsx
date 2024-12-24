@@ -1,69 +1,82 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { imagesCaroussel } from "../CreateProduct";
+
+export interface ImagesCarousselType {
+  mainImage: File | null;
+  secondaryImages: File[];
+}
 
 export interface ImageUploaderProps {
-  onImagesUpload: (images: imagesCaroussel) => void;
+  onImagesUpload: (images: ImagesCarousselType) => void;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesUpload }) => {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [secondaryImages, setSecondaryImages] = useState<File[]>([]);
 
-  const handleSecondaryImageUpload = (image: File | null) => {
-    if (image) {
-      setSecondaryImages([...secondaryImages, image]);
-    }
+  const handleMainImageUpload = (image: File | null) => {
+    setMainImage(image);
+    onImagesUpload({ mainImage: image, secondaryImages });
   };
-  const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    onImagesUpload({ mainImage, secondaryImages });
+
+  const handleSecondaryImageUpload = (image: File) => {
+    const updatedSecondaryImages = [...secondaryImages, image];
+    setSecondaryImages(updatedSecondaryImages);
+    onImagesUpload({ mainImage, secondaryImages: updatedSecondaryImages });
   };
+
+  const handleRemoveMainImage = () => {
+    setMainImage(null);
+    onImagesUpload({ mainImage: null, secondaryImages });
+  };
+
+  const handleRemoveSecondaryImage = (indexToRemove: number) => {
+    const updatedSecondaryImages = secondaryImages.filter(
+      (_, index) => index !== indexToRemove
+    );
+    setSecondaryImages(updatedSecondaryImages);
+    onImagesUpload({ mainImage, secondaryImages: updatedSecondaryImages });
+  };
+
   return (
-    <div>
-      <div className="flex items-center flex-wrap gap-4">
-        {/* Image principale */}
-        <div>
-          <Label>1ère image dans le caroussel</Label>
-          <ImageUploaderBox
-            image={mainImage}
-            setImage={setMainImage}
-            width={200}
-            height={200}
-          />
-        </div>
+    <div className="mt-4">
+      <Label className="text-sm font-medium">Image principale :</Label>
+      <ImageUploaderBox
+        image={mainImage}
+        handleImageUpload={(e) =>
+          handleMainImageUpload(e.target.files?.[0] || null)
+        }
+        handleRemoveImage={handleRemoveMainImage}
+        width={200}
+        height={200}
+      />
 
-        {/* Images secondaires */}
-        <div className="flex flex-wrap gap-4">
-          {secondaryImages.map((image, index) => (
-            <ImageUploaderBox
-              key={index}
-              image={image}
-              setImage={() => {}}
-              width={100}
-              height={100}
-            />
-          ))}
-
-          {/* Ajouter une nouvelle image secondaire */}
+      <Label className="text-sm font-medium mt-4">Images secondaires :</Label>
+      <div className="flex gap-2 mt-2">
+        {secondaryImages.map((image, index) => (
           <ImageUploaderBox
-            image={null}
-            setImage={handleSecondaryImageUpload}
+            key={index}
+            image={image}
+            handleImageUpload={(e) =>
+              handleSecondaryImageUpload(e.target.files?.[0] as File)
+            }
+            handleRemoveImage={() => handleRemoveSecondaryImage(index)}
             width={100}
             height={100}
           />
-        </div>
+        ))}
+        {/* Boîte vide pour ajouter une nouvelle image */}
+        <ImageUploaderBox
+          image={null}
+          handleImageUpload={(e) =>
+            handleSecondaryImageUpload(e.target.files?.[0] as File)
+          }
+          handleRemoveImage={() => {}}
+          width={100}
+          height={100}
+        />
       </div>
-      {/* Bouton de validation */}
-      <Button
-        className="my-4"
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSave(e)}
-        disabled={!mainImage}
-      >
-        Sauvegarder
-      </Button>
     </div>
   );
 };

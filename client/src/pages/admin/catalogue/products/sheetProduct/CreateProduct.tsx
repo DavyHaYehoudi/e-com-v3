@@ -10,32 +10,36 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { CategoryDBType } from "@/types/category/CategoryTypes";
 import { TagDBType } from "@/types/tag/TagTypes";
-import { Textarea } from "@/components/ui/textarea";
 import { add } from "date-fns";
 import OptionSwitch from "./sections/OptionSwitch";
 import AttributeField from "./sections/AttributeField";
 import PromotionField from "./sections/PromotionField";
 import Classifying from "./sections/Classifying";
 import ImageUploader from "./sections/ImageUploader";
-import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 import { CollectionDBType } from "@/types/collection/CollectionTypes/collectionTypes";
 import useCollection from "@/hooks/dashboard/admin/useCollection";
 import VariantsToAdd from "./sections/VariantsToAdd";
+import HeaderSection from "./sections/HeaderSection";
+import DescriptionSection from "./sections/DescriptionSection";
+import PriceSection from "./sections/PriceSection";
+import StockSection from "./sections/StockSection";
+import CashbackSection from "./sections/CashbbackSection";
+import useProduct from "@/hooks/dashboard/admin/useProduct";
+import { toast } from "sonner";
 
-export interface imagesCaroussel {
+export interface ImagesCarousselType {
   mainImage: File | null;
   secondaryImages: File[];
 }
-export interface variantsToAddType {
+export interface VariantsToAddType {
   combination: string;
-  mainImage: string;
-  secondaryImages: string[];
+  mainImage: File | null;
+  secondaryImages: File[];
 }
+export type AddingVariantType = "combination" | "images";
 const CreateProduct: React.FC = () => {
   const [categories, setCategories] = useState<CategoryDBType[]>([]);
   const [tags, setTags] = useState<TagDBType[]>([]);
@@ -43,14 +47,18 @@ const CreateProduct: React.FC = () => {
   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [variantsAvailable, setVariantsAvailable] = useState(false);
   const [heroImage, setHeroImage] = useState<File | null>(null);
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [secondaryImages, setSecondaryImages] = useState<File[]>([]);
-  const [variantsToAdd, setVariantsToAdd] = useState<variantsToAddType[]>([]);
+  const [addOneVariant, setAddOneVariant] = useState(false);
+  const [variantsToAddList, setVariantsToAddList] = useState<
+    VariantsToAddType[]
+  >([]);
+
   const { getCollections } = useCollection();
   const { getCategories } = useCategory();
   const { getTags } = useTag();
+  const { createProduct } = useProduct();
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -93,32 +101,74 @@ const CreateProduct: React.FC = () => {
     defaultValues: {
       name: "",
       description: "",
-      heroImage: "",
+      heroImage:"",
       promotionPercentage: 0,
       promotionEndDate: null,
       continueSelling: false,
       quantityInStock: 1,
       price: 20,
-      cashback: 0,
       newUntil: add(new Date(), { months: 3 }),
       isPublished: true,
+      cashback: 0,
       categories: [],
-      tags: [],
-      variants: [],
+      tags:[],
+      variants:[],
       isStar: false,
       isArchived: false,
     },
   });
 
-  const onSubmit = (data: ProductInputDTO) => {
+  const onSubmit =  async(data:ProductInputDTO) => {
     console.log("Form Data", data);
     console.log("collections", selectedCategories);
     console.log("categories", selectedCategories);
     console.log("tags", selectedTags);
     console.log("mainImage", mainImage);
     console.log("secondaryImages", secondaryImages);
-  };
+    console.log("variantsToAddList:", variantsToAddList);
+    const variantsToAddListWaitingFirebase = variantsToAddList.map((variant=>{
+      return {
+        combination: variant.combination,
+        mainImage: variant.mainImage?.name,
+        secondaryImages: variant.secondaryImages.map((image)=>image.name),
+      }
+    }))
+    const bodyData = {
+      name: data.name,
+      description: data.description,
+      heroImage:heroImage?.name,
+      promotionPercentage: data.promotionPercentage,
+      promotionEndDate: data.promotionEndDate?.toISOString(),
+      continueSelling: data.continueSelling,
+      quantityInStock: data.quantityInStock,
+      price: data.price,
+      newUntil: data.newUntil?.toISOString(),
+      isPublished: data.isPublished,
+      cashback: data.cashback,
+      collections:selectedCollections,
+      categories: selectedCategories,
+      tags: selectedTags,
+      variants: [
+        {
+          combination: "sans",
+          mainImage:mainImage?.name,
+          secondaryImages: secondaryImages.map((image)=>image.name),
+        },
+        ...variantsToAddListWaitingFirebase // Ajoute les autres variantes dans l'ordre voulu
+      ],
+      isStar: data.isStar,
+      isArchived: data.isArchived,
+    };
+      createProduct(bodyData).then(result=>{
+        if(result){
 
+        return   toast.success("Le produit a été créé avec succès!");
+        }
+        toast.error("Une erreur s'est produite lors de la création du produit");
+      });
+
+    
+  };
   const handleCollectionSelection = (id: string, isChecked: boolean) => {
     setSelectedCollections((prev) =>
       isChecked
@@ -136,28 +186,28 @@ const CreateProduct: React.FC = () => {
       isChecked ? [...prev, id] : prev.filter((tagId) => tagId !== id)
     );
   };
-  const handleMainAndSecondaryImages = (images: imagesCaroussel) => {
+  const handleMainAndSecondaryImages = (images: ImagesCarousselType) => {
     setMainImage(images.mainImage);
     setSecondaryImages(images.secondaryImages);
     if (mainImage) {
-      setVariantsAvailable(true);
+      setAddOneVariant(true);
     }
   };
-  const handleVariantsToAdd = (variant: variantsToAddType) => {
-    const isCombinationExisted = variantsToAdd.some(
-      (vr) => vr.combination === variant.combination
-    );
-    if (!isCombinationExisted) {
-      setVariantsToAdd((prev) => [...prev, variant]);
-    }
+  const handleHeroImageUpload = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setHeroImage(event.target.files && event.target.files[0]);
   };
-  const handleVariantToRemove = (combination: string) => {
-    setVariantsToAdd((prev) =>
-      prev.filter((variant) => variant.combination !== combination)
-    );
+  const handleRemoveImageUpload = () => {
+    setHeroImage(null);
   };
   const promotionEndDate = watch("promotionEndDate");
   const newUntil = watch("newUntil");
+  const isAllFiedlsEmpty =
+    selectedCollections.length > 0 &&
+    selectedCategories.length > 0 &&
+    heroImage &&
+    mainImage;
   return (
     <div>
       <h1 className="text-center mb-10">creer un produit</h1>
@@ -166,96 +216,25 @@ const CreateProduct: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardHeader>
             <div>
-              {/* Nom du produit */}
-              <div className="mb-4">
-                <Label htmlFor="name">Nom</Label>
-                <Input
-                  id="name"
-                  {...register("name")}
-                  placeholder="Nom du produit"
-                />
-                {errors.name && (
-                  <p className="text-red-500">{errors.name.message}</p>
-                )}
-              </div>
-
-              {/* Image principale */}
-              <div className="flex flex-col items-center gap-4 my-20">
-                <Label>Image du produit sur la carte et dans le panier</Label>
-                <ImageUploaderBox
-                  image={heroImage}
-                  setImage={setHeroImage}
-                  width={300}
-                  height={300}
-                />
-              </div>
+              {/* Nom du produit et Image principale */}
+              <HeaderSection
+                register={register}
+                errors={errors}
+                heroImage={heroImage}
+                handleHeroImageUpload={handleHeroImageUpload}
+                handleRemoveImageUpload={handleRemoveImageUpload}
+              />
             </div>
           </CardHeader>
           <CardContent>
             {/* Description */}
-            <div className="mb-4">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                {...register("description")}
-                placeholder="Description du produit"
-              />
-              {errors.description && (
-                <p className="text-red-500">{errors.description.message}</p>
-              )}
-            </div>
+            <DescriptionSection register={register} errors={errors} />
             {/* price */}
-            <div className="mb-4">
-              <Label htmlFor="price">Prix (€)</Label>
-              <Input
-                id="price"
-                type="number"
-                step="0.01" // Autorise les nombres décimaux
-                {...register("price", {
-                  setValueAs: (value) =>
-                    value === "" ? undefined : parseFloat(value), // Convertit en nombre ou undefined si vide
-                })}
-              />
-              {errors.price && (
-                <p className="text-red-500">{errors.price.message}</p>
-              )}
-            </div>
+            <PriceSection register={register} errors={errors} />
             {/* stock */}
-            <div className="mb-4">
-              <Label htmlFor="stock">Stock</Label>
-              <Input
-                id="stock"
-                type="number"
-                {...register("quantityInStock", {
-                  setValueAs: (value) =>
-                    value === "" ? undefined : parseInt(value), // Convertit en nombre ou undefined si vide
-                })}
-              />
-              {errors.quantityInStock && (
-                <p className="text-red-500">{errors.quantityInStock.message}</p>
-              )}
-            </div>
+            <StockSection register={register} errors={errors} />
             {/* Cashback */}
-            <div className="mb-4">
-              <Label
-                htmlFor="cashback"
-                className="bg-blue-500 text-white p-1 rounded-md"
-              >
-                Cashback (€)
-              </Label>
-              <Input
-                id="cashback"
-                type="number"
-                step="0.01" // Autorise les nombres décimaux
-                {...register("cashback", {
-                  setValueAs: (value) =>
-                    value === "" ? undefined : parseFloat(value), // Convertit en nombre ou undefined si vide
-                })}
-              />
-              {errors.cashback && (
-                <p className="text-red-500">{errors.cashback.message}</p>
-              )}
-            </div>
+            <CashbackSection register={register} errors={errors} />
             {/* Classement */}
             <div className="my-20 p-4 border rounded-md">
               <h3 className=" mb-2">Classement</h3>
@@ -297,17 +276,19 @@ const CreateProduct: React.FC = () => {
             </div>
             {/* Caroussel */}
             <div className="border rounded-md p-4">
-              <h3 className="mb-2">Caroussel d'images</h3>
+              <h3 className="mb-2">
+                Caroussel d'images
+                <span className="text-red-500 text-2xl">*</span>
+              </h3>
               <ImageUploader onImagesUpload={handleMainAndSecondaryImages} />
             </div>
             {/* Variantes */}
-            <VariantsToAdd
-              variantsAvailable={variantsAvailable}
-              variantsToAdd={variantsToAdd}
-              setVariantsToAdd={setVariantsToAdd}
-              removeVariant={handleVariantToRemove}
-              addVariant={handleVariantsToAdd}
-            />
+            {addOneVariant && (
+              <VariantsToAdd
+                variantsToAddList={variantsToAddList}
+                setVariantsToAddList={setVariantsToAddList}
+              />
+            )}
             {/* Options */}
             <div className="border rounded-md p-4 my-20">
               <h3 className="mb-2">Options</h3>
@@ -333,7 +314,10 @@ const CreateProduct: React.FC = () => {
             {/* Bouton Soumettre */}
             <Button
               type="submit"
-              className="mt-4 bg-green-500 hover:bg-green-600 text-white"
+              className={`mt-4 ${
+                isAllFiedlsEmpty ? "bg-green-500" : "bg-slate-500"
+              }  hover:bg-green-600 text-white`}
+              disabled={!isAllFiedlsEmpty}
             >
               Créer le produit
             </Button>

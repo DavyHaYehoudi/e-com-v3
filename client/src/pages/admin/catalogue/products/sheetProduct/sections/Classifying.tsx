@@ -38,7 +38,7 @@ const Classifying: React.FC<ClassifyingProps> = ({
     <>
       {/* Collections */}
       <div className="mb-4 flex items-center gap-2 flex-wrap">
-        <Label>Classement 1</Label>
+        <Label>Classement 1<span className="text-red-500 text-2xl">*</span></Label>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
@@ -72,7 +72,7 @@ const Classifying: React.FC<ClassifyingProps> = ({
       </div>
       {/* Catégories */}
       <div className="mb-4 flex items-center gap-2 flex-wrap">
-        <Label>Classement 2</Label>
+        <Label>Classement 2<span className="text-red-500 text-2xl">*</span></Label>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
