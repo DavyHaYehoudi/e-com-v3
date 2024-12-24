@@ -15,6 +15,7 @@ import ProductReview from "./ProductReview";
 import { useParams } from "react-router-dom";
 import { ProductDBType } from "@/types/product/ProductTypes";
 import { useCartManager } from "@/hooks/useCartManager";
+import { isProductNew } from "@/utils/productUtils";
 
 const MasterProduct = () => {
   const [quantity, setQuantity] = useState<number>(1);
@@ -107,7 +108,8 @@ const MasterProduct = () => {
             </h1>
             <div className="flex justify-center items-center gap-2 mt-5 relative">
               {" "}
-              <NewBadge /> <FavoriteButton product={product} />{" "}
+              {isProductNew(product.newUntil) && <NewBadge />}
+              <FavoriteButton product={product} />{" "}
             </div>
             <CarouselProduct product={product} />
             <article className="bg-purple-50 p-4 rounded-md text-gray-700 text-base leading-relaxed mt-4">

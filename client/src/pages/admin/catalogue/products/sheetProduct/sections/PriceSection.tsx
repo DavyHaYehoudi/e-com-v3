@@ -8,16 +8,25 @@ const PriceSection: React.FC<{
   errors: FieldErrors<ProductInputDTO>;
 }> = ({ register, errors }) => (
   <div className="mb-4">
-    <Label htmlFor="price">Prix (€)<span className="text-red-500 text-2xl" >*</span></Label>
+    <Label htmlFor="price">
+      Prix (€)<span className="text-red-500 text-2xl">*</span>
+    </Label>
     <Input
       id="price"
       type="number"
-      step="0.01" // Autorise les nombres décimaux
+      step="0.01"
       {...register("price", {
-        setValueAs: (value) => (value === "" ? undefined : parseFloat(value)), // Convertit en nombre ou undefined si vide
+        setValueAs: (value) => {
+          if (value === "") return undefined; // Si le champ est vide, retourne undefined
+          const parsedValue = parseFloat(value);
+          return isNaN(parsedValue)
+            ? undefined
+            : parseFloat(parsedValue.toFixed(2)); // Assure un arrondi à 2 décimales
+        },
       })}
       placeholder="Prix du produit"
     />
+
     {errors.price && <p className="text-red-500">{errors.price.message}</p>}
   </div>
 );

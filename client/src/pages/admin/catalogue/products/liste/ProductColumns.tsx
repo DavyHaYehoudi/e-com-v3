@@ -4,10 +4,7 @@ import { ArrowUpDown } from "lucide-react";
 import ValidBadge from "@/components/shared/badge/ValidBadge";
 import NoValidBadge from "@/components/shared/badge/NoValidBadge";
 import { ProductDBType } from "@/types/product/ProductTypes";
-import {
-  isProductNew,
-  isProductOnSale,
-} from "@/utils/productUtils";
+import { isProductNew, isProductOnSale } from "@/utils/productUtils";
 import { formatPrice } from "@/utils/pricesFormat";
 import ProductActions from "./ProductActions";
 import { SelectedProduct } from "./ProductsPageAdmin";
@@ -116,7 +113,7 @@ export const ProductColumns = (
               promotionEndDate={product.promotionEndDate}
             />
           ) : (
-            "non"
+            ""
           )}
         </div>
       );
@@ -138,9 +135,7 @@ export const ProductColumns = (
     },
     cell: ({ row }) => {
       return (
-        <div>
-          {isProductNew(row.getValue("newUntil")) ? <NewBadge /> : "non"}
-        </div>
+        <div>{isProductNew(row.getValue("newUntil")) ? <NewBadge /> : ""}</div>
       );
     },
     meta: { headerName: "Attribut" },
@@ -159,9 +154,14 @@ export const ProductColumns = (
       );
     },
     cell: ({ row }) => {
+      const cashbackAmount: number = row.getValue("cashback");
       return (
         <div>
-          <CashbackBadge cashbackAmount={row.getValue("cashback")} />
+          {cashbackAmount > 0 ? (
+            <CashbackBadge cashbackAmount={cashbackAmount} />
+          ) : (
+            ""
+          )}
         </div>
       );
     },

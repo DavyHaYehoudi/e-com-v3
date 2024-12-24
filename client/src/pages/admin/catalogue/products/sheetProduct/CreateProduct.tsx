@@ -29,6 +29,7 @@ import StockSection from "./sections/StockSection";
 import CashbackSection from "./sections/CashbbackSection";
 import useProduct from "@/hooks/dashboard/admin/useProduct";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export interface ImagesCarousselType {
   mainImage: File | null;
@@ -95,13 +96,14 @@ const CreateProduct: React.FC = () => {
     setValue,
     getValues,
     watch,
+    // reset,
     formState: { errors },
   } = useForm<ProductInputDTO>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
       description: "",
-      heroImage:"",
+      heroImage: "",
       promotionPercentage: 0,
       promotionEndDate: null,
       continueSelling: false,
@@ -111,32 +113,27 @@ const CreateProduct: React.FC = () => {
       isPublished: true,
       cashback: 0,
       categories: [],
-      tags:[],
-      variants:[],
+      tags: [],
+      variants: [],
       isStar: false,
       isArchived: false,
     },
   });
-
-  const onSubmit =  async(data:ProductInputDTO) => {
-    console.log("Form Data", data);
-    console.log("collections", selectedCategories);
-    console.log("categories", selectedCategories);
-    console.log("tags", selectedTags);
-    console.log("mainImage", mainImage);
-    console.log("secondaryImages", secondaryImages);
-    console.log("variantsToAddList:", variantsToAddList);
-    const variantsToAddListWaitingFirebase = variantsToAddList.map((variant=>{
-      return {
-        combination: variant.combination,
-        mainImage: variant.mainImage?.name,
-        secondaryImages: variant.secondaryImages.map((image)=>image.name),
+  const navigate = useNavigate();
+  const onSubmit = async (data: ProductInputDTO) => {
+    const variantsToAddListWaitingFirebase = variantsToAddList.map(
+      (variant) => {
+        return {
+          combination: variant.combination,
+          mainImage: variant.mainImage?.name,
+          secondaryImages: variant.secondaryImages.map((image) => image.name),
+        };
       }
-    }))
+    );
     const bodyData = {
       name: data.name,
       description: data.description,
-      heroImage:heroImage?.name,
+      heroImage: heroImage?.name,
       promotionPercentage: data.promotionPercentage,
       promotionEndDate: data.promotionEndDate?.toISOString(),
       continueSelling: data.continueSelling,
@@ -145,29 +142,27 @@ const CreateProduct: React.FC = () => {
       newUntil: data.newUntil?.toISOString(),
       isPublished: data.isPublished,
       cashback: data.cashback,
-      collections:selectedCollections,
+      collections: selectedCollections,
       categories: selectedCategories,
       tags: selectedTags,
       variants: [
         {
-          combination: "sans",
-          mainImage:mainImage?.name,
-          secondaryImages: secondaryImages.map((image)=>image.name),
+          combination: "Model unique",
+          mainImage: mainImage?.name,
+          secondaryImages: secondaryImages.map((image) => image.name),
         },
-        ...variantsToAddListWaitingFirebase // Ajoute les autres variantes dans l'ordre voulu
+        ...variantsToAddListWaitingFirebase, // Ajoute les autres variantes dans l'ordre voulu
       ],
       isStar: data.isStar,
       isArchived: data.isArchived,
     };
-      createProduct(bodyData).then(result=>{
-        if(result){
-
-        return   toast.success("Le produit a été créé avec succès!");
-        }
-        toast.error("Une erreur s'est produite lors de la création du produit");
-      });
-
-    
+    createProduct(bodyData).then((result) => {
+      if (result) {
+        toast.success("Le produit a été créé avec succès!");
+        return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
+      }
+      toast.error("Une erreur s'est produite lors de la création du produit");
+    });
   };
   const handleCollectionSelection = (id: string, isChecked: boolean) => {
     setSelectedCollections((prev) =>

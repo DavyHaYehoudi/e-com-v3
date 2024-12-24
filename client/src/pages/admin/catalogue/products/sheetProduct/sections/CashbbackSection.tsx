@@ -16,7 +16,13 @@ const CashbackSection: React.FC<{
       type="number"
       step="0.01" // Autorise les nombres décimaux
       {...register("cashback", {
-        setValueAs: (value) => (value === "" ? undefined : parseFloat(value)), // Convertit en nombre ou undefined si vide
+        setValueAs: (value) => {
+          if (value === "") return undefined; // Si le champ est vide, retourne undefined
+          const parsedValue = parseFloat(value);
+          return isNaN(parsedValue)
+            ? undefined
+            : parseFloat(parsedValue.toFixed(2)); // Assure un arrondi à 2 décimales
+        },
       })}
       placeholder="Montant du cashback"
     />
