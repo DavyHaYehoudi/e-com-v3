@@ -19,7 +19,7 @@ import { toast } from "sonner";
 const OrderHistory = () => {
   const [orders, setOrder] = useState<OrderCustomerDBType[]>([]);
   const { customerId } = useParams();
-  const { ordersFetch } = useOrder(customerId);
+  const { ordersFetch } = useOrder({ customerId });
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -75,7 +75,9 @@ const OrderHistory = () => {
               <TableCell>{order.orderNumber}</TableCell>
               <TableCell>{formatPrice(order.cashbackEarned)}</TableCell>
               <TableCell>{formatPrice(order.cashbackSpent)}</TableCell>
-              <TableCell>{order.trackingNumber?.trackingNumber||"En cours..."}</TableCell>
+              <TableCell>
+                {order.trackingNumber?.trackingNumber || "En cours..."}
+              </TableCell>
               <TableCell>{formatPrice(order.totalPrice)}</TableCell>
             </TableRow>
           ))}

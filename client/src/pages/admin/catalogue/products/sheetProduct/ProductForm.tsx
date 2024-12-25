@@ -105,7 +105,6 @@ const ProductForm: React.FC = () => {
   });
   useEffect(() => {
     if (defaultValues) {
-      console.log("defaultValues:", defaultValues);
       reset(defaultValues);
       setSelectedCollections(defaultValues.collections);
       setSelectedCategories(defaultValues.categories);
@@ -128,11 +127,11 @@ const ProductForm: React.FC = () => {
       description: data.description,
       heroImage: heroImage?.name,
       promotionPercentage: data.promotionPercentage,
-      promotionEndDate: data.promotionEndDate?.toISOString(),
+      promotionEndDate: data.promotionEndDate?.toISOString()||null,
       continueSelling: data.continueSelling,
       quantityInStock: data.quantityInStock,
       price: data.price,
-      newUntil: data.newUntil?.toISOString(),
+      newUntil: data.newUntil?.toISOString()||null,
       isPublished: data.isPublished,
       cashback: data.cashback,
       collections: selectedCollections,
@@ -150,6 +149,7 @@ const ProductForm: React.FC = () => {
       isArchived: data.isArchived,
     };
     if (productId) {
+      console.log('bodyData:', bodyData)
       udpateProduct(bodyData).then((result) => {
         if (result) {
           toast.success("Le produit a été mis à jour avec succès!");

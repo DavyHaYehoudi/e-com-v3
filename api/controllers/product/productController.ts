@@ -52,7 +52,6 @@ export const createProduct = async (
 ) => {
   try {
     const productData = productSchema.parse(req.body);
-    console.log("productData:", productData);
     const newProduct = await createProductService(productData);
     res.status(201).json(newProduct);
   } catch (error) {

@@ -3,7 +3,7 @@ import { orderStatus } from "../../controllers/orderStatus/orderStatusController
 
 const router = Router();
 
-// paymentStatus
+// orderStatus
 router.post("/", orderStatus);
 
 export default router;
