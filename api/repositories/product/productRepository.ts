@@ -79,8 +79,9 @@ export const getProductByIdRepository = async (
   productId: string | mongoose.Types.ObjectId
 ) => {
   const product = await ProductModel.findById(productId)
-    .populate("categories", "_id name")
-    .populate("tags", "_id name")
+    .populate("collections", "_id label")
+    .populate("categories", "_id label")
+    .populate("tags", "_id label")
     .lean();
 
   if (!product) {

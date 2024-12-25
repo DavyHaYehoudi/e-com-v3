@@ -11,8 +11,8 @@ export interface ProductDBType {
   newUntil: string; // ISO date string
   isPublished: boolean;
   cashback: number;
-  collections: CollectionProductType;
-  categories: CategoryProductType;
+  collections: CollectionProductType[];
+  categories: CategoryProductType[];
   tags: TagProductType[];
   variants: VariantProductType[];
   isStar: boolean;

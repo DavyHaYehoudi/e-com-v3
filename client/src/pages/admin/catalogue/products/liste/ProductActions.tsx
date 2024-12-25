@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Trash2, SquarePen } from "lucide-react";
 import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
 import { Link } from "react-router-dom";
-import { SelectedProduct } from "./liste/ProductsPageAdmin";
+import { SelectedProduct } from "./ProductsPageAdmin";
 
 interface ProductActionsProps {
   productId: string;
@@ -65,7 +65,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
         <DropdownMenuContent align="end" className="w-[160px] z-50">
           <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base text-neutral-500 ">
             <Link
-              to={`/admin/tableau-de-bord/catalogue/produits/${productId}`}
+              to={`/admin/tableau-de-bord/catalogue/produits/modifier/${productId}`}
               className="flex items-center gap-2 ml-2"
             >
               <SquarePen className="h-4 w-4" />

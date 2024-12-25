@@ -13,7 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { CategoryDBType } from "@/types/category/CategoryTypes";
 import { TagDBType } from "@/types/tag/TagTypes";
-import { add } from "date-fns";
 import OptionSwitch from "./sections/OptionSwitch";
 import AttributeField from "./sections/AttributeField";
 import PromotionField from "./sections/PromotionField";
@@ -30,6 +29,7 @@ import CashbackSection from "./sections/CashbbackSection";
 import useProduct from "@/hooks/dashboard/admin/useProduct";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import useProductDefaultValues from "@/hooks/dashboard/admin/useProductDefaultValues";
 
 export interface ImagesCarousselType {
   mainImage: File | null;
@@ -41,7 +41,7 @@ export interface VariantsToAddType {
   secondaryImages: File[];
 }
 export type AddingVariantType = "combination" | "images";
-const CreateProduct: React.FC = () => {
+const ProductForm: React.FC = () => {
   const [categories, setCategories] = useState<CategoryDBType[]>([]);
   const [tags, setTags] = useState<TagDBType[]>([]);
   const [collections, setCollections] = useState<CollectionDBType[]>([]);
@@ -59,7 +59,8 @@ const CreateProduct: React.FC = () => {
   const { getCollections } = useCollection();
   const { getCategories } = useCategory();
   const { getTags } = useTag();
-  const { createProduct } = useProduct();
+  const { defaultValues, productId } = useProductDefaultValues();
+  const { createProduct, udpateProduct } = useProduct(productId);
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -96,29 +97,21 @@ const CreateProduct: React.FC = () => {
     setValue,
     getValues,
     watch,
-    // reset,
+    reset,
     formState: { errors },
   } = useForm<ProductInputDTO>({
     resolver: zodResolver(productSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      heroImage: "",
-      promotionPercentage: 0,
-      promotionEndDate: null,
-      continueSelling: false,
-      quantityInStock: 1,
-      price: 20,
-      newUntil: add(new Date(), { months: 3 }),
-      isPublished: true,
-      cashback: 0,
-      categories: [],
-      tags: [],
-      variants: [],
-      isStar: false,
-      isArchived: false,
-    },
+    defaultValues,
   });
+  useEffect(() => {
+    if (defaultValues) {
+      console.log("defaultValues:", defaultValues);
+      reset(defaultValues);
+      setSelectedCollections(defaultValues.collections);
+      setSelectedCategories(defaultValues.categories);
+      setSelectedTags(defaultValues.tags);
+    }
+  }, [defaultValues, reset]);
   const navigate = useNavigate();
   const onSubmit = async (data: ProductInputDTO) => {
     const variantsToAddListWaitingFirebase = variantsToAddList.map(
@@ -156,13 +149,25 @@ const CreateProduct: React.FC = () => {
       isStar: data.isStar,
       isArchived: data.isArchived,
     };
-    createProduct(bodyData).then((result) => {
-      if (result) {
-        toast.success("Le produit a été créé avec succès!");
-        return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
-      }
-      toast.error("Une erreur s'est produite lors de la création du produit");
-    });
+    if (productId) {
+      udpateProduct(bodyData).then((result) => {
+        if (result) {
+          toast.success("Le produit a été mis à jour avec succès!");
+          return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
+        }
+        toast.error(
+          "Une erreur s'est produite lors de la mise à jour du produit"
+        );
+      });
+    } else {
+      createProduct(bodyData).then((result) => {
+        if (result) {
+          toast.success("Le produit a été créé avec succès!");
+          return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
+        }
+        toast.error("Une erreur s'est produite lors de la création du produit");
+      });
+    }
   };
   const handleCollectionSelection = (id: string, isChecked: boolean) => {
     setSelectedCollections((prev) =>
@@ -203,9 +208,12 @@ const CreateProduct: React.FC = () => {
     selectedCategories.length > 0 &&
     heroImage &&
     mainImage;
+
   return (
     <div>
-      <h1 className="text-center mb-10">creer un produit</h1>
+      <h1 className="text-center mb-10">
+        {productId ? "modifier le produit" : "creer un produit"}
+      </h1>
 
       <Card className="p-6 xl:w-1/2 2xl:w-1/3 mx-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -314,7 +322,7 @@ const CreateProduct: React.FC = () => {
               }  hover:bg-green-600 text-white`}
               disabled={!isAllFiedlsEmpty}
             >
-              Créer le produit
+              {productId ? "Enregistrer les modifications" : "Créer le produit"}
             </Button>
           </CardFooter>
         </form>
@@ -323,4 +331,4 @@ const CreateProduct: React.FC = () => {
   );
 };
 
-export default CreateProduct;
+export default ProductForm;

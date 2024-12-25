@@ -54,9 +54,8 @@ import CustomerHistory from "./pages/admin/activity/customers/CustomerHistory";
 import ManageCashback from "./pages/admin/activity/customers/CashbackToOffer";
 import LeaveReviewPage from "./pages/customer/orders/actions/LeaveReviewPage";
 import GiftcardHistoryPage from "./pages/admin/advantages/giftcards/GiftcardHistoryPage";
-import EditProduct from "./pages/admin/catalogue/products/sheetProduct/EditProduct";
-import CreateProduct from "./pages/admin/catalogue/products/sheetProduct/CreateProduct";
 import CollectionsPage from "./pages/admin/catalogue/classifying/collection/CollectionsPage";
+import ProductForm from "./pages/admin/catalogue/products/sheetProduct/ProductForm";
 function App() {
   return (
     <ThemeProvider>
@@ -201,11 +200,11 @@ function App() {
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/catalogue/produits/ajouter"
-                  element={<CreateProduct />}
+                  element={<ProductForm />}
                 ></Route>
                 <Route
-                  path="admin/tableau-de-bord/catalogue/produits/:productId"
-                  element={<EditProduct />}
+                  path="admin/tableau-de-bord/catalogue/produits/modifier/:productId"
+                  element={<ProductForm />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/catalogue/collections"
