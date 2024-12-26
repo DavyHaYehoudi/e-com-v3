@@ -45,6 +45,7 @@ export const OrderColumns = (
         </Badge>
       );
     },
+    meta: { headerName: "Etape" },
   },
   {
     accessorKey: "paymentStatusId",
@@ -69,6 +70,7 @@ export const OrderColumns = (
         </Badge>
       );
     },
+    meta: { headerName: "Paiement" },
   },
   {
     accessorKey: "customerId",
@@ -89,6 +91,7 @@ export const OrderColumns = (
 
       return <div>{firstname + " " + lastName}</div>;
     },
+    meta: { headerName: "Nom" },
   },
   {
     accessorKey: "orderNumber",
@@ -96,6 +99,7 @@ export const OrderColumns = (
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("orderNumber")}</div>
     ),
+    meta: { headerName: "№ de commande" },
   },
   {
     accessorKey: "cashbackEarned",
@@ -109,6 +113,7 @@ export const OrderColumns = (
         </div>
       );
     },
+    meta: { headerName: "Cashback capitalisé" },
   },
   {
     accessorKey: "cashbackSpent",
@@ -122,6 +127,7 @@ export const OrderColumns = (
         </div>
       );
     },
+    meta: { headerName: "Cashback dépensé" },
   },
   {
     accessorKey: "promocodeAmount",
@@ -135,6 +141,7 @@ export const OrderColumns = (
         </div>
       );
     },
+    meta: { headerName: "Montant du code promo" },
   },
   {
     accessorKey: "totalPromotionOnProduct",
@@ -148,6 +155,7 @@ export const OrderColumns = (
         </div>
       );
     },
+    meta: { headerName: "Promotion des produits" },
   },
   {
     accessorKey: "trackingNumber",
@@ -162,6 +170,7 @@ export const OrderColumns = (
         </div>
       );
     },
+    meta: { headerName: "№ de suivi" },
   },
   {
     accessorKey: "totalPrice",
@@ -175,6 +184,7 @@ export const OrderColumns = (
         </div>
       );
     },
+    meta: { headerName: "Total" },
   },
   {
     accessorKey: "createdAt",
@@ -200,6 +210,7 @@ export const OrderColumns = (
         </div>
       );
     },
+    meta: { headerName: "Date" },
   },
   {
     id: "actions",

@@ -39,7 +39,7 @@ import ContentOrderPage from "./pages/customer/orders/actions/orderDetail/Conten
 import HomeDashboardAdmin from "./pages/admin/HomeDashboardAdmin";
 import DashboardAdminLayout from "./layout/dashboards/admin/DashboardAdminLayout";
 import CustomersPage from "./pages/admin/activity/customers/CustomersPage";
-import OrdersPage from "./pages/admin/activity/OrdersPage";
+import OrdersPage from "./pages/admin/activity/orders/OrdersPage";
 import CategoriesPage from "./pages/admin/catalogue/classifying/category/CategoriesPage";
 import TagsPage from "./pages/admin/catalogue/classifying/tag/TagsPage";
 import GiftcardsPage from "./pages/admin/advantages/giftcards/GiftcardsPage";
@@ -56,6 +56,7 @@ import LeaveReviewPage from "./pages/customer/orders/actions/LeaveReviewPage";
 import GiftcardHistoryPage from "./pages/admin/advantages/giftcards/GiftcardHistoryPage";
 import CollectionsPage from "./pages/admin/catalogue/classifying/collection/CollectionsPage";
 import ProductForm from "./pages/admin/catalogue/products/sheetProduct/ProductForm";
+import OrderContentAdminPage from "./pages/admin/activity/orders/OrderContentAdminPage";
 function App() {
   return (
     <ThemeProvider>
@@ -193,6 +194,10 @@ function App() {
                 <Route
                   path="admin/tableau-de-bord/activite/commandes/liste"
                   element={<OrdersPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/activite/commandes/:orderId/contenu"
+                  element={<OrderContentAdminPage />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/catalogue/produits/liste"

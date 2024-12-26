@@ -12,6 +12,12 @@ const useOrder = ({ customerId, orderId }: useOrderType) => {
       requiredCredentials: true,
     }
   );
+  const { triggerFetch: orderFetch } = useFetch<OrderCustomerDBType>(
+    `/admin/orders/${orderId}`,
+    {
+      requiredCredentials: true,
+    }
+  );
   const { triggerFetch: allOrdersFetch } = useFetch<OrderCustomerDBType[]>(
     `/admin/orders`,
     {
@@ -29,6 +35,7 @@ const useOrder = ({ customerId, orderId }: useOrderType) => {
 
   return {
     ordersFetch,
+    orderFetch,
     allOrdersFetch,
     udpateOrder,
     deleteOrder,

@@ -66,7 +66,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
           <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base text-neutral-500 ">
             <Link
               to={`/admin/tableau-de-bord/catalogue/produits/modifier/${productId}`}
-              className="flex items-center gap-2 ml-2"
+              className="flex items-center gap-2 ml-2 py-2"
             >
               <SquarePen className="h-4 w-4" />
               <span>Modifier</span>

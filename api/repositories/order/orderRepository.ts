@@ -2,6 +2,7 @@ import { UpdateOrderDTO } from "../../controllers/order/entities/dto/order.dto.j
 import { BadRequestError } from "../../exceptions/CustomErrors.js";
 import { OrderModel } from "../../models/order/order.schema.js";
 import { OrderStatusModel } from "../../models/orderStatus/orderStatusSchema.js";
+import { PaymentStatusModel } from "../../models/paymentStatus/paymentStatusSchema.js";
 import { orderDataCreateType } from "../../models/types/orderType.js";
 
 export const createOrderRepository = async (orderData: orderDataCreateType) => {
@@ -46,16 +47,20 @@ export const deleteOrderByIdRepository = async (orderId: string) => {
   await OrderModel.findByIdAndDelete(orderId);
 };
 
+export type FieldsToUpdateOrder = {
+  orderStatusNumber?: number;
+  orderStatusLabel?: string;
+  orderStatusColor?: string;
+  paymentStatusNumber?: number;
+  paymentStatusLabel?: string;
+  paymentStatusColor?: string;
+};
 // Admin - update une commande par son orderId
 export const updateOrderByIdRepository = async (
   orderId: string,
   updatedOrderData: UpdateOrderDTO
 ) => {
-  let fieldsToUpdate = {
-    orderStatusNumber: 1,
-    orderStatusLabel: "",
-    orderStatusColor: "",
-  };
+  let fieldsToUpdate: FieldsToUpdateOrder = {};
   if (updatedOrderData.statusOrder) {
     const orderStatus = await OrderStatusModel.findOne({
       number: updatedOrderData.statusOrder,
@@ -68,6 +73,19 @@ export const updateOrderByIdRepository = async (
     fieldsToUpdate.orderStatusNumber = orderStatus.number;
     fieldsToUpdate.orderStatusLabel = orderStatus.label;
     fieldsToUpdate.orderStatusColor = orderStatus.color;
+  }
+  if (updatedOrderData.statusPayment) {
+    const paymentStatus = await PaymentStatusModel.findOne({
+      number: updatedOrderData.statusPayment,
+    });
+    if (!paymentStatus) {
+      throw new BadRequestError(
+        `Payment status ${updatedOrderData.statusPayment} not found`
+      );
+    }
+    fieldsToUpdate.paymentStatusNumber = paymentStatus.number;
+    fieldsToUpdate.paymentStatusLabel = paymentStatus.label;
+    fieldsToUpdate.paymentStatusColor = paymentStatus.color;
   }
 
   const order = await OrderModel.findByIdAndUpdate(orderId, fieldsToUpdate, {
