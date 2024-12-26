@@ -1,10 +1,14 @@
 import { Address } from "../customer/CustomerTypes";
+import {
+  OrderStatusLabelType,
+  PaymentStatusLabelType,
+} from "../status/StatusTypes";
 
 export interface OrderCreated {
   customerId: string;
-  orderStatusLabel: string;
+  orderStatusLabel: OrderStatusLabelType;
   orderStatusNumber: number;
-  paymentStatusLabel: string;
+  paymentStatusLabel: PaymentStatusLabelType;
   paymentStatusNumber: number;
   orderNumber: string;
   promocodeAmount: number;
@@ -53,10 +57,10 @@ export interface CustomerIdType {
 export interface OrderCustomerDBType {
   _id: string; // Identifiant unique de la commande
   customerId: CustomerIdType; // Identifiant du client
-  orderStatusLabel: string; // Libellé du statut de la commande
+  orderStatusLabel: OrderStatusLabelType; // Libellé du statut de la commande
   orderStatusNumber: number; // Numéro correspondant au statut de la commande
   orderStatusColor: string; // Couleur correspondant au statut de la commande
-  paymentStatusLabel: string; // Libellé du statut de paiement
+  paymentStatusLabel: PaymentStatusLabelType; // Libellé du statut de paiement
   paymentStatusNumber: number; // Numéro correspondant au statut de paiement
   paymentStatusColor: string; // Couleur correspondant au statut de paiement
   orderNumber: string; // Numéro de commande

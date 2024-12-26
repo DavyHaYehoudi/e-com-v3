@@ -9,44 +9,96 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
+import OrderPaymentStatus from "./OrderPaymentStatus";
+import { OrderStatusType, PaymentStatusType } from "@/types/status/StatusTypes";
+import useStatus from "@/hooks/dashboard/admin/useStatus";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const OrderContentAdminPage = () => {
-  const [order, setOrder] = useState<OrderCustomerDBType | null>(null);
+  const [order, setOrder] = useState<OrderCustomerDBType | null>();
   const [trackingNumber, setTrackingNumber] = useState<string>("");
+  const [statusOrderNumber, setStatusOrderNumber] = useState<number | null>(
+    null
+  );
+  const [statusPaymentNumber, setStatusPayment] = useState<number | null>(null);
+  const [orderStatusSelected, setOrderStatusSelected] =
+    useState<OrderStatusType | null>(null);
+  const [paymentStatusSelected, setPaymentStatusSelected] =
+    useState<PaymentStatusType | null>(null);
+  const [isOrderStatusLoading, setIsOrderStatusLoading] = useState(false);
+  const [isPaymentStatusloading, setIsPaymentStatusloading] = useState(false);
+  const { getOrderStatusByNumber, getPaymentStatusByNumber } = useStatus();
   const { orderId } = useParams();
   const { orderFetch } = useOrder({ orderId });
 
   useEffect(() => {
     if (orderId) {
-      orderFetch().then((order) => setOrder(order || null));
+      orderFetch().then((order) => {
+        setOrder(order || null);
+        setStatusOrderNumber(order?.orderStatusNumber || 0);
+        setStatusPayment(order?.paymentStatusNumber || 0);
+      });
     }
   }, [orderId, orderFetch]);
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        if (!orderStatusSelected) {
+          const orderStatusDetails = await getOrderStatusByNumber(
+            statusOrderNumber
+          );
+          setOrderStatusSelected(orderStatusDetails || null);
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des statuts des commandes :",
+          error
+        );
+      }
+    };
+
+    fetchStatus();
+  }, [orderStatusSelected, getOrderStatusByNumber]);
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        if (!paymentStatusSelected) {
+          const paymentStatusDetails = await getPaymentStatusByNumber(
+            statusPaymentNumber
+          );
+          setPaymentStatusSelected(paymentStatusDetails || null);
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des statuts :", error);
+      }
+    };
+
+    fetchStatus();
+  }, [paymentStatusSelected, getPaymentStatusByNumber]);
 
   if (!order) return <div>Chargement...</div>;
 
-  const handlePaymentStatusChange = (status: string) => {
-    if (orderId) {
-      udpateOrder(orderId, { paymentStatus: status });
-    }
+  const handleOrderStatusChange = async (status: string) => {
+    setIsOrderStatusLoading(true);
+    setStatusOrderNumber(parseInt(status));
+
+    const orderStatusDetails = await getOrderStatusByNumber(parseInt(status));
+    setOrderStatusSelected(orderStatusDetails);
+    setIsOrderStatusLoading(false);
   };
 
-  const handleOrderStatusChange = (status: string) => {
-    if (orderId) {
-      udpateOrder(orderId, { orderStatus: status });
-    }
+  const handlePaymentStatusChange = async (status: string) => {
+    setIsPaymentStatusloading(true);
+    setStatusPayment(parseInt(status));
+    const paymentStatusDetails = await getPaymentStatusByNumber(
+      parseInt(status)
+    );
+    setPaymentStatusSelected(paymentStatusDetails);
+    setIsPaymentStatusloading(false);
   };
 
   const handleTrackingNumberUpdate = () => {
@@ -89,21 +141,29 @@ const OrderContentAdminPage = () => {
                 </p>
                 <p>
                   <strong>Statut de la commande :</strong>{" "}
-                  <Badge
-                    style={{ backgroundColor: order.orderStatusColor }}
-                    className="text-white text-center"
-                  >
-                    {order.orderStatusLabel}
-                  </Badge>
+                  {isOrderStatusLoading ? (
+                    <LoadingSpinner />
+                  ) : (
+                    <Badge
+                      style={{ backgroundColor: orderStatusSelected?.color }}
+                      className="text-white text-center"
+                    >
+                      {orderStatusSelected?.label}
+                    </Badge>
+                  )}
                 </p>
                 <p>
                   <strong>Statut du paiement :</strong>{" "}
-                  <Badge
-                    style={{ backgroundColor: order.paymentStatusColor }}
-                    className="text-white text-center"
-                  >
-                    {order.paymentStatusLabel}
-                  </Badge>
+                  {isPaymentStatusloading ? (
+                    <LoadingSpinner />
+                  ) : (
+                    <Badge
+                      style={{ backgroundColor: paymentStatusSelected?.color }}
+                      className="text-white text-center"
+                    >
+                      {paymentStatusSelected?.label}
+                    </Badge>
+                  )}
                 </p>
               </div>
               <div>
@@ -168,36 +228,12 @@ const OrderContentAdminPage = () => {
             </Card>
           </div>
           <CardFooter>
-            <div className="flex space-x-4">
-              <Select onValueChange={handlePaymentStatusChange}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Statut du paiement" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Statuts</SelectLabel>
-                    <SelectItem value="paid">Payée</SelectItem>
-                    <SelectItem value="pending">En attente</SelectItem>
-                    <SelectItem value="refused">Refusée</SelectItem>
-                    <SelectItem value="refunded">Remboursée</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-
-              <Select onValueChange={handleOrderStatusChange}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Statut de la commande" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Statuts</SelectLabel>
-                    <SelectItem value="to_process">À traiter</SelectItem>
-                    <SelectItem value="in_progress">En cours</SelectItem>
-                    <SelectItem value="shipped">Expédiée</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
+            <OrderPaymentStatus
+              statusOrderNumber={statusOrderNumber}
+              statusPaymentNumber={statusPaymentNumber}
+              handleOrderStatusChange={handleOrderStatusChange}
+              handlePaymentStatusChange={handlePaymentStatusChange}
+            />
           </CardFooter>
         </Card>
 

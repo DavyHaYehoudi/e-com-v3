@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { paymentStatus } from "../../controllers/paymentStatus/paymentStatusController.js";
+import {
+  getAllPaymentStatuses,
+  paymentStatus,
+} from "../../controllers/paymentStatus/paymentStatusController.js";
 
 const router = Router();
 
 // paymentStatus
+router.get("/", getAllPaymentStatuses);
 router.post("/", paymentStatus);
 
 export default router;

@@ -21,6 +21,8 @@ tags:
   - name: review
   - name: marketing
   - name: payment
+  - name: order-status
+  - name: payment-status
 paths:
   /auth/open-session:
     post:
@@ -389,6 +391,27 @@ paths:
         - name: orderId
           in: path
           description: ID of order that needs to be updated.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The order doesn't exist.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - order
+      summary: Delete an order.
+      description: Delete an order by id.
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order that needs to be deleted.
           required: true
           schema:
             type: string
@@ -1485,6 +1508,40 @@ paths:
           description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
+  /order-status:
+    get:
+      tags:
+        - order-status
+      summary: get all order status.
+      description: get all order status.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderStatusGET'  
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+  /payment-status:
+    get:
+      tags:
+        - payment-status
+      summary: get all payment status.
+      description: get all payment status.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentStatusGET'  
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
 components:
   schemas:
     Address:
@@ -2079,12 +2136,6 @@ components:
         - orderId
         - productId
         - reviewText
-    ReviewPATCH:
-      type: object
-      properties:
-        reviewText:
-          type: string
-          example: Super product and super service !
     ReviewAdminPATCH:
       type: object
       properties:
@@ -2368,6 +2419,24 @@ components:
            - john@example.com
            - mike@gmail.com
            - Sophie@email.com
+    OrderStatusGET:
+      type: object
+      properties:
+        label:
+          type: string
+        number:
+          type: integer
+        color:
+          type: string
+    PaymentStatusGET:
+      type: object
+      properties:
+        label:
+          type: string
+        number:
+          type: integer
+        color:
+          type: string
 
   securitySchemes:
     api_key:

@@ -56,7 +56,7 @@ import LeaveReviewPage from "./pages/customer/orders/actions/LeaveReviewPage";
 import GiftcardHistoryPage from "./pages/admin/advantages/giftcards/GiftcardHistoryPage";
 import CollectionsPage from "./pages/admin/catalogue/classifying/collection/CollectionsPage";
 import ProductForm from "./pages/admin/catalogue/products/sheetProduct/ProductForm";
-import OrderContentAdminPage from "./pages/admin/activity/orders/OrderContentAdminPage";
+import OrderContentAdminPage from "./pages/admin/activity/orders/content/OrderContentAdminPage";
 function App() {
   return (
     <ThemeProvider>

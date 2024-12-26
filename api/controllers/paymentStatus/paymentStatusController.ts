@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import {
+  getPaymentStatusService,
   paymentStatusService,
   updatePaymentStatusService,
 } from "../../services/paymentStatus/paymentStatusService.js";
@@ -14,6 +15,20 @@ export const paymentStatus = async (
     const { number, label, color } = req.body;
     await paymentStatusService(number, label, color);
     res.status(201).json({});
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ADMIN - Récupérer tous les status payment
+export const getAllPaymentStatuses = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const paymentStatuses = await getPaymentStatusService();
+    res.json(paymentStatuses);
   } catch (error) {
     next(error);
   }
