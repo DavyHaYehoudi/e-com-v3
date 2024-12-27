@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Trash2, SquarePen } from "lucide-react";
+import { MoreHorizontal, Trash2, ListCollapse } from "lucide-react";
 import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
 import { Link } from "react-router-dom";
 import { SelectedProduct } from "./ProductsPageAdmin";
@@ -68,8 +68,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({
               to={`/admin/tableau-de-bord/catalogue/produits/modifier/${productId}`}
               className="flex items-center gap-2 ml-2 py-2"
             >
-              <SquarePen className="h-4 w-4" />
-              <span>Modifier</span>
+              <ListCollapse className="h-4 w-4" /> <span>Voir le contenu</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="group flex w-full items-center justify-between text-left p-0 text-sm font-base text-neutral-500 ">

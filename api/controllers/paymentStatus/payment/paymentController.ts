@@ -5,10 +5,10 @@ import {
   getPaymentAmountCustomerService,
   getPaymentAmountVisitorService,
   getPaymentIntentService,
-} from "../../services/payment/paymentService.js";
+} from "../../../services/payment/paymentService.js";
 import { paymentAmountCustomerSchema } from "./entities/dto/paymentAmountCustomer.dto.js";
-import { CustomJwtPayload } from "../../middlewares/authMiddleware.js";
 import { createOrderSchema } from "./entities/dto/paymentConfirmation.dto.js";
+import { CustomJwtPayload } from "../../../middlewares/authMiddleware.js";
 
 // PUBLIC - Calcul du total de la commande pour un visiteur
 export const getPaymentAmountVisitor = async (

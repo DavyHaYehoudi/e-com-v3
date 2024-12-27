@@ -30,7 +30,7 @@ const useStatus = () => {
   };
 
   // Récupérer un statut de paiement par son numéro
-  const getPaymentStatusByNumber = async (number: number) => {
+  const getPaymentStatusByNumber = async (number: number | null) => {
     try {
       const paymentStatuses: PaymentStatusType[] =
         (await statusPaymentFetch()) || [];

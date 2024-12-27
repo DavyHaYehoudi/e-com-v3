@@ -4,7 +4,7 @@ import {
   paymentStatusService,
   updatePaymentStatusService,
 } from "../../services/paymentStatus/paymentStatusService.js";
-import { CustomJwtPayload } from "../../middlewares/authMiddleware";
+import { CustomJwtPayload } from "../../middlewares/authMiddleware.js";
 // ADMIN
 export const paymentStatus = async (
   req: Request,

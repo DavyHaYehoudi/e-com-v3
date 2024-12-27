@@ -30,6 +30,7 @@ import useProduct from "@/hooks/dashboard/admin/useProduct";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import useProductDefaultValues from "@/hooks/dashboard/admin/useProductDefaultValues";
+import NavBackDashboard from "@/components/shared/NavBackDashboard";
 
 export interface ImagesCarousselType {
   mainImage: File | null;
@@ -127,11 +128,11 @@ const ProductForm: React.FC = () => {
       description: data.description,
       heroImage: heroImage?.name,
       promotionPercentage: data.promotionPercentage,
-      promotionEndDate: data.promotionEndDate?.toISOString()||null,
+      promotionEndDate: data.promotionEndDate?.toISOString() || null,
       continueSelling: data.continueSelling,
       quantityInStock: data.quantityInStock,
       price: data.price,
-      newUntil: data.newUntil?.toISOString()||null,
+      newUntil: data.newUntil?.toISOString() || null,
       isPublished: data.isPublished,
       cashback: data.cashback,
       collections: selectedCollections,
@@ -149,7 +150,7 @@ const ProductForm: React.FC = () => {
       isArchived: data.isArchived,
     };
     if (productId) {
-      console.log('bodyData:', bodyData)
+      console.log("bodyData:", bodyData);
       udpateProduct(bodyData).then((result) => {
         if (result) {
           toast.success("Le produit a été mis à jour avec succès!");
@@ -211,6 +212,11 @@ const ProductForm: React.FC = () => {
 
   return (
     <div>
+      <NavBackDashboard
+        path="catalogue/produits/liste"
+        text="Revenir à la liste des produits"
+        role="admin"
+      />
       <h1 className="text-center mb-10">
         {productId ? "modifier le produit" : "creer un produit"}
       </h1>

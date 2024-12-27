@@ -8,7 +8,7 @@ export interface OrderItemType {
   heroImage: string;
   priceBeforePromotionOnProduct: number;
   promotionPercentage: number;
-  promotionEndDate: Date | null;
+  promotionEndDate: string | Date | null;
   cashbackEarned: number;
   exchangeNumber: number | null;
   exchangeAt: string | null;

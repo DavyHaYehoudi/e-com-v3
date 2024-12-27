@@ -17,6 +17,9 @@ import OrderPaymentStatus from "./OrderPaymentStatus";
 import { OrderStatusType, PaymentStatusType } from "@/types/status/StatusTypes";
 import useStatus from "@/hooks/dashboard/admin/useStatus";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { toast } from "sonner";
+import Managment from "./Managment";
+import OrderContentManagment from "./OrderContentManagment";
 
 const OrderContentAdminPage = () => {
   const [order, setOrder] = useState<OrderCustomerDBType | null>();
@@ -33,7 +36,7 @@ const OrderContentAdminPage = () => {
   const [isPaymentStatusloading, setIsPaymentStatusloading] = useState(false);
   const { getOrderStatusByNumber, getPaymentStatusByNumber } = useStatus();
   const { orderId } = useParams();
-  const { orderFetch } = useOrder({ orderId });
+  const { orderFetch, udpateOrder } = useOrder({ orderId });
 
   useEffect(() => {
     if (orderId) {
@@ -87,8 +90,17 @@ const OrderContentAdminPage = () => {
     setStatusOrderNumber(parseInt(status));
 
     const orderStatusDetails = await getOrderStatusByNumber(parseInt(status));
-    setOrderStatusSelected(orderStatusDetails);
-    setIsOrderStatusLoading(false);
+    udpateOrder({ statusOrder: parseInt(status) }).then((result) => {
+      if (result) {
+        toast.success("Le statut de la commande a été modifié avec succès!");
+        setOrderStatusSelected(orderStatusDetails);
+        setIsOrderStatusLoading(false);
+      } else {
+        toast.error(
+          "Une erreur s'est produite lors de la modification du statut de la commande."
+        );
+      }
+    });
   };
 
   const handlePaymentStatusChange = async (status: string) => {
@@ -97,8 +109,17 @@ const OrderContentAdminPage = () => {
     const paymentStatusDetails = await getPaymentStatusByNumber(
       parseInt(status)
     );
-    setPaymentStatusSelected(paymentStatusDetails);
-    setIsPaymentStatusloading(false);
+    udpateOrder({ statusPayment: parseInt(status) }).then((result) => {
+      if (result) {
+        toast.success("Le statut de paiement a été modifié avec succès!");
+        setPaymentStatusSelected(paymentStatusDetails);
+        setIsPaymentStatusloading(false);
+      } else {
+        toast.error(
+          "Une erreur s'est produite lors de la modification du statut de paiement."
+        );
+      }
+    });
   };
 
   const handleTrackingNumberUpdate = () => {
@@ -113,9 +134,7 @@ const OrderContentAdminPage = () => {
     value: number,
     refundAmount?: number
   ) => {
-    if (orderId) {
-      udpateOrder(orderId, item._id, { action, value, refundAmount });
-    }
+    console.log("handleOrderItemAction");
   };
 
   return (
@@ -245,7 +264,7 @@ const OrderContentAdminPage = () => {
           <CardContent>
             <div className="space-y-4">
               {order.orderItems.map((item) => (
-                <div key={item._id} className="p-4 border rounded-lg">
+                <div key={item._id} className="p-4 border rounded-lg relative">
                   <p>
                     <img src={item.heroImage} alt={item.name} />
                   </p>
@@ -256,31 +275,12 @@ const OrderContentAdminPage = () => {
                     <strong>Prix :</strong> {item.priceBeforePromotionOnProduct}{" "}
                     €
                   </p>
+                  <p>
+                    <strong>Nombre d'article(s) :</strong> {item.articleNumber}
+                  </p>
                   <Badge>{item.variant}</Badge>
-                  <div className="flex justify-end space-x-4 mt-2">
-                    <Button
-                      onClick={() => handleOrderItemAction(item, "return", 1)}
-                    >
-                      Retour
-                    </Button>
-                    <Button
-                      onClick={() =>
-                        handleOrderItemAction(
-                          item,
-                          "refund",
-                          1,
-                          item.priceBeforePromotionOnProduct
-                        )
-                      }
-                    >
-                      Remboursement
-                    </Button>
-                    <Button
-                      onClick={() => handleOrderItemAction(item, "exchange", 1)}
-                    >
-                      Échange
-                    </Button>
-                  </div>
+                  <div className="absolute right-2 top-2" > <OrderContentManagment item={item} /></div>
+                 
                 </div>
               ))}
             </div>

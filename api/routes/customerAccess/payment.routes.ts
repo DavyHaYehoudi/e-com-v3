@@ -1,11 +1,8 @@
 import { Router } from "express";
-import {
-  confirmationOrder,
-  getPaymentAmountCustomer,
-  getPaymentIntent,
-} from "../../controllers/payment/paymentController.js";
+
 import { verifyToken } from "../../middlewares/authMiddleware.js";
 import { updatePaymentStatusFromCustomer } from "../../controllers/paymentStatus/paymentStatusController.js";
+import { confirmationOrder, getPaymentAmountCustomer, getPaymentIntent } from "../../controllers/paymentStatus/payment/paymentController.js";
 const router = Router();
 
 // paymentAmount

@@ -1,7 +1,5 @@
 import Stripe from "stripe";
 import mongoose from "mongoose";
-import { PaymentAmountCustomerDTO } from "../../controllers/payment/entities/dto/paymentAmountCustomer.dto.js";
-import { PaymentAmountVisitorDTO } from "../../controllers/payment/entities/dto/paymentAmountVisitor.dto.js";
 import { formatAmount } from "../../utils/format_amount.js";
 import {
   getCartDataService,
@@ -13,7 +11,6 @@ import {
   updateProductStockService,
 } from "../product/productService.js";
 import { checkPromocodeService } from "../promocode/promocodeService.js";
-import { PaymentConfirmationDTO } from "../../controllers/payment/entities/dto/paymentConfirmation.dto.js";
 import { generateOrderNumber } from "./utils/generateOrderNumber.js";
 import { getOrderStatusService } from "../orderStatus/orderStatusService.js";
 import { getPaymentStatusService } from "../paymentStatus/paymentStatusService.js";
@@ -31,6 +28,10 @@ import { CashbackTypeDTO } from "../../controllers/customer/entities/dto/custome
 import { sendPaymentConfirmationEmail } from "../../email/subject/payment.js";
 import { GiftCardDocument } from "../../models/giftcard/giftcard.schema.js";
 import { giftcardsUsedFormattedEmail } from "../../models/types/giftcardType.js";
+import { PaymentAmountVisitorDTO } from "../../controllers/paymentStatus/payment/entities/dto/paymentAmountVisitor.dto.js";
+import { PaymentAmountCustomerDTO } from "../../controllers/paymentStatus/payment/entities/dto/paymentAmountCustomer.dto.js";
+import { PaymentConfirmationDTO } from "../../controllers/paymentStatus/payment/entities/dto/paymentConfirmation.dto.js";
+import { getTime} from "date-fns";
 
 export const getPaymentAmountVisitorService = async (
   paymentData: PaymentAmountVisitorDTO
@@ -87,7 +88,7 @@ export const calculatePaymentAmountService = async (
     totalProductPrice += productInfo.price * product.quantity;
     if (
       productInfo?.promotionEndDate &&
-      productInfo.promotionEndDate.getTime() > Date.now()
+      getTime(productInfo.promotionEndDate) > Date.now()
     ) {
       totalPromotionOnProduct +=
         (productInfo.price *
@@ -270,7 +271,7 @@ export const createOrderService = async (
         priceBeforePromotionOnProduct: productDB.price,
         promotionPercentage:
           productDB.promotionEndDate &&
-          productDB.promotionEndDate.getTime() > Date.now()
+          getTime(productDB.promotionEndDate) > Date.now()
             ? productDB.promotionPercentage
             : 0,
         promotionEndDate: productDB.promotionEndDate,
