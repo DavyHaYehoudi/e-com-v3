@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useOrder from "@/hooks/dashboard/admin/useOrder";
-import { OrderCustomerDBType, OrderItem } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType } from "@/types/order/OrderTypes";
 import {
   Card,
   CardContent,
@@ -18,8 +18,11 @@ import { OrderStatusType, PaymentStatusType } from "@/types/status/StatusTypes";
 import useStatus from "@/hooks/dashboard/admin/useStatus";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { toast } from "sonner";
-import Managment from "./Managment";
-import OrderContentManagment from "./OrderContentManagment";
+import OrderContentManagment, {
+  ContentManagmentType,
+} from "./OrderContentManagment";
+import { formatDate } from "@/utils/formatDate";
+import { formatPrice } from "@/utils/pricesFormat";
 
 const OrderContentAdminPage = () => {
   const [order, setOrder] = useState<OrderCustomerDBType | null>();
@@ -41,9 +44,11 @@ const OrderContentAdminPage = () => {
   useEffect(() => {
     if (orderId) {
       orderFetch().then((order) => {
-        setOrder(order || null);
-        setStatusOrderNumber(order?.orderStatusNumber || 0);
-        setStatusPayment(order?.paymentStatusNumber || 0);
+        if (order) {
+          setOrder(order || null);
+          setStatusOrderNumber(order?.orderStatusNumber || 0);
+          setStatusPayment(order?.paymentStatusNumber || 0);
+        }
       });
     }
   }, [orderId, orderFetch]);
@@ -65,7 +70,7 @@ const OrderContentAdminPage = () => {
     };
 
     fetchStatus();
-  }, [orderStatusSelected, getOrderStatusByNumber]);
+  }, [orderStatusSelected, getOrderStatusByNumber, statusOrderNumber]);
   useEffect(() => {
     const fetchStatus = async () => {
       try {
@@ -81,7 +86,7 @@ const OrderContentAdminPage = () => {
     };
 
     fetchStatus();
-  }, [paymentStatusSelected, getPaymentStatusByNumber]);
+  }, [paymentStatusSelected, getPaymentStatusByNumber, statusPaymentNumber]);
 
   if (!order) return <div>Chargement...</div>;
 
@@ -122,19 +127,20 @@ const OrderContentAdminPage = () => {
     });
   };
 
-  const handleTrackingNumberUpdate = () => {
-    if (orderId && trackingNumber) {
-      udpateOrder(orderId, { trackingNumber });
-    }
-  };
-
-  const handleOrderItemAction = (
-    item: OrderItem,
-    action: "return" | "refund" | "exchange",
-    value: number,
-    refundAmount?: number
+  const handleTrackingNumberUpdate = () => {};
+  const handleManagment = (
+    values: ContentManagmentType,
+    orderItemId: string
   ) => {
-    console.log("handleOrderItemAction");
+    setOrder({
+      ...order,
+      orderItems: order.orderItems.map((orderItem) => {
+        if (orderItem._id === orderItemId) {
+          return { ...orderItem, ...values };
+        }
+        return orderItem;
+      }),
+    });
   };
 
   return (
@@ -263,24 +269,53 @@ const OrderContentAdminPage = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {order.orderItems.map((item) => (
-                <div key={item._id} className="p-4 border rounded-lg relative">
+              {order.orderItems.map((orderItem) => (
+                <div
+                  key={orderItem._id}
+                  className="p-4 border rounded-lg relative"
+                >
                   <p>
-                    <img src={item.heroImage} alt={item.name} />
+                    <img src={orderItem.heroImage} alt={orderItem.name} />
                   </p>
                   <p>
-                    <strong>Produit :</strong> {item.name}
+                    <strong>Produit :</strong> {orderItem.name}
                   </p>
                   <p>
-                    <strong>Prix :</strong> {item.priceBeforePromotionOnProduct}{" "}
-                    €
+                    <strong>Prix :</strong>{" "}
+                    {orderItem.priceBeforePromotionOnProduct} €
                   </p>
                   <p>
-                    <strong>Nombre d'article(s) :</strong> {item.articleNumber}
+                    <strong>Nombre d'article(s) :</strong>{" "}
+                    {orderItem.articleNumber}
                   </p>
-                  <Badge>{item.variant}</Badge>
-                  <div className="absolute right-2 top-2" > <OrderContentManagment item={item} /></div>
-                 
+                  {orderItem.returnNumber && orderItem.returnAt && (
+                    <p>
+                      <strong>Retour :</strong> {orderItem.returnNumber} - Le{" "}
+                      {formatDate(orderItem.returnAt)}
+                    </p>
+                  )}
+                  {orderItem.exchangeNumber && orderItem.exchangeAt && (
+                    <p>
+                      <strong>Echange :</strong> {orderItem.exchangeNumber} - Le{" "}
+                      {formatDate(orderItem.exchangeAt)}
+                    </p>
+                  )}
+                  {orderItem.refundAmount && orderItem.refundAt && (
+                    <p>
+                      <strong>Remboursement :</strong>{" "}
+                      {formatPrice(orderItem.refundAmount)} - Le{" "}
+                      {formatDate(orderItem.refundAt)}
+                    </p>
+                  )}
+                  <Badge>{orderItem.variant}</Badge>
+                  <div className="absolute right-2 top-2">
+                    {" "}
+                    <OrderContentManagment
+                      orderId={order._id}
+                      orderItem={orderItem}
+                      handleManagment={handleManagment}
+                    />
+                  </div>
                 </div>
               ))}
             </div>

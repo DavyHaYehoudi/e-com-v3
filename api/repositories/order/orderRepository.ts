@@ -3,6 +3,7 @@ import { BadRequestError } from "../../exceptions/CustomErrors.js";
 import { OrderModel } from "../../models/order/order.schema.js";
 import { OrderStatusModel } from "../../models/orderStatus/orderStatusSchema.js";
 import { PaymentStatusModel } from "../../models/paymentStatus/paymentStatusSchema.js";
+import { OrderItemType } from "../../models/types/orderItemType.js";
 import { orderDataCreateType } from "../../models/types/orderType.js";
 
 export const createOrderRepository = async (orderData: orderDataCreateType) => {
@@ -54,33 +55,39 @@ export type FieldsToUpdateOrder = {
   paymentStatusNumber?: number;
   paymentStatusLabel?: string;
   paymentStatusColor?: string;
+  orderItem?:OrderItemType;
 };
 // Admin - update une commande par son orderId
 export const updateOrderByIdRepository = async (
   orderId: string,
   updatedOrderData: UpdateOrderDTO
 ) => {
-  let fieldsToUpdate: FieldsToUpdateOrder = {};
-  if (updatedOrderData.statusOrder) {
+  const { statusOrder, statusPayment, orderItem } = updatedOrderData;
+
+  // Préparation des champs de mise à jour pour la commande
+  const fieldsToUpdate: Partial<FieldsToUpdateOrder> = {};
+
+  if (statusOrder !== undefined) {
     const orderStatus = await OrderStatusModel.findOne({
-      number: updatedOrderData.statusOrder,
+      number: statusOrder,
     });
     if (!orderStatus) {
       throw new BadRequestError(
-        `Order status ${updatedOrderData.statusOrder} not found`
+        `Order status ${statusOrder} not found`
       );
     }
     fieldsToUpdate.orderStatusNumber = orderStatus.number;
     fieldsToUpdate.orderStatusLabel = orderStatus.label;
     fieldsToUpdate.orderStatusColor = orderStatus.color;
   }
-  if (updatedOrderData.statusPayment) {
+
+  if (statusPayment !== undefined) {
     const paymentStatus = await PaymentStatusModel.findOne({
-      number: updatedOrderData.statusPayment,
+      number: statusPayment,
     });
     if (!paymentStatus) {
       throw new BadRequestError(
-        `Payment status ${updatedOrderData.statusPayment} not found`
+        `Payment status ${statusPayment} not found`
       );
     }
     fieldsToUpdate.paymentStatusNumber = paymentStatus.number;
@@ -88,11 +95,47 @@ export const updateOrderByIdRepository = async (
     fieldsToUpdate.paymentStatusColor = paymentStatus.color;
   }
 
-  const order = await OrderModel.findByIdAndUpdate(orderId, fieldsToUpdate, {
-    new: true,
-  });
-  if (!order) {
-    throw new BadRequestError(`Order ${orderId} not found`);
+  // Mise à jour d'un orderItem si nécessaire
+  if (orderItem) {
+    const order = await OrderModel.findById(orderId);
+    if (!order) {
+      throw new BadRequestError(`Order ${orderId} not found`);
+    }
+
+    // Trouver l'élément à mettre à jour
+    const itemIndex = order.orderItems.findIndex(
+      (item) => item._id.toString() === orderItem._id
+    );
+    if (itemIndex === -1) {
+      console.log('itemIndex');
+      
+      throw new BadRequestError(`Order item ${orderItem._id} not found`);
+    }
+
+    // Remplacement des anciennes valeurs par celles du req.body
+    order.orderItems[itemIndex] = {
+      ...order.orderItems[itemIndex],
+      ...orderItem,
+    };
+
+    // Sauvegarder la commande avec l'élément mis à jour
+    await order.save();
   }
-  return order;
+
+  // Mise à jour des champs principaux de la commande
+  if (Object.keys(fieldsToUpdate).length > 0) {
+    const updatedOrder = await OrderModel.findByIdAndUpdate(
+      orderId,
+      { $set: fieldsToUpdate },
+      { new: true }
+    );
+    if (!updatedOrder) {
+      throw new BadRequestError(`Order ${orderId} not found`);
+    }
+    return updatedOrder;
+  }
+
+  // Retourner la commande mise à jour si aucune mise à jour n'était nécessaire pour statusOrder/statusPayment
+  return await OrderModel.findById(orderId);
 };
+

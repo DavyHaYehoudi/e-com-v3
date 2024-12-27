@@ -20,15 +20,14 @@ interface TrackingInfo {
 }
 
 interface OrderItem {
-  productId: Schema.Types.ObjectId;
+  productId: Schema.Types.ObjectId|string;
   name: string;
   variant: string;
-  customerId: Schema.Types.ObjectId;
+  customerId: Schema.Types.ObjectId|string;
   articleNumber: number;
   heroImage: string;
   priceBeforePromotionOnProduct: number;
   promotionPercentage: number;
-  amountPercentage: number;
   exchangeNumber: number | null;
   exchangeAt: Date | null;
   refundNumber: number | null;

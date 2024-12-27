@@ -11,10 +11,10 @@ export interface OrderItemType {
   promotionEndDate: string | Date | null;
   cashbackEarned: number;
   exchangeNumber: number | null;
-  exchangeAt: string | null;
+  exchangeAt: Date | null;
   refundNumber: number | null;
-  refundAt: string | null;
+  refundAt: Date | null;
   refundAmount: number | null;
   returnNumber: number | null;
-  returnAt: string | null;
+  returnAt: Date | null;
 }

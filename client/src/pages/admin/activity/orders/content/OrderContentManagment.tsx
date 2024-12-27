@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,38 +10,82 @@ import {
 } from "@/components/ui/popover";
 import { OrderItem } from "@/types/order/OrderTypes";
 import CalendarCustom from "@/components/shared/CalendarCustom";
+import useOrder from "@/hooks/dashboard/admin/useOrder";
+import { toast } from "sonner";
 
 interface OrderContentManagementProps {
-  item: OrderItem;
+  orderId: string;
+  orderItem: OrderItem;
+  handleManagment: (value: ContentManagmentType, orderItemId: string) => void;
 }
 
-interface FormValues {
-  return: number;
-  returnDate: Date | null;
-  exchange: number;
-  exchangeDate: Date | null;
-  refund: number;
-  refundDate: Date | null;
+export interface ContentManagmentType {
+  returnNumber: number | null;
+  returnAt: Date | null;
+  exchangeNumber: number | null;
+  exchangeAt: Date | null;
+  refundAmount: number | null;
+  refundAt: Date | null;
 }
 
 const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
-  item,
+  orderId,
+  orderItem,
+  handleManagment,
 }) => {
-  const { control, handleSubmit, reset } = useForm<FormValues>({
-    defaultValues: {
-      return: 0,
-      returnDate: null,
-      exchange: 0,
-      exchangeDate: null,
-      refund: 0,
-      refundDate: null,
-    },
-  });
+  const { udpateOrder } = useOrder({ orderId });
+  const { control, handleSubmit, reset, setValue } =
+    useForm<ContentManagmentType>({
+      defaultValues: {
+        returnNumber: null,
+        returnAt: null,
+        exchangeNumber: null,
+        exchangeAt: null,
+        refundAmount: null,
+        refundAt: null,
+      },
+    });
 
-  // Gestion de la soumission
-  const onSubmit = (data: FormValues) => {
-    console.log("Submitted data:", data);
-    reset(); // Réinitialisez le formulaire après soumission si nécessaire
+  useEffect(() => {
+    if (orderItem) {
+      setValue("returnNumber", orderItem.returnNumber ?? null);
+      setValue("returnAt", orderItem.returnAt ?? null);
+      setValue("exchangeNumber", orderItem.exchangeNumber ?? null);
+      setValue("exchangeAt", orderItem.exchangeAt ?? null);
+      setValue("refundAmount", orderItem.refundAmount ?? null);
+      setValue("refundAt", orderItem.refundAt ?? null);
+    }
+  }, [orderItem, setValue]);
+
+  const onSubmit = async (data: ContentManagmentType) => {
+    const formattedData = {
+      _id: orderItem._id,
+      productId: orderItem.productId,
+      name: orderItem.name,
+      variant: orderItem.variant,
+      customerId: orderItem.customerId,
+      articleNumber: orderItem.articleNumber,
+      heroImage: orderItem.heroImage,
+      priceBeforePromotionOnProduct: orderItem.priceBeforePromotionOnProduct,
+      promotionPercentage: orderItem.promotionPercentage,
+      cashbackEarned: orderItem.cashbackEarned,
+      returnNumber: data.returnNumber ?? null,
+      returnAt: data.returnAt ? new Date(data.returnAt) : null,
+      exchangeNumber: data.exchangeNumber ?? null,
+      exchangeAt: data.exchangeAt ? new Date(data.exchangeAt) : null,
+      refundAmount: data.refundAmount ?? null,
+      refundAt: data.refundAt ? new Date(data.refundAt) : null,
+    };
+
+    await udpateOrder({ orderItem: formattedData }).then((result) => {
+      if (result) {
+        toast.success("Mise à jour réussie");
+        handleManagment(data, orderItem._id);
+        reset();
+      } else {
+        toast.error("Erreur lors de la mise à jour");
+      }
+    });
   };
 
   return (
@@ -55,23 +99,31 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
             <div className="space-y-2">
               <h5 className="font-medium leading-none">Gestion</h5>
               <p className="text-sm text-muted-foreground">
-                Gérer les retours, échanges et remboursements pour : <br/>{item.name}
+                {orderItem.name} {orderItem.variant}
               </p>
             </div>
 
             {/* Retour */}
             <div className="space-y-4">
-              <h6 className="font-medium underline underline-offset-4">Retour</h6>
+              <h6 className="font-medium underline underline-offset-4">
+                Retour
+              </h6>
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="return">Nombre d'articles</Label>
+                <Label htmlFor="returnNumber">Nombre d'articles</Label>
                 <Controller
-                  name="return"
+                  name="returnNumber"
                   control={control}
                   render={({ field }) => (
                     <Input
-                      id="return"
+                      id="returnNumber"
                       type="number"
                       {...field}
+                      value={field.value !== null ? field.value : ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value ? parseInt(e.target.value, 10) : null
+                        )
+                      }
                       className="col-span-2 h-8"
                     />
                   )}
@@ -80,7 +132,7 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
               <div className="grid grid-cols-2 items-center gap-4">
                 <Label>Date appliquée</Label>
                 <Controller
-                  name="returnDate"
+                  name="returnAt"
                   control={control}
                   render={({ field }) => (
                     <CalendarCustom
@@ -94,17 +146,25 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
 
             {/* Échange */}
             <div className="space-y-4">
-              <h6 className="font-medium underline underline-offset-4">Echange</h6>
+              <h6 className="font-medium underline underline-offset-4">
+                Échange
+              </h6>
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="exchange">Nombre d'articles</Label>
+                <Label htmlFor="exchangeNumber">Nombre d'articles</Label>
                 <Controller
-                  name="exchange"
+                  name="exchangeNumber"
                   control={control}
                   render={({ field }) => (
                     <Input
-                      id="exchange"
+                      id="exchangeNumber"
                       type="number"
                       {...field}
+                      value={field.value !== null ? field.value : ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value ? parseInt(e.target.value, 10) : null
+                        )
+                      }
                       className="col-span-2 h-8"
                     />
                   )}
@@ -113,7 +173,7 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
               <div className="grid grid-cols-2 items-center gap-4">
                 <Label>Date appliquée</Label>
                 <Controller
-                  name="exchangeDate"
+                  name="exchangeAt"
                   control={control}
                   render={({ field }) => (
                     <CalendarCustom
@@ -127,17 +187,25 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
 
             {/* Remboursement */}
             <div className="space-y-4">
-              <h6 className="font-medium underline underline-offset-4">Remboursement</h6>
+              <h6 className="font-medium underline underline-offset-4">
+                Remboursement
+              </h6>
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="refund">Montant remboursé (€)</Label>
+                <Label htmlFor="refundAmount">Montant remboursé (€)</Label>
                 <Controller
-                  name="refund"
+                  name="refundAmount"
                   control={control}
                   render={({ field }) => (
                     <Input
-                      id="refund"
+                      id="refundAmount"
                       type="number"
                       {...field}
+                      value={field.value !== null ? field.value : ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value ? parseFloat(e.target.value) : null
+                        )
+                      }
                       className="col-span-2 h-8"
                     />
                   )}
@@ -146,7 +214,7 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
               <div className="grid grid-cols-2 items-center gap-4">
                 <Label>Date appliquée</Label>
                 <Controller
-                  name="refundDate"
+                  name="refundAt"
                   control={control}
                   render={({ field }) => (
                     <CalendarCustom

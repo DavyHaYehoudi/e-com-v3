@@ -76,7 +76,6 @@ export const getOrderCustomerByIdFromAdmin = async (
     next(error);
   }
 };
-
 // Récupérer toutes les commandes
 export const getAllOrders = async (
   req: Request,

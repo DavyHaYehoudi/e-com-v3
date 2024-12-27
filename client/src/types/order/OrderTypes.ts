@@ -36,14 +36,15 @@ export interface OrderItem {
   heroImage: string;
   priceBeforePromotionOnProduct: number;
   promotionPercentage: number;
+  amountPercentage: number;
   cashbackEarned: number;
   exchangeNumber: number | null;
-  exchangeAt: string | null;
+  exchangeAt: Date | null;
   refundNumber: number | null;
-  refundAt: string | null;
+  refundAt: Date | null;
   refundAmount: number | null;
   returnNumber: number | null;
-  returnAt: string | null;
+  returnAt: Date | null;
   _id: string;
 }
 interface TrackingInfo {
