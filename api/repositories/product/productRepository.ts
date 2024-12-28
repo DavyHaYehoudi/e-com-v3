@@ -110,11 +110,29 @@ export const updateProductRepository = async (
   return updatedProduct;
 };
 export const deleteProductRepository = async (productId: string) => {
+  // Récupérer le produit pour vérifier le champ numberOfSales
+  const product = await ProductModel.findById(productId);
+
+  if (!product) {
+    throw new NotFoundError(`Product with ID ${productId} not found.`);
+  }
+
+  // Vérifier que le produit n'a pas été vendu
+  if (product.numberOfSales > 0) {
+    throw new BadRequestError(
+      `The product with ID ${productId} can't be deleted because it was selled ${product.numberOfSales} times.`
+    );
+  }
+
+  // Supprimer le produit
   const deletedProduct = await ProductModel.findByIdAndDelete(productId);
 
   if (!deletedProduct) {
-    throw new NotFoundError(`Product with ID ${productId} not found`);
+    throw new NotFoundError(
+      `Product with ID ${productId} not found when delete.`
+    );
   }
+
   return deletedProduct;
 };
 
@@ -150,5 +168,23 @@ export const updateProductStockRepository = async (orderItems: OrderItem[]) => {
     // Mettre à jour la quantité en stock du produit
     product.quantityInStock = newQuantityInStock;
     await product.save();
+  }
+};
+export const updateProductNumberOfSalesRepository = async (
+  orderItems: OrderItem[]
+) => {
+  for (const item of orderItems) {
+    const { productId, quantity } = item;
+
+    // Incrémenter le champ numberOfSales
+    const product = await ProductModel.findByIdAndUpdate(
+      productId,
+      { $inc: { numberOfSales: quantity } }, // Incrementer le champ numberOfSales
+      { new: true } // Retourner le document mis à jour
+    );
+
+    if (!product) {
+      throw new BadRequestError(`Produit avec ID ${productId} introuvable.`);
+    }
   }
 };

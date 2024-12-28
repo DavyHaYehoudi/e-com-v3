@@ -8,6 +8,7 @@ import {
 } from "../customer/customerService.js";
 import {
   getProductByIdService,
+  updateProductNumberOfSalesService,
   updateProductStockService,
 } from "../product/productService.js";
 import { checkPromocodeService } from "../promocode/promocodeService.js";
@@ -31,7 +32,7 @@ import { giftcardsUsedFormattedEmail } from "../../models/types/giftcardType.js"
 import { PaymentAmountVisitorDTO } from "../../controllers/paymentStatus/payment/entities/dto/paymentAmountVisitor.dto.js";
 import { PaymentAmountCustomerDTO } from "../../controllers/paymentStatus/payment/entities/dto/paymentAmountCustomer.dto.js";
 import { PaymentConfirmationDTO } from "../../controllers/paymentStatus/payment/entities/dto/paymentConfirmation.dto.js";
-import { getTime} from "date-fns";
+import { getTime } from "date-fns";
 
 export const getPaymentAmountVisitorService = async (
   paymentData: PaymentAmountVisitorDTO
@@ -191,6 +192,7 @@ export const createOrderService = async (
     let giftcardsCreated: GiftCardDocument[] = [];
     let orderItemsCreated: OrderItemType[] = [];
     let giftcardsUsed: giftcardsUsedFormattedEmail[] = [];
+    let totalNumberArticles = 0;
 
     // 1. Générer un numéro de commande
     const orderNumber = generateOrderNumber();
@@ -215,12 +217,15 @@ export const createOrderService = async (
     const giftcardsInCart = customerInfo.cartGiftcards;
     const productsInCart = customerInfo.cartProducts;
 
-    //5. Mise à jour du stock du produit
+    //5. Mise à jour du stock du produit et de son nombre de vente
     await updateProductStockService(productsInCart);
-    //6. Calcul du cashback capitalisé
+    await updateProductNumberOfSalesService(productsInCart);
+
+    //6. Calcul du cashback capitalisé et du nombre total d'articles
     for (const product of productsInCart) {
       const productDB = await getProductByIdService(product.productId);
       cashbackToEarn += product.quantity * productDB.cashback;
+      totalNumberArticles += product.quantity;
     }
     //7. Mise à jour de l'historique du cashback du customer
     const cashbackData: CashbackTypeDTO = {
@@ -315,6 +320,7 @@ export const createOrderService = async (
       orderAddressBilling: paymentConfirmationData.orderAddressBilling,
       cashbackEarned: cashbackToEarn || 0,
       cashbackSpent: cashbackToSpend || 0,
+      totalNumberArticles,
       orderItems: orderItemsCreated,
     };
     const orderCreated = await createOrderRepository(orderData);
@@ -337,6 +343,7 @@ export const createOrderService = async (
       orderAddressBilling: paymentConfirmationData.orderAddressBilling,
       promocodeAmount: paymentDetails.promocodeAmount,
       promocodePercentage: paymentDetails.promocodePercentage,
+      totalNumberArticles,
     };
     await sendPaymentConfirmationEmail(emailDetails, orderDetailsForEmail);
     //15. Retourner la commande + prénom customer

@@ -17,6 +17,7 @@ export const sendPaymentConfirmationEmail = async (
     orderItems: OrderItemType[];
     promocodeAmount: number;
     promocodePercentage: number;
+    totalNumberArticles:number;
   }
 ) => {
   const giftCardsList = orderDetailsForEmail.giftcardsCreated;
@@ -152,6 +153,9 @@ export const sendPaymentConfirmationEmail = async (
         <p><strong>Total net de la commande :</strong> ${
           orderDetailsForEmail.totalPrice
         } €</p>
+        <p><strong>Nombre total d'articles :</strong> ${
+          orderDetailsForEmail.totalNumberArticles
+        }</p>
         <p><strong>Cashback gagné :</strong> ${
           orderDetailsForEmail.cashbackEarned
         } €</p>

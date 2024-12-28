@@ -173,6 +173,18 @@ export const OrderColumns = (
     meta: { headerName: "№ de suivi" },
   },
   {
+    accessorKey: "totalNumberArticles",
+    header: () => <div className="text-right">Nombre d'articles</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="text-right font-medium whitespace-nowrap">
+          {row.getValue("totalNumberArticles")}
+        </div>
+      );
+    },
+    meta: { headerName: "Total d'articles" },
+  },
+  {
     accessorKey: "totalPrice",
     header: () => <div className="text-right">Total</div>,
     cell: ({ row }) => {

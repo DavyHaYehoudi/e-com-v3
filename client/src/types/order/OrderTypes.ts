@@ -74,6 +74,7 @@ export interface OrderCustomerDBType {
   cashbackEarned: number; // Montant de cashback gagné
   cashbackSpent: number; // Montant de cashback utilisé
   trackingNumber: TrackingInfo | null; // Numéro de suivi (si disponible)
+  totalNumberArticles: number; // Nombre d'articles vendus dans cette commande
   orderItems: OrderItem[]; // Liste des articles commandés
   createdAt: string; // Date de création (format ISO)
   updatedAt: string; // Date de mise à jour (format ISO)

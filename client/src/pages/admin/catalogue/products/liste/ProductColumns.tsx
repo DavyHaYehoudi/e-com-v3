@@ -51,7 +51,7 @@ export const ProductColumns = (
         />
       </div>
     ),
-    meta: { headerName: "Valeur initiale" },
+    meta: { headerName: "Image" },
   },
   {
     accessorKey: "price",
@@ -165,7 +165,25 @@ export const ProductColumns = (
         </div>
       );
     },
-    meta: { headerName: "Date d'expiration" },
+    meta: { headerName: "Cashback" },
+  },
+  {
+    accessorKey: "numberOfSales",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Nombre de ventes
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <div>{row.getValue("numberOfSales")}</div>;
+    },
+    meta: { headerName: "Nombre de ventes" },
   },
   {
     accessorKey: "isPublished",

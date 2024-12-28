@@ -21,6 +21,7 @@ export interface ProductDocument extends Document {
     mainImage: string;
     secondaryImages: string[];
   }[];
+  numberOfSales: number; // Nombre de ventes du produit
   isStar: boolean;
   isArchived: boolean;
   createdAt: Date;
@@ -51,6 +52,7 @@ const ProductSchema = new Schema<ProductDocument>(
         secondaryImages: [{ type: String }],
       },
     ],
+    numberOfSales: { type: Number, default: 0 },
     isStar: { type: Boolean, default: false },
     isArchived: { type: Boolean, default: false },
   },

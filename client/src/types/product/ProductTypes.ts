@@ -15,6 +15,7 @@ export interface ProductDBType {
   categories: CategoryProductType[];
   tags: TagProductType[];
   variants: VariantProductType[];
+  numberOfSales: number;
   isStar: boolean;
   isArchived: boolean;
   createdAt: string; // ISO date string

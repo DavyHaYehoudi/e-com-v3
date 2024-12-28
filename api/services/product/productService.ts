@@ -7,6 +7,7 @@ import {
   deleteProductRepository,
   getAllProductsRepository,
   getProductByIdRepository,
+  updateProductNumberOfSalesRepository,
   updateProductRepository,
   updateProductStockRepository,
 } from "../../repositories/product/productRepository.js";
@@ -39,4 +40,9 @@ interface OrderItem {
 }
 export const updateProductStockService = async (orderItems: OrderItem[]) => {
   await updateProductStockRepository(orderItems);
+};
+export const updateProductNumberOfSalesService = async (
+  orderItems: OrderItem[]
+) => {
+  await updateProductNumberOfSalesRepository(orderItems);
 };

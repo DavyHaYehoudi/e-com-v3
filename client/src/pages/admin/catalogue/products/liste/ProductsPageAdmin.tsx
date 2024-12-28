@@ -36,6 +36,14 @@ const ProductsPageAdmin = () => {
   // Fonction pour supprimer un produit
   const handleDeleteProduct = async () => {
     try {
+      const isProductAlreadySelled = products.find(
+        (product) =>
+          product._id === selectedProduct.productId && product.numberOfSales > 0
+      );
+      if (isProductAlreadySelled) {
+        toast.error("Impossible de supprimer ce produit car il a été vendu.");
+        return;
+      }
       await deleteProduct();
 
       setProducts((prevProducts) =>

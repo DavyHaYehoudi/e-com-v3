@@ -56,6 +56,7 @@ export interface OrderDocument extends Document {
   cashbackEarned: number;
   cashbackSpent: number;
   trackingNumber: TrackingInfo;
+  totalNumberArticles: number;
   orderItems: OrderItem[];
 }
 
@@ -120,6 +121,7 @@ const OrderSchema = new Schema<OrderDocument>(
     cashbackEarned: { type: Number, default: 0 },
     cashbackSpent: { type: Number, default: 0 },
     trackingNumber: { type: TrackingInfoSchema, default: null },
+    totalNumberArticles:{ type: Number, default: 0 },
     orderItems: { type: [OrderItemSchema], default: [] },
   },
   {
