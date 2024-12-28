@@ -93,7 +93,7 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
       <PopoverTrigger asChild>
         <Button variant="outline">...</Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96">
+      <PopoverContent className="max-w-96 min-w-[300px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-6">
             <div className="space-y-2">
@@ -104,8 +104,8 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
             </div>
 
             {/* Retour */}
-            <div className="space-y-4">
-              <h6 className="font-medium underline underline-offset-4">
+            <div className="space-y-4 bg-pink-50 dark:bg-pink-900 p-4 rounded">
+              <h6 className="font-medium underline underline-offset-4 text-pink-700 dark:text-pink-300">
                 Retour
               </h6>
               <div className="grid grid-cols-3 items-center gap-4">
@@ -145,8 +145,8 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
             </div>
 
             {/* Échange */}
-            <div className="space-y-4">
-              <h6 className="font-medium underline underline-offset-4">
+            <div className="space-y-4 bg-blue-50 dark:bg-blue-900 p-4 rounded">
+              <h6 className="font-medium underline underline-offset-4 text-blue-700 dark:text-blue-300">
                 Échange
               </h6>
               <div className="grid grid-cols-3 items-center gap-4">
@@ -186,8 +186,8 @@ const OrderContentManagement: React.FC<OrderContentManagementProps> = ({
             </div>
 
             {/* Remboursement */}
-            <div className="space-y-4">
-              <h6 className="font-medium underline underline-offset-4">
+            <div className="space-y-4 bg-green-50 dark:bg-green-900 p-4 rounded">
+              <h6 className="font-medium underline underline-offset-4 text-green-700 dark:text-green-300">
                 Remboursement
               </h6>
               <div className="grid grid-cols-3 items-center gap-4">

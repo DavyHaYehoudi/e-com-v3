@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
-import OrderPaymentStatus from "./OrderPaymentStatus";
 import { OrderStatusType, PaymentStatusType } from "@/types/status/StatusTypes";
 import useStatus from "@/hooks/dashboard/admin/useStatus";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
@@ -22,13 +21,12 @@ import OrderContentManagment, {
 import { formatDate } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/pricesFormat";
 import TrackingNumber from "./TrackingNumber";
+import OrderContentStatus from "./OrderContentStatus";
 
 const OrderContentAdminPage = () => {
   const [order, setOrder] = useState<OrderCustomerDBType | null>();
-  console.log('order:', order)
   const [trackingNumberInfo, setTrackingNumberInfo] =
   useState<TrackingInfo | null>(null);
-  console.log('trackingNumberInfo:', trackingNumberInfo)
   const [statusOrderNumber, setStatusOrderNumber] = useState<number | null>(
     null
   );
@@ -149,13 +147,13 @@ const OrderContentAdminPage = () => {
   };
 
   return (
-    <div className="p-20">
+    <div className="px-4 pb-80">
       <NavBackDashboard
         path="activite/commandes/liste"
         text="Revenir à la liste des commandes"
         role="admin"
       />
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="xs:w-full xl:w-3/4 xl:mx-auto ">
         <h1 className="text-center mb-10">Commande № {order.orderNumber}</h1>
         {/* Informations sur la commande */}
         <Card>
@@ -204,7 +202,7 @@ const OrderContentAdminPage = () => {
             </div>
           </CardContent>
           {/* Addresses Section */}
-          <div className="grid grid-cols-2 gap-4 p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
             <Card className="bg-blue-50 dark:bg-blue-900">
               <CardHeader>
                 <CardTitle className="text-blue-700 dark:text-blue-300">
@@ -258,7 +256,7 @@ const OrderContentAdminPage = () => {
             </Card>
           </div>
           <CardFooter>
-            <OrderPaymentStatus
+            <OrderContentStatus
               statusOrderNumber={statusOrderNumber}
               statusPaymentNumber={statusPaymentNumber}
               handleOrderStatusChange={handleOrderStatusChange}

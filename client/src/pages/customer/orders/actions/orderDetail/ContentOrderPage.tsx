@@ -53,6 +53,9 @@ const ContentOrderPage = () => {
             <TableHead>Nom</TableHead>
             <TableHead>Prix</TableHead>
             <TableHead>Promotion</TableHead>
+            <TableHead>Retour</TableHead>
+            <TableHead>Echange</TableHead>
+            <TableHead>Remboursement</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -11,14 +11,14 @@ import useStatus from "@/hooks/dashboard/admin/useStatus";
 import { OrderStatusType, PaymentStatusType } from "@/types/status/StatusTypes";
 import React, { useEffect, useState } from "react";
 
-interface OrderPaymentStatusProps {
+interface OrderContentStatusProps {
   handlePaymentStatusChange: (status: string) => void;
   handleOrderStatusChange: (status: string) => void;
   statusOrderNumber: number | null;
   statusPaymentNumber: number | null;
 }
 
-const OrderPaymentStatus: React.FC<OrderPaymentStatusProps> = ({
+const OrderContentStatus: React.FC<OrderContentStatusProps> = ({
   statusOrderNumber,
   statusPaymentNumber,
   handleOrderStatusChange,
@@ -36,7 +36,7 @@ const OrderPaymentStatus: React.FC<OrderPaymentStatusProps> = ({
     }
   }, [ordersStatus, paymentsStatus, statusOrderFetch, statusPaymentFetch]);
   return (
-    <div className="flex space-x-4">
+    <div className="flex flex-wrap justify-center items-center gap-2">
       <Select
         value={statusPaymentNumber?.toString()}
         onValueChange={handlePaymentStatusChange}
@@ -88,4 +88,4 @@ const OrderPaymentStatus: React.FC<OrderPaymentStatusProps> = ({
   );
 };
 
-export default OrderPaymentStatus;
+export default OrderContentStatus;
