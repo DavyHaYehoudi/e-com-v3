@@ -16,14 +16,14 @@ interface OrderAddress {
 
 interface TrackingInfo {
   trackingNumber: string;
-  dateSending: string;
+  dateSending: Date | null;
 }
 
 interface OrderItem {
-  productId: Schema.Types.ObjectId|string;
+  productId: Schema.Types.ObjectId | string;
   name: string;
   variant: string;
-  customerId: Schema.Types.ObjectId|string;
+  customerId: Schema.Types.ObjectId | string;
   articleNumber: number;
   heroImage: string;
   priceBeforePromotionOnProduct: number;

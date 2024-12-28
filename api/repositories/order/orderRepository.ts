@@ -1,4 +1,7 @@
-import { UpdateOrderDTO } from "../../controllers/order/entities/dto/order.dto.js";
+import {
+  TrackingNumberDTO,
+  UpdateOrderDTO,
+} from "../../controllers/order/entities/dto/order.dto.js";
 import { BadRequestError } from "../../exceptions/CustomErrors.js";
 import { OrderModel } from "../../models/order/order.schema.js";
 import { OrderStatusModel } from "../../models/orderStatus/orderStatusSchema.js";
@@ -55,14 +58,16 @@ export type FieldsToUpdateOrder = {
   paymentStatusNumber?: number;
   paymentStatusLabel?: string;
   paymentStatusColor?: string;
-  orderItem?:OrderItemType;
+  trackingNumber: TrackingNumberDTO;
+  orderItem?: OrderItemType;
 };
 // Admin - update une commande par son orderId
 export const updateOrderByIdRepository = async (
   orderId: string,
   updatedOrderData: UpdateOrderDTO
 ) => {
-  const { statusOrder, statusPayment, orderItem } = updatedOrderData;
+  const { statusOrder, statusPayment, orderItem, trackingNumber } =
+    updatedOrderData;
 
   // Préparation des champs de mise à jour pour la commande
   const fieldsToUpdate: Partial<FieldsToUpdateOrder> = {};
@@ -72,9 +77,7 @@ export const updateOrderByIdRepository = async (
       number: statusOrder,
     });
     if (!orderStatus) {
-      throw new BadRequestError(
-        `Order status ${statusOrder} not found`
-      );
+      throw new BadRequestError(`Order status ${statusOrder} not found`);
     }
     fieldsToUpdate.orderStatusNumber = orderStatus.number;
     fieldsToUpdate.orderStatusLabel = orderStatus.label;
@@ -86,13 +89,16 @@ export const updateOrderByIdRepository = async (
       number: statusPayment,
     });
     if (!paymentStatus) {
-      throw new BadRequestError(
-        `Payment status ${statusPayment} not found`
-      );
+      throw new BadRequestError(`Payment status ${statusPayment} not found`);
     }
     fieldsToUpdate.paymentStatusNumber = paymentStatus.number;
     fieldsToUpdate.paymentStatusLabel = paymentStatus.label;
     fieldsToUpdate.paymentStatusColor = paymentStatus.color;
+  }
+
+  // Mise à jour du numéro de suivi
+  if (trackingNumber) {
+    fieldsToUpdate.trackingNumber = trackingNumber;
   }
 
   // Mise à jour d'un orderItem si nécessaire
@@ -104,11 +110,10 @@ export const updateOrderByIdRepository = async (
 
     // Trouver l'élément à mettre à jour
     const itemIndex = order.orderItems.findIndex(
-      (item) => item._id.toString() === orderItem._id
-    );
+      (item) => (item as any)._id.toString() === orderItem._id
+    ); // Ajout de as any car au niveau de typescript _id n'existe pas explicitement dans un document orderItem
+
     if (itemIndex === -1) {
-      console.log('itemIndex');
-      
       throw new BadRequestError(`Order item ${orderItem._id} not found`);
     }
 
@@ -138,4 +143,3 @@ export const updateOrderByIdRepository = async (
   // Retourner la commande mise à jour si aucune mise à jour n'était nécessaire pour statusOrder/statusPayment
   return await OrderModel.findById(orderId);
 };
-

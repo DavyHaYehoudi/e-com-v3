@@ -9,7 +9,9 @@ export const orderItemSchema = z.object({
   customerId: z.string().nonempty("Customer ID is required"), // ID client
   articleNumber: z.number().int().min(1, "Article number must be positive"), // Numéro d'article (positif)
   heroImage: z.string().nonempty("Hero image is required"), // URL de l'image du produit
-  priceBeforePromotionOnProduct: z.number().min(0, "Price must be a positive number"), // Prix avant promotion
+  priceBeforePromotionOnProduct: z
+    .number()
+    .min(0, "Price must be a positive number"), // Prix avant promotion
   promotionPercentage: z.number().min(0, "Promotion percentage must be >= 0"), // Pourcentage de promotion
   exchangeNumber: z.number().nullable().optional(), // Numéro d'échange (peut être nul)
   exchangeAt: z
@@ -35,12 +37,24 @@ export const orderItemSchema = z.object({
     .optional(), // Date de retour (peut être nul)
   cashbackEarned: z.number().min(0, "Cashback earned must be >= 0"), // Cashback gagné
 });
+// Schéma pour le numéro de suivi
+export const trackingNumberSchema = z.object({
+  trackingNumber: z.string().nonempty("Tracking number is required"), // Numéro de suivi (obligatoire)
+  dateSending: z
+    .string()
+    .datetime({ offset: true })
+    .transform((val) => new Date(val))
+    .nullable()
+    .optional(),
+});
 
 // Schéma pour modifier une commande (PATCH)
 export const updateOrderSchema = z.object({
   statusOrder: z.number().optional(), // Statut de la commande (peut être omis)
   statusPayment: z.number().optional(), // Statut du paiement (peut être omis)
   orderItem: orderItemSchema.optional(), // Un ordre peut avoir un ou plusieurs éléments à mettre à jour
+  trackingNumber: trackingNumberSchema.optional(), // Numéro de suivi
 });
 
 export type UpdateOrderDTO = z.infer<typeof updateOrderSchema>;
+export type TrackingNumberDTO = z.infer<typeof trackingNumberSchema>;

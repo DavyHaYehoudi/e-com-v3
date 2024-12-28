@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useOrder from "@/hooks/dashboard/admin/useOrder";
-import { OrderCustomerDBType } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType, TrackingInfo } from "@/types/order/OrderTypes";
 import {
   Card,
   CardContent,
@@ -10,8 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
 import OrderPaymentStatus from "./OrderPaymentStatus";
 import { OrderStatusType, PaymentStatusType } from "@/types/status/StatusTypes";
@@ -23,10 +21,14 @@ import OrderContentManagment, {
 } from "./OrderContentManagment";
 import { formatDate } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/pricesFormat";
+import TrackingNumber from "./TrackingNumber";
 
 const OrderContentAdminPage = () => {
   const [order, setOrder] = useState<OrderCustomerDBType | null>();
-  const [trackingNumber, setTrackingNumber] = useState<string>("");
+  console.log('order:', order)
+  const [trackingNumberInfo, setTrackingNumberInfo] =
+  useState<TrackingInfo | null>(null);
+  console.log('trackingNumberInfo:', trackingNumberInfo)
   const [statusOrderNumber, setStatusOrderNumber] = useState<number | null>(
     null
   );
@@ -48,6 +50,7 @@ const OrderContentAdminPage = () => {
           setOrder(order || null);
           setStatusOrderNumber(order?.orderStatusNumber || 0);
           setStatusPayment(order?.paymentStatusNumber || 0);
+          setTrackingNumberInfo(order?.trackingNumber || null);
         }
       });
     }
@@ -127,7 +130,9 @@ const OrderContentAdminPage = () => {
     });
   };
 
-  const handleTrackingNumberUpdate = () => {};
+  const handleTrackingNumber = (data: TrackingInfo) => {
+    setTrackingNumberInfo(data);
+  };
   const handleManagment = (
     values: ContentManagmentType,
     orderItemId: string
@@ -323,23 +328,11 @@ const OrderContentAdminPage = () => {
         </Card>
 
         {/* Numéro de suivi */}
-        <Card>
-          <CardHeader>
-            <h3 className="text-lg font-semibold">Numero de suivi</h3>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center space-x-4">
-              <Input
-                placeholder="Numéro de suivi"
-                value={trackingNumber}
-                onChange={(e) => setTrackingNumber(e.target.value)}
-              />
-              <Button onClick={handleTrackingNumberUpdate}>
-                Mettre à jour
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <TrackingNumber
+          handleTrackingNumber={handleTrackingNumber}
+          trackingNumberInfo={trackingNumberInfo}
+          orderId={order._id}
+        />
       </div>
     </div>
   );

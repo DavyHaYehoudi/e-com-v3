@@ -47,9 +47,9 @@ export interface OrderItem {
   returnAt: Date | null;
   _id: string;
 }
-interface TrackingInfo {
+export interface TrackingInfo {
   trackingNumber: string;
-  dateSending: string;
+  dateSending: Date | null;
 }
 export interface CustomerIdType {
   firstName: string;
