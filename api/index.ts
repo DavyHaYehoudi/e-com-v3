@@ -41,6 +41,7 @@ import giftcardRoutesAdmin from "./routes/adminAccess/giftcard.routes.js";
 import paymentStatusAdmin from "./routes/adminAccess/paymentStatus.routes.js";
 import orderStatusAdmin from "./routes/adminAccess/orderStatus.routes.js";
 import orderRoutesAdmin from "./routes/adminAccess/order.routes.js";
+import chiffreRoutes from "./routes/adminAccess/chiffre.routes.js";
 
 // Public routes
 app.use("/api/auth", authRoutes);
@@ -91,6 +92,7 @@ app.use(
 );
 app.use("/api/admin/order-status", verifyToken, adminAccess, orderStatusAdmin);
 app.use("/api/admin/orders", verifyToken, adminAccess, orderRoutesAdmin);
+app.use("/api/admin/chiffres", verifyToken, adminAccess, chiffreRoutes);
 
 app.use(errorHandler);
 

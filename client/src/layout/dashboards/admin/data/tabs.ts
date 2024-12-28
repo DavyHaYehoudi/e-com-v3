@@ -7,6 +7,7 @@ import {
   Percent,
   Layers,
   Tag,
+  ChartColumnDecreasing
 } from "lucide-react";
 export const data = {
   activity: [
@@ -125,6 +126,20 @@ export const data = {
         {
           title: "Liste",
           url: "/admin/tableau-de-bord/retours/avis",
+        },
+      ],
+    },
+  ],
+  stat: [
+    {
+      title: "Statistiques",
+      url: "#",
+      icon: ChartColumnDecreasing,
+      isActive: true,
+      items: [
+        {
+          title: "Général",
+          url: "/admin/tableau-de-bord/chiffres/statistiques/general",
         },
       ],
     },

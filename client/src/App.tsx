@@ -57,6 +57,7 @@ import GiftcardHistoryPage from "./pages/admin/advantages/giftcards/GiftcardHist
 import CollectionsPage from "./pages/admin/catalogue/classifying/collection/CollectionsPage";
 import ProductForm from "./pages/admin/catalogue/products/sheetProduct/ProductForm";
 import OrderContentAdminPage from "./pages/admin/activity/orders/content/OrderContentAdminPage";
+import StatisticPage from "./pages/admin/chiffres/Statistic";
 function App() {
   return (
     <ThemeProvider>
@@ -246,6 +247,10 @@ function App() {
                 <Route
                   path="admin/tableau-de-bord/retours/avis"
                   element={<ReviewsPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/chiffres/statistiques/general"
+                  element={<StatisticPage />}
                 ></Route>
               </Route>
               <Route path="*" element={<NotFound />} />

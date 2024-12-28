@@ -28,6 +28,7 @@ export function SidebarAppAdmin({ ...props }: React.ComponentProps<typeof Sideba
         <SidebarSection items={data.advantages} title="Avantages" />
         <SidebarSection items={data.marketing} title="Marketing" />
         <SidebarSection items={data.review} title="Avis" />
+        <SidebarSection items={data.stat} title="Chiffres" />
       </SidebarContent>
       <SidebarFooter>
         <Link
