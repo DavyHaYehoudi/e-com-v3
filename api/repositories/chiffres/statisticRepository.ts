@@ -129,7 +129,7 @@ export const getStatisticsRepository = async (year?: StatisticTypeDTO) => {
     },
     {
       $match: {
-        "cashback.timestamps": {
+        "cashback.createdAt": {
           $gte: startOfYear,
           $lt: endOfYear,
         },
