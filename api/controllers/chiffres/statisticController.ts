@@ -9,7 +9,9 @@ export const getStatistic = async (
 ) => {
   try {
     // Validation et conversion
-    const year = req.query.year ? getStatisticSchema.parse(req.query.year) : undefined;
+    const year = req.query.year
+      ? getStatisticSchema.parse(req.query.year)
+      : undefined;
 
     const statistics = await getStatisticService(year); // Passe l'année validée au service
     res.status(200).json(statistics);

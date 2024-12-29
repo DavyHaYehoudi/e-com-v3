@@ -23,6 +23,7 @@ tags:
   - name: payment
   - name: order-status
   - name: payment-status
+  - name: chiffres
 paths:
   /auth/open-session:
     post:
@@ -1542,6 +1543,23 @@ paths:
           description: Unauthorized - Admin is not authenticated
       security:
         - api_key: []
+  /chiffres/statistic:
+    get:
+      tags:
+        - chiffres
+      summary: get statistics.
+      description: get statistics.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticGET'  
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
 components:
   schemas:
     Address:
@@ -2437,6 +2455,99 @@ components:
           type: integer
         color:
           type: string
+    StatisticGET:
+      type: object
+      properties:
+        orders:
+          type: object
+          properties:
+            totalAmountOrdersByYear:
+              type: number
+              format: float
+              example: 1803.61
+            totalOrdersByYear:
+              type: integer
+              example: 13
+            totalAmountOrdersAllTime:
+              type: number
+              format: float
+              example: 1803.61
+            totalOrdersAllTime:
+              type: integer
+              example: 13
+        products:
+          type: object
+          properties:
+            totalSalesProductsByYear:
+              type: integer
+              example: 11
+            totalSalesProductsAllTime:
+              type: integer
+              example: 11
+            totalSalesArticlesByYear:
+              type: integer
+              example: 27
+            totalSalesArticlesAllTime:
+              type: integer
+              example: 27
+        giftCards:
+          type: object
+          properties:
+            totalGiftcardsByYear:
+              type: integer
+              example: 8
+            activeGiftcards:
+              type: integer
+              example: 10
+            inactiveGiftcards:
+              type: integer
+              example: 1
+            totalAmountUsedByYear:
+              type: number
+              format: float
+              example: 0
+            totalAmountAvailable:
+              type: number
+              format: float
+              example: 220
+            totalAmountBalanceByYear:
+              type: number
+              format: float
+              example: 188
+            totalGiftcardsAllTime:
+              type: integer
+              example: 11
+            totalAmountUsedAllTime:
+              type: number
+              format: float
+              example: 0
+            totalAmountBalanceAllTime:
+              type: number
+              format: float
+              example: 237
+        cashback:
+          type: object
+          properties:
+            totalCashbackEarnedByYear:
+              type: number
+              format: float
+              example: 130.5
+            totalCashbackSpentByYear:
+              type: number
+              format: float
+              example: 30
+            totalCashbackEarnedAllTime:
+              type: number
+              format: float
+              example: 130.5
+            totalCashbackSpentAllTime:
+              type: number
+              format: float
+              example: 30
+            totalCashbackUsable:
+              type: number
+              format: float
+              example: 100.5
 
   securitySchemes:
     api_key:

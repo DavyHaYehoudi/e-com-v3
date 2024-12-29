@@ -262,7 +262,7 @@ const StatisticPage = () => {
             </p>
             <hr className="mb-4 border-gray-300" />
             <p className="mb-2 flex justify-end items-center gap-2 flex-wrap m-4">
-              Montant encore utilisable:{" "}
+              Montant encore utilisable :{" "}
               <strong>
                 {formatPrice(statistics.cashback.totalCashbackUsable)}
               </strong>

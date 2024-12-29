@@ -85,8 +85,7 @@ export const getStatisticsRepository = async (year?: StatisticTypeDTO) => {
       },
     },
   ]);
-  
-  
+
   // Statistiques des cartes cadeaux
   const giftCardStats = await GiftCardModel.aggregate([
     {
@@ -239,21 +238,20 @@ export const getStatisticsRepository = async (year?: StatisticTypeDTO) => {
         totalOrdersStats[0].totalAmountOrdersAllTime[0]
           ?.totalAmountOrdersAllTime || 0
       ),
-      totalOrdersAllTime: totalOrdersStats[0].totalOrdersAllTime[0]?.totalOrdersAllTime || 0,
+      totalOrdersAllTime:
+        totalOrdersStats[0].totalOrdersAllTime[0]?.totalOrdersAllTime || 0,
     },
     products: {
       totalSalesProductsByYear:
-        totalProductSales[0].totalSalesByYear[0]
-          ?.totalSalesProductsByYear || 0,
+        totalProductSales[0].totalSalesByYear[0]?.totalSalesProductsByYear || 0,
       totalSalesProductsAllTime:
-        totalProductSales[0].totalSalesAllTime[0]
-          ?.totalSalesProductsAllTime || 0,
+        totalProductSales[0].totalSalesAllTime[0]?.totalSalesProductsAllTime ||
+        0,
       totalSalesArticlesByYear:
-        totalProductSales[0].totalSalesByYear[0]
-          ?.totalSalesArticlesByYear || 0,
+        totalProductSales[0].totalSalesByYear[0]?.totalSalesArticlesByYear || 0,
       totalSalesArticlesAllTime:
-        totalProductSales[0].totalSalesAllTime[0]
-          ?.totalSalesArticlesAllTime || 0,
+        totalProductSales[0].totalSalesAllTime[0]?.totalSalesArticlesAllTime ||
+        0,
     },
     giftCards: {
       totalGiftcardsByYear:
