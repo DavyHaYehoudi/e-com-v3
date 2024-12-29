@@ -63,8 +63,11 @@ const GiftCardSchema = new Schema<GiftCardDocument>(
     isIssuedByAdmin: { type: Boolean, default: false },
     expirationDate: {
       type: Date,
-      default: () => addYears(new Date(), 1), // Définit la date d'expiration par défaut à un an à compter de la création
+      default: () => addYears(new Date(), 1),
+      set: (val: string | Date) =>
+        typeof val === "string" ? new Date(val) : val,
     },
+
     usageHistory: { type: [GiftCardUsageSchema], default: [] }, // Historique des usages
   },
   {

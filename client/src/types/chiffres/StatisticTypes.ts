@@ -1,20 +1,32 @@
 export interface StatsResponse {
   orders: {
-    totalAmount: number;
-    totalOrders: number;
+    totalAmountOrdersByYear: number;
+    totalOrdersByYear: number;
+    totalAmountOrdersAllTime: number;
+    totalOrdersAllTime: number;
   };
   products: {
-    totalSales: number;
+    totalSalesProductsByYear: number;
+    totalSalesProductsAllTime: number;
+    totalSalesArticlesByYear: number;
+    totalSalesArticlesAllTime: number;
   };
   giftCards: {
-    totalGiftCards: number;
-    activeGiftCards: number;
-    inactiveGiftCards: number;
-    totalAmountUsed: number;
+    totalGiftcardsByYear: number;
+    totalAmountBalanceByYear: number;
+    totalAmountUsedByYear: number;
+    activeGiftcards: number;
+    inactiveGiftcards: number;
     totalAmountAvailable: number;
+    totalGiftcardsAllTime: number;
+    totalAmountUsedAllTime: number;
+    totalAmountBalanceAllTime: number;
   };
   cashback: {
-    totalCashbackEarned: number;
-    totalCashbackSpent: number;
+    totalCashbackEarnedByYear: number;
+    totalCashbackSpentByYear: number;
+    totalCashbackEarnedAllTime: number;
+    totalCashbackSpentAllTime: number;
+    totalCashbackUsable: number;
   };
 }
