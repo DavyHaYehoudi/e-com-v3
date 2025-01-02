@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 
 const useProduct = (productId?: string) => {
   const { triggerFetch: getAllProducts } = useFetch<ProductDBType[]>(

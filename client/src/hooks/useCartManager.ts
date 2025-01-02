@@ -7,7 +7,7 @@ import {
   deleteGiftcardToCart,
   deleteProductToCart,
 } from "@/redux/slice/cartSlice";
-import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
+import { CartProductsToBuyFrontType } from "@/types/CartTypes";
 import { resetPriceAdjustments } from "@/redux/slice/priceAdjustmentsSlice";
 
 export const useCartManager = () => {

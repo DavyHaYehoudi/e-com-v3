@@ -8,8 +8,8 @@ import RowTotalCart from "./rowTotals/RowTotalCart";
 import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
-import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
+import { CartProductsToBuyFrontType } from "@/types/CartTypes";
+import { CartGiftcardsToBuyFrontType } from "@/types/GiftcardTypes";
 import CartRowProduct from "./CartRowProduct";
 
 interface CartRowItemProps {

@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { OrderCustomerDBType } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType } from "@/types/OrderTypes";
 interface useOrderType {
   customerId?: string;
   orderId?: string;

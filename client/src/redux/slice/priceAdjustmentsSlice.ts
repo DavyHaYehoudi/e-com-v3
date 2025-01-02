@@ -1,6 +1,6 @@
 // store/priceAdjustmentsSlice.ts
 
-import { GiftcardToUseFrontType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardToUseFrontType } from "@/types/GiftcardTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Promocode {

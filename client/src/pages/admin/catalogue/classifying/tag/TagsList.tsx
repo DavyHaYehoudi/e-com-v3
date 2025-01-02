@@ -28,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { TagDBType } from "@/types/tag/TagTypes";
+import { TagDBType } from "@/types/TagTypes";
 import { TagColumns } from "./TagColumns";
 import { SelectedTag } from "./TagsPage";
 

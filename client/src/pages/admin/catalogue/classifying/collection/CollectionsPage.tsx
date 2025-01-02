@@ -1,9 +1,10 @@
 import useCollection from "@/hooks/dashboard/admin/useCollection";
-import { CollectionDBType } from "@/types/collection/CollectionTypes/collectionTypes";
+import { CollectionDBType } from "@/types/collectionTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CollectionsList from "./CollectionsList";
 import CollectionCreate from "./CollectionCreate";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export interface SelectedCollection {
   collectionId: string;
@@ -19,6 +20,7 @@ const CollectionsPage = () => {
     });
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     getCollections,
     createCollection,
@@ -29,6 +31,7 @@ const CollectionsPage = () => {
   // Fonction pour récupérer tous les collections
   const fetchCollections = async () => {
     try {
+      setIsLoading(true);
       const data = await getCollections();
       if (data) {
         setCollections(data);
@@ -36,6 +39,8 @@ const CollectionsPage = () => {
     } catch (error) {
       console.error("Erreur lors de la récupération des collections :", error);
       toast.error("Impossible de charger vos informations.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -100,7 +105,14 @@ const CollectionsPage = () => {
   useEffect(() => {
     fetchCollections();
   }, []);
-
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-center mb-10">Collections</h1>

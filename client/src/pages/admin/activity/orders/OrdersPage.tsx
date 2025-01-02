@@ -1,8 +1,9 @@
 import useOrder from "@/hooks/dashboard/admin/useOrder";
-import { OrderCustomerDBType } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType } from "@/types/OrderTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import OrdersList from "./OrdersList";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export interface SelectedOrder {
   orderId: string;
@@ -11,6 +12,7 @@ export interface SelectedOrder {
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState<OrderCustomerDBType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<SelectedOrder>({
     orderId: "",
     label: "",
@@ -24,6 +26,7 @@ const OrdersPage = () => {
   // Fonction pour récupérer tous les commandes
   const fetchOrders = async () => {
     try {
+      setIsLoading(true);
       const data = await allOrdersFetch();
       if (data) {
         setOrders(data);
@@ -31,6 +34,8 @@ const OrdersPage = () => {
     } catch (error) {
       console.error("Erreur lors de la récupération des commandes :", error);
       toast.error("Impossible de charger vos informations.");
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -72,6 +77,14 @@ const OrdersPage = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
 
   return (
     <div>

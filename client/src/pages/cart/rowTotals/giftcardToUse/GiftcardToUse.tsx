@@ -17,7 +17,7 @@ import {
 import {
   GiftcardCheckType,
   GiftcardToUseFrontType,
-} from "@/types/giftcard/GiftcardTypes";
+} from "@/types/GiftcardTypes";
 import { useState } from "react";
 import ModalToChooseAmount from "./ModalToChooseAmount";
 import { formatPrice } from "@/utils/pricesFormat";

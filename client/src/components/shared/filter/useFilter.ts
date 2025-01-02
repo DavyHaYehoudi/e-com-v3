@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
-import { CategoryDBType } from "@/types/category/CategoryTypes";
-import { TagDBType } from "@/types/tag/TagTypes";
+import { CategoryDBType } from "@/types/CategoryTypes";
+import { TagDBType } from "@/types/TagTypes";
 
 export const useFilter = (
   onFilter: (filters: {

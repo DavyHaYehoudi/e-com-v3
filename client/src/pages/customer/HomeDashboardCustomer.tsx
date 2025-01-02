@@ -1,5 +1,5 @@
 import useCustomerInfo from "@/hooks/dashboard/customer/useCustomerInfo";
-import { CustomerDBType } from "@/types/customer/CustomerTypes";
+import { CustomerDBType } from "@/types/CustomerTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 

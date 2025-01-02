@@ -14,7 +14,7 @@ import { rewards } from "./data";
 import {
   CashbackInCustomerDB,
   LabelKeyCashbackType,
-} from "@/types/customer/CustomerTypes";
+} from "@/types/CustomerTypes";
 import { formatPrice } from "@/utils/pricesFormat";
 import { compareDesc } from "date-fns";
 

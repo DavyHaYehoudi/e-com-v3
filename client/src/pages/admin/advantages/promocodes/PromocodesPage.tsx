@@ -1,9 +1,10 @@
 import usePromocode from "@/hooks/dashboard/admin/usePromocode";
-import { PromocodeDBType } from "@/types/promocode/PromocodeTypes";
+import { PromocodeDBType } from "@/types/PromocodeTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import PromocodeCreate from "./PromocodeCreate";
 import PromocodesList from "./PromocodesList";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export interface SelectedPromocode {
   promocodeId: string;
@@ -25,12 +26,14 @@ const PromocodesPage = () => {
     }
   );
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { getPromocodes, createPromocode, deletePromocode } = usePromocode(
     selectedPromocode.promocodeId
   );
 
   // Fonction pour récupérer tous les promocodes
   const fetchPromocodes = async () => {
+    setIsLoading(true);
     try {
       const data = await getPromocodes();
       if (data) {
@@ -39,6 +42,8 @@ const PromocodesPage = () => {
     } catch (error) {
       console.error("Erreur lors de la récupération des promocodes :", error);
       toast.error("Impossible de charger vos informations.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -81,7 +86,14 @@ const PromocodesPage = () => {
   useEffect(() => {
     fetchPromocodes();
   }, []);
-
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-center mb-10">Codes promos</h1>

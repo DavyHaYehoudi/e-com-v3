@@ -1,3 +1,4 @@
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -10,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useOrder from "@/hooks/dashboard/admin/useOrder";
-import { OrderCustomerDBType } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType } from "@/types/OrderTypes";
 import { formatPrice } from "@/utils/pricesFormat";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -18,11 +19,13 @@ import { toast } from "sonner";
 
 const OrderHistory = () => {
   const [orders, setOrder] = useState<OrderCustomerDBType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { customerId } = useParams();
   const { ordersFetch } = useOrder({ customerId });
 
   useEffect(() => {
     const fetchOrders = async () => {
+      setIsLoading(true);
       try {
         const data = await ordersFetch();
         if (data) {
@@ -31,11 +34,21 @@ const OrderHistory = () => {
       } catch (error) {
         console.error("Erreur lors de la récupération du client :", error);
         toast.error("Impossible de charger vos informations.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchOrders();
   }, [ordersFetch]);
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <Table>
       <TableCaption>Liste des commandes du client.</TableCaption>

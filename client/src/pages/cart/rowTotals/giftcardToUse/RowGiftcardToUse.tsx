@@ -2,7 +2,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import GiftcardToUse from "./GiftcardToUse";
 import { calculateTotalAmountGiftCardToUse } from "@/utils/cartCalculs";
 import { formatPrice } from "@/utils/pricesFormat";
-import { GiftcardToUseFrontType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardToUseFrontType } from "@/types/GiftcardTypes";
 
 interface RowGiftcardToUseProps {
   giftcardsToUse: GiftcardToUseFrontType[];

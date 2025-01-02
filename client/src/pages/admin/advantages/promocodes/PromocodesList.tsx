@@ -28,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PromocodeDBType } from "@/types/promocode/PromocodeTypes";
+import { PromocodeDBType } from "@/types/PromocodeTypes";
 import { PromocodeColumns } from "./PromocodeColumns";
 import { SelectedPromocode } from "./PromocodesPage";
 

@@ -1,7 +1,7 @@
 import Header from "./Header";
 import Body from "./Body";
 import Footer from "./Footer";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 
 interface ProductCardProps {
   product: ProductDBType;

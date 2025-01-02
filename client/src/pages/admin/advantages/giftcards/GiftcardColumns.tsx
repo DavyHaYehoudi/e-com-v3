@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import ValidBadge from "@/components/shared/badge/ValidBadge";
 import NoValidBadge from "@/components/shared/badge/NoValidBadge";
-import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 import { SelectedGiftcard } from "./GiftcardsPage";
 import GiftcardActions from "./GiftcardActions";
 import { isGiftCardValid } from "@/utils/giftcardValidity";

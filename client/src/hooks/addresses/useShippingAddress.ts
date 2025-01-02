@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { Address, CustomerDBType } from "@/types/customer/CustomerTypes";
+import { Address, CustomerDBType } from "@/types/CustomerTypes";
 import { useEffect, useState } from "react";
 
 // Hook pour récupérer l'adresse de livraison (shipping address)

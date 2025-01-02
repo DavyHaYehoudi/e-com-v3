@@ -1,8 +1,9 @@
 import useProduct from "@/hooks/dashboard/admin/useProduct";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import ProductsList from "./ProductsList";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export interface SelectedProduct {
   productId: string;
@@ -11,6 +12,7 @@ export interface SelectedProduct {
 
 const ProductsPageAdmin = () => {
   const [products, setProducts] = useState<ProductDBType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<SelectedProduct>({
     productId: "",
     name: "",
@@ -23,6 +25,7 @@ const ProductsPageAdmin = () => {
   // Fonction pour récupérer toutes les produits
   const fetchProducts = async () => {
     try {
+      setIsLoading(true);
       const data = await getAllProducts();
       if (data) {
         setProducts(data);
@@ -30,6 +33,8 @@ const ProductsPageAdmin = () => {
     } catch (error) {
       console.error("Erreur lors de la récupération des produits :", error);
       toast.error("Impossible de charger vos informations.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,6 +67,14 @@ const ProductsPageAdmin = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
 
   return (
     <div>

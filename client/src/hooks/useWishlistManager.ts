@@ -3,7 +3,7 @@ import useWishlist from "./useWishlist";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleItem } from "@/redux/slice/wishlistSlice";
 import { RootState } from "@/redux/store/store";
-import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
+import { WishlistManagerFrontType } from "@/types/WishlistTypes";
 
 export const useWishlistManager = () => {
   const { productsWishlist } = useWishlist();

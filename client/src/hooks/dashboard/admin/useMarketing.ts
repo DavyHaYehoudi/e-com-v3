@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { MarketingCampaignDBType } from "@/types/marketing/MarketingTypes";
+import { MarketingCampaignDBType } from "@/types/MarketingTypes";
 
 const useMarketing = (marketingId?: string) => {
   const { triggerFetch: getAllMarketings } = useFetch<

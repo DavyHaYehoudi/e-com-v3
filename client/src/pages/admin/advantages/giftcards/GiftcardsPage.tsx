@@ -1,8 +1,9 @@
 import useGiftcardsCustomer from "@/hooks/dashboard/admin/useGiftcard";
-import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import GiftcardsList from "./GiftcardsList";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export interface SelectedGiftcard {
   giftcardId: string;
@@ -16,6 +17,7 @@ const GiftcardsPage = () => {
     code: "",
   });
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { fetchAllGiftcards, deleteGiftcard } = useGiftcardsCustomer({
     giftcardId: selectedGiftcard.giftcardId,
   });
@@ -23,6 +25,7 @@ const GiftcardsPage = () => {
   // Fonction pour récupérer toutes les cartes cadeaux
   const fetchGiftcards = async () => {
     try {
+      setIsLoading(true);
       const data = await fetchAllGiftcards();
       if (data) {
         setGiftcards(data);
@@ -33,6 +36,8 @@ const GiftcardsPage = () => {
         error
       );
       toast.error("Impossible de charger vos informations.");
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -57,7 +62,14 @@ const GiftcardsPage = () => {
   useEffect(() => {
     fetchGiftcards();
   }, []);
-
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-center mb-10">Cartes cadeaux de tous les clients</h1>

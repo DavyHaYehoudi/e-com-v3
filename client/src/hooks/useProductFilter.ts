@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 
 interface Filter {
   name: string;

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CategoryDBType } from "@/types/category/CategoryTypes";
+import { CategoryDBType } from "@/types/CategoryTypes";
 import { formatDate } from "@/utils/formatDate";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";

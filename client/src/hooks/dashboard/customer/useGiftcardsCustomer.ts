@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 
 const useGiftcardsCustomer = () => {
   const { triggerFetch: giftcardsFetch } = useFetch<GiftcardCustomerDBType[]>("/giftcards", {

@@ -1,0 +1,18 @@
+import dotenv from "dotenv";
+dotenv.config();
+export const environment = {
+  PORT: Number(process.env.PORT),
+  JWT_SECRET: process.env.JWT_SECRET || "my-secret-key",
+  PORT_SESSION: Number(process.env.PORT_SESSION),
+  HOST_SESSION: process.env.HOST_SESSION,
+  EMAIL_USERNAME_SESSION: process.env.EMAIL_USERNAME_SESSION,
+  EMAIL_PASSWORD_SESSION: process.env.EMAIL_PASSWORD_SESSION,
+  PORT_PAYMENT: Number(process.env.PORT_PAYMENT),
+  HOST_PAYMENT: process.env.HOST_PAYMENT,
+  EMAIL_USERNAME_PAYMENT: process.env.EMAIL_USERNAME_PAYMENT,
+  EMAIL_PASSWORD_PAYMENT: process.env.EMAIL_PASSWORD_PAYMENT,
+  PORT_MARKETING: Number(process.env.PORT_MARKETING),
+  HOST_MARKETING: process.env.HOST_MARKETING,
+  EMAIL_USERNAME_MARKETING: process.env.EMAIL_USERNAME_MARKETING,
+  EMAIL_PASSWORD_MARKETING: process.env.EMAIL_PASSWORD_MARKETING,
+};

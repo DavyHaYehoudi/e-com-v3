@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { MarketingCampaignDBType } from "@/types/marketing/MarketingTypes";
-import { CustomerDBType } from "@/types/customer/CustomerTypes";
+import { MarketingCampaignDBType } from "@/types/MarketingTypes";
+import { CustomerDBType } from "@/types/CustomerTypes";
 import useMarketing from "@/hooks/dashboard/admin/useMarketing";
 import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
 import MarketingCard from "./MarketingCard";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export interface SelectMarketing {
   marketingId: string;
@@ -15,6 +16,7 @@ const MarketingsPage: React.FC = () => {
     subject: "",
   });
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [marketingsList, setMarketingsList] = useState<
     MarketingCampaignDBType[]
   >([]);
@@ -26,9 +28,11 @@ const MarketingsPage: React.FC = () => {
   useEffect(() => {
     // Récupérer les campagnes marketing
     const fetchMarketings = async () => {
+      setIsLoading(true);
       const response = await getAllMarketings();
       if (response) {
         setMarketingsList(response);
+        setIsLoading(false);
       }
     };
 
@@ -60,6 +64,14 @@ const MarketingsPage: React.FC = () => {
     });
     setMarketingsList(marketingsListTemp);
   };
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-center mb-10">Liste des evenements</h1>

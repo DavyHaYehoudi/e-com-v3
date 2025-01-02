@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { CustomerDBType } from "@/types/customer/CustomerTypes";
+import { CustomerDBType } from "@/types/CustomerTypes";
 
 const useCustomerInfo = (customerId?: string) => {
   const { triggerFetch: customersInfoFetch } = useFetch<CustomerDBType[]>(

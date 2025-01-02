@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Address } from "@/types/customer/CustomerTypes";
+import { Address } from "@/types/CustomerTypes";
 
 interface OrderAddressesProps {
   shippingAddresses: Address;

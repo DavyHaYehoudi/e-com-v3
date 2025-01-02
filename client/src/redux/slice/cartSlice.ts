@@ -1,8 +1,8 @@
 import {
   CartCustomerFrontType,
   CartProductsToBuyFrontType,
-} from "@/types/cart/CartTypes";
-import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
+} from "@/types/CartTypes";
+import { CartGiftcardsToBuyFrontType } from "@/types/GiftcardTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AmountBeforeDiscountType {

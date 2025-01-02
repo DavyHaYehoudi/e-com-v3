@@ -20,7 +20,7 @@ export function MainNavigation() {
   );
   const { handleAuthentication, handleLogout } = useAuth();
   const cashbackCustomer = useSelector(
-    (state: RootState) => state.cashback.cashback_total
+    (state: RootState) => state.cashback.cashbackTotal
   );
   const userRole = useSelector((state: RootState) => state.auth.user?.role);
   return (

@@ -3,8 +3,8 @@ import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { setWishlist } from "@/redux/slice/wishlistSlice";
 import { RootState } from "@/redux/store/store";
-import { CustomerDBType } from "@/types/customer/CustomerTypes";
-import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
+import { CustomerDBType } from "@/types/CustomerTypes";
+import { WishlistManagerFrontType } from "@/types/WishlistTypes";
 
 const useWishlist = () => {
   const [productsWishlist, setProductsWishlist] = useState<

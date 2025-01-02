@@ -2,7 +2,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   ProductDBType,
-} from "@/types/product/ProductTypes";
+} from "@/types/ProductTypes";
 
 interface ProductVariantsProps {
   product: ProductDBType;

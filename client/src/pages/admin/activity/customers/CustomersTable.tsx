@@ -29,7 +29,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { columns } from "./Columns";
-import { CustomerDBType } from "@/types/customer/CustomerTypes";
+import { CustomerDBType } from "@/types/CustomerTypes";
 
 interface CustomersTableProps {
   data: CustomerDBType[];

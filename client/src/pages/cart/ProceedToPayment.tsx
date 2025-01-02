@@ -6,7 +6,7 @@ import { formatPrice } from "@/utils/pricesFormat";
 import { Link } from "react-router-dom";
 import { calculateTotalCashbackCartToEarn } from "@/utils/cartCalculs";
 import { useOrderAmount } from "@/hooks/useOrderAmount";
-import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
+import { CartProductsToBuyFrontType } from "@/types/CartTypes";
 
 interface ProceedToPaymentProps {
   cartProducts: CartProductsToBuyFrontType[];

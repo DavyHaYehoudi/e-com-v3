@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CustomerDBType } from "@/types/customer/CustomerTypes";
+import { CustomerDBType } from "@/types/CustomerTypes";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +15,7 @@ import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const CustomerSheet = () => {
   const [customer, setCustomer] = useState<CustomerDBType | null>(null);
@@ -39,9 +40,10 @@ const CustomerSheet = () => {
 
   if (!customer) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <p>Chargement des données du client...</p>
-      </div>
+      <div className="flex items-center flex-col justify-center gap-4">
+      <LoadingSpinner />
+      <span> Chargement en cours...</span>
+    </div>
     );
   }
 

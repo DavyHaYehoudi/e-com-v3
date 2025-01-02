@@ -6,7 +6,7 @@ import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import FavoriteButton from "@/components/shared/FavoriteButton";
 import { formatPrice } from "@/utils/pricesFormat";
 import { isProductNew, isProductOnSale } from "@/utils/productUtils";
-import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
+import { WishlistManagerFrontType } from "@/types/WishlistTypes";
 
 interface WislistRowItemProps {
   productsWishlistItems: WishlistManagerFrontType[];

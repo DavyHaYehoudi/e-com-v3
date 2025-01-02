@@ -1,4 +1,4 @@
-import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
+import { WishlistManagerFrontType } from "@/types/WishlistTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Initial state est un tableau vide de produits

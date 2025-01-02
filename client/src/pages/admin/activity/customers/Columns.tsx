@@ -10,7 +10,7 @@ import {
 import {
   CashbackInCustomerDB,
   CustomerDBType,
-} from "@/types/customer/CustomerTypes";
+} from "@/types/CustomerTypes";
 import { formatPrice } from "@/utils/pricesFormat";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";

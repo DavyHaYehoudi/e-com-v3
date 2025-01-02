@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch } from "react-redux";
 import { setCashback } from "@/redux/slice/cashbackSlice";
-import { CustomerDBType } from "@/types/customer/CustomerTypes";
+import { CustomerDBType } from "@/types/CustomerTypes";
 
 const useCashback = () => {
   const dispatch = useDispatch();

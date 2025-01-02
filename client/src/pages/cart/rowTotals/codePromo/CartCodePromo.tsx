@@ -11,7 +11,7 @@ import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { calculateCodePromoDiscountOnCartTotal } from "@/utils/cartCalculs";
-import { PromocodeVerifyType } from "@/types/promocode/PromocodeTypes";
+import { PromocodeVerifyType } from "@/types/PromocodeTypes";
 import { setPromocode } from "@/redux/slice/priceAdjustmentsSlice";
 
 const CartCodePromo = ({

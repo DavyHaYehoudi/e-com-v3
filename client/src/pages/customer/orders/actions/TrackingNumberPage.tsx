@@ -1,5 +1,5 @@
 import useOrdersCustomer from "@/hooks/dashboard/customer/useOrdersCustomer";
-import { OrderCustomerDBType } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType } from "@/types/OrderTypes";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import TrackingNumberApi from "./TrackingNumberApi";

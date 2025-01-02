@@ -28,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CollectionDBType } from "@/types/collection/CollectionTypes/collectionTypes";
+import { CollectionDBType } from "@/types/collectionTypes";
 import { CollectionColumns } from "./CollectionColumns";
 import { SelectedCollection } from "./CollectionsPage";
 

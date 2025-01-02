@@ -1,6 +1,6 @@
 import TrashIcon from "@/components/shared/TrashIcon";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
-import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
+import { CartGiftcardsToBuyFrontType } from "@/types/GiftcardTypes";
 import { sumPriceArticle } from "@/utils/pricesFormat";
 
 interface SheetRowGiftcardProps {

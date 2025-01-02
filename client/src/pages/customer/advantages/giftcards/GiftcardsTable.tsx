@@ -16,7 +16,7 @@ import ValidBadge from "@/components/shared/badge/ValidBadge";
 import NoValidBadge from "@/components/shared/badge/NoValidBadge";
 import useGiftcardsCustomer from "@/hooks/dashboard/customer/useGiftcardsCustomer";
 import { isGiftCardValid } from "@/utils/giftcardValidity";
-import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 import { formatDate } from "@/utils/formatDate";
 import { FileStack } from "lucide-react";
 import {
@@ -26,14 +26,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link } from "react-router-dom";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const GiftcardsTable = () => {
   const [giftcards, setGiftcards] = useState<GiftcardCustomerDBType[] | null>(
     null
   );
+  const [isLoading, setIsLoading] = useState(false);
   const { giftcardsFetch } = useGiftcardsCustomer();
   useEffect(() => {
     const fetchGiftcardsCustomer = async () => {
+      setIsLoading(true);
       try {
         const data = await giftcardsFetch();
         if (data) setGiftcards(data);
@@ -43,11 +46,21 @@ const GiftcardsTable = () => {
           error
         );
         toast.error("Impossible de charger vos informations.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchGiftcardsCustomer();
   }, [giftcardsFetch]);
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <Table>
       <TableCaption>Liste de vos cartes cadeaux.</TableCaption>

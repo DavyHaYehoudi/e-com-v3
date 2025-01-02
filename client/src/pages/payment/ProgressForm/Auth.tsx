@@ -20,12 +20,19 @@ const Auth = () => {
   };
 
   const { handleAuthentication } = useAuth();
-
+  const changeEmail = () => {
+    setEmailData("");
+    setStep(1); // Revenir à l'étape email
+  };
   return (
     <div className="p-4 bg-white shadow-md rounded-lg dark bg-dark">
       {step === 1 && <EmailForm onSubmit={handleEmailSubmit} />}
       {step === 2 && (
-        <OtpForm authenticate={handleAuthentication} email={emailData} />
+        <OtpForm
+          authenticate={handleAuthentication}
+          email={emailData}
+          changeEmail={changeEmail}
+        />
       )}
     </div>
   );

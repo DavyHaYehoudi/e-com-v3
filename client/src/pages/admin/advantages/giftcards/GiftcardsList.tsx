@@ -28,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 import { GiftcardColumns } from "./GiftcardColumns";
 import { SelectedGiftcard } from "./GiftcardsPage";
 

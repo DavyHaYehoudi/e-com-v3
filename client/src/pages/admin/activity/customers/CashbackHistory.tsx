@@ -13,13 +13,14 @@ import { formatDate } from "@/utils/formatDate";
 import {
   CashbackInCustomerDB,
   LabelKeyCashbackType,
-} from "@/types/customer/CustomerTypes";
+} from "@/types/CustomerTypes";
 import { rewards } from "@/pages/customer/advantages/cashback/data";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useCashback from "@/hooks/dashboard/admin/useCashback";
 import { toast } from "sonner";
 import { formatPrice } from "@/utils/pricesFormat";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 // Utilitaire pour récupérer un motif et ses styles à partir des données centralisées
 const getRewardByReason = (label: LabelKeyCashbackType) => {
@@ -45,11 +46,13 @@ const getRewardByReason = (label: LabelKeyCashbackType) => {
 
 const CashbackHistory = () => {
   const [history, setHistory] = useState<CashbackInCustomerDB[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { customerId } = useParams();
   const { cashbackFetch } = useCashback(customerId);
   // Charger les données de l'historique du cashback
   useEffect(() => {
     const fetchCashbackHistory = async () => {
+      setIsLoading(true);
       try {
         const data = await cashbackFetch();
         if (data) setHistory(data);
@@ -59,6 +62,8 @@ const CashbackHistory = () => {
           error
         );
         toast.error("Impossible de charger vos informations.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -72,6 +77,14 @@ const CashbackHistory = () => {
     history &&
     history.length > 0 &&
     history.reduce((acc, b) => acc + b.cashbackSpent, 0);
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <Table>
       <TableCaption>Historique du cashback du client.</TableCaption>

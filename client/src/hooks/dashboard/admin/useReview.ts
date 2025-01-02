@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { ReviewDBType } from "@/types/review/ReviewTypes";
+import { ReviewDBType } from "@/types/ReviewTypes";
 
 const useReviews = (reviewId?: string) => {
   const { triggerFetch: getAllReviews } = useFetch<ReviewDBType[]>(

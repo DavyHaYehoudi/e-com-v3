@@ -8,7 +8,7 @@ import CartRowPromotionPrice from "./CartRowPromotionPrice";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import { isProductNew } from "@/utils/productUtils";
 import { sumPriceArticle } from "@/utils/pricesFormat";
-import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
+import { CartProductsToBuyFrontType } from "@/types/CartTypes";
 
 interface CartRowProductProps {
   cartProducts: CartProductsToBuyFrontType[];

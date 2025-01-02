@@ -5,7 +5,7 @@ import {
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useProduct from "./useProduct";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 
 const mapProductDBToInputDTO = (product: ProductDBType): ProductInputDTO => {
   return {

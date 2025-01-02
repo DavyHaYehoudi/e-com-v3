@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { UsageHistoryEntry } from "@/types/giftcard/GiftcardTypes";
+import { UsageHistoryEntry } from "@/types/GiftcardTypes";
 
 import { formatDate } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/pricesFormat";

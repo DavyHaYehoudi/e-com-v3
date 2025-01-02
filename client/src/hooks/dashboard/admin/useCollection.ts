@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { CollectionDBType } from "@/types/collection/CollectionTypes/collectionTypes";
+import { CollectionDBType } from "@/types/collectionTypes";
 
 const useCollection = (collectionId?: string) => {
   const { triggerFetch: getCollections } = useFetch<CollectionDBType[]>(

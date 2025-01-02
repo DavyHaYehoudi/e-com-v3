@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { StatsResponse } from "@/types/chiffres/StatisticTypes";
+import { StatsResponse } from "@/types/StatisticTypes";
 
 const useStatistic = (year?: string) => {
   const query = `?year=${year}`;

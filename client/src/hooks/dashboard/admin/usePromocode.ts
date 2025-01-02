@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { PromocodeDBType } from "@/types/promocode/PromocodeTypes";
+import { PromocodeDBType } from "@/types/PromocodeTypes";
 
 const usePromocode = (promocodeId?: string) => {
   const { triggerFetch: getPromocodes } = useFetch<PromocodeDBType[]>(

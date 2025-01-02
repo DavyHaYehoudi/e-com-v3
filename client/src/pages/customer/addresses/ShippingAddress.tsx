@@ -15,9 +15,11 @@ import {
 import useCustomerInfo from "../../../hooks/dashboard/customer/useCustomerInfo";
 import { toast } from "sonner";
 import { AddressesFormValues, AddressesSchema } from "./addressesSchema";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const ShippingAddress = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { customerInfoFetch, customerInfoUpdate } = useCustomerInfo();
 
   // React Hook Form setup avec Zod
@@ -46,12 +48,15 @@ const ShippingAddress = () => {
   // Charger les données de l'adresse de livraison
   useEffect(() => {
     const fetchProfile = async () => {
+      setIsLoading(true);
       try {
         const data = await customerInfoFetch();
         if (data) reset(data.shippingAddress); // Remplit le formulaire avec les données reçues
       } catch (error) {
         console.error("Erreur lors de la récupération du profil :", error);
         toast.error("Impossible de charger vos informations.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -78,6 +83,14 @@ const ShippingAddress = () => {
     setIsEditing(false); // Passer en mode affichage
     reset(); // Réinitialiser le formulaire
   };
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <Card className="w-full max-w-lg mx-auto mt-6 p-4">
       <CardHeader>

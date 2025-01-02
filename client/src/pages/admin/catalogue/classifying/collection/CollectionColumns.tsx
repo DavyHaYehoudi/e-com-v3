@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CollectionDBType } from "@/types/collection/CollectionTypes/collectionTypes";
+import { CollectionDBType } from "@/types/collectionTypes";
 import { formatDate } from "@/utils/formatDate";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";

@@ -2,7 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 import { format } from "date-fns";
-import { ReviewDBType } from "@/types/review/ReviewTypes";
+import { ReviewDBType } from "@/types/ReviewTypes";
 
 type ReviewItemProps = {
   review: ReviewDBType;

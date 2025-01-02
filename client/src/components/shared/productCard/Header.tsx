@@ -3,7 +3,7 @@ import NewBadge from "../badge/NewBadge";
 import CashbackBadge from "../badge/CashbackBadge";
 import { Link } from "react-router-dom";
 import { isProductNew, isProductOnSale } from "@/utils/productUtils";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 
 interface HeaderProps {
   product: ProductDBType;

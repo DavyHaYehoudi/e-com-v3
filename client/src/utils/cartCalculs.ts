@@ -1,8 +1,8 @@
-import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
+import { CartProductsToBuyFrontType } from "@/types/CartTypes";
 import {
   CartGiftcardsToBuyFrontType,
   GiftcardToUseFrontType,
-} from "@/types/giftcard/GiftcardTypes";
+} from "@/types/GiftcardTypes";
 import { isProductOnSale } from "./productUtils";
 
 export const calculateTotalPriceByRow = (

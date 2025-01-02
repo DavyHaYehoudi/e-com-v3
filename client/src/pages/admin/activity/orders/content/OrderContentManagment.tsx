@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { OrderItem } from "@/types/order/OrderTypes";
+import { OrderItem } from "@/types/OrderTypes";
 import CalendarCustom from "@/components/shared/CalendarCustom";
 import useOrder from "@/hooks/dashboard/admin/useOrder";
 import { toast } from "sonner";

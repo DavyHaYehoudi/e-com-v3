@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TrackingInfo } from "@/types/order/OrderTypes";
+import { TrackingInfo } from "@/types/OrderTypes";
 import useOrder from "@/hooks/dashboard/admin/useOrder";
 import { toast } from "sonner";
 

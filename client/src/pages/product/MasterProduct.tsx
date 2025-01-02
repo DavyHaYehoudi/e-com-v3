@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import ProductReview from "./ProductReview";
 import { useParams } from "react-router-dom";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import { useCartManager } from "@/hooks/useCartManager";
 import { isProductNew } from "@/utils/productUtils";
 

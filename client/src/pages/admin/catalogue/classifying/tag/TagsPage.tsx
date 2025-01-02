@@ -2,8 +2,9 @@ import useTag from "@/hooks/dashboard/admin/useTag";
 import TagCreate from "./TagCreate";
 import TagsList from "./TagsList";
 import { useEffect, useState } from "react";
-import { TagDBType } from "@/types/tag/TagTypes";
+import { TagDBType } from "@/types/TagTypes";
 import { toast } from "sonner";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export interface SelectedTag {
   tagId: string;
@@ -18,6 +19,7 @@ const TagsPage = () => {
   });
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { getTags, createTag, deleteTag, updateTag } = useTag(
     selectedTag.tagId
   );
@@ -25,6 +27,7 @@ const TagsPage = () => {
   // Fonction pour récupérer tous les tags
   const fetchTags = async () => {
     try {
+      setIsLoading(true);
       const data = await getTags();
       if (data) {
         setTags(data);
@@ -32,6 +35,8 @@ const TagsPage = () => {
     } catch (error) {
       console.error("Erreur lors de la récupération des tags :", error);
       toast.error("Impossible de charger vos informations.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,7 +93,14 @@ const TagsPage = () => {
   useEffect(() => {
     fetchTags();
   }, []);
-
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-center mb-10">Tags</h1>

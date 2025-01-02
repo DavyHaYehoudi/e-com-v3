@@ -17,9 +17,11 @@ import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { IdentityFormData, identitySchema } from "./identitySchema";
 import CalendarCustom from "@/components/shared/CalendarCustom";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const Identity = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { customerInfoFetch, customerInfoUpdate } = useCustomerInfo();
 
   // React Hook Form setup avec Zod
@@ -45,11 +47,14 @@ const Identity = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        setIsLoading(true);
         const data = await customerInfoFetch();
         if (data) reset(data); // Remplit le formulaire avec les données reçues
       } catch (error) {
         console.error("Erreur lors de la récupération du profil :", error);
         toast.error("Impossible de charger vos informations.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -74,7 +79,14 @@ const Identity = () => {
     event.preventDefault(); // Empêcher la soumission du formulaire
     setIsEditing(true); // Passer en mode édition
   };
-
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <Card className="w-full max-w-lg mx-auto mt-6 p-4">
       <CardHeader>

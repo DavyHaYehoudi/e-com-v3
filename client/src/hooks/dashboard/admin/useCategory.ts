@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { CategoryDBType } from "@/types/category/CategoryTypes";
+import { CategoryDBType } from "@/types/CategoryTypes";
 
 const useCategory = (categoryId?: string) => {
   const { triggerFetch: getCategories } = useFetch<CategoryDBType[]>(

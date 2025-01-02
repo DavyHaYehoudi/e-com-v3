@@ -3,7 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import ValidBadge from "@/components/shared/badge/ValidBadge";
 import NoValidBadge from "@/components/shared/badge/NoValidBadge";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import { isProductNew, isProductOnSale } from "@/utils/productUtils";
 import { formatPrice } from "@/utils/pricesFormat";
 import ProductActions from "./ProductActions";

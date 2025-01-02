@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/utils/pricesFormat";
 import { formatDate } from "@/utils/formatDate";
 import { Link } from "react-router-dom";
-import { OrderCustomerDBType } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType } from "@/types/OrderTypes";
 
 export const columns: ColumnDef<OrderCustomerDBType>[] = [
   {

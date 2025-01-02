@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { PromocodeDBType } from "@/types/promocode/PromocodeTypes";
+import { PromocodeDBType } from "@/types/PromocodeTypes";
 import { formatDate } from "@/utils/formatDate";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";

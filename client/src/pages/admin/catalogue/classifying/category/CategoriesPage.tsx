@@ -1,9 +1,10 @@
 import useCategory from "@/hooks/dashboard/admin/useCategory";
-import { CategoryDBType } from "@/types/category/CategoryTypes";
+import { CategoryDBType } from "@/types/CategoryTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CategoryCreate from "./CategoryCreate";
 import CategoriesList from "./CategoriesList";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export interface SelectedCategory {
   categoryId: string;
@@ -18,12 +19,14 @@ const CategoriesPage = () => {
   });
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { getCategories, createCategory, deleteCategory, updateCategory } =
     useCategory(selectedCategory.categoryId);
 
   // Fonction pour récupérer tous les catégories
   const fetchCategories = async () => {
     try {
+      setIsLoading(true);
       const data = await getCategories();
       if (data) {
         setCategories(data);
@@ -31,6 +34,8 @@ const CategoriesPage = () => {
     } catch (error) {
       console.error("Erreur lors de la récupération des catégories :", error);
       toast.error("Impossible de charger vos informations.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -95,7 +100,14 @@ const CategoriesPage = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
-
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-center mb-10">Categories</h1>

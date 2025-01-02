@@ -1,3 +1,4 @@
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
 import {
   Table,
@@ -10,8 +11,8 @@ import {
 } from "@/components/ui/table";
 import useCustomerInfo from "@/hooks/dashboard/customer/useCustomerInfo";
 import useGiftcardsCustomer from "@/hooks/dashboard/customer/useGiftcardsCustomer";
-import { CustomerDBType } from "@/types/customer/CustomerTypes";
-import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
+import { CustomerDBType } from "@/types/CustomerTypes";
+import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 import { formatDate } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/pricesFormat";
 import { useEffect, useState } from "react";
@@ -21,11 +22,13 @@ import { toast } from "sonner";
 const GiftcardDetail = () => {
   const [giftcard, setGiftcard] = useState<GiftcardCustomerDBType | null>(null);
   const [customerInfo, setCustomerInfo] = useState<CustomerDBType | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { giftcardId } = useParams();
   const { giftcardsFetch } = useGiftcardsCustomer();
   const { customerInfoFetch } = useCustomerInfo();
   useEffect(() => {
     const fetchGiftcardsCustomer = async () => {
+      setIsLoading(true);
       try {
         const data = await giftcardsFetch();
         if (data) {
@@ -39,6 +42,8 @@ const GiftcardDetail = () => {
           error
         );
         toast.error("Impossible de charger vos informations.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -57,6 +62,14 @@ const GiftcardDetail = () => {
 
     fetchProfile();
   }, [customerInfoFetch]);
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-center mb-10">Historique de votre carte cadeau</h1>

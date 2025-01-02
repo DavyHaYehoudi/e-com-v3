@@ -1,18 +1,21 @@
 import useGiftcardsCustomer from "@/hooks/dashboard/admin/useGiftcard";
-import { UsageHistoryEntry } from "@/types/giftcard/GiftcardTypes";
+import { UsageHistoryEntry } from "@/types/GiftcardTypes";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import GiftcardHistoryDetail from "./GiftcardHistoryDetail";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const GiftcardHistoryPage = () => {
   const [giftcardHistory, setGiftcardHistory] = useState<UsageHistoryEntry[]>(
     []
   );
+  const [isLoading, setIsLoading] = useState(false);
   const { giftcardId } = useParams();
   const { fetchOneGiftcard } = useGiftcardsCustomer({ giftcardId });
   useEffect(() => {
+    setIsLoading(true);
     if (giftcardId) {
       const fetchGiftcard = async () => {
         try {
@@ -23,11 +26,21 @@ const GiftcardHistoryPage = () => {
         } catch (error) {
           console.log("error:", error);
           toast.error("Une erreur dans la récupération de la carte cadeau");
+        } finally {
+          setIsLoading(false);
         }
       };
       fetchGiftcard();
     }
   }, []);
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <div>
       <NavBackDashboard

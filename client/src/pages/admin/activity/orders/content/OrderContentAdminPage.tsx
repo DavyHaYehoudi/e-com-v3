@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useOrder from "@/hooks/dashboard/admin/useOrder";
-import { OrderCustomerDBType, TrackingInfo } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType, TrackingInfo } from "@/types/OrderTypes";
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
-import { OrderStatusType, PaymentStatusType } from "@/types/status/StatusTypes";
+import { OrderStatusType, PaymentStatusType } from "@/types/StatusTypes";
 import useStatus from "@/hooks/dashboard/admin/useStatus";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { toast } from "sonner";
@@ -26,7 +26,7 @@ import OrderContentStatus from "./OrderContentStatus";
 const OrderContentAdminPage = () => {
   const [order, setOrder] = useState<OrderCustomerDBType | null>();
   const [trackingNumberInfo, setTrackingNumberInfo] =
-  useState<TrackingInfo | null>(null);
+    useState<TrackingInfo | null>(null);
   const [statusOrderNumber, setStatusOrderNumber] = useState<number | null>(
     null
   );
@@ -89,7 +89,13 @@ const OrderContentAdminPage = () => {
     fetchStatus();
   }, [paymentStatusSelected, getPaymentStatusByNumber, statusPaymentNumber]);
 
-  if (!order) return <div>Chargement...</div>;
+  if (!order)
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
 
   const handleOrderStatusChange = async (status: string) => {
     setIsOrderStatusLoading(true);

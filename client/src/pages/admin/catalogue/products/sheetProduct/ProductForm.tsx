@@ -11,14 +11,14 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CategoryDBType } from "@/types/category/CategoryTypes";
-import { TagDBType } from "@/types/tag/TagTypes";
+import { CategoryDBType } from "@/types/CategoryTypes";
+import { TagDBType } from "@/types/TagTypes";
 import OptionSwitch from "./sections/OptionSwitch";
 import AttributeField from "./sections/AttributeField";
 import PromotionField from "./sections/PromotionField";
 import Classifying from "./sections/Classifying";
 import ImageUploader from "./sections/ImageUploader";
-import { CollectionDBType } from "@/types/collection/CollectionTypes/collectionTypes";
+import { CollectionDBType } from "@/types/collectionTypes";
 import useCollection from "@/hooks/dashboard/admin/useCollection";
 import VariantsToAdd from "./sections/VariantsToAdd";
 import HeaderSection from "./sections/HeaderSection";

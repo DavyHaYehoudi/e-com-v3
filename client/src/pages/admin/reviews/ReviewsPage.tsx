@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import useReviews from "@/hooks/dashboard/admin/useReview";
 import ReviewCard from "./ReviewCard";
-import { ReviewDBType, StatusType } from "@/types/review/ReviewTypes";
+import { ReviewDBType, StatusType } from "@/types/ReviewTypes";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const ReviewsPage = () => {
   const [reviews, setReviews] = useState<ReviewDBType[]>([]);
@@ -30,7 +31,12 @@ const ReviewsPage = () => {
   }, [getAllReviews]);
 
   if (loading) {
-    return <p>Chargement des avis...</p>;
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
   }
 
   if (reviews.length === 0) {
@@ -44,7 +50,6 @@ const ReviewsPage = () => {
   const handleDeleteReview = (reviewId: string) => {
     setReviews((prevReviews) => prevReviews.filter((r) => r._id !== reviewId));
   };
-
   return (
     <div>
       <h1 className="text-center mb-10">gerer les avis des clients</h1>

@@ -1,8 +1,8 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatPrice } from "@/utils/pricesFormat";
 import { calculateTotalCartBeforeDiscount } from "@/utils/cartCalculs";
-import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
-import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
+import { CartProductsToBuyFrontType } from "@/types/CartTypes";
+import { CartGiftcardsToBuyFrontType } from "@/types/GiftcardTypes";
 
 interface ProductsBeforePromotionProps {
   cartProducts: CartProductsToBuyFrontType[];

@@ -1,4 +1,4 @@
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import { useFetch } from "@/service/hooks/useFetch";

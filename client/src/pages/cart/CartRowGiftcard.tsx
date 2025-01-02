@@ -2,7 +2,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
 import { sumPriceArticle } from "@/utils/pricesFormat";
-import { CartGiftcardsToBuyFrontType } from "@/types/giftcard/GiftcardTypes";
+import { CartGiftcardsToBuyFrontType } from "@/types/GiftcardTypes";
 
 interface CartRowGiftcardProps {
   cartGiftcards: CartGiftcardsToBuyFrontType[];

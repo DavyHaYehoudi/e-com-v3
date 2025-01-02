@@ -1,4 +1,4 @@
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import { isAfter } from "date-fns";
 
 export const isProductOnSale = (

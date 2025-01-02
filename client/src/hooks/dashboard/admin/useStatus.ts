@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { OrderStatusType, PaymentStatusType } from "@/types/status/StatusTypes";
+import { OrderStatusType, PaymentStatusType } from "@/types/StatusTypes";
 
 const useStatus = () => {
   const { triggerFetch: statusOrderFetch } = useFetch<OrderStatusType[]>(

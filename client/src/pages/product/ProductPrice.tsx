@@ -1,7 +1,7 @@
 import AddToCartButton from "@/components/shared/AddToCartButton";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import { formatPrice } from "@/utils/pricesFormat";
 import {
   canContinueSelling,

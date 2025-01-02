@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useFetch } from "@/service/hooks/useFetch";
-import { ReviewDBType } from "@/types/review/ReviewTypes";
+import { ReviewDBType } from "@/types/ReviewTypes";
 import { useEffect, useState } from "react";
 
 // const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;

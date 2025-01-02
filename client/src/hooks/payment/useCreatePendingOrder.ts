@@ -1,6 +1,6 @@
 import { RootState } from "@/redux/store/store";
 import { useFetch } from "@/service/hooks/useFetch";
-import { CreatedOrderDBType } from "@/types/payment/PaymentTypes";
+import { CreatedOrderDBType } from "@/types/PaymentTypes";
 import { useSelector } from "react-redux";
 
 const useCreatePendingOrder = () => {

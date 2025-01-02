@@ -2,8 +2,8 @@ import { Heart } from "lucide-react";
 import { useWishlistManager } from "../../hooks/useWishlistManager";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { ProductDBType } from "@/types/product/ProductTypes";
-import { WishlistManagerFrontType } from "@/types/wishlist/WishlistTypes";
+import { ProductDBType } from "@/types/ProductTypes";
+import { WishlistManagerFrontType } from "@/types/WishlistTypes";
 
 interface FavoriteButtonProps {
   product: ProductDBType | WishlistManagerFrontType;

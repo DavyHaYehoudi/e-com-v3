@@ -6,9 +6,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
-import { CategoryDBType } from "@/types/category/CategoryTypes";
-import { CollectionDBType } from "@/types/collection/CollectionTypes/collectionTypes";
-import { TagDBType } from "@/types/tag/TagTypes";
+import { CategoryDBType } from "@/types/CategoryTypes";
+import { CollectionDBType } from "@/types/collectionTypes";
+import { TagDBType } from "@/types/TagTypes";
 import { ChevronDown } from "lucide-react";
 
 interface ClassifyingProps {

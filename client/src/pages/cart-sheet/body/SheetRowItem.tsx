@@ -6,7 +6,7 @@ import TrashIcon from "@/components/shared/TrashIcon";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import { sumPriceArticle } from "@/utils/pricesFormat";
 import { isProductNew } from "@/utils/productUtils";
-import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
+import { CartProductsToBuyFrontType } from "@/types/CartTypes";
 
 interface SheetRowItemProps {
   productsInCart: CartProductsToBuyFrontType[] | null;

@@ -2,7 +2,7 @@ import { formatPrice, sumPriceArticle } from "@/utils/pricesFormat";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { OrderItem } from "@/types/order/OrderTypes";
+import { OrderItem } from "@/types/OrderTypes";
 import { formatDate } from "@/utils/formatDate";
 
 interface OrderItemRowProps {

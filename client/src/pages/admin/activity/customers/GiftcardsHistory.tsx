@@ -15,16 +15,19 @@ import { formatPrice } from "@/utils/pricesFormat";
 import ValidBadge from "@/components/shared/badge/ValidBadge";
 import NoValidBadge from "@/components/shared/badge/NoValidBadge";
 import { isGiftCardValid } from "@/utils/giftcardValidity";
-import { GiftcardCustomerDBType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 import { formatDate } from "@/utils/formatDate";
 import useGiftcardsCustomer from "@/hooks/dashboard/admin/useGiftcard";
 import { useParams } from "react-router-dom";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const GiftcardsHistory = () => {
   const [giftcards, setGiftcards] = useState<GiftcardCustomerDBType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { customerId } = useParams();
   const { giftcardsFetch } = useGiftcardsCustomer({ customerId });
   useEffect(() => {
+    setIsLoading(true);
     const fetchGiftcardsCustomer = async () => {
       try {
         const data = await giftcardsFetch();
@@ -35,11 +38,21 @@ const GiftcardsHistory = () => {
           error
         );
         toast.error("Impossible de charger vos informations.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchGiftcardsCustomer();
   }, [giftcardsFetch]);
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <Table>
       <TableCaption>Liste des cartes cadeaux du client.</TableCaption>

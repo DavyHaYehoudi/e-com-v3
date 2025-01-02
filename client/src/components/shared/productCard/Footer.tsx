@@ -1,4 +1,4 @@
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import FavoriteButton from "../FavoriteButton";
 
 interface FooterProps {

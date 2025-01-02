@@ -33,7 +33,7 @@ type GiftCardFormValues = z.infer<typeof giftCardSchema>;
 const OfferGiftCard: React.FC = () => {
   const { customerId } = useParams<{ customerId: string }>();
   const { customerInfoFetch } = useCustomerInfo(customerId);
-  const { giftcardToOffer } = useGiftcardsCustomer();
+  const { giftcardToOffer } = useGiftcardsCustomer({});
 
   const {
     register,

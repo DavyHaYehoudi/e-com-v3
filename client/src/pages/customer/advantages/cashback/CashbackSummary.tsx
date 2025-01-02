@@ -1,7 +1,7 @@
 import { FolderInput, FolderOutput, BadgeEuro } from "lucide-react";
 import { formatPrice } from "@/utils/pricesFormat";
 import { Separator } from "@/components/ui/separator";
-import { CashbackInCustomerDB } from "@/types/customer/CustomerTypes";
+import { CashbackInCustomerDB } from "@/types/CustomerTypes";
 
 interface CashbackSummaryProps {
   history: CashbackInCustomerDB[] | null;

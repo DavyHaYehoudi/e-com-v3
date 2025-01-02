@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useFetch } from "@/service/hooks/useFetch";
 import { setAmountBeforeDiscount } from "@/redux/slice/cartSlice";
-import { PaymentAmountResponse } from "@/types/payment/PaymentTypes";
+import { PaymentAmountResponse } from "@/types/PaymentTypes";
 
 export const useOrderAmount = () => {
   const [orderAmount, setOrderAmount] = useState(0);

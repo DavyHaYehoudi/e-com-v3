@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useOrdersCustomer from "@/hooks/dashboard/customer/useOrdersCustomer";
-import { OrderCustomerDBType } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType } from "@/types/OrderTypes";
 import ProductReview from "./ProductReview";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const LeaveReviewPage: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -17,13 +18,19 @@ const LeaveReviewPage: React.FC = () => {
   }, [orderId, oneOrderCustomerFetch]);
 
   if (!orderData) {
-    return <div>Chargement...</div>;
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
   }
   // N'afficher qu'une seule fois un produit s'il y a des variants
   const filteredOrderItems = orderData.orderItems.filter(
     (item, index, self) =>
       self.findIndex((i) => i.productId === item.productId) === index
   );
+
   return (
     <div>
       <NavBackDashboard

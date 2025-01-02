@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
+import { CartProductsToBuyFrontType } from "@/types/CartTypes";
 import { calculateTotalDiscountCart } from "@/utils/cartCalculs";
 import { formatPrice } from "@/utils/pricesFormat";
 

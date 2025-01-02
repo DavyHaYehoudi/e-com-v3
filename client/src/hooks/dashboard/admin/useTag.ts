@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { TagDBType } from "@/types/tag/TagTypes";
+import { TagDBType } from "@/types/TagTypes";
 
 const useTag = (tagId?: string) => {
   const { triggerFetch: getTags } = useFetch<TagDBType[]>(`/tags`, {

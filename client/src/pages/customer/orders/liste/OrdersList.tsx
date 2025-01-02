@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { columns } from "./Columns";
-import { OrderCustomerDBType } from "@/types/order/OrderTypes";
+import { OrderCustomerDBType } from "@/types/OrderTypes";
 
 interface OrdersListProps {
   data: OrderCustomerDBType[];

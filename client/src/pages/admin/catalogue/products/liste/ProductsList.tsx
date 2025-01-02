@@ -28,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import { ProductColumns } from "./ProductColumns";
 import { SelectedProduct } from "./ProductsPageAdmin";
 

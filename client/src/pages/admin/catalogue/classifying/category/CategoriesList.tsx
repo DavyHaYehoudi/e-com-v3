@@ -28,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CategoryDBType } from "@/types/category/CategoryTypes";
+import { CategoryDBType } from "@/types/CategoryTypes";
 import { SelectedCategory } from "./CategoriesPage";
 import { CategoryColumns } from "./CategoryColumns";
 

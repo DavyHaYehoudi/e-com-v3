@@ -11,8 +11,8 @@ import {
 import { Star, Trash2 } from "lucide-react";
 import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
 import { useEffect, useState } from "react";
-import { ReviewDBType, StatusType } from "@/types/review/ReviewTypes";
-import { CustomerDBType } from "@/types/customer/CustomerTypes";
+import { ReviewDBType, StatusType } from "@/types/ReviewTypes";
+import { CustomerDBType } from "@/types/CustomerTypes";
 import useReviews from "@/hooks/dashboard/admin/useReview";
 import { toast } from "sonner";
 import ReviewStatusBadge from "./ReviewStatusBadge";

@@ -1,11 +1,11 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatPrice } from "@/utils/pricesFormat";
 import { calculateTotalCartAfterCashback } from "@/utils/cartCalculs";
-import { CartProductsToBuyFrontType } from "@/types/cart/CartTypes";
+import { CartProductsToBuyFrontType } from "@/types/CartTypes";
 import {
   CartGiftcardsToBuyFrontType,
   GiftcardToUseFrontType,
-} from "@/types/giftcard/GiftcardTypes";
+} from "@/types/GiftcardTypes";
 
 interface RowTotalCartProps {
   cartProducts: CartProductsToBuyFrontType[];

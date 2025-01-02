@@ -13,7 +13,7 @@ import {
   setAmountTotalGiftcardsToUse,
   setGiftCard,
 } from "@/redux/slice/priceAdjustmentsSlice";
-import { GiftcardCheckType } from "@/types/giftcard/GiftcardTypes";
+import { GiftcardCheckType } from "@/types/GiftcardTypes";
 import { formatPrice } from "@/utils/pricesFormat";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

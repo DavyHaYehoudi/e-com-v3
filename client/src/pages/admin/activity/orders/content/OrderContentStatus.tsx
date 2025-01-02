@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useStatus from "@/hooks/dashboard/admin/useStatus";
-import { OrderStatusType, PaymentStatusType } from "@/types/status/StatusTypes";
+import { OrderStatusType, PaymentStatusType } from "@/types/StatusTypes";
 import React, { useEffect, useState } from "react";
 
 interface OrderContentStatusProps {

@@ -1,6 +1,6 @@
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import { useFetch } from "@/service/hooks/useFetch";
-import { ProductDBType, TagProductType } from "@/types/product/ProductTypes";
+import { ProductDBType, TagProductType } from "@/types/ProductTypes";
 import { useEffect, useState } from "react";
 
 interface ProductsSuggestedProps {

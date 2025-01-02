@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { ProductDBType } from "@/types/product/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import { sumPriceArticle } from "@/utils/pricesFormat";
 import { useEffect, useState } from "react";
 

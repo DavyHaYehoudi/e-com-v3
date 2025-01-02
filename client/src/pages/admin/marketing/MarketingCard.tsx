@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MarketingCampaignDBType } from "@/types/marketing/MarketingTypes";
+import { MarketingCampaignDBType } from "@/types/MarketingTypes";
 import useMarketing from "@/hooks/dashboard/admin/useMarketing";
 import ValidBadge from "@/components/shared/badge/ValidBadge";
 import PendingBadge from "@/components/shared/badge/PendingBadge";
