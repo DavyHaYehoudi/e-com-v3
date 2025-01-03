@@ -9,9 +9,11 @@ import {
 } from "@/redux/slice/cartSlice";
 import { CartProductsToBuyFrontType } from "@/types/CartTypes";
 import { resetPriceAdjustments } from "@/redux/slice/priceAdjustmentsSlice";
+import { useState } from "react";
 
 export const useCartManager = () => {
   const cartCustomer = useSelector((state: RootState) => state.cart);
+  const [isLoading, setIsLoading] = useState(false);
   const { cartProducts, cartGiftcards } = cartCustomer;
   const { triggerFetch } = useFetch("/customer", {
     method: "PATCH",
@@ -33,6 +35,7 @@ export const useCartManager = () => {
     promotionEndDate,
     cashback,
   }: CartProductsToBuyFrontType) => {
+    setIsLoading(true);
     // Vérifier si le produit existe déjà dans les items du panier
     const existingItemIndex = cartProducts.findIndex(
       (item) =>
@@ -89,14 +92,17 @@ export const useCartManager = () => {
         cashback,
       })
     );
+    setIsLoading(false);
   };
   const addGiftcardInCart = async (amount: number, quantity: number) => {
+    setIsLoading(true);
     const cartGiftcardsCopy = [...cartGiftcards];
     const giftcardToAdd = {
       idTemp: Math.floor(Math.random() * 1000000),
       amount,
       quantity,
     };
+
     const newCartGiftcards = [...cartGiftcardsCopy, giftcardToAdd];
     if (isAuthenticated) {
       await triggerFetch({
@@ -104,12 +110,14 @@ export const useCartManager = () => {
       }); // Envoi à l'API
     }
     dispatch(addGiftcardToCart(giftcardToAdd));
+    setIsLoading(false);
   };
   // Retirer un produit du panier
   const removeProductInCart = async (
     productId: string,
     variant: string | null
   ) => {
+    setIsLoading(true);
     const updatedItems =
       cartProducts.filter(
         (item) => !(item.productId === productId && item.variant === variant)
@@ -121,9 +129,11 @@ export const useCartManager = () => {
     }
     dispatch(deleteProductToCart({ productId, variant }));
     dispatch(resetPriceAdjustments());
+    setIsLoading(false);
   };
   // Retirer une carte cadeau du panier
   const removeGiftcardInCart = async (idTemp: number) => {
+    setIsLoading(true);
     const updatedGiftCards =
       cartGiftcards.filter((giftCard) => giftCard.idTemp !== idTemp) || [];
 
@@ -133,6 +143,7 @@ export const useCartManager = () => {
     }
     dispatch(deleteGiftcardToCart(idTemp));
     dispatch(resetPriceAdjustments());
+    setIsLoading(false);
   };
 
   return {
@@ -142,5 +153,6 @@ export const useCartManager = () => {
     removeGiftcardInCart,
     cartProducts,
     cartGiftcards,
+    isLoading,
   };
 };

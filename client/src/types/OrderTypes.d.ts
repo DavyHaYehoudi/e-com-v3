@@ -51,13 +51,15 @@ export interface TrackingInfo {
   trackingNumber: string;
   dateSending: Date | null;
 }
-export interface CustomerIdType {
+export interface CustomerIdentityType {
   firstName: string;
   lastName: string;
+  avatarUrl: string;
 }
 export interface OrderCustomerDBType {
   _id: string; // Identifiant unique de la commande
-  customerId: CustomerIdType; // Identifiant du client
+  customerId: string; // Identifiant du client
+  customerIdentity: CustomerIdentityType; // Informations sur le client
   orderStatusLabel: OrderStatusLabelType; // Libellé du statut de la commande
   orderStatusNumber: number; // Numéro correspondant au statut de la commande
   orderStatusColor: string; // Couleur correspondant au statut de la commande

@@ -1,4 +1,5 @@
-import { ClipLoader } from "react-spinners";
+// import { ClipLoader } from "react-spinners";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface LoaderWrapperProps {
   loading: boolean;
@@ -13,8 +14,9 @@ const LoaderWrapper: React.FC<LoaderWrapperProps> = ({
 }) => {
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <ClipLoader color="#000" loading={loading} size={50} />
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner/>
+        <span> Chargement en cours...</span>
       </div>
     );
   }

@@ -86,8 +86,8 @@ export const OrderColumns = (
       );
     },
     cell: ({ row }) => {
-      const firstname = row.original.customerId.firstName;
-      const lastName = row.original.customerId.lastName;
+      const firstname = row.original.customerIdentity.firstName;
+      const lastName = row.original.customerIdentity.lastName;
 
       return <div>{firstname + " " + lastName}</div>;
     },

@@ -32,6 +32,10 @@ export const getAllProductsRepository = async (filters) => {
     const now = new Date();
     query.newUntil = { $gte: now }; // Produit toujours considéré comme "nouveau"
   }
+  // Filtre par collections
+  if (filters.collectionIds && filters.collectionIds.length > 0) {
+    query.collections = { $in: filters.collectionIds };
+  }
   // Filtre par catégories
   if (filters.categoryIds && filters.categoryIds.length > 0) {
     query.categories = { $in: filters.categoryIds };

@@ -4,6 +4,9 @@ import ProductImageItem from "@/components/shared/productImage/ProductImageItem"
 import { TableCell, TableRow } from "@/components/ui/table";
 import { OrderItem } from "@/types/OrderTypes";
 import { formatDate } from "@/utils/formatDate";
+import ReturnBadge from "@/components/shared/badge/ReturnBadge";
+import ExchangeBadge from "@/components/shared/badge/ExchangeBadge";
+import RefundBadge from "@/components/shared/badge/RefundBadge";
 
 interface OrderItemRowProps {
   item: OrderItem;
@@ -37,6 +40,8 @@ const OrderItemRow: React.FC<OrderItemRowProps> = ({ item }) => {
       <TableCell className="whitespace-nowrap">
         {item.returnNumber ? (
           <div>
+            <ReturnBadge />
+            <br />
             {item.returnNumber} article(s) <br />
             {item.returnAt && formatDate(item.returnAt)}{" "}
           </div>
@@ -47,6 +52,7 @@ const OrderItemRow: React.FC<OrderItemRowProps> = ({ item }) => {
       <TableCell className="whitespace-nowrap">
         {item.exchangeNumber ? (
           <div>
+            <ExchangeBadge /> <br />
             {item.exchangeNumber} article(s)
             <br />
             {item.exchangeAt && formatDate(item.exchangeAt)}{" "}
@@ -58,6 +64,7 @@ const OrderItemRow: React.FC<OrderItemRowProps> = ({ item }) => {
       <TableCell className="whitespace-nowrap">
         {item.refundAmount ? (
           <div>
+            <RefundBadge /> <br />
             {item.refundAmount && formatPrice(item.refundAmount)}
             <br />
             {item.refundAt && formatDate(item.refundAt)}{" "}

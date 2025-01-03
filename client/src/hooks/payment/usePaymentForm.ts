@@ -50,6 +50,7 @@ const usePaymentForm = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    setIsLoading(true);
     const orderInfo = await getOrderInformation();
     const orderNumber = orderInfo?.order.orderNumber;
     const firstName = orderInfo?.firstName;
@@ -57,8 +58,6 @@ const usePaymentForm = () => {
     if (!stripe || !elements) {
       return;
     }
-
-    setIsLoading(true);
 
     const { error } = await stripe.confirmPayment({
       elements,

@@ -15,12 +15,7 @@ export const getOrderCustomerByIdRepository = async (orderId, customerId) => {
 };
 // Admin - Récupérer toutes les commandes
 export const getAllOrdersRepository = async () => {
-  return await OrderModel.find()
-    .populate({
-      path: "customerId", // Le champ dans `Order` qui contient la référence
-      select: "firstName lastName", // Les champs à inclure dans la réponse
-    })
-    .sort({ createdAt: -1 }); // Trie par date décroissante
+  return await OrderModel.find().sort({ createdAt: -1 }); // Trie par date décroissante
 };
 // Admin - Récupérer une commande par son orderId
 export const getOrderCustomerByIdFromAdminRepository = async (orderId) => {

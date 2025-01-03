@@ -4,6 +4,7 @@ import { ProductDBType } from "@/types/ProductTypes";
 
 interface Filter {
   name: string;
+  collections: string[];
   categories: string[];
   tags: string[];
   priceRange: { min?: number; max?: number };
@@ -14,6 +15,7 @@ interface Filter {
 export const useProductFilter = () => {
   const [filters, setFilters] = useState<Filter>({
     name: "",
+    collections: [] as string[],
     categories: [] as string[],
     tags: [] as string[],
     priceRange: { min: undefined, max: undefined },
@@ -43,6 +45,11 @@ export const useProductFilter = () => {
       queryParams.append("name", newFilters.name);
     }
 
+    if (newFilters.collections.length > 0) {
+      newFilters.collections.forEach((collectionId) => {
+        queryParams.append("collectionIds", collectionId);
+      });
+    }
     if (newFilters.categories.length > 0) {
       newFilters.categories.forEach((categoryId) => {
         queryParams.append("categoryIds", categoryId);

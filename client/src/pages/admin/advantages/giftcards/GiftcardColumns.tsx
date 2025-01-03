@@ -8,6 +8,7 @@ import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 import { SelectedGiftcard } from "./GiftcardsPage";
 import GiftcardActions from "./GiftcardActions";
 import { isGiftCardValid } from "@/utils/giftcardValidity";
+import { formatPrice } from "@/utils/pricesFormat";
 
 // Fonction pour générer les colonnes
 export const GiftcardColumns = (
@@ -46,7 +47,7 @@ export const GiftcardColumns = (
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("initialValue")}</div>,
+    cell: ({ row }) => <div>{formatPrice(row.getValue("initialValue"))}</div>,
     meta: { headerName: "Valeur initiale" },
   },
   {
@@ -62,7 +63,7 @@ export const GiftcardColumns = (
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("balance")}</div>,
+    cell: ({ row }) => <div>{formatPrice(row.getValue("balance"))}</div>,
     meta: { headerName: "Reste" },
   },
   {
@@ -78,7 +79,9 @@ export const GiftcardColumns = (
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("isIssuedByAdmin")?"oui":"non"}</div>,
+    cell: ({ row }) => (
+      <div>{row.getValue("isIssuedByAdmin") ? "oui" : "non"}</div>
+    ),
     meta: { headerName: "Offre admin" },
   },
   {
@@ -157,7 +160,10 @@ export const GiftcardColumns = (
     cell: ({ row }) => {
       return (
         <div>
-          {isGiftCardValid({balance:row.original.balance,expirationDate: row.original.expirationDate}) ? (
+          {isGiftCardValid({
+            balance: row.original.balance,
+            expirationDate: row.original.expirationDate,
+          }) ? (
             <ValidBadge label="actif" />
           ) : (
             <NoValidBadge label="inactif" />

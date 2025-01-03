@@ -1,3 +1,4 @@
+import { getCustomerByIdRepository } from "../../repositories/customer/customerRepository.js";
 import {
   deleteOrderByIdRepository,
   getAllOrdersRepository,
@@ -20,7 +21,18 @@ export const getAllOrdersService = async () => {
 };
 // Admin - Récupérer une commande par son orderId
 export const getOrderCustomerByIdFromAdminService = async (orderId) => {
-  return await getOrderCustomerByIdFromAdminRepository(orderId);
+  const order = await getOrderCustomerByIdFromAdminRepository(orderId);
+  // Récupérer le profil du customer
+  const customerId = order.customerId;
+  const customer = await getCustomerByIdRepository(customerId);
+  // Ajouter à order la cle customerIdentity
+  const customerIdentity = {
+    firstName: customer.firstName,
+    lastName: customer.lastName,
+    avatarUrl: customer.avatarUrl,
+  };
+  const orderWithCustomer = { ...order.toJSON(), customerIdentity };
+  return orderWithCustomer;
 };
 // Admin - Supprimer une commande par son orderId
 export const deleteOrderByIdService = async (orderId) => {

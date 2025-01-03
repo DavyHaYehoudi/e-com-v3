@@ -42,7 +42,7 @@ const StatisticPage = () => {
   }
 
   return (
-    <div className="p-4 space-y-6 md:space-y-8">
+    <div className="p-4 space-y-6 md:space-y-8 mb-20">
       {/* Year Selector */}
       <div>
         <Select

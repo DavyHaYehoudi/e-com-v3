@@ -15,7 +15,7 @@ import ProductReview from "./ProductReview";
 import { useParams } from "react-router-dom";
 import { ProductDBType } from "@/types/ProductTypes";
 import { useCartManager } from "@/hooks/useCartManager";
-import { isProductNew } from "@/utils/productUtils";
+import { filterVariants, isProductNew } from "@/utils/productUtils";
 
 const MasterProduct = () => {
   const [quantity, setQuantity] = useState<number>(1);
@@ -82,13 +82,16 @@ const MasterProduct = () => {
       } else {
         setQuantity(1);
         if (product && !selectedVariant) {
-          setSelectedVariant(product.variants[0].combination);
+          // setSelectedVariant(product.variants[0].combination);
+          const defaultCombination = filterVariants(product)[0].combination;
+          setSelectedVariant(defaultCombination);
         }
       }
       // Le panier est vide
     } else if (product) {
+      const defaultCombination = filterVariants(product)[0].combination;
       setSelectedVariant(
-        selectedVariant ? selectedVariant : product.variants[0].combination
+        selectedVariant ? selectedVariant : defaultCombination
       );
     }
   }, [cartCustomer, product, productId, selectedVariant]);

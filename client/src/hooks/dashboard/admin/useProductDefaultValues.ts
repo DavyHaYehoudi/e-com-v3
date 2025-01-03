@@ -38,7 +38,7 @@ const mapProductDBToInputDTO = (product: ProductDBType): ProductInputDTO => {
 const useProductDefaultValues = () => {
   const [defaultValues, setDefaultValues] =
     useState<ProductInputDTO>(initValues);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const { productId } = useParams();
@@ -52,6 +52,11 @@ const useProductDefaultValues = () => {
           setLoading(true);
           const productData = await getProductById();
           if (productData) {
+            console.log("productData:", productData);
+            console.log(
+              "mapProductDBToInputDTO(productData):",
+              mapProductDBToInputDTO(productData)
+            );
             setDefaultValues(mapProductDBToInputDTO(productData));
           }
         } catch (err) {

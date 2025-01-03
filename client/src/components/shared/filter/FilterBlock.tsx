@@ -14,6 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface FilterBlockProps {
   onFilter: (filters: {
     name: string;
+    collections: string[];
     categories: string[];
     tags: string[];
     priceRange: { min?: number; max?: number };
@@ -25,8 +26,10 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
   const {
     isOpen,
     setIsOpen,
+    collections,
     categories,
     tags,
+    selectedCollections,
     selectedCategories,
     selectedTags,
     priceRange,
@@ -35,6 +38,7 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
     isNew,
     setIsNew,
     name,
+    handleCollectionChange,
     handleCategoryChange,
     handleTagChange,
     handlePriceChange,
@@ -43,30 +47,49 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
     resetFilters,
   } = useFilter(onFilter);
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
+    <Popover open={isOpen} onOpenChange={setIsOpen} >
       <PopoverTrigger asChild>
-        <Button className="bg-gray-500 text-white rounded flex items-center gap-1">
-          <Filter /> Filtres
+        <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded flex items-center gap-1">
+          <Filter /> Affiner la recherche
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-4 border rounded-lg shadow-md">
+      <PopoverContent className="p-4 border rounded-lg shadow-md md:w-[500px] min-w-[310px]">
         <ScrollArea className="h-[600px] rounded-md border p-2">
-          <h2 className="text-lg font-bold mb-4">Filtres</h2>
+          <h2 className="text-lg font-bold mb-4">Recherche</h2>
 
-          <div className="mb-4 mx-2">
-            <Label>Nom du produit (3 lettres minimum)</Label>
+          <div className="mb-4">
+            <h3>Nom </h3>
             <Input
               type="text"
               id="name"
               value={name}
               onChange={handleNameChange}
-              placeholder="ex : collier"
-              className="w-[95%] "
+              placeholder="3 lettres min - ex : collier"
+              className="w-[95%] mx-1"
             />
           </div>
 
           <div className="mb-4">
-            <h3>Catégories</h3>
+            <h3>Collections</h3>
+            {collections &&
+              collections.length > 0 &&
+              collections.map((collection) => (
+                <div key={collection._id}>
+                  <Label className="flex items-center m-1">
+                    <Checkbox
+                      checked={selectedCollections.includes(collection._id)}
+                      onCheckedChange={() =>
+                        handleCollectionChange(collection._id)
+                      }
+                      className="mr-2 data-[state=checked]:bg-green-500"
+                    />
+                    {collection.label}
+                  </Label>
+                </div>
+              ))}
+          </div>
+          <div className="mb-4">
+            <h3>Categories</h3>
             {categories &&
               categories.length > 0 &&
               categories.map((category) => (
@@ -75,7 +98,7 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
                     <Checkbox
                       checked={selectedCategories.includes(category._id)}
                       onCheckedChange={() => handleCategoryChange(category._id)}
-                      className="mr-2 data-[state=checked]:bg-gray-500"
+                      className="mr-2 data-[state=checked]:bg-green-500"
                     />
                     {category.label}
                   </Label>
@@ -92,7 +115,7 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
                     <Checkbox
                       checked={selectedTags.includes(tag._id)}
                       onCheckedChange={() => handleTagChange(tag._id)}
-                      className="mr-2 data-[state=checked]:bg-gray-500"
+                      className="mr-2 data-[state=checked]:bg-green-500"
                     />
                     {tag.label}
                   </Label>
@@ -130,12 +153,13 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
           </div>
 
           <div className="mb-4">
+            <h3>Specificite</h3>
             <p>
               <Label className="flex items-center m-1">
                 <Checkbox
                   checked={isOnSale}
                   onCheckedChange={() => setIsOnSale(!isOnSale)}
-                  className="mr-2 data-[state=checked]:bg-gray-500"
+                  className="mr-2 data-[state=checked]:bg-green-500"
                 />
                 En promotion
               </Label>
@@ -145,7 +169,7 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
                 <Checkbox
                   checked={isNew}
                   onCheckedChange={() => setIsNew(!isNew)}
-                  className="mr-2 data-[state=checked]:bg-gray-500"
+                  className="mr-2 data-[state=checked]:bg-green-500"
                 />
                 Nouveau
               </Label>
@@ -155,7 +179,7 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
           <div className="flex justify-between">
             <Button
               onClick={resetFilters}
-              className="bg-gray-500 text-white rounded"
+              className="bg-red-500 hover:bg-red-600 text-white rounded"
             >
               Réinitialiser
             </Button>

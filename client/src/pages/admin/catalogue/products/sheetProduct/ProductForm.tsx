@@ -31,6 +31,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import useProductDefaultValues from "@/hooks/dashboard/admin/useProductDefaultValues";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export interface ImagesCarousselType {
   mainImage: File | null;
@@ -60,7 +61,7 @@ const ProductForm: React.FC = () => {
   const { getCollections } = useCollection();
   const { getCategories } = useCategory();
   const { getTags } = useTag();
-  const { defaultValues, productId } = useProductDefaultValues();
+  const { defaultValues, productId, loading } = useProductDefaultValues();
   const { createProduct, udpateProduct } = useProduct(productId);
 
   useEffect(() => {
@@ -209,9 +210,16 @@ const ProductForm: React.FC = () => {
     selectedCategories.length > 0 &&
     heroImage &&
     mainImage;
-
+  if (loading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
-    <div>
+    <div className="pb-20">
       <NavBackDashboard
         path="catalogue/produits/liste"
         text="Revenir à la liste des produits"

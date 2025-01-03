@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
 import { CategoryDBType } from "@/types/CategoryTypes";
 import { TagDBType } from "@/types/TagTypes";
+import { CollectionDBType } from "@/types/collectionTypes";
 
 export const useFilter = (
   onFilter: (filters: {
     name: string;
+    collections: string[];
     categories: string[];
     tags: string[];
     priceRange: { min?: number; max?: number };
@@ -14,6 +16,7 @@ export const useFilter = (
   }) => void
 ) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<{ min?: number; max?: number }>({
@@ -24,6 +27,8 @@ export const useFilter = (
   const [isNew, setIsNew] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
 
+  const { data: collections, triggerFetch: fetchCollections } =
+    useFetch<CollectionDBType[]>("/collections");
   const { data: categories, triggerFetch: fetchCategories } =
     useFetch<CategoryDBType[]>("/categories");
   const { data: tags, triggerFetch: fetchTags } =
@@ -32,6 +37,7 @@ export const useFilter = (
   useEffect(() => {
     const fetchData = async () => {
       try {
+        await fetchCollections(); // Appel pour les collections
         await fetchCategories(); // Appel pour les catégories
         await fetchTags(); // Appel pour les tags
       } catch (error) {
@@ -40,8 +46,13 @@ export const useFilter = (
     };
 
     fetchData();
-  }, [fetchCategories, fetchTags]);
+  }, [fetchCollections,fetchCategories, fetchTags]);
 
+  const handleCollectionChange = (id: string) => {
+    setSelectedCollections((prev) =>
+      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
+    );
+  };
   const handleCategoryChange = (id: string) => {
     setSelectedCategories((prev) =>
       prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
@@ -64,6 +75,7 @@ export const useFilter = (
   const handleSubmit = () => {
     const filters = {
       name,
+      collections: selectedCollections,
       categories: selectedCategories,
       tags: selectedTags,
       priceRange,
@@ -75,6 +87,7 @@ export const useFilter = (
   };
 
   const resetFilters = () => {
+    setSelectedCollections([]);
     setSelectedCategories([]);
     setSelectedTags([]);
     setPriceRange({ min: undefined, max: undefined });
@@ -83,6 +96,7 @@ export const useFilter = (
     setName("");
     onFilter({
       name: "",
+      collections:[],
       categories: [],
       tags: [],
       priceRange: { min: undefined, max: undefined },
@@ -94,8 +108,10 @@ export const useFilter = (
   return {
     isOpen,
     setIsOpen,
+    collections,
     categories,
     tags,
+    selectedCollections,
     selectedCategories,
     selectedTags,
     priceRange,
@@ -104,6 +120,7 @@ export const useFilter = (
     isNew,
     setIsNew,
     name,
+    handleCollectionChange,
     handleCategoryChange,
     handleTagChange,
     handlePriceChange,

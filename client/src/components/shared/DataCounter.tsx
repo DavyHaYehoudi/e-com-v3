@@ -10,10 +10,10 @@ const DataCounter = <T,>({ items, itemName }: DataCounterProps<T>) => {
       {items && items.length > 0 ? (
         <p>
           {items.length} {itemName}
-          {items.length > 1 && "s"} trouvé{items.length > 1 && "s"}.
+          {items.length > 1 && "s"} trouvé{items.length > 1 && "s"}
         </p>
       ) : (
-        <p>Aucun {itemName} trouvé.</p>
+        <p>Aucun {itemName} trouvé</p>
       )}
     </>
   );

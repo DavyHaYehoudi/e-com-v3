@@ -56,11 +56,15 @@ export const getAllProductsQuerySchema = z.object({
   maxPrice: z.coerce.number().int().positive().optional(),
   onPromotion: z.coerce.boolean().optional(),
   isNew: z.coerce.boolean().optional(),
-  tagIds: z.preprocess(
+  collectionIds: z.preprocess(
     (val) => (Array.isArray(val) ? val : val ? [val] : []),
     z.array(z.string()).optional()
   ),
   categoryIds: z.preprocess(
+    (val) => (Array.isArray(val) ? val : val ? [val] : []),
+    z.array(z.string()).optional()
+  ),
+  tagIds: z.preprocess(
     (val) => (Array.isArray(val) ? val : val ? [val] : []),
     z.array(z.string()).optional()
   ),

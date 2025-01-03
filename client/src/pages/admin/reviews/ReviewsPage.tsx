@@ -51,7 +51,7 @@ const ReviewsPage = () => {
     setReviews((prevReviews) => prevReviews.filter((r) => r._id !== reviewId));
   };
   return (
-    <div>
+    <div className="mb-20">
       <h1 className="text-center mb-10">gerer les avis des clients</h1>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-4">
         {reviews.map((review) => (

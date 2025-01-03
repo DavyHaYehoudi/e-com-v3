@@ -14,6 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCartManager } from "@/hooks/useCartManager";
 import { Button } from "@/components/ui/button";
 import { ProductDBType } from "@/types/ProductTypes";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface AddToCartButtonProps {
   product?: ProductDBType;
@@ -31,9 +32,10 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   type,
 }) => {
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
-  const { addOrUpdateProductInCart, addGiftcardInCart } = useCartManager();
+  const { addOrUpdateProductInCart, addGiftcardInCart, isLoading } =
+    useCartManager();
 
-  const onAddToCart = () => {
+  const onAddToCart = async () => {
     if (type === "product" && product && selectedVariant) {
       const productFormatted = {
         productId: product._id,
@@ -47,9 +49,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         promotionEndDate: product?.promotionEndDate,
         cashback: product?.cashback,
       };
-      addOrUpdateProductInCart(productFormatted);
+      await addOrUpdateProductInCart(productFormatted);
     } else if (type === "giftcard" && amount) {
-      addGiftcardInCart(amount, quantity);
+      await addGiftcardInCart(amount, quantity);
     }
     setIsSheetOpen(true);
   };
@@ -60,7 +62,13 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         className="mx-auto block lg:w-1/2 uppercase bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)] dark:text-[var(--whiteSmoke)]"
         onClick={onAddToCart}
       >
-        Ajouter au panier
+        {isLoading ? (
+          <span className="flex justify-center items-center gap-2">
+            <LoadingSpinner /> <span>Ajout en cours...</span>
+          </span>
+        ) : (
+          "Ajouter au panier"
+        )}
       </Button>
 
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>

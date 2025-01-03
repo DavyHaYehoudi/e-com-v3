@@ -8,7 +8,7 @@ const PromotionBadge: React.FC<{
 }> = ({ promotionPercentage, additionalClasses, promotionEndDate }) => {
   return (
     <Badge
-      className={`bg-yellow-400 text-black text-center text-xs font-bold px-2 py-1 rounded w-[100px] ${additionalClasses}`}
+      className={`bg-yellow-400 text-black text-center text-xs font-bold px-2 py-1 rounded max-w-[100px] ${additionalClasses}`}
       variant="outline"
     >
       -{promotionPercentage}%{" "}

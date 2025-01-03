@@ -96,7 +96,7 @@ export function MainNavigation() {
           {/* Bouton de connexion/déconnexion pour mobile */}
           <div className="mt-4">
             {isAuthenticated ? (
-              <Button onClick={handleLogout} className="p-0">
+              <Button onClick={handleLogout}>
                 <LogOut />
                 <span className="ml-2"> Me déconnecter</span>
               </Button>
