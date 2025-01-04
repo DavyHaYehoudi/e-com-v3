@@ -1,5 +1,7 @@
 {
   "projects": {
+    "preprod": "noralyapreprod",
+    "production": "noralyaproduction",
     "default": "noralyapreprod"
   }
 }

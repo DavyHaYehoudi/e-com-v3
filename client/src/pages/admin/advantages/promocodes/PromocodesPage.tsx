@@ -98,7 +98,7 @@ const PromocodesPage = () => {
     <div>
       <h1 className="text-center mb-10">Codes promos</h1>
       <PromocodeCreate onAddPromocode={handleAddPromocode} />
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="container-responsive">
         <PromocodesList
           data={promocodes}
           handleDeletePromocode={handleDeletePromocode}

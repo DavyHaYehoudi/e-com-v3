@@ -92,7 +92,7 @@ const BillingAddress = () => {
     );
   }
   return (
-    <Card className="w-full max-w-lg mx-auto mt-6 p-4">
+    <Card className="w-full max-w-lg mx-auto p-4">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="w-6 h-6" />

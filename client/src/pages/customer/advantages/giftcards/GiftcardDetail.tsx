@@ -78,7 +78,7 @@ const GiftcardDetail = () => {
         text="Revenir à la liste des cartes cadeaux"
         role="customer"
       />
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="container-responsive">
         <Table>
           <TableCaption>
             Détails d&apos;utilisation de la carte cadeau.

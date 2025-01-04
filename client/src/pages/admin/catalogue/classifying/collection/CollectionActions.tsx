@@ -64,11 +64,11 @@ const CollectionActions: React.FC<CollectionActionsProps> = ({
       <GenericModal
         isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}
-        title="Modifier la categorie"
+        title="Modifier la collection"
         fields={[
           {
             id: "label",
-            label: "Nom de la catégorie",
+            label: "Nom de la collection",
             value: selectedCollection.label,
           },
         ]}

@@ -38,7 +38,7 @@ const CustomersPage = () => {
   return (
     <div>
       <h1 className="text-center mb-10">Liste des clients</h1>
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="container-responsive">
         <CustomersTable data={data} />
       </div>
     </div>

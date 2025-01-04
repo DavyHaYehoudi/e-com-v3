@@ -54,8 +54,8 @@ const GenericModal: React.FC<GenericModalProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={isOpen} onOpenChange={setIsOpen} >
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
@@ -63,7 +63,7 @@ const GenericModal: React.FC<GenericModalProps> = ({
         <div className="grid gap-4 py-4">
           {fields.map((field) => (
             <div key={field.id} className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor={field.id} className="text-right">
+              <Label htmlFor={field.id} className="text-center">
                 {field.label}
               </Label>
               <Input

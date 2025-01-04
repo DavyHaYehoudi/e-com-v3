@@ -79,7 +79,7 @@ const ProductsPageAdmin = () => {
   return (
     <div>
       <h1 className="text-center mb-10">tous les produits</h1>
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="container-responsive">
         <ProductsList
           data={products}
           handleDeleteProduct={handleDeleteProduct}

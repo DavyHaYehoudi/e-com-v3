@@ -27,7 +27,7 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({
         key={index}
         className="hover:bg-gray-100 relative border-b border-gray-500 dark:hover:bg-[#1c2028]"
       >
-        <div className="flex items-center justify-between gap-2 p-2 my-2">
+        <div className="flex items-center justify-between gap-2 flex-wrap p-2 my-2">
           {/* Première cellule : image et nom */}
           <div className="font-medium relative">
             <ProductImageItem
@@ -40,14 +40,14 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({
             )}{" "}
           </div>
 
-          <div>
+          <div className="min-w-[150px]">
             {product.name} <br />
             {product.variant && (
               <VariantBadge productVariant={product.variant} />
             )}{" "}
           </div>
         </div>
-        <div className="flex items-center justify-between p-2 my-2 flex-wrap">
+        <div className="flex items-center justify-between gap-2 p-2 my-2 flex-wrap">
           <div>{sumPriceArticle(product.quantity, product.price)}</div>
           {/* Cellule affichant le prix de la réduction */}
           <div className="text-right">

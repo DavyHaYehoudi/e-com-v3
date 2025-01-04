@@ -49,7 +49,7 @@ const ContentOrderPage = () => {
     );
   }
   return (
-    <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+    <div className="container-responsive mb-10">
       <div className="mb-20">
         <h1 className="text-center mb-10">Contenu de la commande</h1>
         <NavBackDashboard

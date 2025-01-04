@@ -1,6 +1,6 @@
 const TermsOfSales: React.FC = () => {
   return (
-    <section className="py-8 px-4 max-w-5xl mx-auto">
+    <section className="pb-8 px-4 max-w-5xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Conditions Generales de Vente</h1>
 
       <section className="mb-6">

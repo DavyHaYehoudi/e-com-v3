@@ -55,6 +55,7 @@ export interface CustomerIdentityType {
   firstName: string;
   lastName: string;
   avatarUrl: string;
+  email: string;
 }
 export interface OrderCustomerDBType {
   _id: string; // Identifiant unique de la commande

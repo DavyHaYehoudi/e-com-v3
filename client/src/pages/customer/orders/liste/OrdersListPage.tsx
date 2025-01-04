@@ -38,7 +38,7 @@ const OrdersListPage = () => {
   return (
     <div>
       <h1 className="text-center mb-10">Liste des commandes</h1>
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="container-responsive">
         <OrdersList data={data} />
       </div>
     </div>

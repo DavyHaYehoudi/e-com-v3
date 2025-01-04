@@ -91,7 +91,7 @@ const OrderHistory = () => {
               <TableCell>
                 {order.trackingNumber?.trackingNumber || "En cours..."}
               </TableCell>
-              <TableCell>{formatPrice(order.totalPrice)}</TableCell>
+              <TableCell className="whitespace-nowrap" >{formatPrice(order.totalPrice)}</TableCell>
             </TableRow>
           ))}
       </TableBody>

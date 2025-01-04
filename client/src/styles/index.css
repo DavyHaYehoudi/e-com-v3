@@ -5,7 +5,7 @@
 @import "@/pages/product/productSuggested.css";
 @import "@/components/shared/productCard/productCard.css";
 @import "@/layout/freeShippingBanner.css";
-@import 'react-day-picker/dist/style.css';
+@import "react-day-picker/dist/style.css";
 
 @tailwind base;
 @tailwind components;
@@ -14,7 +14,7 @@
 body {
   font-family: var(--text-font-family);
   font-weight: 400;
-  line-height: 1.65
+  line-height: 1.65;
 }
 
 h1,
@@ -62,7 +62,6 @@ h6 {
 img {
   object-fit: cover;
 }
-
 
 @layer utilities {
   .text-balance {
@@ -188,7 +187,13 @@ section {
 }
 
 footer {
-  background: linear-gradient(to top, #A897A9 0%, #B9A8B8 50%, #C7B7C6 80%, #D5D5D5 100%);
+  background: linear-gradient(
+    to top,
+    #a897a9 0%,
+    #b9a8b8 50%,
+    #c7b7c6 80%,
+    #d5d5d5 100%
+  );
 }
 
 @-webkit-keyframes kenburns-bottom-left {
@@ -224,7 +229,8 @@ footer {
 }
 
 .animate-kenburns-left {
-  -webkit-animation: kenburns-bottom-left 60s ease-out infinite alternate-reverse both;
+  -webkit-animation: kenburns-bottom-left 60s ease-out infinite
+    alternate-reverse both;
   animation: kenburns-bottom-left 60s ease-out infinite alternate-reverse both;
 }
 
@@ -290,4 +296,40 @@ footer {
   z-index: 10; /* S'assurer que la toolbar est visible */
   background-color: white; /* Améliorer la visibilité */
   border-radius: 0.5rem;
+}
+
+/* *********************************** Tables *********************************** */
+.container-responsive {
+  max-width: 315px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5px;
+}
+
+/* Breakpoint : xs (375px) */
+@media (min-width: 375px) {
+  .container-responsive {
+    max-width: 375px;
+  }
+}
+
+/* Breakpoint : md (760px) */
+@media (min-width: 760px) {
+  .container-responsive {
+    max-width: 760px;
+  }
+}
+
+/* Breakpoint : lg (1200px) */
+@media (min-width: 1200px) {
+  .container-responsive {
+    max-width: 1200px;
+  }
+}
+
+/* Breakpoint : xl (1500px) */
+@media (min-width: 1500px) {
+  .container-responsive {
+    max-width: 1500px;
+  }
 }

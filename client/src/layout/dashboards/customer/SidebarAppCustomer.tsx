@@ -28,25 +28,25 @@ export function SidebarAppCustomer({ ...props }: React.ComponentProps<typeof Sid
         <SidebarSection items={data.advantages} title="Avantages" />
         <SidebarSection items={data.policy} title="Politique" />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="flex-row items-center gap-2 justify-between pb-4">
         <Link
           to="/"
-          className="flex items-center gap-2 mx-2 my-6"
+          className="mx-2"
           title="Retour sur le site"
         >
-          <House />
+          <House className="size-4" />
         </Link>
         {isConnected ? (
           <div
             onClick={handleLogout}
-            className="flex items-center gap-2 cursor-pointer mx-2 my-6"
+            className="cursor-pointer mx-2"
             title="Me déconnecter"
           >
-            <LogOut />
+            <LogOut className="size-4" />
             {/* Me déconnecter */}
           </div>
         ) : (
-          <div className="flex items-center gap-2 mx-2 my-6">
+          <div className="mx-2">
             <LoginModal
               authenticate={handleAuthentication}
               label="Me connecter"

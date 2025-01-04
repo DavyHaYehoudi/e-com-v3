@@ -20,20 +20,25 @@ const HeaderSection: React.FC<{
   <>
     {/* Nom du produit */}
     <div className="mb-4">
-      <Label htmlFor="name">Nom<span className="text-red-500 text-2xl">*</span></Label>
+      <Label htmlFor="name">
+        Nom<span className="text-red-500 text-2xl">*</span>
+      </Label>
       <Input id="name" {...register("name")} placeholder="Nom du produit" />
       {errors.name && <p className="text-red-500">{errors.name.message}</p>}
     </div>
 
     {/* Image principale */}
     <div className="flex flex-col items-center gap-4 my-20">
-      <Label>Image du produit sur la carte produit et dans le panier<span className="text-red-500 text-2xl" >*</span></Label>
+      <Label>
+        Image du produit sur la carte produit et dans le panier
+        <span className="text-red-500 text-2xl">*</span>
+      </Label>
       <ImageUploaderBox
         image={heroImage}
         handleImageUpload={handleHeroImageUpload}
         handleRemoveImage={handleRemoveImageUpload}
-        width={300}
-        height={300}
+        width={250}
+        height={250}
       />
     </div>
   </>

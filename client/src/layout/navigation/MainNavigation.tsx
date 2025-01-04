@@ -101,10 +101,7 @@ export function MainNavigation() {
                 <span className="ml-2"> Me déconnecter</span>
               </Button>
             ) : (
-              <>
                 <LoginModal authenticate={handleAuthentication} />
-                <span className="ml-2"> Me connecter</span>
-              </>
             )}
           </div>
         </div>

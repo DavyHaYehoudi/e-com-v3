@@ -105,7 +105,7 @@ const TagsPage = () => {
     <div>
       <h1 className="text-center mb-10">Tags</h1>
       <TagCreate onAddTag={handleAddTag} />
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="container-responsive">
         <TagsList
           data={tags}
           handleDeleteTag={handleDeleteTag}

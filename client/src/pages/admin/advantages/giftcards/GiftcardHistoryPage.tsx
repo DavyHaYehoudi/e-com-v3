@@ -50,7 +50,7 @@ const GiftcardHistoryPage = () => {
       />
       <div>
         <h1 className="text-center mb-10">Historique de la carte cadeau</h1>
-        <div className="sm:w-1/2 mx-auto">
+        <div className="container-responsive">
           <GiftcardHistoryDetail giftcardHistory={giftcardHistory} />
         </div>
       </div>

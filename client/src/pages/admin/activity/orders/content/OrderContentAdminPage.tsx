@@ -26,6 +26,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ReturnBadge from "@/components/shared/badge/ReturnBadge";
 import ExchangeBadge from "@/components/shared/badge/ExchangeBadge";
 import RefundBadge from "@/components/shared/badge/RefundBadge";
+import VariantBadge from "@/components/shared/badge/VariantBadge";
 
 const OrderContentAdminPage = () => {
   const [order, setOrder] = useState<OrderCustomerDBType | null>();
@@ -163,7 +164,7 @@ const OrderContentAdminPage = () => {
         text="Revenir à la liste des commandes"
         role="admin"
       />
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto ">
+      <div className="container-responsive">
         <h1 className="text-center mb-10">Commande № {order.orderNumber}</h1>
         {/* Informations sur la commande */}
         <Card>
@@ -171,7 +172,7 @@ const OrderContentAdminPage = () => {
             <h2 className="text-lg font-semibold">Details de la commande</h2>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="flex justify-between gap-2 flex-wrap">
               <div>
                 <p className="flex items-center gap-2">
                   <strong>Client :</strong> {order.customerIdentity.firstName}{" "}
@@ -187,6 +188,7 @@ const OrderContentAdminPage = () => {
                     </AvatarFallback>
                   </Avatar>
                 </p>
+                <p>{order.customerIdentity.email} </p>
                 <p>
                   <strong>Statut de la commande :</strong>{" "}
                   {isOrderStatusLoading ? (
@@ -311,24 +313,23 @@ const OrderContentAdminPage = () => {
                     <strong>Nombre d'article(s) :</strong>{" "}
                     {orderItem.articleNumber}
                   </p>
-                  <Badge>{orderItem.variant}</Badge>
+                  <VariantBadge productVariant={orderItem.variant} />
 
                   {orderItem.returnNumber && orderItem.returnAt && (
                     <p>
-                      <ReturnBadge />{" "} {orderItem.returnNumber} - Le{" "}
+                      <ReturnBadge /> {orderItem.returnNumber} - Le{" "}
                       {formatDate(orderItem.returnAt)}
                     </p>
                   )}
                   {orderItem.exchangeNumber && orderItem.exchangeAt && (
                     <p>
-                      <ExchangeBadge />{" "} {orderItem.exchangeNumber} - Le{" "}
+                      <ExchangeBadge /> {orderItem.exchangeNumber} - Le{" "}
                       {formatDate(orderItem.exchangeAt)}
                     </p>
                   )}
                   {orderItem.refundAmount && orderItem.refundAt && (
                     <p>
-                      <RefundBadge />{" "}
-                      {formatPrice(orderItem.refundAmount)} - Le{" "}
+                      <RefundBadge /> {formatPrice(orderItem.refundAmount)} - Le{" "}
                       {formatDate(orderItem.refundAt)}
                     </p>
                   )}

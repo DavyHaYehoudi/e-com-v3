@@ -22,7 +22,7 @@ const EmailsSendedList: React.FC<EmailsSendedListProps> = ({
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="w-[350px] space-y-2 my-8"
+      className="max-w-[350px] space-y-2 my-8 text-center"
     >
       <div className="flex items-center justify-between space-x-4 px-4">
         <p className="text-sm font-semibold">{emailsSendCount} destinataires</p>

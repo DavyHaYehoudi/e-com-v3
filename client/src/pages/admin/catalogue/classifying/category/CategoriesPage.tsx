@@ -112,7 +112,7 @@ const CategoriesPage = () => {
     <div>
       <h1 className="text-center mb-10">Categories</h1>
       <CategoryCreate onAddCategory={handleAddCategory} />
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="container-responsive">
         <CategoriesList
           data={categories}
           handleDeleteCategory={handleDeleteCategory}

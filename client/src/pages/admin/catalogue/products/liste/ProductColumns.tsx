@@ -33,7 +33,9 @@ export const ProductColumns = (
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("name")}</div>,
+    cell: ({ row }) => (
+      <div className="min-w-[150px]">{row.getValue("name")}</div>
+    ),
     meta: { headerName: "Nom" },
   },
   {

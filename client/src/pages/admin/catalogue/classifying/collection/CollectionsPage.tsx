@@ -117,7 +117,7 @@ const CollectionsPage = () => {
     <div>
       <h1 className="text-center mb-10">Collections</h1>
       <CollectionCreate onAddCollection={handleAddCollection} />
-      <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="container-responsive">
         <CollectionsList
           data={collections}
           handleDeleteCollection={handleDeleteCollection}

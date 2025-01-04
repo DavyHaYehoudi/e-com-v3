@@ -15,10 +15,27 @@ export const getOrdersCustomerService = async (customerId) => {
 export const getOrderCustomerByIdService = async (orderId, customerId) => {
   return await getOrderCustomerByIdRepository(orderId, customerId);
 };
-// Admin - Récupérer toutes les commandes
+// Admin - Récupérer toutes les commandes avec customerIdentity
 export const getAllOrdersService = async () => {
-  return await getAllOrdersRepository();
+  const orders = await getAllOrdersRepository();
+
+  // Mapper chaque commande et enrichir avec customerIdentity
+  const ordersWithCustomerIdentity = await Promise.all(
+    orders.map(async (order) => {
+      const customer = await getCustomerByIdRepository(order.customerId);
+      const customerIdentity = {
+        firstName: customer.firstName,
+        lastName: customer.lastName,
+        avatarUrl: customer.avatarUrl,
+        email: customer.email,
+      };
+      return { ...order.toJSON(), customerIdentity };
+    })
+  );
+
+  return ordersWithCustomerIdentity;
 };
+
 // Admin - Récupérer une commande par son orderId
 export const getOrderCustomerByIdFromAdminService = async (orderId) => {
   const order = await getOrderCustomerByIdFromAdminRepository(orderId);
@@ -30,6 +47,7 @@ export const getOrderCustomerByIdFromAdminService = async (orderId) => {
     firstName: customer.firstName,
     lastName: customer.lastName,
     avatarUrl: customer.avatarUrl,
+    email: customer.email,
   };
   const orderWithCustomer = { ...order.toJSON(), customerIdentity };
   return orderWithCustomer;

@@ -23,7 +23,7 @@ const DashboardCustomerLayout = () => {
             <ThemeToggle />
           </div>
         </header>
-        <main className="p-4 mt-16"></main>
+        <main className="p-4 mt-4"></main>
         <Outlet />
       </SidebarInset>
       {/* Modale de session expirée */}

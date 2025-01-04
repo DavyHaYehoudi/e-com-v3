@@ -7,6 +7,7 @@ import { formatDate } from "@/utils/formatDate";
 import ReturnBadge from "@/components/shared/badge/ReturnBadge";
 import ExchangeBadge from "@/components/shared/badge/ExchangeBadge";
 import RefundBadge from "@/components/shared/badge/RefundBadge";
+import VariantBadge from "@/components/shared/badge/VariantBadge";
 
 interface OrderItemRowProps {
   item: OrderItem;
@@ -21,8 +22,8 @@ const OrderItemRow: React.FC<OrderItemRowProps> = ({ item }) => {
           path={item.heroImage}
         />
       </TableCell>
-      <TableCell>
-        {item.name} - {item.variant}{" "}
+      <TableCell className="min-w-[150px]">
+        {item.name} <br /> <VariantBadge productVariant={item.variant} />{" "}
       </TableCell>
       <TableCell className="whitespace-nowrap">
         {sumPriceArticle(

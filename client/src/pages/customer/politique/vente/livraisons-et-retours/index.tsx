@@ -1,6 +1,6 @@
 const ShippingAndReturnsDashboard = () => {
   return (
-    <div className="py-8 px-4 max-w-5xl mx-auto space-y-8">
+    <div className="pb-8 px-4 max-w-5xl mx-auto space-y-8">
       <h1 className="text-2xl font-bold">Livraisons et Retours</h1>
 
       <section className="space-y-4">

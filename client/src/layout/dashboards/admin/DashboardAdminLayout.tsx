@@ -24,7 +24,7 @@ const DashboardAdminLayout = () => {
             <ThemeToggle />
           </div>
         </header>
-        <main className="p-4 mt-16">
+        <main className="p-4 mt-4">
         </main>
         <Outlet />
       </SidebarInset>

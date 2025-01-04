@@ -229,7 +229,7 @@ const ProductForm: React.FC = () => {
         {productId ? "modifier le produit" : "creer un produit"}
       </h1>
 
-      <Card className="p-6 xl:w-1/2 2xl:w-1/3 mx-auto">
+      <Card className="p-2 md:p-6 xl:w-1/2 2xl:w-1/3 mx-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardHeader>
             <div>

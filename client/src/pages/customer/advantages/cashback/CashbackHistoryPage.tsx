@@ -40,11 +40,15 @@ const CashbackHistoryPage = () => {
     );
   }
   return (
-    <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px] pb-10">
+    <div className="pb-10">
       <h1 className="text-center mb-10">Historique de votre cashback</h1>
-      <CashbackSummary history={history} />
-      <CashbackBanner />
-      <CashbackHistory history={history} />
+      <div className="container mx-auto p-2">
+        <CashbackSummary history={history} />
+        <CashbackBanner />
+      </div>
+      <div className="container-responsive">
+        <CashbackHistory history={history} />
+      </div>
     </div>
   );
 };

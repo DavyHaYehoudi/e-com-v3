@@ -55,7 +55,7 @@ const CartRowProduct: React.FC<CartRowProductProps> = ({
             )}
           </TableCell>
 
-          <TableCell>
+          <TableCell className="min-w-[150px]">
             {product.name} <br />
             {product.variant && (
               <VariantBadge productVariant={product.variant} />

@@ -8,7 +8,9 @@ const DescriptionSection: React.FC<{
   errors: FieldErrors<ProductInputDTO>; // Type correct pour `errors`
 }> = ({ register, errors }) => (
   <div className="mb-4">
-    <Label htmlFor="description">Description<span className="text-red-500 text-2xl" >*</span></Label>
+    <Label htmlFor="description">
+      Description<span className="text-red-500 text-2xl">*</span>
+    </Label>
     <Textarea
       id="description"
       {...register("description")}

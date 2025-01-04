@@ -53,7 +53,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesUpload }) => {
       />
 
       <Label className="text-sm font-medium mt-4">Images secondaires :</Label>
-      <div className="flex gap-2 mt-2">
+      <div className="flex flex-wrap gap-2 mt-2">
         {secondaryImages.map((image, index) => (
           <ImageUploaderBox
             key={index}
