@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import ImageUploader from "./ImageUploader";
+import { resolveImageUrl } from "@/utils/imageManage";
+import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
 
 interface VariantsToAddType {
   combination: string;
-  mainImage: File | null;
-  secondaryImages: File[];
+  mainImage: File | string | null;
+  secondaryImages: (File | string)[];
 }
 
 interface VariantsProps {
@@ -26,6 +28,8 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
     mainImage: null,
     secondaryImages: [],
   });
+  console.log("draftVariant:", draftVariant);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const handleUpdateDraftVariant = (updated: Partial<VariantsToAddType>) => {
     setDraftVariant((prev) => ({
@@ -50,6 +54,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
   };
 
   const removeVariant = (index: number) => {
+    setIsDeleteOpen(false);
     setVariantsToAddList((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -83,9 +88,9 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
             <Label className="text-sm font-medium">Image principale :</Label>
             {variant.mainImage && (
               <img
-                src={URL.createObjectURL(variant.mainImage)}
+                src={resolveImageUrl(variant.mainImage) || ""}
                 alt="Image principale"
-                className="w-24 h-24 object-cover mt-2"
+                className="w-24 h-24 object-cover mt-2 rounded-md"
               />
             )}
           </div>
@@ -95,9 +100,9 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
               {variant.secondaryImages.map((image, i) => (
                 <img
                   key={i}
-                  src={URL.createObjectURL(image)}
+                  src={resolveImageUrl(image) || ""}
                   alt={`Image secondaire ${i + 1}`}
-                  className="w-16 h-16 object-cover"
+                  className="w-16 h-16 object-cover rounded-md"
                 />
               ))}
             </div>
@@ -106,12 +111,18 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
             variant="destructive"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.preventDefault();
-              removeVariant(index);
+              setIsDeleteOpen(true);
             }}
             className="mt-2"
           >
             Supprimer
           </Button>
+          <DeleteAlert
+            isDeleteOpen={isDeleteOpen}
+            setIsDeleteOpen={setIsDeleteOpen}
+            itemNameToDelete="cette variante"
+            onConfirm={() => removeVariant(index - 1)}
+          />
         </div>
       ))}
 
@@ -128,6 +139,8 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
           }
         />
         <ImageUploader
+          mainImage={draftVariant.mainImage}
+          secondaryImages={draftVariant.secondaryImages}
           onImagesUpload={(images) =>
             handleUpdateDraftVariant({
               mainImage: images.mainImage,

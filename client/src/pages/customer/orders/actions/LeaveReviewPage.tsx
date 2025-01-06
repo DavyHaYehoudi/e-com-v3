@@ -32,7 +32,7 @@ const LeaveReviewPage: React.FC = () => {
   );
 
   return (
-    <div>
+    <div className="pb-10">
       <NavBackDashboard
         path="commandes/liste"
         text="Revenir à la liste des commandes"

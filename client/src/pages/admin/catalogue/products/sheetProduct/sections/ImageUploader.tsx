@@ -1,33 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 import { Label } from "@/components/ui/label";
 
 export interface ImagesCarousselType {
-  mainImage: File | null;
-  secondaryImages: File[];
+  mainImage: File | string | null;
+  secondaryImages: (File | string)[];
 }
 
 export interface ImageUploaderProps {
+  mainImage: File | string | null;
+  secondaryImages: (File | string)[];
   onImagesUpload: (images: ImagesCarousselType) => void;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesUpload }) => {
-  const [mainImage, setMainImage] = useState<File | null>(null);
-  const [secondaryImages, setSecondaryImages] = useState<File[]>([]);
-
-  const handleMainImageUpload = (image: File | null) => {
-    setMainImage(image);
+const ImageUploader: React.FC<ImageUploaderProps> = ({
+  mainImage,
+  secondaryImages,
+  onImagesUpload,
+}) => {
+  const handleMainImageUpload = (image: File | string | null) => {
     onImagesUpload({ mainImage: image, secondaryImages });
   };
 
-  const handleSecondaryImageUpload = (image: File) => {
+  const handleSecondaryImageUpload = (image: File | string) => {
     const updatedSecondaryImages = [...secondaryImages, image];
-    setSecondaryImages(updatedSecondaryImages);
     onImagesUpload({ mainImage, secondaryImages: updatedSecondaryImages });
   };
 
   const handleRemoveMainImage = () => {
-    setMainImage(null);
     onImagesUpload({ mainImage: null, secondaryImages });
   };
 
@@ -35,7 +35,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesUpload }) => {
     const updatedSecondaryImages = secondaryImages.filter(
       (_, index) => index !== indexToRemove
     );
-    setSecondaryImages(updatedSecondaryImages);
     onImagesUpload({ mainImage, secondaryImages: updatedSecondaryImages });
   };
 

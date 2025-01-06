@@ -5,14 +5,16 @@ import { Button } from "@/components/ui/button";
 import WishlistModal from "@/components/modules/wishlist/WishlistModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-// import { useEffect } from "react";
 import SessionExpired from "@/components/modules/login/SessionExpired";
 import { Link } from "react-router-dom";
 import { formatPrice } from "@/utils/pricesFormat";
 import useAuth from "@/hooks/useAuth";
-// import useCashback from "@/hooks/useCashback";
+import useCustomerInfo from "@/hooks/dashboard/customer/useCustomerInfo";
+import { useEffect, useState } from "react";
+import { CustomerDBType } from "@/types/CustomerTypes";
 
 const NavIcons = () => {
+  const [customerInfo, setCustomerInfo] = useState<CustomerDBType | null>(null);
   const wishlist = useSelector((state: RootState) => state.wishlist);
   const cartCountArticles = useSelector(
     (state: RootState) => state.cart.totalItemsCount
@@ -27,13 +29,18 @@ const NavIcons = () => {
     (state: RootState) => state.cashback.cashbackTotal
   );
   const { handleAuthentication, handleLogout } = useAuth();
-  // const { getCashbackOneCustomer } = useCashback();
-  // useEffect(() => {
-  //   getCashbackOneCustomer();
-  // }, []);
+  const { customerInfoFetch } = useCustomerInfo();
 
   const userRole = useSelector((state: RootState) => state.auth.user?.role);
-  // const userRole = "admin";
+  useEffect(() => {
+    const getCustomerInfo = async () => {
+      if (userRole === "customer") {
+        const customerData = (await customerInfoFetch()) || null;
+        setCustomerInfo(customerData);
+      }
+    };
+    getCustomerInfo();
+  }, [customerInfoFetch, userRole]);
 
   return (
     <div className="flex items-center gap-6 text-gray-500">
@@ -50,9 +57,9 @@ const NavIcons = () => {
             }
           >
             <Avatar className="cursor-pointer mb-2">
-              <AvatarImage src="/images/avatar.png" alt="Avatar" />
+              <AvatarImage src={customerInfo?.avatarUrl} alt="Avatar" />
               <AvatarFallback>
-                {customerEmail ? customerEmail[0].toUpperCase() : "A"}
+                {customerEmail ? customerEmail[0].toUpperCase() : "AN"}
               </AvatarFallback>
             </Avatar>
           </Link>
@@ -94,17 +101,16 @@ const NavIcons = () => {
       {/* Icône Cashback avec badge */}
       {isAuthenticated && (
         <div className="relative hidden lg:flex" title="Mon cashback">
-        <Link to="/customer/tableau-de-bord/avantages/cashback">
-
-          <BadgeEuro className="w-6 h-6 mb-2" />
-          {cashbackCustomer > 0 && (
-            <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none bg-blue-500 text-white rounded-full">
-              <span className="whitespace-nowrap">
-                {formatPrice(cashbackCustomer)}
+          <Link to="/customer/tableau-de-bord/avantages/cashback">
+            <BadgeEuro className="w-6 h-6 mb-2" />
+            {cashbackCustomer > 0 && (
+              <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none bg-blue-500 text-white rounded-full">
+                <span className="whitespace-nowrap">
+                  {formatPrice(cashbackCustomer)}
+                </span>
               </span>
-            </span>
-          )}
-        </Link>
+            )}
+          </Link>
         </div>
       )}
       {/* Modale de session expirée */}

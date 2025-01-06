@@ -6,20 +6,39 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { data } from "./data/tabs";
-import LoginModal from "@/components/modules/login/LoginModal";
-import useAuth from "@/hooks/useAuth";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/store";
-import { LogOut, House } from "lucide-react";
 import { SidebarSection } from "../SidebarSection";
-import { Link } from "react-router-dom";
+import { CustomerDBType } from "@/types/CustomerTypes";
+import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
+import { toast } from "sonner";
+import { NavUser } from "../NavUser";
 
-export function SidebarAppAdmin({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { handleAuthentication, handleLogout } = useAuth();
-  const isConnected = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
+export function SidebarAppAdmin({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const [customerInfo, setCustomerInfo] = React.useState<CustomerDBType | null>(
+    null
   );
-
+  const [isLoading, setIsLoading] = React.useState(false);
+  const { customerInfoFetch } = useCustomerInfo();
+  React.useEffect(() => {
+    const getCustomerInfo = async () => {
+      setIsLoading(true);
+      try {
+        if (!customerInfo) {
+          const customerData = (await customerInfoFetch()) || null;
+          setCustomerInfo(customerData);
+        }
+      } catch (error) {
+        console.log("error:", error);
+        toast.error(
+          "Une erreur est survenue lors de la récupération de vos informations"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getCustomerInfo();
+  }, [customerInfoFetch, customerInfo]);
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
@@ -31,30 +50,14 @@ export function SidebarAppAdmin({ ...props }: React.ComponentProps<typeof Sideba
         <SidebarSection items={data.stat} title="Chiffres" />
       </SidebarContent>
       <SidebarFooter className="flex-row items-center gap-2 justify-between pb-4">
-        <Link
-          to="/"
-          className="mx-2"
-          title="Retour sur le site"
-        >
-          <House className="size-4" />
-        </Link>
-        {isConnected ? (
-          <div
-            onClick={handleLogout}
-            className="cursor-pointer mx-2"
-            title="Me déconnecter"
-          >
-            <LogOut className="size-4" />
-            {/* Me déconnecter */}
-          </div>
-        ) : (
-          <div className="mx-2">
-            <LoginModal
-              authenticate={handleAuthentication}
-              label="Me connecter"
-            />
-          </div>
-        )}
+        <NavUser
+          user={{
+            name: customerInfo?.firstName || "",
+            email: customerInfo?.email || "",
+            avatar: customerInfo?.avatarUrl || "",
+          }}
+          isLoading={isLoading}
+        />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

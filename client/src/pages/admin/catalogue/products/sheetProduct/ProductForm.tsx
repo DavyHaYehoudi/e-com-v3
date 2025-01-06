@@ -17,7 +17,7 @@ import OptionSwitch from "./sections/OptionSwitch";
 import AttributeField from "./sections/AttributeField";
 import PromotionField from "./sections/PromotionField";
 import Classifying from "./sections/Classifying";
-import ImageUploader from "./sections/ImageUploader";
+import ImageUploader, { ImagesCarousselType } from "./sections/ImageUploader";
 import { CollectionDBType } from "@/types/collectionTypes";
 import useCollection from "@/hooks/dashboard/admin/useCollection";
 import VariantsToAdd from "./sections/VariantsToAdd";
@@ -32,15 +32,13 @@ import { useNavigate } from "react-router-dom";
 import useProductDefaultValues from "@/hooks/dashboard/admin/useProductDefaultValues";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { resolveImageUrl } from "@/utils/imageManage";
 
-export interface ImagesCarousselType {
-  mainImage: File | null;
-  secondaryImages: File[];
-}
+
 export interface VariantsToAddType {
   combination: string;
-  mainImage: File | null;
-  secondaryImages: File[];
+  mainImage: File | string | null;
+  secondaryImages: (File | string)[];
 }
 export type AddingVariantType = "combination" | "images";
 const ProductForm: React.FC = () => {
@@ -51,12 +49,13 @@ const ProductForm: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [heroImage, setHeroImage] = useState<File | null>(null);
-  const [mainImage, setMainImage] = useState<File | null>(null);
-  const [secondaryImages, setSecondaryImages] = useState<File[]>([]);
+  const [mainImage, setMainImage] = useState<File | string | null>(null);
+  const [secondaryImages, setSecondaryImages] = useState<(File | string)[]>([]);
   const [addOneVariant, setAddOneVariant] = useState(false);
   const [variantsToAddList, setVariantsToAddList] = useState<
-    VariantsToAddType[]
+  VariantsToAddType[]
   >([]);
+  console.log('variantsToAddList:', variantsToAddList)
 
   const { getCollections } = useCollection();
   const { getCategories } = useCategory();
@@ -142,8 +141,9 @@ const ProductForm: React.FC = () => {
       variants: [
         {
           combination: "Model unique",
-          mainImage: mainImage?.name,
-          secondaryImages: secondaryImages.map((image) => image.name),
+          mainImage: resolveImageUrl(mainImage),
+          // mainImage: mainImage?.name,
+          secondaryImages: secondaryImages.map((image) => resolveImageUrl(image)),
         },
         ...variantsToAddListWaitingFirebase, // Ajoute les autres variantes dans l'ordre voulu
       ],
@@ -297,7 +297,11 @@ const ProductForm: React.FC = () => {
                 Caroussel d'images
                 <span className="text-red-500 text-2xl">*</span>
               </h3>
-              <ImageUploader onImagesUpload={handleMainAndSecondaryImages} />
+              <ImageUploader
+                mainImage={mainImage}
+                secondaryImages={secondaryImages}
+                onImagesUpload={handleMainAndSecondaryImages}
+              />
             </div>
             {/* Variantes */}
             {addOneVariant && (

@@ -4,10 +4,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { SidebarAppCustomer } from "./SidebarAppCustomer";
 import SessionExpired from "@/components/modules/login/SessionExpired";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import { Outlet } from "react-router-dom";
+import SidebarAppCustomer from "./SidebarAppCustomer";
 
 const DashboardCustomerLayout = () => {
   return (

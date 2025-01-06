@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";
+import { resolveImageUrl } from "@/utils/imageManage";
 
 interface ImageUploaderBoxProps {
-  image: File | null;
+  image: File | string | null;
   width: number;
   height: number;
   handleImageUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,18 +18,11 @@ const ImageUploaderBox: React.FC<ImageUploaderBoxProps> = ({
   height,
 }) => {
   const [imageURL, setImageURL] = useState<string | null>(null);
+  console.log("imageURL:", imageURL);
 
   useEffect(() => {
-    if (image) {
-      const objectUrl = URL.createObjectURL(image);
-      setImageURL(objectUrl);
-
-      return () => {
-        URL.revokeObjectURL(objectUrl);
-      };
-    } else {
-      setImageURL(null);
-    }
+    const urlDefine = resolveImageUrl(image);
+    setImageURL(urlDefine);
   }, [image]);
 
   return (
@@ -44,17 +38,10 @@ const ImageUploaderBox: React.FC<ImageUploaderBoxProps> = ({
             alt="Uploaded"
             className="w-full h-full object-cover rounded-md"
           />
-
-          {/* Zone cliquable pour remplacer l'image */}
-          <input
-            type="file"
-            accept="image/*"
-            className="absolute inset-0 opacity-0 cursor-pointer"
-            onChange={handleImageUpload}
-          />
         </div>
       ) : (
         <>
+          {/* Image en attente */}
           <input
             type="file"
             accept="image/*"
