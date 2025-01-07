@@ -5,7 +5,6 @@ import useCustomerInfo from "@/hooks/dashboard/customer/useCustomerInfo";
 import { RootState } from "@/redux/store/store";
 import {
   deleteImageFromFirebase,
-  generateFilePath,
   uploadImageToFirebase,
 } from "@/utils/imageManage";
 import { useEffect, useState } from "react";
@@ -80,8 +79,7 @@ const Avatar = () => {
         if (urlDeleted) {
           await deleteImageFromFirebase(urlDeleted);
         }
-        const uniqueFileName = generateFilePath(image, "avatars/");
-        const url = await uploadImageToFirebase(image, uniqueFileName);
+        const url = await uploadImageToFirebase(image, "avatars");
         await customerInfoUpdate({ avatarUrl: url });
         setIsUpdated(false);
         setUrlDeleted("");

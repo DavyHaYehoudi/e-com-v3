@@ -32,8 +32,10 @@ import { useNavigate } from "react-router-dom";
 import useProductDefaultValues from "@/hooks/dashboard/admin/useProductDefaultValues";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { resolveImageUrl } from "@/utils/imageManage";
-
+import {
+  deleteImageFromFirebase,
+  uploadImageToFirebase,
+} from "@/utils/imageManage";
 
 export interface VariantsToAddType {
   combination: string;
@@ -48,14 +50,19 @@ const ProductForm: React.FC = () => {
   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [heroImage, setHeroImage] = useState<File | null>(null);
+  const [heroImage, setHeroImage] = useState<File | string | null>(null);
+  console.log("heroImage:", heroImage);
   const [mainImage, setMainImage] = useState<File | string | null>(null);
+  console.log("mainImage:", mainImage);
   const [secondaryImages, setSecondaryImages] = useState<(File | string)[]>([]);
-  const [addOneVariant, setAddOneVariant] = useState(false);
+  console.log("secondaryImages:", secondaryImages);
   const [variantsToAddList, setVariantsToAddList] = useState<
-  VariantsToAddType[]
+    VariantsToAddType[]
   >([]);
-  console.log('variantsToAddList:', variantsToAddList)
+  console.log("variantsToAddList:", variantsToAddList);
+  const [urlFirebaseToDelete, setUrlFirebaseToDelete] = useState<string[]>([]);
+  console.log("urlFirebaseToDelete:", urlFirebaseToDelete);
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const { getCollections } = useCollection();
   const { getCategories } = useCategory();
@@ -110,65 +117,130 @@ const ProductForm: React.FC = () => {
       setSelectedCollections(defaultValues.collections);
       setSelectedCategories(defaultValues.categories);
       setSelectedTags(defaultValues.tags);
+      setHeroImage(defaultValues.heroImage || "");
+      if (defaultValues.variants && defaultValues.variants.length > 0) {
+        setMainImage(defaultValues.variants[0].mainImage || "");
+        setSecondaryImages(defaultValues.variants[0].secondaryImages || []);
+      }
+      // En mode modifications, on n'affiche pas le 1er variant
+      if (
+        productId &&
+        defaultValues.variants &&
+        defaultValues.variants?.length > 0
+      ) {
+        setVariantsToAddList(defaultValues.variants.slice(1) || []);
+      } else {
+        setVariantsToAddList(defaultValues.variants || []);
+      }
     }
-  }, [defaultValues, reset]);
+  }, [defaultValues, reset, productId]);
   const navigate = useNavigate();
   const onSubmit = async (data: ProductInputDTO) => {
-    const variantsToAddListWaitingFirebase = variantsToAddList.map(
-      (variant) => {
-        return {
-          combination: variant.combination,
-          mainImage: variant.mainImage?.name,
-          secondaryImages: variant.secondaryImages.map((image) => image.name),
-        };
+    setIsSubmitLoading(true);
+    console.log("Errors:", errors);
+
+    console.log("data onSubmit:", data);
+    // Firebase Storage
+    try {
+      if (!heroImage) return;
+      const heroImageToDB = await uploadImageToFirebase(heroImage, "products");
+
+      if (!mainImage) return;
+      const mainImageToDB = await uploadImageToFirebase(mainImage, "products");
+
+      const secondaryImagesToDB = await Promise.all(
+        secondaryImages.map((secImg) =>
+          uploadImageToFirebase(secImg, "products")
+        )
+      ).then((results) =>
+        results.filter((url) => !urlFirebaseToDelete.includes(url))
+      );
+
+      const variantsToAddListToDB = await Promise.all(
+        variantsToAddList.map(async (variant) => {
+          // Upload de l'image principale du variant
+          const mainImageVariantToDB = variant.mainImage
+            ? await uploadImageToFirebase(variant.mainImage, "products")
+            : undefined;
+
+          // Upload des images secondaires du variant
+          const secondaryImagesVariantToDB = await Promise.all(
+            variant.secondaryImages.map((secImg) =>
+              uploadImageToFirebase(secImg, "products")
+            )
+          ).then((results) =>
+            results.filter((url) => !urlFirebaseToDelete.includes(url))
+          );
+
+          return {
+            combination: variant.combination,
+            mainImage: mainImageVariantToDB,
+            secondaryImages: secondaryImagesVariantToDB,
+          };
+        })
+      );
+      await Promise.all(
+        urlFirebaseToDelete.map(async (url) => {
+          await deleteImageFromFirebase(url);
+        })
+      );
+
+      const bodyData = {
+        name: data.name,
+        description: data.description,
+        heroImage: heroImageToDB,
+        promotionPercentage: data.promotionPercentage,
+        promotionEndDate: data.promotionEndDate?.toISOString() || null,
+        continueSelling: data.continueSelling,
+        quantityInStock: data.quantityInStock,
+        price: data.price,
+        newUntil: data.newUntil?.toISOString() || null,
+        isPublished: data.isPublished,
+        cashback: data.cashback,
+        collections: selectedCollections,
+        categories: selectedCategories,
+        tags: selectedTags,
+        variants: [
+          // Toujours positionner au 1er index la mainImage/secondaryImages du produit
+          {
+            combination: "Model unique",
+            mainImage: mainImageToDB,
+            secondaryImages: secondaryImagesToDB,
+          },
+          ...variantsToAddListToDB,
+        ],
+        isStar: data.isStar,
+        isArchived: data.isArchived,
+      };
+
+      if (productId) {
+        console.log("bodyData:", bodyData);
+        udpateProduct(bodyData).then((result) => {
+          if (result) {
+            toast.success("Le produit a été mis à jour avec succès!");
+            return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
+          }
+          toast.error(
+            "Une erreur s'est produite lors de la mise à jour du produit"
+          );
+        });
+      } else {
+        createProduct(bodyData).then((result) => {
+          if (result) {
+            toast.success("Le produit a été créé avec succès!");
+            return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
+          }
+          toast.error(
+            "Une erreur s'est produite lors de la création du produit"
+          );
+        });
       }
-    );
-    const bodyData = {
-      name: data.name,
-      description: data.description,
-      heroImage: heroImage?.name,
-      promotionPercentage: data.promotionPercentage,
-      promotionEndDate: data.promotionEndDate?.toISOString() || null,
-      continueSelling: data.continueSelling,
-      quantityInStock: data.quantityInStock,
-      price: data.price,
-      newUntil: data.newUntil?.toISOString() || null,
-      isPublished: data.isPublished,
-      cashback: data.cashback,
-      collections: selectedCollections,
-      categories: selectedCategories,
-      tags: selectedTags,
-      variants: [
-        {
-          combination: "Model unique",
-          mainImage: resolveImageUrl(mainImage),
-          // mainImage: mainImage?.name,
-          secondaryImages: secondaryImages.map((image) => resolveImageUrl(image)),
-        },
-        ...variantsToAddListWaitingFirebase, // Ajoute les autres variantes dans l'ordre voulu
-      ],
-      isStar: data.isStar,
-      isArchived: data.isArchived,
-    };
-    if (productId) {
-      console.log("bodyData:", bodyData);
-      udpateProduct(bodyData).then((result) => {
-        if (result) {
-          toast.success("Le produit a été mis à jour avec succès!");
-          return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
-        }
-        toast.error(
-          "Une erreur s'est produite lors de la mise à jour du produit"
-        );
-      });
-    } else {
-      createProduct(bodyData).then((result) => {
-        if (result) {
-          toast.success("Le produit a été créé avec succès!");
-          return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
-        }
-        toast.error("Une erreur s'est produite lors de la création du produit");
-      });
+    } catch (error) {
+      console.log("error:", error);
+      setIsSubmitLoading(false);
+      toast.error(
+        "Une erreur s'est produite avec les modifications de la fiche produit."
+      );
     }
   };
   const handleCollectionSelection = (id: string, isChecked: boolean) => {
@@ -191,18 +263,19 @@ const ProductForm: React.FC = () => {
   const handleMainAndSecondaryImages = (images: ImagesCarousselType) => {
     setMainImage(images.mainImage);
     setSecondaryImages(images.secondaryImages);
-    if (mainImage) {
-      setAddOneVariant(true);
-    }
   };
   const handleHeroImageUpload = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setHeroImage(event.target.files && event.target.files[0]);
   };
-  const handleRemoveImageUpload = () => {
+  const handleRemoveHeroImage = (image: File | string) => {
     setHeroImage(null);
+    if (typeof image === "string" && !urlFirebaseToDelete.includes(image)) {
+      setUrlFirebaseToDelete((prev) => [...prev, image]);
+    }
   };
+
   const promotionEndDate = watch("promotionEndDate");
   const newUntil = watch("newUntil");
   const isAllFiedlsEmpty =
@@ -210,7 +283,7 @@ const ProductForm: React.FC = () => {
     selectedCategories.length > 0 &&
     heroImage &&
     mainImage;
-  if (loading) {
+  if (loading || isSubmitLoading) {
     return (
       <div className="flex items-center flex-col justify-center gap-4">
         <LoadingSpinner />
@@ -239,7 +312,7 @@ const ProductForm: React.FC = () => {
                 errors={errors}
                 heroImage={heroImage}
                 handleHeroImageUpload={handleHeroImageUpload}
-                handleRemoveImageUpload={handleRemoveImageUpload}
+                handleRemoveHeroImage={handleRemoveHeroImage}
               />
             </div>
           </CardHeader>
@@ -301,15 +374,15 @@ const ProductForm: React.FC = () => {
                 mainImage={mainImage}
                 secondaryImages={secondaryImages}
                 onImagesUpload={handleMainAndSecondaryImages}
+                setUrlFirebaseToDelete={setUrlFirebaseToDelete}
               />
             </div>
             {/* Variantes */}
-            {addOneVariant && (
-              <VariantsToAdd
-                variantsToAddList={variantsToAddList}
-                setVariantsToAddList={setVariantsToAddList}
-              />
-            )}
+            <VariantsToAdd
+              variantsToAddList={variantsToAddList}
+              setVariantsToAddList={setVariantsToAddList}
+              setUrlFirebaseToDelete={setUrlFirebaseToDelete}
+            />
             {/* Options */}
             <div className="border rounded-md p-4 my-20">
               <h3 className="mb-2">Options</h3>

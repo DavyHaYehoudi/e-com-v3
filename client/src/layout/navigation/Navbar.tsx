@@ -9,15 +9,11 @@ import {
   GiftIcon,
   GlobeIcon,
   MailIcon,
-  TagIcon,
+  Store,
 } from "lucide-react";
 
 const Navbar = () => {
-  // const pathname = usePathname(); // Récupère le chemin actif
-  // Récupère l'objet location
   const location = useLocation();
-
-  // Le pathname est accessible via location.pathname
   const pathname = location.pathname;
   return (
     <nav className="text-gray-500 mb-4 lg:p-4">
@@ -30,9 +26,9 @@ const Navbar = () => {
               pathname === "/produits" ? "active" : ""
             }`}
           >
-            <TagIcon className="tab-nav w-5 h-5" />
+            <Store className="tab-nav w-5 h-5" />
             <span className="tab-nav tracking-widest text-xs lg:text-sm">
-              Produits
+              Boutique
             </span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>

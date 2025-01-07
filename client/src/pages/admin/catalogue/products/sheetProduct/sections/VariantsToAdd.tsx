@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -17,25 +17,51 @@ interface VariantsProps {
   setVariantsToAddList: React.Dispatch<
     React.SetStateAction<VariantsToAddType[]>
   >;
+  setUrlFirebaseToDelete: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const VariantsToAdd: React.FC<VariantsProps> = ({
   variantsToAddList,
   setVariantsToAddList,
+  setUrlFirebaseToDelete,
 }) => {
   const [draftVariant, setDraftVariant] = useState<VariantsToAddType>({
     combination: "",
     mainImage: null,
     secondaryImages: [],
   });
-  console.log("draftVariant:", draftVariant);
+
+  const [imageURLs, setImageURLs] = useState<{
+    main: string | null;
+    secondary: string[];
+  }>({
+    main: null,
+    secondary: [],
+  });
+
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
+  useEffect(() => {
+    const fetchImageURLs = async () => {
+      if (draftVariant.mainImage) {
+        const mainUrl = await resolveImageUrl(draftVariant.mainImage);
+        setImageURLs((prev) => ({ ...prev, main: mainUrl }));
+      }
+      const secondaryUrls = await Promise.all(
+        draftVariant.secondaryImages.map(resolveImageUrl)
+      );
+
+      // Filtrage des `null`
+      setImageURLs((prev) => ({
+        ...prev,
+        secondary: secondaryUrls.filter((url): url is string => url !== null),
+      }));
+    };
+    fetchImageURLs();
+  }, [draftVariant]);
+
   const handleUpdateDraftVariant = (updated: Partial<VariantsToAddType>) => {
-    setDraftVariant((prev) => ({
-      ...prev,
-      ...updated,
-    }));
+    setDraftVariant((prev) => ({ ...prev, ...updated }));
   };
 
   const addVariant = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,11 +72,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
     }
 
     setVariantsToAddList((prev) => [...prev, draftVariant]);
-    setDraftVariant({
-      combination: "",
-      mainImage: null,
-      secondaryImages: [],
-    });
+    setDraftVariant({ combination: "", mainImage: null, secondaryImages: [] });
   };
 
   const removeVariant = (index: number) => {
@@ -71,9 +93,8 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
 
   return (
     <div className="my-8 border rounded-md p-4">
-      <h3 className="mb-4 text-lg font-bold">Gerer les Variantes</h3>
+      <h3 className="mb-4 text-lg font-bold">Gérer les Variantes</h3>
 
-      {/* Liste des variantes confirmées */}
       {variantsToAddList.map((variant, index) => (
         <div key={index} className="mb-4 border rounded p-4">
           <Label className="text-sm font-medium mb-2">Combinaison :</Label>
@@ -88,7 +109,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
             <Label className="text-sm font-medium">Image principale :</Label>
             {variant.mainImage && (
               <img
-                src={resolveImageUrl(variant.mainImage) || ""}
+                src={imageURLs.main || ""}
                 alt="Image principale"
                 className="w-24 h-24 object-cover mt-2 rounded-md"
               />
@@ -97,10 +118,10 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
           <div className="mt-2">
             <Label className="text-sm font-medium">Images secondaires :</Label>
             <div className="flex gap-2 mt-2">
-              {variant.secondaryImages.map((image, i) => (
+              {imageURLs.secondary.map((url, i) => (
                 <img
                   key={i}
-                  src={resolveImageUrl(image) || ""}
+                  src={url || ""}
                   alt={`Image secondaire ${i + 1}`}
                   className="w-16 h-16 object-cover rounded-md"
                 />
@@ -109,7 +130,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
           </div>
           <Button
             variant="destructive"
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            onClick={(e) => {
               e.preventDefault();
               setIsDeleteOpen(true);
             }}
@@ -121,12 +142,11 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
             isDeleteOpen={isDeleteOpen}
             setIsDeleteOpen={setIsDeleteOpen}
             itemNameToDelete="cette variante"
-            onConfirm={() => removeVariant(index - 1)}
+            onConfirm={() => removeVariant(index)}
           />
         </div>
       ))}
 
-      {/* Ajouter une nouvelle variante */}
       <div className="border rounded p-4 mt-6">
         <h4 className="mb-4 font-medium">Nouvelle Variante</h4>
         <Label className="text-sm font-medium mb-2">Combinaison :</Label>
@@ -147,6 +167,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
               secondaryImages: images.secondaryImages,
             })
           }
+          setUrlFirebaseToDelete={setUrlFirebaseToDelete}
         />
         <Button onClick={addVariant} className="mt-4">
           Ajouter cette variante

@@ -1,3 +1,4 @@
+import imageCompression from "browser-image-compression";
 import { v4 as uuidv4 } from "uuid";
 import {
   ref,
@@ -7,31 +8,66 @@ import {
 } from "firebase/storage";
 import { storage } from "../firebase";
 
+// Générer un path unique
+export const generateFilePath = (file: File, endPoint: string) => {
+  const uniqueId = uuidv4();
+  const fileExtension = file.name.split(".").pop();
+  const filePath = `${endPoint}/${uniqueId}.${fileExtension}`;
+  return filePath;
+};
 // Upload une image vers Firebase
 export const uploadImageToFirebase = async (
-  file: File,
-  path: string
+  file: File | string,
+  endPoint: string
 ): Promise<string> => {
-  const storageRef = ref(storage, path);
+  // Si c'est déjà une url firebase
+  if (typeof file === "string") {
+    return file;
+  }
+  const uniquePath = generateFilePath(file, endPoint);
+  const storageRef = ref(storage, uniquePath);
   await uploadBytes(storageRef, file);
   return await getDownloadURL(storageRef);
 };
 
 // Supprimer une image depuis Firebase
-export const deleteImageFromFirebase = async (url: string): Promise<void> => {
-  const storageRef = ref(storage, url);
-  await deleteObject(storageRef);
+export const deleteImageFromFirebase = async (
+  url: File | string
+): Promise<void> => {
+  try {
+    // Si c'est un fichier local
+    if (url instanceof File) return;
+    // Extraire le chemin du fichier depuis l'URL complète
+    const path = decodeURIComponent(url.split("/o/")[1].split("?")[0]);
+    const storageRef = ref(storage, path);
+    await deleteObject(storageRef);
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'image :", error);
+    throw error;
+  }
 };
 
-// Gérer l'affichage des images
-export const resolveImageUrl = (url: File | string | null): string | null => {
-  return url instanceof File ? URL.createObjectURL(url) : url;
-};
+// Gérer l'affichage des images local/firebase
+export const resolveImageUrl = async (
+  fileOrUrl: File | string | null
+): Promise<string | null> => {
+  if (!fileOrUrl) return null;
 
-// Générer un path unique
-export const generateFilePath = (file: File, path: string) => {
-  const uniqueId = uuidv4();
-  const fileExtension = file.name.split(".").pop();
-  const filePath = `${path}${uniqueId}.${fileExtension}`;
-  return filePath;
+  // Si c'est déjà une URL (string), la renvoyer directement
+  if (typeof fileOrUrl === "string") return fileOrUrl;
+
+  // Sinon, compresser l'image et retourner l'URL de l'objet compressé
+  try {
+    const options = {
+      maxSizeMB: 2,
+      maxWidthOrHeight: 2000,
+      useWebWorker: true,
+    };
+    const compressedFile = await imageCompression(fileOrUrl, options);
+
+    return URL.createObjectURL(compressedFile);
+  } catch (error) {
+    console.error("Erreur de compression :", error);
+    throw new Error("Impossible de compresser l'image.");
+  }
 };

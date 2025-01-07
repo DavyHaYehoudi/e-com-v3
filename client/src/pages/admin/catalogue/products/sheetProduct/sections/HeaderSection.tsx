@@ -7,15 +7,15 @@ import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 const HeaderSection: React.FC<{
   register: UseFormRegister<ProductInputDTO>; // Type correct pour `register`
   errors: FieldErrors<ProductInputDTO>; // Type correct pour `errors`
-  heroImage: File | null;
+  heroImage: File | string | null;
   handleHeroImageUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleRemoveImageUpload: () => void;
+  handleRemoveHeroImage: (image: File | string) => void;
 }> = ({
   register,
   errors,
   heroImage,
   handleHeroImageUpload,
-  handleRemoveImageUpload,
+  handleRemoveHeroImage,
 }) => (
   <>
     {/* Nom du produit */}
@@ -36,7 +36,7 @@ const HeaderSection: React.FC<{
       <ImageUploaderBox
         image={heroImage}
         handleImageUpload={handleHeroImageUpload}
-        handleRemoveImage={handleRemoveImageUpload}
+        handleRemoveImage={handleRemoveHeroImage}
         width={250}
         height={250}
       />

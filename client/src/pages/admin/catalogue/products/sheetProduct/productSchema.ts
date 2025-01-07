@@ -5,8 +5,7 @@ import { z } from "zod";
 export const productSchema = z.object({
   name: z.string().min(1, "Le nom du produit est requis."),
   description: z.string().min(1, "La description est requise."),
-  heroImage: z.string().optional(),
-  // .url("Une URL valide est requise pour l'image principale."),
+  heroImage: z.string(),
   promotionPercentage: z.number().min(0).max(99).optional(),
   promotionEndDate: z
     .date()
@@ -35,11 +34,8 @@ export const productSchema = z.object({
       z.object({
         combination: z.string().min(1, "La combinaison est requise."),
         mainImage: z.string(),
-        // .url("Une URL valide est requise pour l'image principale."),
         secondaryImages: z
-          // .array(z.string().url("Chaque URL doit être valide."))
           .array(z.string())
-          .optional(),
       })
     )
     .optional(),

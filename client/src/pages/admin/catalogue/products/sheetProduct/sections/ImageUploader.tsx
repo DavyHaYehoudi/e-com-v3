@@ -11,12 +11,15 @@ export interface ImageUploaderProps {
   mainImage: File | string | null;
   secondaryImages: (File | string)[];
   onImagesUpload: (images: ImagesCarousselType) => void;
+  setUrlFirebaseToDelete:React.Dispatch<
+      React.SetStateAction<string[]>>;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({
   mainImage,
   secondaryImages,
   onImagesUpload,
+  setUrlFirebaseToDelete
 }) => {
   const handleMainImageUpload = (image: File | string | null) => {
     onImagesUpload({ mainImage: image, secondaryImages });
@@ -27,15 +30,21 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     onImagesUpload({ mainImage, secondaryImages: updatedSecondaryImages });
   };
 
-  const handleRemoveMainImage = () => {
+  const handleRemoveMainImage = (image: File | string) => {
     onImagesUpload({ mainImage: null, secondaryImages });
+    if (typeof image === "string") {
+      setUrlFirebaseToDelete((prev) => [...prev, image]);
+    }
   };
 
-  const handleRemoveSecondaryImage = (indexToRemove: number) => {
+  const handleRemoveSecondaryImage = (indexToRemove: number,image: File | string) => {
     const updatedSecondaryImages = secondaryImages.filter(
       (_, index) => index !== indexToRemove
     );
     onImagesUpload({ mainImage, secondaryImages: updatedSecondaryImages });
+    if (typeof image === "string") {
+      setUrlFirebaseToDelete((prev) => [...prev, image]);
+    }
   };
 
   return (
@@ -60,7 +69,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             handleImageUpload={(e) =>
               handleSecondaryImageUpload(e.target.files?.[0] as File)
             }
-            handleRemoveImage={() => handleRemoveSecondaryImage(index)}
+            handleRemoveImage={() => handleRemoveSecondaryImage(index,image)}
             width={100}
             height={100}
           />

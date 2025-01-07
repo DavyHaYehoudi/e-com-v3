@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";
 import { resolveImageUrl } from "@/utils/imageManage";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface ImageUploaderBoxProps {
   image: File | string | null;
   width: number;
   height: number;
   handleImageUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleRemoveImage: () => void;
+  handleRemoveImage: (image: File | string) => void;
 }
 
 const ImageUploaderBox: React.FC<ImageUploaderBoxProps> = ({
@@ -18,13 +19,31 @@ const ImageUploaderBox: React.FC<ImageUploaderBoxProps> = ({
   height,
 }) => {
   const [imageURL, setImageURL] = useState<string | null>(null);
-  console.log("imageURL:", imageURL);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const urlDefine = resolveImageUrl(image);
-    setImageURL(urlDefine);
-  }, [image]);
+    const fetchImageURL = async () => {
+      try {
+        setIsLoading(true);
+        const url = await resolveImageUrl(image);
+        setImageURL(url);
+      } catch (error) {
+        console.error("Erreur lors de la gestion de l'image :", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
+    fetchImageURL();
+  }, [image]);
+  if (isLoading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
     <div
       className={`relative border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-md flex items-center justify-center bg-gray-50 dark:bg-gray-800`}
@@ -60,7 +79,7 @@ const ImageUploaderBox: React.FC<ImageUploaderBoxProps> = ({
         <button
           onClick={(e) => {
             e.preventDefault(); // Empêche tout comportement par défaut
-            handleRemoveImage();
+            handleRemoveImage(image);
           }}
           className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
           aria-label="Supprimer l'image"
