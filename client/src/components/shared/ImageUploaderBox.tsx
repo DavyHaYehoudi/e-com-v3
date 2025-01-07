@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";
-import { resolveImageUrl } from "@/utils/imageManage";
+import { fileOptimize } from "@/utils/imageManage";
 import LoadingSpinner from "./LoadingSpinner";
 
 interface ImageUploaderBoxProps {
@@ -25,7 +25,7 @@ const ImageUploaderBox: React.FC<ImageUploaderBoxProps> = ({
     const fetchImageURL = async () => {
       try {
         setIsLoading(true);
-        const url = await resolveImageUrl(image);
+        const url = await fileOptimize(image);
         setImageURL(url);
       } catch (error) {
         console.error("Erreur lors de la gestion de l'image :", error);

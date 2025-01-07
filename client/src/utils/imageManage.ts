@@ -48,7 +48,11 @@ export const deleteImageFromFirebase = async (
 };
 
 // Gérer l'affichage des images local/firebase
-export const resolveImageUrl = async (
+export const resolveImageUrl = (url: File | string | null): string | null => {
+  return url instanceof File ? URL.createObjectURL(url) : url;
+};
+
+export const fileOptimize = async (
   fileOrUrl: File | string | null
 ): Promise<string | null> => {
   if (!fileOrUrl) return null;

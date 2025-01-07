@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import ImageUploader from "./ImageUploader";
-import { resolveImageUrl } from "@/utils/imageManage";
+import { fileOptimize, resolveImageUrl } from "@/utils/imageManage";
 import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
 
 interface VariantsToAddType {
@@ -31,6 +31,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
     secondaryImages: [],
   });
 
+  console.log("draftVariant:", draftVariant);
   const [imageURLs, setImageURLs] = useState<{
     main: string | null;
     secondary: string[];
@@ -38,17 +39,18 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
     main: null,
     secondary: [],
   });
+  console.log("imageURLs :", imageURLs);
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   useEffect(() => {
     const fetchImageURLs = async () => {
       if (draftVariant.mainImage) {
-        const mainUrl = await resolveImageUrl(draftVariant.mainImage);
+        const mainUrl = await fileOptimize(draftVariant.mainImage);
         setImageURLs((prev) => ({ ...prev, main: mainUrl }));
       }
       const secondaryUrls = await Promise.all(
-        draftVariant.secondaryImages.map(resolveImageUrl)
+        draftVariant.secondaryImages.map(fileOptimize)
       );
 
       // Filtrage des `null`
@@ -109,7 +111,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
             <Label className="text-sm font-medium">Image principale :</Label>
             {variant.mainImage && (
               <img
-                src={imageURLs.main || ""}
+                src={resolveImageUrl(variant.mainImage) || ""}
                 alt="Image principale"
                 className="w-24 h-24 object-cover mt-2 rounded-md"
               />
@@ -118,10 +120,10 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
           <div className="mt-2">
             <Label className="text-sm font-medium">Images secondaires :</Label>
             <div className="flex gap-2 mt-2">
-              {imageURLs.secondary.map((url, i) => (
+              {variant.secondaryImages.map((url, i) => (
                 <img
                   key={i}
-                  src={url || ""}
+                  src={resolveImageUrl(url) || ""}
                   alt={`Image secondaire ${i + 1}`}
                   className="w-16 h-16 object-cover rounded-md"
                 />
@@ -146,7 +148,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
           />
         </div>
       ))}
-
+      {/* Nouvelle variante */}
       <div className="border rounded p-4 mt-6">
         <h4 className="mb-4 font-medium">Nouvelle Variante</h4>
         <Label className="text-sm font-medium mb-2">Combinaison :</Label>
