@@ -141,6 +141,10 @@ export const data = {
           title: "Général",
           url: "/admin/tableau-de-bord/chiffres/statistiques/general",
         },
+        {
+          title: "Stockage",
+          url: "/admin/tableau-de-bord/chiffres/statistiques/stockage-images",
+        },
       ],
     },
   ],

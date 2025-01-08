@@ -58,6 +58,7 @@ import CollectionsPage from "./pages/admin/catalogue/classifying/collection/Coll
 import ProductForm from "./pages/admin/catalogue/products/sheetProduct/ProductForm";
 import OrderContentAdminPage from "./pages/admin/activity/orders/content/OrderContentAdminPage";
 import StatisticPage from "./pages/admin/chiffres/Statistic";
+import UsedStoragePage from "./pages/admin/chiffres/UsedStoragePage";
 function App() {
   return (
     <ThemeProvider>
@@ -251,6 +252,10 @@ function App() {
                 <Route
                   path="admin/tableau-de-bord/chiffres/statistiques/general"
                   element={<StatisticPage />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/chiffres/statistiques/stockage-images"
+                  element={<UsedStoragePage />}
                 ></Route>
               </Route>
               <Route path="*" element={<NotFound />} />

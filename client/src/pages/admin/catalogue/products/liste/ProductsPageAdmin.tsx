@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import ProductsList from "./ProductsList";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { deleteImageFromFirebase } from "@/utils/imageManage";
 
 export interface SelectedProduct {
   productId: string;
@@ -49,16 +50,41 @@ const ProductsPageAdmin = () => {
         toast.error("Impossible de supprimer ce produit car il a été vendu.");
         return;
       }
+
+      // Trouver le produit sélectionné
+      const product = products.find((p) => p._id === selectedProduct.productId);
+      if (!product) {
+        toast.error("Produit non trouvé.");
+        return;
+      }
+
+      // Rassembler toutes les URLs à supprimer (heroImage, mainImage, secondaryImages)
+      const urlsToDelete: string[] = [
+        product.heroImage, // Image principale
+        ...product.variants.flatMap((variant) => [
+          variant.mainImage, // Image principale du variant
+          ...variant.secondaryImages, // Images secondaires du variant
+        ]),
+      ].filter(Boolean); // Filtrer les valeurs nulles ou undefined
+
+      // Supprimer chaque image dans Firebase Storage
+      await Promise.all(
+        urlsToDelete.map((url) => deleteImageFromFirebase(url))
+      );
+
+      // Supprimer le produit dans la base de données
       await deleteProduct();
 
+      // Mettre à jour localement la liste des produits
       setProducts((prevProducts) =>
         prevProducts.filter(
           (product) => product._id !== selectedProduct.productId
         )
-      ); // Mettre à jour localement
+      );
+
       toast.success("Produit supprimé avec succès.");
     } catch (error) {
-      console.log("error:", error);
+      console.error("Erreur lors de la suppression du produit :", error);
       toast.error("Erreur lors de la suppression du produit.");
     }
   };

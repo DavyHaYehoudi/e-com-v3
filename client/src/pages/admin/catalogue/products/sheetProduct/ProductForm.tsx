@@ -29,7 +29,7 @@ import CashbackSection from "./sections/CashbbackSection";
 import useProductDefaultValues from "@/hooks/dashboard/admin/useProductDefaultValues";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { useProductFormHandler } from "./useProductFormHandler";
+import { useProductFormHandler } from "@/hooks/dashboard/admin/useProductFormHandler";
 
 export interface VariantsToAddType {
   combination: string;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useProduct from "@/hooks/dashboard/admin/useProduct";
-import { ProductInputDTO } from "./productSchema";
+import { ProductInputDTO } from "../../../pages/admin/catalogue/products/sheetProduct/productSchema";
 import { toast } from "sonner";
 import {
   deleteImageFromFirebase,
