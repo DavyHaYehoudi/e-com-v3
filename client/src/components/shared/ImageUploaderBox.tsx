@@ -38,10 +38,9 @@ const ImageUploaderBox: React.FC<ImageUploaderBoxProps> = ({
   }, [image]);
   if (isLoading) {
     return (
-      <div className="flex items-center flex-col justify-center gap-4">
+      <span className="flex items-center flex-col justify-center gap-4">
         <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
+      </span>
     );
   }
   return (

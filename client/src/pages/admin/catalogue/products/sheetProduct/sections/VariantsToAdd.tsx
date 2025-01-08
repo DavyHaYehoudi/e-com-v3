@@ -42,6 +42,8 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
   console.log("imageURLs :", imageURLs);
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [selectedVariant, setSelectedVariant] =
+    useState<VariantsToAddType | null>(null);
 
   useEffect(() => {
     const fetchImageURLs = async () => {
@@ -77,9 +79,36 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
     setDraftVariant({ combination: "", mainImage: null, secondaryImages: [] });
   };
 
-  const removeVariant = (index: number) => {
+  const removeVariant = (variant: VariantsToAddType | null) => {
     setIsDeleteOpen(false);
-    setVariantsToAddList((prev) => prev.filter((_, i) => i !== index));
+
+    // Collecter les URLs à supprimer
+    const urlsToDelete: string[] = [];
+
+    // Vérifier si mainImage est un string
+    if (typeof variant?.mainImage === "string") {
+      urlsToDelete.push(variant.mainImage);
+    }
+
+    // Filtrer les URLs valides dans secondaryImages
+    const secondaryUrls =
+      variant?.secondaryImages.filter(
+        (image): image is string => typeof image === "string"
+      ) || "";
+
+    // Mettre à jour le state avec les URLs collectées
+    setUrlFirebaseToDelete((prev) => [
+      ...prev,
+      ...urlsToDelete,
+      ...secondaryUrls,
+    ]);
+
+    // Supprimer la variante de la liste
+    setVariantsToAddList((prev) =>
+      prev.filter(
+        (variantInList) => variantInList.combination !== variant?.combination
+      )
+    );
   };
 
   const updateVariant = (
@@ -95,7 +124,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
 
   return (
     <div className="my-8 border rounded-md p-4">
-      <h3 className="mb-4 text-lg font-bold">Gérer les Variantes</h3>
+      <h3 className="mb-4 text-lg font-bold">Gerer les Variantes</h3>
 
       {variantsToAddList.map((variant, index) => (
         <div key={index} className="mb-4 border rounded p-4">
@@ -135,6 +164,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
             onClick={(e) => {
               e.preventDefault();
               setIsDeleteOpen(true);
+              setSelectedVariant(variant);
             }}
             className="mt-2"
           >
@@ -143,8 +173,8 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
           <DeleteAlert
             isDeleteOpen={isDeleteOpen}
             setIsDeleteOpen={setIsDeleteOpen}
-            itemNameToDelete="cette variante"
-            onConfirm={() => removeVariant(index)}
+            itemNameToDelete={`la variante : ${selectedVariant?.combination}`}
+            onConfirm={() => removeVariant(selectedVariant)}
           />
         </div>
       ))}
@@ -171,9 +201,25 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
           }
           setUrlFirebaseToDelete={setUrlFirebaseToDelete}
         />
-        <Button onClick={addVariant} className="mt-4">
-          Ajouter cette variante
-        </Button>
+        <div className="flex items-center justify-between gap-2 flex-wrap mt-4">
+          <Button
+            variant="secondary"
+            onClick={(e) => {
+              e.preventDefault();
+              handleUpdateDraftVariant({
+                combination: "",
+                mainImage: null,
+                secondaryImages: [],
+              });
+            }}
+            className=""
+          >
+            Annuler
+          </Button>
+          <Button onClick={addVariant} className="">
+            Ajouter cette variante
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -26,16 +26,10 @@ import DescriptionSection from "./sections/DescriptionSection";
 import PriceSection from "./sections/PriceSection";
 import StockSection from "./sections/StockSection";
 import CashbackSection from "./sections/CashbbackSection";
-import useProduct from "@/hooks/dashboard/admin/useProduct";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
 import useProductDefaultValues from "@/hooks/dashboard/admin/useProductDefaultValues";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import {
-  deleteImageFromFirebase,
-  uploadImageToFirebase,
-} from "@/utils/imageManage";
+import { useProductFormHandler } from "./useProductFormHandler";
 
 export interface VariantsToAddType {
   combination: string;
@@ -51,24 +45,19 @@ const ProductForm: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [heroImage, setHeroImage] = useState<File | string | null>(null);
-  console.log("heroImage:", heroImage);
   const [mainImage, setMainImage] = useState<File | string | null>(null);
-  console.log("mainImage:", mainImage);
   const [secondaryImages, setSecondaryImages] = useState<(File | string)[]>([]);
-  console.log("secondaryImages:", secondaryImages);
   const [variantsToAddList, setVariantsToAddList] = useState<
     VariantsToAddType[]
   >([]);
-  console.log("variantsToAddList:", variantsToAddList);
   const [urlFirebaseToDelete, setUrlFirebaseToDelete] = useState<string[]>([]);
-  console.log("urlFirebaseToDelete:", urlFirebaseToDelete);
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const { getCollections } = useCollection();
   const { getCategories } = useCategory();
   const { getTags } = useTag();
   const { defaultValues, productId, loading } = useProductDefaultValues();
-  const { createProduct, udpateProduct } = useProduct(productId);
+  const { onSubmitProductForm, isSubmitLoading } = useProductFormHandler({ productId });
+
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -134,114 +123,18 @@ const ProductForm: React.FC = () => {
       }
     }
   }, [defaultValues, reset, productId]);
-  const navigate = useNavigate();
   const onSubmit = async (data: ProductInputDTO) => {
-    setIsSubmitLoading(true);
-    console.log("Errors:", errors);
-
-    console.log("data onSubmit:", data);
-    // Firebase Storage
-    try {
-      if (!heroImage) return;
-      const heroImageToDB = await uploadImageToFirebase(heroImage, "products");
-
-      if (!mainImage) return;
-      const mainImageToDB = await uploadImageToFirebase(mainImage, "products");
-
-      const secondaryImagesToDB = await Promise.all(
-        secondaryImages.map((secImg) =>
-          uploadImageToFirebase(secImg, "products")
-        )
-      ).then((results) =>
-        results.filter((url) => !urlFirebaseToDelete.includes(url))
-      );
-
-      const variantsToAddListToDB = await Promise.all(
-        variantsToAddList.map(async (variant) => {
-          // Upload de l'image principale du variant
-          const mainImageVariantToDB = variant.mainImage
-            ? await uploadImageToFirebase(variant.mainImage, "products")
-            : undefined;
-
-          // Upload des images secondaires du variant
-          const secondaryImagesVariantToDB = await Promise.all(
-            variant.secondaryImages.map((secImg) =>
-              uploadImageToFirebase(secImg, "products")
-            )
-          ).then((results) =>
-            results.filter((url) => !urlFirebaseToDelete.includes(url))
-          );
-
-          return {
-            combination: variant.combination,
-            mainImage: mainImageVariantToDB,
-            secondaryImages: secondaryImagesVariantToDB,
-          };
-        })
-      );
-      await Promise.all(
-        urlFirebaseToDelete.map(async (url) => {
-          await deleteImageFromFirebase(url);
-        })
-      );
-
-      const bodyData = {
-        name: data.name,
-        description: data.description,
-        heroImage: heroImageToDB,
-        promotionPercentage: data.promotionPercentage,
-        promotionEndDate: data.promotionEndDate?.toISOString() || null,
-        continueSelling: data.continueSelling,
-        quantityInStock: data.quantityInStock,
-        price: data.price,
-        newUntil: data.newUntil?.toISOString() || null,
-        isPublished: data.isPublished,
-        cashback: data.cashback,
-        collections: selectedCollections,
-        categories: selectedCategories,
-        tags: selectedTags,
-        variants: [
-          // Toujours positionner au 1er index la mainImage/secondaryImages du produit
-          {
-            combination: "Model unique",
-            mainImage: mainImageToDB,
-            secondaryImages: secondaryImagesToDB,
-          },
-          ...variantsToAddListToDB,
-        ],
-        isStar: data.isStar,
-        isArchived: data.isArchived,
-      };
-
-      if (productId) {
-        console.log("bodyData:", bodyData);
-        udpateProduct(bodyData).then((result) => {
-          if (result) {
-            toast.success("Le produit a été mis à jour avec succès!");
-            return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
-          }
-          toast.error(
-            "Une erreur s'est produite lors de la mise à jour du produit"
-          );
-        });
-      } else {
-        createProduct(bodyData).then((result) => {
-          if (result) {
-            toast.success("Le produit a été créé avec succès!");
-            return navigate("/admin/tableau-de-bord/catalogue/produits/liste");
-          }
-          toast.error(
-            "Une erreur s'est produite lors de la création du produit"
-          );
-        });
-      }
-    } catch (error) {
-      console.log("error:", error);
-      setIsSubmitLoading(false);
-      toast.error(
-        "Une erreur s'est produite avec les modifications de la fiche produit."
-      );
-    }
+    await onSubmitProductForm(
+      data,
+      heroImage,
+      mainImage,
+      secondaryImages,
+      variantsToAddList,
+      urlFirebaseToDelete,
+      selectedCollections,
+      selectedCategories,
+      selectedTags
+  );
   };
   const handleCollectionSelection = (id: string, isChecked: boolean) => {
     setSelectedCollections((prev) =>
@@ -301,6 +194,15 @@ const ProductForm: React.FC = () => {
       <h1 className="text-center mb-10">
         {productId ? "modifier le produit" : "creer un produit"}
       </h1>
+      {!isAllFiedlsEmpty ? (
+        <p className="text-red-500 text-center">
+          ℹ️ Les champs marqués par l'astérix * sont requis
+        </p>
+      ) : (
+        <p className="text-green-500 text-center">
+          Tous les champs requis sont complétés
+        </p>
+      )}
 
       <Card className="p-2 md:p-6 xl:w-1/2 2xl:w-1/3 mx-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
