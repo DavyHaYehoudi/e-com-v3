@@ -9,6 +9,7 @@ interface HeaderProps {
   product: ProductDBType;
 }
 const Header: React.FC<HeaderProps> = ({ product }) => {
+  console.log("product:", product);
   return (
     <div className="relative p-1" style={{ width: "100%", height: "65%" }}>
       {isProductOnSale(
@@ -26,17 +27,19 @@ const Header: React.FC<HeaderProps> = ({ product }) => {
         <NewBadge additionalClasses="absolute top-2 left-2 " />
       )}
 
-      {product.cashback && (
+      {product.cashback ? (
         <CashbackBadge
           cashbackAmount={product.cashback}
           additionalClasses="absolute top-2 left-1/2 transform -translate-x-1/2 "
         />
+      ) : (
+        ""
       )}
 
       {/* Image du produit */}
       <Link to={`/produits/${product._id}`}>
         <img
-          src={`/images/${product.heroImage}`}
+          src={product.heroImage}
           alt={product.name}
           className="w-full h-full object-cover rounded-t-2xl"
           width="450"

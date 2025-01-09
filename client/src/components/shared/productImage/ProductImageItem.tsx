@@ -24,7 +24,7 @@ const ProductImageItem: React.FC<ProductImageItemProps> = ({
           <a href={`/produits/${productId}`}>
             <img
               className="w-[150px] h-[150px] object-center rounded-[16px] cursor-pointer"
-              src={`/images/${path}`}
+              src={path}
               alt={name}
             />
           </a>

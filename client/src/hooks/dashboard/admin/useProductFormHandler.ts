@@ -22,8 +22,7 @@ export const useProductFormHandler = ({
   const onSubmitProductForm = async (
     data: ProductInputDTO,
     heroImage: File | string | null,
-    mainImage: File | string | null,
-    secondaryImages: (File | string)[],
+    commonImages: (File | string)[],
     variantsToAddList: {
       combination: string;
       mainImage: File | string | null;
@@ -38,15 +37,11 @@ export const useProductFormHandler = ({
     // Firebase Storage
     try {
       if (!heroImage) return;
+      if (variantsToAddList.length === 0) return;
       const heroImageToDB = await uploadImageToFirebase(heroImage, "products");
 
-      if (!mainImage) return;
-      const mainImageToDB = await uploadImageToFirebase(mainImage, "products");
-
-      const secondaryImagesToDB = await Promise.all(
-        secondaryImages.map((secImg) =>
-          uploadImageToFirebase(secImg, "products")
-        )
+      const commonImagesToDB = await Promise.all(
+        commonImages.map((secImg) => uploadImageToFirebase(secImg, "products"))
       ).then((results) =>
         results.filter((url) => !urlFirebaseToDelete.includes(url))
       );
@@ -84,6 +79,7 @@ export const useProductFormHandler = ({
         name: data.name,
         description: data.description,
         heroImage: heroImageToDB,
+        commonImages: commonImagesToDB,
         promotionPercentage: data.promotionPercentage,
         promotionEndDate: data.promotionEndDate?.toISOString() || null,
         continueSelling: data.continueSelling,
@@ -95,15 +91,7 @@ export const useProductFormHandler = ({
         collections: selectedCollections,
         categories: selectedCategories,
         tags: selectedTags,
-        variants: [
-          // Toujours positionner au 1er index la mainImage/secondaryImages du produit
-          {
-            combination: "Model unique",
-            mainImage: mainImageToDB,
-            secondaryImages: secondaryImagesToDB,
-          },
-          ...variantsToAddListToDB,
-        ],
+        variants: variantsToAddListToDB,
         isStar: data.isStar,
         isArchived: data.isArchived,
       };

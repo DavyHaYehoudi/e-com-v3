@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import ImageUploader from "./ImageUploader";
-import { fileOptimize, resolveImageUrl } from "@/utils/imageManage";
+import { fileOptimize } from "@/utils/imageManage";
 import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
+import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 
 interface VariantsToAddType {
   combination: string;
@@ -18,12 +19,19 @@ interface VariantsProps {
     React.SetStateAction<VariantsToAddType[]>
   >;
   setUrlFirebaseToDelete: React.Dispatch<React.SetStateAction<string[]>>;
+  handleRemoveVariantImage: (
+    indexVariantToRemove: number,
+    image: File | string | null,
+    type: "mainImage" | "secondaryImages",
+    indexImageSecondaryToRemove?: number
+  ) => void;
 }
 
 const VariantsToAdd: React.FC<VariantsProps> = ({
   variantsToAddList,
   setVariantsToAddList,
   setUrlFirebaseToDelete,
+  handleRemoveVariantImage,
 }) => {
   const [draftVariant, setDraftVariant] = useState<VariantsToAddType>({
     combination: "",
@@ -121,13 +129,24 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
       )
     );
   };
-
+  const checkCompleted = (variant: VariantsToAddType) => {
+    return variant.combination && variant.mainImage;
+  };
   return (
     <div className="my-8 border rounded-md p-4">
-      <h3 className="mb-4 text-lg font-bold">Gerer les Variantes</h3>
-
+      <h3 className="mb-4 text-2xl font-bold">Liste des Variantes</h3>
       {variantsToAddList.map((variant, index) => (
         <div key={index} className="mb-4 border rounded p-4">
+          <p
+            className={`text-end text-xs ${
+              checkCompleted(variant) ? "text-green-500" : "text-red-500"
+            }`}
+          >
+            {checkCompleted(variant)
+              ? "Variante complète"
+              : "Variante incomplète"}
+          </p>
+          {/* Combinaison */}
           <Label className="text-sm font-medium mb-2">Combinaison :</Label>
           <Input
             type="text"
@@ -136,27 +155,52 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
               updateVariant(index, { combination: e.target.value })
             }
           />
+          {/* Main Image */}
           <div className="mt-2">
             <Label className="text-sm font-medium">Image principale :</Label>
-            {variant.mainImage && (
-              <img
-                src={resolveImageUrl(variant.mainImage) || ""}
-                alt="Image principale"
-                className="w-24 h-24 object-cover mt-2 rounded-md"
-              />
-            )}
+            <ImageUploaderBox
+              image={variant.mainImage}
+              handleImageUpload={(e) =>
+                updateVariant(index, { mainImage: e.target.files?.[0] })
+              }
+              handleRemoveImage={() =>
+                handleRemoveVariantImage(index, variant.mainImage, "mainImage")
+              }
+              width={200}
+              height={200}
+            />
           </div>
+          {/* Secondary Images */}
           <div className="mt-2">
             <Label className="text-sm font-medium">Images secondaires :</Label>
             <div className="flex gap-2 mt-2">
               {variant.secondaryImages.map((url, i) => (
-                <img
-                  key={i}
-                  src={resolveImageUrl(url) || ""}
-                  alt={`Image secondaire ${i + 1}`}
-                  className="w-16 h-16 object-cover rounded-md"
+                <ImageUploaderBox
+                  image={url}
+                  handleImageUpload={() => {}}
+                  handleRemoveImage={() =>
+                    handleRemoveVariantImage(index, url, "secondaryImages", i)
+                  }
+                  width={100}
+                  height={100}
                 />
               ))}
+              {/* Image en attente */}
+              <ImageUploaderBox
+                image={null}
+                handleImageUpload={(e) => {
+                  if (e.target.files && e.target.files.length > 0)
+                    updateVariant(index, {
+                      secondaryImages: [
+                        ...variant.secondaryImages,
+                        e.target.files[0],
+                      ],
+                    });
+                }}
+                handleRemoveImage={() => {}}
+                width={100}
+                height={100}
+              />
             </div>
           </div>
           <Button

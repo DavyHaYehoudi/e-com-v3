@@ -3,6 +3,7 @@ export interface ProductDBType {
   name: string;
   description: string;
   heroImage: string;
+  commonImages: string[];
   promotionPercentage: number;
   promotionEndDate: Date | null;
   continueSelling: boolean;

@@ -5,6 +5,7 @@ const ProductSchema = new Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     heroImage: { type: String, required: true },
+    commonImages:[{ type: String }],
     promotionPercentage: { type: Number, default: 0 },
     promotionEndDate: { type: Date, default: null },
     continueSelling: { type: Boolean, default: false },

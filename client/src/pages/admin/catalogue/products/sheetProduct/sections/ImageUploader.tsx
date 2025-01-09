@@ -49,7 +49,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   return (
     <div className="mt-4">
-      <Label className="text-sm font-medium">Image principale :</Label>
+      <Label className="text-sm font-medium">Image principale :<span className="text-red-500 text-2xl">*</span></Label>
       <ImageUploaderBox
         image={mainImage}
         handleImageUpload={(e) =>

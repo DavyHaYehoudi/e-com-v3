@@ -12,6 +12,7 @@ const mapProductDBToInputDTO = (product: ProductDBType): ProductInputDTO => {
     name: product.name,
     description: product.description,
     heroImage: product.heroImage || "",
+    commonImages: product.commonImages||[],
     promotionPercentage: product.promotionPercentage || 0,
     promotionEndDate: product.promotionEndDate
       ? new Date(product.promotionEndDate)

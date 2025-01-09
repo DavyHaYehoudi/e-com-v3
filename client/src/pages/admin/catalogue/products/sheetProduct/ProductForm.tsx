@@ -17,7 +17,6 @@ import OptionSwitch from "./sections/OptionSwitch";
 import AttributeField from "./sections/AttributeField";
 import PromotionField from "./sections/PromotionField";
 import Classifying from "./sections/Classifying";
-import ImageUploader, { ImagesCarousselType } from "./sections/ImageUploader";
 import { CollectionDBType } from "@/types/collectionTypes";
 import useCollection from "@/hooks/dashboard/admin/useCollection";
 import VariantsToAdd from "./sections/VariantsToAdd";
@@ -30,6 +29,7 @@ import useProductDefaultValues from "@/hooks/dashboard/admin/useProductDefaultVa
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useProductFormHandler } from "@/hooks/dashboard/admin/useProductFormHandler";
+import CommonImages from "./sections/CommonImages";
 
 export interface VariantsToAddType {
   combination: string;
@@ -45,19 +45,22 @@ const ProductForm: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [heroImage, setHeroImage] = useState<File | string | null>(null);
-  const [mainImage, setMainImage] = useState<File | string | null>(null);
-  const [secondaryImages, setSecondaryImages] = useState<(File | string)[]>([]);
+  const [commonImages, setCommonImages] = useState<(File | string)[]>([]);
+  console.log("commonImages:", commonImages);
   const [variantsToAddList, setVariantsToAddList] = useState<
     VariantsToAddType[]
   >([]);
+  console.log("variantsToAddList:", variantsToAddList);
   const [urlFirebaseToDelete, setUrlFirebaseToDelete] = useState<string[]>([]);
+  console.log("urlFirebaseToDelete:", urlFirebaseToDelete);
 
   const { getCollections } = useCollection();
   const { getCategories } = useCategory();
   const { getTags } = useTag();
   const { defaultValues, productId, loading } = useProductDefaultValues();
-  const { onSubmitProductForm, isSubmitLoading } = useProductFormHandler({ productId });
-
+  const { onSubmitProductForm, isSubmitLoading } = useProductFormHandler({
+    productId,
+  });
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -107,34 +110,21 @@ const ProductForm: React.FC = () => {
       setSelectedCategories(defaultValues.categories);
       setSelectedTags(defaultValues.tags);
       setHeroImage(defaultValues.heroImage || "");
-      if (defaultValues.variants && defaultValues.variants.length > 0) {
-        setMainImage(defaultValues.variants[0].mainImage || "");
-        setSecondaryImages(defaultValues.variants[0].secondaryImages || []);
-      }
-      // En mode modifications, on n'affiche pas le 1er variant
-      if (
-        productId &&
-        defaultValues.variants &&
-        defaultValues.variants?.length > 0
-      ) {
-        setVariantsToAddList(defaultValues.variants.slice(1) || []);
-      } else {
-        setVariantsToAddList(defaultValues.variants || []);
-      }
+      setCommonImages(defaultValues.commonImages || []);
+      setVariantsToAddList(defaultValues.variants || []);
     }
   }, [defaultValues, reset, productId]);
   const onSubmit = async (data: ProductInputDTO) => {
     await onSubmitProductForm(
       data,
       heroImage,
-      mainImage,
-      secondaryImages,
+      commonImages,
       variantsToAddList,
       urlFirebaseToDelete,
       selectedCollections,
       selectedCategories,
       selectedTags
-  );
+    );
   };
   const handleCollectionSelection = (id: string, isChecked: boolean) => {
     setSelectedCollections((prev) =>
@@ -153,10 +143,6 @@ const ProductForm: React.FC = () => {
       isChecked ? [...prev, id] : prev.filter((tagId) => tagId !== id)
     );
   };
-  const handleMainAndSecondaryImages = (images: ImagesCarousselType) => {
-    setMainImage(images.mainImage);
-    setSecondaryImages(images.secondaryImages);
-  };
   const handleHeroImageUpload = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -168,14 +154,66 @@ const ProductForm: React.FC = () => {
       setUrlFirebaseToDelete((prev) => [...prev, image]);
     }
   };
+  const handleCommonImageUpload = (image: string | File) => {
+    setCommonImages((prev) => [...prev, image]);
+  };
+  const handleRemoveCommonImage = (
+    indexToRemove: number,
+    image: File | string
+  ) => {
+    setCommonImages((prev) =>
+      prev.filter((_, index) => index !== indexToRemove)
+    );
+    if (typeof image === "string" && !urlFirebaseToDelete.includes(image)) {
+      setUrlFirebaseToDelete((prev) => [...prev, image]);
+    }
+  };
+  const handleRemoveVariantImage = (
+    indexVariantToRemove: number,
+    image: File | string | null,
+    type: "mainImage" | "secondaryImages",
+    indexImageSecondaryToRemove?: number
+  ) => {
+    setVariantsToAddList((prev) =>
+      prev.map((variant, index) => {
+        if (index === indexVariantToRemove) {
+          // Gestion de la suppression pour mainImage
+          if (type === "mainImage") {
+            return { ...variant, mainImage: null }; // Supprimer l'image principale
+          }
+
+          // Gestion de la suppression pour secondaryImages
+          if (
+            type === "secondaryImages" &&
+            indexImageSecondaryToRemove !== undefined
+          ) {
+            const updatedSecondaryImages = variant.secondaryImages.filter(
+              (_, imgIndex) => imgIndex !== indexImageSecondaryToRemove
+            );
+            return { ...variant, secondaryImages: updatedSecondaryImages };
+          }
+        }
+        return variant;
+      })
+    );
+
+    // Ajout de l'URL à la liste des suppressions si c'est une string (Firebase)
+    if (typeof image === "string" && !urlFirebaseToDelete.includes(image)) {
+      setUrlFirebaseToDelete((prev) => [...prev, image]);
+    }
+  };
 
   const promotionEndDate = watch("promotionEndDate");
   const newUntil = watch("newUntil");
-  const isAllFiedlsEmpty =
+  const isAllFieldsValid =
     selectedCollections.length > 0 &&
     selectedCategories.length > 0 &&
     heroImage &&
-    mainImage;
+    variantsToAddList.length > 0 &&
+    variantsToAddList.every(
+      (variant) => variant.mainImage && variant.combination.trim() !== ""
+    );
+
   if (loading || isSubmitLoading) {
     return (
       <div className="flex items-center flex-col justify-center gap-4">
@@ -194,7 +232,7 @@ const ProductForm: React.FC = () => {
       <h1 className="text-center mb-10">
         {productId ? "modifier le produit" : "creer un produit"}
       </h1>
-      {!isAllFiedlsEmpty ? (
+      {isAllFieldsValid ? (
         <p className="text-red-500 text-center">
           ℹ️ Les champs marqués par l'astérix * sont requis
         </p>
@@ -268,15 +306,11 @@ const ProductForm: React.FC = () => {
             </div>
             {/* Caroussel */}
             <div className="border rounded-md p-4">
-              <h3 className="mb-2">
-                Caroussel d'images
-                <span className="text-red-500 text-2xl">*</span>
-              </h3>
-              <ImageUploader
-                mainImage={mainImage}
-                secondaryImages={secondaryImages}
-                onImagesUpload={handleMainAndSecondaryImages}
-                setUrlFirebaseToDelete={setUrlFirebaseToDelete}
+              <h3 className="mb-2">Caroussel d'images</h3>
+              <CommonImages
+                commonImages={commonImages}
+                onImagesUpload={handleCommonImageUpload}
+                onImagesRemove={handleRemoveCommonImage}
               />
             </div>
             {/* Variantes */}
@@ -284,6 +318,7 @@ const ProductForm: React.FC = () => {
               variantsToAddList={variantsToAddList}
               setVariantsToAddList={setVariantsToAddList}
               setUrlFirebaseToDelete={setUrlFirebaseToDelete}
+              handleRemoveVariantImage={handleRemoveVariantImage}
             />
             {/* Options */}
             <div className="border rounded-md p-4 my-20">
@@ -311,9 +346,9 @@ const ProductForm: React.FC = () => {
             <Button
               type="submit"
               className={`mt-4 ${
-                isAllFiedlsEmpty ? "bg-green-500" : "bg-slate-500"
+                isAllFieldsValid ? "bg-green-500" : "bg-slate-500"
               }  hover:bg-green-600 text-white`}
-              disabled={!isAllFiedlsEmpty}
+              disabled={!isAllFieldsValid}
             >
               {productId ? "Enregistrer les modifications" : "Créer le produit"}
             </Button>

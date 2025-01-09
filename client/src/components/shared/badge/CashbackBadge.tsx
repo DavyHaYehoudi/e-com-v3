@@ -7,7 +7,7 @@ const CashbackBadge: React.FC<{
 }> = ({ cashbackAmount, additionalClasses }) => {
   return (
     <Badge
-      className={` bg-blue-500 text-white text-xs font-bold px-2 py-2 text-center rounded-full ${additionalClasses}`}
+      className={` bg-blue-500 text-white text-xs font-bold px-4 text-center rounded-full ${additionalClasses}`}
       variant="outline"
     >
       Cashback

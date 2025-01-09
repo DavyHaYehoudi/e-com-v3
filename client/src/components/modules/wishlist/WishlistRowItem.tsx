@@ -42,9 +42,9 @@ const WishlistRowItem: React.FC<WislistRowItemProps> = ({
           )}
           <br />
           {/* Badge de cashback */}
-          {product.cashback && (
+          {product.cashback ? (
             <CashbackBadge cashbackAmount={product.cashback} />
-          )}
+          ):""}
         </TableCell>
         <TableCell>
           <FavoriteButton product={product} />

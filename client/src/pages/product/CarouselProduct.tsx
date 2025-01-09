@@ -5,8 +5,8 @@ import "react-image-gallery/styles/css/image-gallery.css";
 // Transformer les images du produit pour être compatibles avec ImageGallery
 const formatImagesForGallery = (images: string[]) => {
   return images.map((url) => ({
-    original: `/images/${url}`,
-    thumbnail: `/images/${url}`,
+    original: url,
+    thumbnail: url,
   }));
 };
 interface CarouselProductProps {
