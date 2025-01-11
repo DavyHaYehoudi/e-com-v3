@@ -10,6 +10,7 @@ interface Filter {
   priceRange: { min?: number; max?: number };
   isOnSale: boolean;
   isNew: boolean;
+  cashback: boolean;
 }
 
 export const useProductFilter = () => {
@@ -21,6 +22,7 @@ export const useProductFilter = () => {
     priceRange: { min: undefined, max: undefined },
     isOnSale: false,
     isNew: false,
+    cashback: false,
   });
 
   const [queryUrl, setQueryUrl] = useState("/products");
@@ -74,6 +76,9 @@ export const useProductFilter = () => {
     }
     if (newFilters.isNew) {
       queryParams.append("isNew", "true");
+    }
+    if (newFilters.cashback) {
+      queryParams.append("cashback", "true");
     }
 
     setQueryUrl(`/products?${queryParams.toString()}`);

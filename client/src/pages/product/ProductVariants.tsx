@@ -1,7 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ProductDBType } from "@/types/ProductTypes";
-import { filterVariants } from "@/utils/productUtils";
 
 interface ProductVariantsProps {
   product: ProductDBType;
@@ -23,7 +22,7 @@ const ProductVariants: React.FC<ProductVariantsProps> = ({
         className="mt-2"
         onValueChange={(value) => onVariantChange(value)}
       >
-        {filterVariants(product).map((variant, index) => (
+        {product.variants.map((variant, index) => (
           <div key={index} className="flex items-center space-x-2">
             <RadioGroupItem
               value={variant.combination}

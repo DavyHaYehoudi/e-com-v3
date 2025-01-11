@@ -7,6 +7,7 @@ export const createMarketingCampaignSchema = z.object({
   content: z
     .string()
     .min(1, { message: "Le contenu HTML de la campagne est requis." }),
+  imageUrl: z.string().nullable().optional(), // Peut être null ou absent
 });
 // Schéma pour valider la modification et l'envoi d'une campagne marketing (PATCH)
 export const updateMarketingCampaignSchema = z.object({

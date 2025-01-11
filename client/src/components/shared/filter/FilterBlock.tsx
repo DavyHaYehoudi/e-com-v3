@@ -20,6 +20,7 @@ interface FilterBlockProps {
     priceRange: { min?: number; max?: number };
     isOnSale: boolean;
     isNew: boolean;
+    cashback: boolean;
   }) => void;
 }
 const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
@@ -37,6 +38,8 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
     setIsOnSale,
     isNew,
     setIsNew,
+    cashback,
+    setCashback,
     name,
     handleCollectionChange,
     handleCategoryChange,
@@ -172,6 +175,16 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
                   className="mr-2 data-[state=checked]:bg-green-500"
                 />
                 Nouveau
+              </Label>
+            </p>
+            <p>
+              <Label className="flex items-center m-1">
+                <Checkbox
+                  checked={cashback}
+                  onCheckedChange={() => setCashback(!cashback)}
+                  className="mr-2 data-[state=checked]:bg-green-500"
+                />
+                Cashback
               </Label>
             </p>
           </div>

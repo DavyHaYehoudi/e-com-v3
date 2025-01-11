@@ -333,3 +333,12 @@ footer {
     max-width: 1500px;
   }
 }
+
+/* *********************************** Caroussel *********************************** */
+.image-gallery img {
+  @apply rounded;
+}
+
+.image-gallery-thumbnail {
+  @apply w-[100px] h-[100px] object-cover;
+}

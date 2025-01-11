@@ -13,28 +13,21 @@ export function ReviewItem({ review, index }: ReviewItemProps) {
   const { reviewText, rating, createdAt } = review;
   const dateFormatted = format(new Date(createdAt), "dd MMM yyyy");
 
-  // Simulate customer data retrieval; ideally replace this with actual customer data fetch
-  const customer = {
-    firstName: "John", // Remplace par les données réelles du client
-    lastName: "Doe",
-    avatarUrl: "/path/to/avatar.jpg",
-  };
-
   return (
     <div className="flex items-start space-x-4 mt-8" key={index}>
       <Avatar>
         <AvatarImage
-          src={customer.avatarUrl}
-          alt={`${customer.firstName} ${customer.lastName}`}
+          src={review.customerId.avatarUrl}
+          alt={`${review.customerId.firstName} ${review.customerId.lastName}`}
         />
         <AvatarFallback>
-          {customer.firstName[0]}
-          {customer.lastName[0]}
+          {review.customerId.firstName[0]}
+          {review.customerId.lastName[0]}
         </AvatarFallback>
       </Avatar>
       <div>
         <h3 className="font-semibold text-sm">
-          {customer.firstName} {customer.lastName}
+          {review.customerId.firstName} {review.customerId.lastName}
         </h3>
 
         <div className="flex items-center space-x-1  gap-5">

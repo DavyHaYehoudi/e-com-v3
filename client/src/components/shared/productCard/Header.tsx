@@ -4,12 +4,30 @@ import CashbackBadge from "../badge/CashbackBadge";
 import { Link } from "react-router-dom";
 import { isProductNew, isProductOnSale } from "@/utils/productUtils";
 import { ProductDBType } from "@/types/ProductTypes";
+import { useState } from "react";
 
 interface HeaderProps {
   product: ProductDBType;
 }
+
 const Header: React.FC<HeaderProps> = ({ product }) => {
-  console.log("product:", product);
+  const [currentImage, setCurrentImage] = useState(product.heroImage);
+
+  // Fonction pour gérer le survol de l'image
+  const handleMouseEnter = () => {
+    if (product.commonImages.length > 0) {
+      const randomImage =
+        product.commonImages[
+          Math.floor(Math.random() * product.commonImages.length)
+        ];
+      setCurrentImage(randomImage);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setCurrentImage(product.heroImage);
+  };
+
   return (
     <div className="relative p-1" style={{ width: "100%", height: "65%" }}>
       {isProductOnSale(
@@ -36,14 +54,16 @@ const Header: React.FC<HeaderProps> = ({ product }) => {
         ""
       )}
 
-      {/* Image du produit */}
+      {/* Image du produit avec gestion du survol */}
       <Link to={`/produits/${product._id}`}>
         <img
-          src={product.heroImage}
+          src={currentImage}
           alt={product.name}
-          className="w-full h-full object-cover rounded-t-2xl"
+          className="w-full h-full object-cover rounded-t-2xl transition-all duration-400 ease-in-out"
           width="450"
           height="520"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         />
       </Link>
     </div>

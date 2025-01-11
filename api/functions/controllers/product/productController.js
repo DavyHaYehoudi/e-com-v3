@@ -1,6 +1,7 @@
 import {
   createProductService,
   deleteProductService,
+  getAllProductsAdminService,
   getAllProductsService,
   getProductByIdService,
   updateProductService,
@@ -10,11 +11,7 @@ import {
   productSchema,
 } from "./entities/dto/product.dto.js";
 // PUBLIC - Récupérer tous les produits
-export const getAllProducts = async (
-  req, // Typer les queries
-  res,
-  next
-) => {
+export const getAllProducts = async (req, res, next) => {
   try {
     // Valider et formater les queries avec Zod
     const queries = getAllProductsQuerySchema.parse(req.query);
@@ -31,6 +28,15 @@ export const getProductById = async (req, res, next) => {
     const productId = req.params.productId;
     const product = await getProductByIdService(productId);
     res.status(200).json(product);
+  } catch (error) {
+    next(error);
+  }
+};
+// Admin - Récupérer tous les produits
+export const getAllProductsFromAdmin = async (req, res, next) => {
+  try {
+    const products = await getAllProductsAdminService();
+    res.json(products);
   } catch (error) {
     next(error);
   }

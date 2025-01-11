@@ -13,6 +13,7 @@ export const useFilter = (
     priceRange: { min?: number; max?: number };
     isOnSale: boolean;
     isNew: boolean;
+    cashback: boolean;
   }) => void
 ) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -26,6 +27,7 @@ export const useFilter = (
   const [isOnSale, setIsOnSale] = useState<boolean>(false);
   const [isNew, setIsNew] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
+  const [cashback, setCashback] = useState<boolean>(false);
 
   const { data: collections, triggerFetch: fetchCollections } =
     useFetch<CollectionDBType[]>("/collections");
@@ -46,7 +48,7 @@ export const useFilter = (
     };
 
     fetchData();
-  }, [fetchCollections,fetchCategories, fetchTags]);
+  }, [fetchCollections, fetchCategories, fetchTags]);
 
   const handleCollectionChange = (id: string) => {
     setSelectedCollections((prev) =>
@@ -81,6 +83,7 @@ export const useFilter = (
       priceRange,
       isOnSale,
       isNew,
+      cashback
     };
     onFilter(filters);
     setIsOpen(false);
@@ -93,15 +96,17 @@ export const useFilter = (
     setPriceRange({ min: undefined, max: undefined });
     setIsOnSale(false);
     setIsNew(false);
+    setCashback(false);
     setName("");
     onFilter({
       name: "",
-      collections:[],
+      collections: [],
       categories: [],
       tags: [],
       priceRange: { min: undefined, max: undefined },
       isOnSale: false,
       isNew: false,
+      cashback: false,
     });
   };
 
@@ -119,6 +124,8 @@ export const useFilter = (
     setIsOnSale,
     isNew,
     setIsNew,
+    cashback,
+    setCashback,
     name,
     handleCollectionChange,
     handleCategoryChange,

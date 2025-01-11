@@ -1,4 +1,4 @@
-import { ProductDBType, VariantProductType } from "@/types/ProductTypes";
+import { ProductDBType } from "@/types/ProductTypes";
 import { isAfter } from "date-fns";
 
 export const isProductOnSale = (
@@ -74,13 +74,4 @@ export const formatPromotionDate = (discountEndDate: string | Date): string => {
       year: "numeric",
     })}`;
   }
-};
-export const filterVariants = (
-  product: ProductDBType
-): VariantProductType[] => {
-  // Si un seul variant, c'est alors celui par défaut ajouté lors de la création du produit et l'afficher.
-  // Si plus d'un variant, ne pas afficher le 1er qui est celui ajouté par défaut lors de la création du produit
-  return product.variants.length > 1
-    ? product.variants.slice(1)
-    : product.variants;
 };

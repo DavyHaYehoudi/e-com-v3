@@ -1,14 +1,20 @@
 import {
   createProductRepository,
   deleteProductRepository,
+  getAllProductsAdminRepository,
   getAllProductsRepository,
   getProductByIdRepository,
   updateProductNumberOfSalesRepository,
   updateProductRepository,
   updateProductStockRepository,
 } from "../../repositories/product/productRepository.js";
+// Public - Récupérer tous les produits
 export const getAllProductsService = async (filters) => {
   return await getAllProductsRepository(filters);
+};
+// Admin - Récupérer tous les produits
+export const getAllProductsAdminService = async () => {
+  return await getAllProductsAdminRepository();
 };
 export const getProductByIdService = async (productId) => {
   return await getProductByIdRepository(productId);

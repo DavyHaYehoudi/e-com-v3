@@ -6,15 +6,19 @@ import Review from "../../models/review/review.schema.js";
 // PUBLIC
 export const getReviewsOfOneProductRepository = async (productId) => {
   try {
-    return await Review.find({ productId, status: "approved" }).sort({
-      createdAt: -1,
-    }); // Trie par date décroissante (les plus récentes en premier);
+    return await Review.find({ productId, status: "approved" })
+      .populate({
+        path: "customerId",
+        select: "firstName lastName avatarUrl",
+      })
+      .sort({ createdAt: -1 }); // Trie par date décroissante
   } catch (error) {
     throw new Error(
       `Error retrieving reviews of one product: ${error.message}`
     );
   }
 };
+
 // ADMIN
 export const getAllReviewsRepository = async () => {
   try {

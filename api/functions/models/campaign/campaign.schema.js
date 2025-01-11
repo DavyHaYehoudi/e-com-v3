@@ -8,6 +8,7 @@ const CampaignSchema = new Schema(
     sendDate: { type: Date, default: null },
     totalSent: { type: Number, default: 0 },
     recipients: { type: [String], default: [] }, // Liste des emails
+    imageUrl: { type: String, default:""}
   },
   {
     timestamps: true, // Ajoute createdAt et updatedAt

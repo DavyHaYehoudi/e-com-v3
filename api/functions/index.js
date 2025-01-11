@@ -9,6 +9,7 @@ const corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200,
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 checkConnection();
@@ -95,9 +96,9 @@ app.use("/api/admin/orders", verifyToken, adminAccess, orderRoutesAdmin);
 app.use("/api/admin/chiffres", verifyToken, adminAccess, chiffreRoutes);
 app.use(errorHandler);
 
-// Pour travailler en localhost
-app.listen(5000, () => {
-  console.log(`Server is running on port 5000`);
-});
+// Pour travailler en localhost avec firebase emulator
+app.get('/', (req,res)=>{
+  res.status(200).send('Hello from Express.js!')
+})
 // Export de l'application en tant que fonction Firebase
 export const api = onRequest(app);

@@ -1,6 +1,11 @@
+interface customerIdInReviewType {
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
+}
 export interface ReviewDBType {
   _id: string; // ID de l'avis
-  customerId: string; // ID du client ayant laissé l'avis
+  customerId: customerIdInReviewType;
   orderId: string | null; // ID de la commande associée (peut être null)
   productId: string; // ID du produit évalué
   reviewText: string; // Texte de l'avis

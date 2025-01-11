@@ -1,3 +1,4 @@
+import { useIsMobile } from "@/hooks/use-mobile";
 import { ProductDBType } from "@/types/ProductTypes";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -11,11 +12,33 @@ const formatImagesForGallery = (images: string[]) => {
 };
 interface CarouselProductProps {
   product: ProductDBType;
+  selectedVariant: string;
 }
-const CarouselProduct: React.FC<CarouselProductProps> = ({ product }) => {
-  const images = formatImagesForGallery(product.variants[0].secondaryImages);
+const CarouselProduct: React.FC<CarouselProductProps> = ({
+  product,
+  selectedVariant,
+}) => {
+  // Trouver l'index du variant sélectionné
+  const indexVariant = product.variants.findIndex(
+    (pv) => pv.combination === selectedVariant
+  );
 
-  return <ImageGallery items={images} />;
+  // Utiliser le variant correspondant, sinon fallback au premier (éviter erreur si non trouvé)
+  const selectedVariantObject =
+    indexVariant !== -1 ? product.variants[indexVariant] : product.variants[0];
+  const images = formatImagesForGallery([
+    selectedVariantObject.mainImage,
+    ...selectedVariantObject.secondaryImages,
+    ...product.commonImages,
+  ]);
+  const isMobile = useIsMobile();
+  return (
+    <ImageGallery
+      items={images}
+      showBullets={true}
+      showFullscreenButton={!isMobile}
+    />
+  );
 };
 
 export default CarouselProduct;

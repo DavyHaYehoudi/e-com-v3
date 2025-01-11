@@ -7,15 +7,15 @@ import ProductInformation from "./ProductInformation";
 import ProductsSuggested from "./ProductsSuggested";
 import NumberInput from "@/components/shared/NumberInput";
 import { useFetch } from "@/service/hooks/useFetch";
-import LoaderWrapper from "@/components/shared/LoaderWrapper";
 import ProductVariants from "./ProductVariants";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import ProductReview from "./ProductReview";
+import ProductReview from "./reviews/ProductReview";
 import { useParams } from "react-router-dom";
 import { ProductDBType } from "@/types/ProductTypes";
 import { useCartManager } from "@/hooks/useCartManager";
-import { filterVariants, isProductNew } from "@/utils/productUtils";
+import { isProductNew } from "@/utils/productUtils";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const MasterProduct = () => {
   const [quantity, setQuantity] = useState<number>(1);
@@ -25,10 +25,11 @@ const MasterProduct = () => {
   const { productId } = useParams();
   const {
     data: product,
-    error,
     loading,
     triggerFetch,
   } = useFetch<ProductDBType>(`/products/${productId}`);
+  console.log("product :", product);
+
   useEffect(() => {
     if (productId) {
       triggerFetch();
@@ -82,14 +83,13 @@ const MasterProduct = () => {
       } else {
         setQuantity(1);
         if (product && !selectedVariant) {
-          // setSelectedVariant(product.variants[0].combination);
-          const defaultCombination = filterVariants(product)[0].combination;
+          const defaultCombination = product.variants[0].combination;
           setSelectedVariant(defaultCombination);
         }
       }
       // Le panier est vide
     } else if (product) {
-      const defaultCombination = filterVariants(product)[0].combination;
+      const defaultCombination = product.variants[0].combination;
       setSelectedVariant(
         selectedVariant ? selectedVariant : defaultCombination
       );
@@ -99,55 +99,76 @@ const MasterProduct = () => {
     // Force le défilement vers le haut à chaque rendu
     window.scrollTo(0, 0);
   }, []);
-
+  if (loading) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return (
-    <LoaderWrapper error={error} loading={loading}>
-      {product && (
-        <main>
-          <section className="contenair m-2 lg:w-1/2 lg:mx-auto ">
-            <h1 className="text-2xl font-bold text-center mt-5">
-              {" "}
-              {product?.name}{" "}
-            </h1>
-            <div className="flex justify-center items-center gap-2 mt-5 relative">
-              {" "}
-              {isProductNew(product.newUntil) && <NewBadge />}
-              <FavoriteButton product={product} />{" "}
+    product && (
+      <main>
+        <section className="contenair m-2 xl:w-1/2 md:w-3/4 w-full mx-auto p-2">
+          {/* Nom du produit */}
+          <h1 className="text-2xl font-bold text-center mt-10">
+            {" "}
+            {product?.name}{" "}
+          </h1>
+          <div className="flex items-center justify-between gap-8 my-10 flex-wrap">
+            {/* Caroussel */}
+            <div className="md:w-1/2 xl:w-1/3 w-full min-w-[300px]">
+              <CarouselProduct
+                product={product}
+                selectedVariant={selectedVariant}
+              />
             </div>
-            <CarouselProduct product={product} />
-            <article className="bg-purple-50 p-4 rounded-md text-gray-700 text-base leading-relaxed mt-4">
-              {product?.description}
-            </article>
-            <ProductReview productId={product._id} />
-            <hr className="my-4" />
-            {product.variants.length > 0 && (
-              <>
-                <ProductVariants
-                  product={product}
-                  selectedVariant={selectedVariant}
-                  onVariantChange={handleVariantChange}
-                />
-                <hr className="my-4" />
-              </>
-            )}
-            <h2 className="text-xl font-semibold mt-8">🔢 Quantité :</h2>
-            <NumberInput
-              onValueChange={handleQuantityChange}
-              quantity={quantity}
-              product={product}
-            />
-            <hr className="my-4" />
-            <ProductPrice
-              product={product}
-              selectedVariant={selectedVariant}
-              quantity={quantity}
-            />
-          </section>
-          <ProductInformation />
-          <ProductsSuggested product={product} />
-        </main>
-      )}
-    </LoaderWrapper>
+            <div className="flex-grow">
+              {/* Badge + favoris */}
+              <div className="flex justify-center items-center gap-2 my-5 relative">
+                {" "}
+                {isProductNew(product.newUntil) && <NewBadge />}
+                <FavoriteButton product={product} />{" "}
+              </div>
+              {/* Variants */}
+              {product.variants.length > 0 && (
+                <>
+                  <ProductVariants
+                    product={product}
+                    selectedVariant={selectedVariant}
+                    onVariantChange={handleVariantChange}
+                  />
+                  <hr className="my-4" />
+                </>
+              )}
+              <h2 className="text-xl font-semibold my-8">🔢 Quantité :</h2>
+              {/* Quantité */}
+              <NumberInput
+                onValueChange={handleQuantityChange}
+                quantity={quantity}
+                product={product}
+              />
+              <hr className="my-4" />
+              {/* Prix */}
+              <ProductPrice
+                product={product}
+                selectedVariant={selectedVariant}
+                quantity={quantity}
+              />
+            </div>
+          </div>
+          {/* Description */}
+          <article className="bg-purple-50 p-4 rounded-md text-gray-700 text-base leading-relaxed mt-4">
+            {product?.description}
+          </article>
+          {/* Avis */}
+          <ProductReview productId={product._id} />
+        </section>
+        <ProductInformation />
+        <ProductsSuggested product={product} />
+      </main>
+    )
   );
 };
 

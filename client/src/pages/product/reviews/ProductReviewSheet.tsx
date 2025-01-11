@@ -1,4 +1,4 @@
-import { ReviewItem } from "@/components/shared/review/ReviewItem";
+import { ReviewItem } from "@/pages/product/reviews/ReviewItem";
 import {
   Sheet,
   SheetContent,
@@ -11,6 +11,7 @@ import {
 import { useFetch } from "@/service/hooks/useFetch";
 import { ReviewDBType } from "@/types/ReviewTypes";
 import { useEffect, useState } from "react";
+import ReviewsSummary from "./ReviewsSummary";
 
 // const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
 const side = "bottom";
@@ -23,6 +24,7 @@ const ProductReviewSheet: React.FC<ProductReviewSheetProps> = ({
   productId,
 }) => {
   const [reviews, setReviews] = useState<ReviewDBType[]>([]);
+  console.log("reviews:", reviews);
   const { data, triggerFetch } = useFetch<ReviewDBType[]>(
     `/reviews/${productId}`
   );
@@ -39,11 +41,16 @@ const ProductReviewSheet: React.FC<ProductReviewSheetProps> = ({
     <div className="grid grid-cols-2 gap-2">
       <Sheet key={side}>
         <SheetTrigger asChild>
-          <span className="cursor-pointer whitespace-nowrap underline underline-offset-4 italic">
-            {reviews.length > 0
-              ? `${reviews.length} commentaire${reviews.length > 1 ? "s" : ""} `
-              : "Aucun avis pour le moment"}{" "}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="cursor-pointer whitespace-nowrap underline underline-offset-4 italic">
+              {reviews.length > 0
+                ? `${reviews.length} commentaire${
+                    reviews.length > 1 ? "s" : ""
+                  } `
+                : "Aucun avis pour le moment"}{" "}
+            </span>
+            <ReviewsSummary reviews={reviews} />
+          </div>
         </SheetTrigger>
         <SheetContent side={side}>
           <SheetHeader>
@@ -53,7 +60,7 @@ const ProductReviewSheet: React.FC<ProductReviewSheetProps> = ({
           {reviews &&
             reviews.length > 0 &&
             reviews.map((review, index) => (
-              <ReviewItem review={review} index={index} />
+              <ReviewItem key={index} review={review} index={index} />
             ))}
           <SheetFooter></SheetFooter>
         </SheetContent>

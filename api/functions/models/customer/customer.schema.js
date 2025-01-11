@@ -212,7 +212,7 @@ const CustomerSchema = new Schema(
     },
     avatarUrl: {
       type: String,
-      default: "https://via.placeholder.com/150x150",
+      default: "",
     },
     emailMarketingConsent: {
       type: Boolean,

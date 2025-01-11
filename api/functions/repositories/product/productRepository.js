@@ -3,8 +3,9 @@ import {
   NotFoundError,
 } from "../../exceptions/CustomErrors.js";
 import { ProductModel } from "../../models/product/product.schema.js";
+// Public - Récupérer tous les produits
 export const getAllProductsRepository = async (filters) => {
-  const query = {};
+  const query = { isPublished: true, isArchived: false };
   // Filtre par nom (minimum 3 lettres)
   if (filters.name && filters.name.length >= 3) {
     query.name = { $regex: filters.name, $options: "i" }; // Recherche insensible à la casse
@@ -32,6 +33,10 @@ export const getAllProductsRepository = async (filters) => {
     const now = new Date();
     query.newUntil = { $gte: now }; // Produit toujours considéré comme "nouveau"
   }
+  // Filtre par cashback
+  if (filters.cashback) {
+    query.cashback = { $gt: 0 };
+  }
   // Filtre par collections
   if (filters.collectionIds && filters.collectionIds.length > 0) {
     query.collections = { $in: filters.collectionIds };
@@ -56,6 +61,13 @@ export const getAllProductsRepository = async (filters) => {
     .populate("tags", "_id label")
     .limit(limit)
     .lean()
+    .sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
+};
+// Admin - Récupérer tous les produits
+export const getAllProductsAdminRepository = async () => {
+  return await ProductModel.find()
+    .populate("categories", "_id label")
+    .populate("tags", "_id label")
     .sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
 };
 export const getProductByIdRepository = async (productId) => {

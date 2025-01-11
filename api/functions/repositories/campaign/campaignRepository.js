@@ -10,6 +10,7 @@ export const createCampaignRepository = async (campaignData) => {
   return CampaignModel.create({
     subject: campaignData.subject,
     content: campaignData.content,
+    imageUrl: campaignData.imageUrl || "",
   });
 };
 export const sendCampaignRepository = async (campaignId, campaignData) => {

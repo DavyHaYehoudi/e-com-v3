@@ -3,9 +3,9 @@ import { ProductDBType } from "@/types/ProductTypes";
 
 const useProduct = (productId?: string) => {
   const { triggerFetch: getAllProducts } = useFetch<ProductDBType[]>(
-    `/products`,
+    `/admin/products`,
     {
-      requiredCredentials: false,
+      requiredCredentials: true,
     }
   );
   const { triggerFetch: getProductById } = useFetch<ProductDBType>(
