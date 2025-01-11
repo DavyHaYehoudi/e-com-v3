@@ -28,7 +28,6 @@ const MasterProduct = () => {
     loading,
     triggerFetch,
   } = useFetch<ProductDBType>(`/products/${productId}`);
-  console.log("product :", product);
 
   useEffect(() => {
     if (productId) {

@@ -1,4 +1,4 @@
-import { ChevronsUpDown, House, LogOut, Mail } from "lucide-react";
+import { ChevronsUpDown, House, LogOut, Mail, Store } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -111,7 +111,17 @@ export function NavUser({
                   title="Retour sur le site"
                 >
                   <House className="size-4" />
-                  Retour sur le site
+                  Retour à l'accueil
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  to="/produits"
+                  className="flex items-center gap-2"
+                  title="Retour sur la boutique"
+                >
+                  <Store className="size-4" />
+                  Retour sur la boutique
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

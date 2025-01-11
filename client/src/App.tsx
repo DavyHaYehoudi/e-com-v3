@@ -12,7 +12,6 @@ import HomePage from "./pages/home/HomePage";
 import TermsOfSales from "./pages/legals/TermsOfSales";
 import LegalMentions from "./pages/legals/LegalMentions";
 import ShippingAndReturns from "./pages/legals/ShippingAndReturns";
-import ProductsPage from "./pages/products/ProductsPage";
 import MasterProduct from "./pages/product/MasterProduct";
 import CartPage from "./pages/cart/CartPage";
 import CheckoutPage from "./pages/payment/PaymentCheckout";
@@ -59,6 +58,7 @@ import ProductForm from "./pages/admin/catalogue/products/sheetProduct/ProductFo
 import OrderContentAdminPage from "./pages/admin/activity/orders/content/OrderContentAdminPage";
 import StatisticPage from "./pages/admin/chiffres/Statistic";
 import UsedStoragePage from "./pages/admin/chiffres/UsedStoragePage";
+import ProductsLayout from "./pages/products/ProductsLayout";
 function App() {
   return (
     <ThemeProvider>
@@ -69,7 +69,7 @@ function App() {
               {/* Layout principal pour les visiteurs */}
               <Route element={<VisitorLayout />}>
                 <Route path="/" element={<HomePage />} />
-                <Route path="produits" element={<ProductsPage />} />
+                <Route path="produits" element={<ProductsLayout />} />
                 <Route path="produits/:productId" element={<MasterProduct />} />
                 <Route path="creatrice" element={<CreatricePage />} />
                 <Route path="tradition" element={<TraditionPage />} />

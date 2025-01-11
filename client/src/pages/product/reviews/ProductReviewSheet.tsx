@@ -24,7 +24,6 @@ const ProductReviewSheet: React.FC<ProductReviewSheetProps> = ({
   productId,
 }) => {
   const [reviews, setReviews] = useState<ReviewDBType[]>([]);
-  console.log("reviews:", reviews);
   const { data, triggerFetch } = useFetch<ReviewDBType[]>(
     `/reviews/${productId}`
   );

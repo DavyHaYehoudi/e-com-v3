@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
 import { ProductDBType } from "@/types/ProductTypes";
 
-interface Filter {
+export interface FilterType {
   name: string;
   collections: string[];
   categories: string[];
@@ -14,7 +14,7 @@ interface Filter {
 }
 
 export const useProductFilter = () => {
-  const [filters, setFilters] = useState<Filter>({
+  const [filters, setFilters] = useState<FilterType>({
     name: "",
     collections: [] as string[],
     categories: [] as string[],
@@ -38,7 +38,7 @@ export const useProductFilter = () => {
   }, [queryUrl, triggerFetch]);
 
   // Fonction pour mettre à jour les filtres et régénérer l'URL des query params
-  const handleFilterSubmit = (newFilters: Filter) => {
+  const handleFilterSubmit = (newFilters: FilterType) => {
     setFilters(newFilters);
 
     const queryParams = new URLSearchParams();

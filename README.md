@@ -4,7 +4,7 @@
 
 ### CLIENT
 
-1. **Démarrer l'appication** :
+1. **Démarrer l'application** :
    ```bash
    cd <client>
    npm run dev
