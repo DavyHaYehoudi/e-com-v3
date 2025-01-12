@@ -2,12 +2,24 @@ import {
   createCampaignService,
   deleteCampaignService,
   getAllCampaignsService,
+  getCampaignByIdService,
   sendCampaignService,
+  updateCampaignService,
 } from "../../services/campaign/campaignService.js";
 import {
   createMarketingCampaignSchema,
   updateMarketingCampaignSchema,
 } from "./entities/dto/campains.dto.js";
+// ADMIN - Récupérer une campagne par son id
+export const getCampaignById = async (req, res, next) => {
+  try {
+    const campaignId = req.params.campaignId;
+    const campaign = await getCampaignByIdService(campaignId);
+    res.json(campaign);
+  } catch (error) {
+    next(error);
+  }
+};
 // ADMIN - Récupérer toutes les campagnes
 export const getAllCampaigns = async (req, res, next) => {
   try {
@@ -28,16 +40,16 @@ export const createCampaign = async (req, res, next) => {
     next(error);
   }
 };
-// ADMIN - Envoyer une campagne ou l'envoyer
-export const sendCampaign = async (req, res, next) => {
+// ADMIN - Modifier une campagne ou l'envoyer
+export const updateCampaign = async (req, res, next) => {
   try {
     const validateFields = updateMarketingCampaignSchema.parse(req.body);
     const campaignId = req.params.campaignId;
-    const campaignToSend = await sendCampaignService(
+    const campaignToUpdate = await updateCampaignService(
       campaignId,
       validateFields
     );
-    res.status(200).json(campaignToSend);
+    res.status(200).json(campaignToUpdate);
   } catch (error) {
     console.error(error);
     next(error);

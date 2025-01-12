@@ -4,9 +4,15 @@ import {
   createCampaignRepository,
   deleteCampaignRepository,
   getAllCampaignsRepository,
+  getCampaignByIdRepository,
   sendCampaignRepository,
+  updateCampaignRepository,
 } from "../../repositories/campaign/campaignRepository.js";
 import { getCustomersWithEmailMarketingConsentService } from "../customer/customerService.js";
+// ADMIN - Récupérer une campagne par son id
+export const getCampaignByIdService = async (campaignId) => {
+  return await getCampaignByIdRepository(campaignId);
+};
 // ADMIN - Récupérer toutes les campagnes
 export const getAllCampaignsService = async () => {
   return await getAllCampaignsRepository();
@@ -16,6 +22,18 @@ export const createCampaignService = async (campaignData) => {
   const newCampaign = await createCampaignRepository(campaignData);
   return newCampaign;
 };
+// ADMIN - Modifier une campagne ou l'envoyer
+export const updateCampaignService = async (campaignId, campaignData) => {
+  if (campaignData.status === "sent" || campaignData.status === "prepared") {
+    return await sendCampaignService(campaignId, campaignData);
+  }
+  const updatedCampaign = await updateCampaignRepository(
+    campaignId,
+    campaignData
+  );
+  return updatedCampaign;
+};
+
 // ADMIN - Envoyer une campagne
 export const sendCampaignService = async (campaignId, campaignData) => {
   const campaignToSend = await sendCampaignRepository(campaignId, campaignData);

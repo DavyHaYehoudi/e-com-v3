@@ -73,7 +73,7 @@ const MarketingsPage: React.FC = () => {
     );
   }
   return (
-    <div>
+    <div className="pb-20">
       <h1 className="text-center mb-10">Liste des evenements</h1>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-4">
         {marketingsList.map((marketing) => (

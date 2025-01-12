@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import useMarketing from "@/hooks/dashboard/admin/useMarketing";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { Quill } from "react-quill";
 import ReactQuill from "react-quill";
@@ -14,33 +14,61 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { uploadImageToFirebase } from "@/utils/imageManage";
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { MarketingCampaignDBType } from "@/types/MarketingTypes";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
 
-const createMarketingCampaignSchema = z.object({
+const updateMarketingCampaignSchema = z.object({
   subject: z
     .string()
-    .min(1, { message: "Le sujet de la campagne est requis." }),
-  content: z.string().min(1, { message: "Le contenu du mail est requis." }),
+    .min(1, { message: "Le sujet de la campagne est requis." })
+    .optional(),
+  content: z
+    .string()
+    .min(1, { message: "Le contenu HTML de la campagne est requis." })
+    .optional(),
 });
-type CreateMarketingCampaignDTO = z.infer<typeof createMarketingCampaignSchema>;
+type UpdateMarketingCampaignDTO = z.infer<typeof updateMarketingCampaignSchema>;
 
-const CreateMarketingCampaign: React.FC = () => {
+const MarketingUpdate: React.FC = () => {
+  const [marketing, setMarketing] = useState<MarketingCampaignDBType | null>(
+    null
+  );
   const [previewImage, setPreviewImage] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { createMarketing } = useMarketing();
+  const navigate = useNavigate();
+
+  const { marketingId } = useParams();
+  const { updateMarketing, getOneMarketing } = useMarketing(marketingId);
+
   const {
     register,
     control,
     handleSubmit,
     reset,
-    formState: { errors },
-  } = useForm<CreateMarketingCampaignDTO>({
-    resolver: zodResolver(createMarketingCampaignSchema),
+    formState: { errors, isSubmitting },
+  } = useForm<UpdateMarketingCampaignDTO>({
+    resolver: zodResolver(updateMarketingCampaignSchema),
   });
+  useEffect(() => {
+    const getFetchData = async () => {
+      try {
+        if (!marketing) {
+          const data = await getOneMarketing();
+          setMarketing(data || null);
+          reset(data);
+        }
+      } catch (error) {
+        console.log("error:", error);
+        toast.error(
+          "Une erreur s'est produite avec la récupération de l'événement"
+        );
+      }
+    };
+    getFetchData();
+  }, [marketingId, getOneMarketing, marketing, reset]);
 
-  const navigate = useNavigate();
   const Font = ReactQuill.Quill.import("formats/font");
   ReactQuill.Quill.register(Font, true);
   Quill.register("modules/emoji", Emoji);
@@ -59,7 +87,7 @@ const CreateMarketingCampaign: React.FC = () => {
     "emoji-shortname": true,
   };
 
-  const onSubmit = async (data: CreateMarketingCampaignDTO) => {
+  const onSubmit = async (data: UpdateMarketingCampaignDTO) => {
     try {
       if (!previewImage) {
         toast.error("L'image est requise");
@@ -78,8 +106,8 @@ const CreateMarketingCampaign: React.FC = () => {
         `,
       };
 
-      await createMarketing(bodyData);
-      toast.success("Campagne ajoutée avec succès !");
+      await updateMarketing(bodyData);
+      toast.success("Campagne modifiée avec succès !");
       reset();
       setPreviewImage(null);
       navigate("/admin/tableau-de-bord/marketing/liste");
@@ -107,7 +135,7 @@ const CreateMarketingCampaign: React.FC = () => {
       />
       <div className="w-full xl:w-1/2 mx-auto p-8 bg-white dark:bg-gray-800 shadow-lg rounded-xl">
         <h2 className="text-2xl font-bold mb-6 text-center">
-          Ajouter une campagne marketing
+          Modifier la campagne marketing
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Champ Titre */}
@@ -176,8 +204,11 @@ const CreateMarketingCampaign: React.FC = () => {
             <Button
               type="submit"
               className="w-1/2 flex justify-center bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 mt-16"
+              disabled={isSubmitting}
             >
-              Ajouter la campagne
+              {isSubmitting
+                ? "Envoi en cours..."
+                : "Enregistrer les modifications"}
             </Button>
           </div>
         </form>
@@ -186,4 +217,4 @@ const CreateMarketingCampaign: React.FC = () => {
   );
 };
 
-export default CreateMarketingCampaign;
+export default MarketingUpdate;

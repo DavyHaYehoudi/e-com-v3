@@ -1,22 +1,7 @@
 import React, { useState } from "react";
-import { Trash2 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { MarketingCampaignDBType } from "@/types/MarketingTypes";
 import useMarketing from "@/hooks/dashboard/admin/useMarketing";
-import ValidBadge from "@/components/shared/badge/ValidBadge";
-import PendingBadge from "@/components/shared/badge/PendingBadge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { SelectMarketing } from "./MarketingPage";
 import { formatDate } from "@/utils/formatDate";
 import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
@@ -24,6 +9,11 @@ import { toast } from "sonner";
 import AlertConfirm from "@/components/shared/dialog/AlertConfirm";
 import EmailsSendedList from "./EmailsSendedList";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import ChooseRecipients from "./ChooseRecipients";
+import CardActions from "./CardActions";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import CardStatusBadge from "./CardStatusBadge";
 
 interface MarketingCardProps {
   marketing: MarketingCampaignDBType;
@@ -47,18 +37,20 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
   handleSentMarketing,
 }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isConfirmPreviewOpen, setIsConfirmPreviewOpen] = useState(false);
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { deleteMarketing, sentMarketing } = useMarketing(
+  const { deleteMarketing, updateMarketing } = useMarketing(
     selectedMarketing.marketingId
   );
+
+  const emailAdmin = useSelector((state: RootState) => state.auth.user?.email);
 
   const toggleEmail = (email: string) => {
     setSelectedEmails((prev) =>
       prev.includes(email) ? prev.filter((e) => e !== email) : [...prev, email]
     );
   };
-
   const toggleSelectAll = () => {
     if (selectedEmails.length === customerEmails.length) {
       setSelectedEmails([]);
@@ -66,8 +58,50 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
       setSelectedEmails(customerEmails);
     }
   };
+  const handlePreviewMarketing = () => {
+    setIsConfirmPreviewOpen(true);
+    setSelectedMarketing((prev) => ({
+      ...prev,
+      subject: marketing.subject,
+      marketingId: marketing._id,
+    }));
+  };
+  const previewMarketingConfirm = () => {
+    const bodyData = {
+      status: "prepared",
+      emails: [emailAdmin],
+    };
+    updateMarketing(bodyData).then((result) => {
+      if (result) {
+        updateMarketing(bodyData);
+        setSelectedMarketing((prev) => ({
+          ...prev,
+          status: "prepared",
+        }));
+        toast.success("Un email de l'événement vous a été envoyé.");
+      } else {
+        toast.error("Une erreur s'est produite lors de l'envoi de l'email");
+      }
+    });
+  };
 
-  const removeMarketing = () => {
+  const handleSendMarketing = () => {
+    setIsConfirmOpen(true);
+    setSelectedMarketing((prev) => ({
+      ...prev,
+      subject: marketing.subject,
+      marketingId: marketing._id,
+    }));
+  };
+  const handleRemoveMarketing = () => {
+    setSelectedMarketing((prev) => ({
+      ...prev,
+      marketingId: marketing._id,
+      subject: marketing.subject,
+    }));
+    setIsDeleteOpen(true);
+  };
+  const removeMarketingConfirm = () => {
     deleteMarketing().then((result) => {
       if (result) {
         handleDeleteMarketing(selectedMarketing.marketingId);
@@ -77,12 +111,17 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
       }
     });
   };
-  const sendMarketing = () => {
+  const sendMarketingConfirm = () => {
+    if (selectedEmails.length === 0) {
+      toast.error("Veuillez choisir au moins un destinataire.");
+      return;
+    }
     setIsLoading(true);
     const bodyData = {
+      status: "sent",
       emails: selectedEmails,
     };
-    sentMarketing(bodyData).then((result) => {
+    updateMarketing(bodyData).then((result) => {
       if (result) {
         handleSentMarketing(result);
         toast.success("Campagne envoyée avec succès.");
@@ -97,18 +136,12 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
   return (
     <>
       <Card className="w-full max-w-lg p-4 relative">
-        <button
-          onClick={() => {
-            setSelectedMarketing((prev) => ({
-              ...prev,
-              marketingId: marketing._id,
-              subject: marketing.subject,
-            }));
-            setIsDeleteOpen(true);
-          }}
-        >
-          <Trash2 className="absolute right-2 cursor-pointer" />
-        </button>
+        <CardActions
+          marketingId={marketing._id}
+          handleSendMarketing={handleSendMarketing}
+          handleRemoveMarketing={handleRemoveMarketing}
+          handlePreviewMarketing={handlePreviewMarketing}
+        />
         <CardHeader>
           <h2 className="text-xl font-bold mb-2">{marketing.subject}</h2>
         </CardHeader>
@@ -116,85 +149,47 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
           <p className="text-gray-500">
             Créé le : {formatDate(marketing.createdAt)}
           </p>
-          {marketing.status === "sent" ? (
-            <ValidBadge label="envoyé" />
-          ) : (
-            <PendingBadge label="en attente" />
-          )}
+          <p className="text-gray-500">
+            Dernière modification le : {formatDate(marketing.updatedAt)}
+          </p>
+          <CardStatusBadge status={marketing.status} />
           {marketing.sendDate && (
             <p className="text-gray-500">
               Envoyé le : {formatDate(marketing.sendDate)}
             </p>
           )}
           {marketing.status === "sent" ? (
-            <EmailsSendedList
-              emailsSendCount={marketing.totalSent}
-              emailsList={marketing.recipients}
-            />
-          ) : (
             <>
-              <p className="text-gray-500 mt-2">
-                Destinataires : {selectedEmails.length}
-              </p>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="mt-4">
-                    Choisir les destinataires
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuCheckboxItem
-                    checked={selectedEmails.length === customerEmails.length}
-                    onCheckedChange={toggleSelectAll}
-                  >
-                    Tout sélectionner
-                  </DropdownMenuCheckboxItem>
-                  {customerEmails.map((email) => (
-                    <DropdownMenuCheckboxItem
-                      key={email}
-                      checked={selectedEmails.includes(email)}
-                      onCheckedChange={() => toggleEmail(email)}
-                    >
-                      {email}
-                    </DropdownMenuCheckboxItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <EmailsSendedList
+                emailsSendCount={marketing.totalSent}
+                emailsList={marketing.recipients}
+              />
+              <ChooseRecipients
+                selectedEmails={selectedEmails}
+                customerEmails={customerEmails}
+                toggleSelectAll={toggleSelectAll}
+                toggleEmail={toggleEmail}
+              />
             </>
+          ) : (
+            <ChooseRecipients
+              selectedEmails={selectedEmails}
+              customerEmails={customerEmails}
+              toggleSelectAll={toggleSelectAll}
+              toggleEmail={toggleEmail}
+            />
           )}
         </CardContent>
-        {isLoading ? (
+        {isLoading && (
           <div className="flex justify-center">
             <LoadingSpinner />
           </div>
-        ) : (
-          <CardFooter className="flex flex-col gap-2">
-            {selectedEmails.length === 0 && marketing.status !== "sent" && (
-              <p className="italic text-xs">Ajouter au moins un destinataire</p>
-            )}
-            {marketing.status !== "sent" && (
-              <Button
-                onClick={() => {
-                  setIsConfirmOpen(true);
-                  setSelectedMarketing((prev) => ({
-                    ...prev,
-                    subject: marketing.subject,
-                    marketingId: marketing._id,
-                  }));
-                }}
-                className="w-full"
-                disabled={selectedEmails.length === 0}
-              >
-                Envoyer
-              </Button>
-            )}
-          </CardFooter>
         )}
       </Card>
       <DeleteAlert
         isDeleteOpen={isDeleteOpen}
         setIsDeleteOpen={setIsDeleteOpen}
-        onConfirm={removeMarketing}
+        onConfirm={removeMarketingConfirm}
         itemNameToDelete={`l'evenement - ${selectedMarketing.subject} -`}
         onCancel={() => setIsDeleteOpen(false)}
       />
@@ -202,7 +197,13 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
         isConfirmOpen={isConfirmOpen}
         setIsConfirmOpen={setIsConfirmOpen}
         title={`Etes-vous sûr de vouloir envoyer la campagne - ${selectedMarketing.subject} - ?`}
-        onConfirm={sendMarketing}
+        onConfirm={sendMarketingConfirm}
+      />
+      <AlertConfirm
+        isConfirmOpen={isConfirmPreviewOpen}
+        setIsConfirmOpen={setIsConfirmPreviewOpen}
+        title={`La campagne - ${selectedMarketing.subject} - ne sera envoyée qu'à votre adresse email. Confirmez-vous ?`}
+        onConfirm={previewMarketingConfirm}
       />
     </>
   );

@@ -7,6 +7,12 @@ const useMarketing = (marketingId?: string) => {
   >(`/admin/marketing/campaigns`, {
     requiredCredentials: true,
   });
+  const { triggerFetch: getOneMarketing } = useFetch<MarketingCampaignDBType>(
+    `/admin/marketing/campaigns/${marketingId}`,
+    {
+      requiredCredentials: true,
+    }
+  );
   const { triggerFetch: createMarketing } = useFetch<MarketingCampaignDBType>(
     `/admin/marketing/campaigns`,
     {
@@ -14,7 +20,7 @@ const useMarketing = (marketingId?: string) => {
       requiredCredentials: true,
     }
   );
-  const { triggerFetch: sentMarketing } = useFetch<MarketingCampaignDBType>(
+  const { triggerFetch: updateMarketing } = useFetch<MarketingCampaignDBType>(
     `/admin/marketing/campaigns/${marketingId}`,
     {
       method: "PATCH",
@@ -31,8 +37,9 @@ const useMarketing = (marketingId?: string) => {
 
   return {
     getAllMarketings,
+    getOneMarketing,
     createMarketing,
-    sentMarketing,
+    updateMarketing,
     deleteMarketing,
   };
 };

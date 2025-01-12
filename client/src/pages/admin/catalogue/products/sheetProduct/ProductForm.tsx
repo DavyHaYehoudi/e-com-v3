@@ -46,13 +46,10 @@ const ProductForm: React.FC = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [heroImage, setHeroImage] = useState<File | string | null>(null);
   const [commonImages, setCommonImages] = useState<(File | string)[]>([]);
-  console.log("commonImages:", commonImages);
   const [variantsToAddList, setVariantsToAddList] = useState<
     VariantsToAddType[]
   >([]);
-  console.log("variantsToAddList:", variantsToAddList);
   const [urlFirebaseToDelete, setUrlFirebaseToDelete] = useState<string[]>([]);
-  console.log("urlFirebaseToDelete:", urlFirebaseToDelete);
 
   const { getCollections } = useCollection();
   const { getCategories } = useCategory();

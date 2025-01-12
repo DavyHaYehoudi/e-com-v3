@@ -2,10 +2,9 @@ import React from "react";
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 import { Label } from "@/components/ui/label";
 
-
 export interface CommonImagesProps {
   commonImages: (File | string)[];
-  onImagesUpload: (images: File|string) => void;
+  onImagesUpload: (images: File | string) => void;
   onImagesRemove: (indexToRemove: number, image: File | string) => void;
 }
 
@@ -18,13 +17,18 @@ const CommonImages: React.FC<CommonImagesProps> = ({
     onImagesUpload(image);
   };
 
-  const handleRemoveCommonImage = (indexToRemove: number,image: File | string) => {
-    onImagesRemove(indexToRemove,image);
+  const handleRemoveCommonImage = (
+    indexToRemove: number,
+    image: File | string
+  ) => {
+    onImagesRemove(indexToRemove, image);
   };
 
   return (
     <div className="mt-4">
-      <Label className="text-sm font-medium mt-4">Images communes aux variantes :</Label>
+      <Label className="text-sm font-medium mt-4">
+        Images communes aux variantes :
+      </Label>
       <div className="flex flex-wrap gap-2 mt-2">
         {commonImages.map((image, index) => (
           <ImageUploaderBox
@@ -33,7 +37,7 @@ const CommonImages: React.FC<CommonImagesProps> = ({
             handleImageUpload={(e) =>
               handleCommonImagesUpload(e.target.files?.[0] as File)
             }
-            handleRemoveImage={() => handleRemoveCommonImage(index,image)}
+            handleRemoveImage={() => handleRemoveCommonImage(index, image)}
             width={100}
             height={100}
           />

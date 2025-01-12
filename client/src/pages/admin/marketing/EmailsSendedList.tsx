@@ -25,7 +25,9 @@ const EmailsSendedList: React.FC<EmailsSendedListProps> = ({
       className="max-w-[350px] space-y-2 my-8 text-center"
     >
       <div className="flex items-center justify-between space-x-4 px-4">
-        <p className="text-sm font-semibold">{emailsSendCount} destinataires</p>
+        <p className="text-sm font-semibold">
+          {emailsSendCount} destinataire{emailsSendCount > 1 ? "s" : ""}
+        </p>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="sm">
             <ChevronsUpDown className="h-4 w-4" />

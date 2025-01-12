@@ -59,6 +59,7 @@ import OrderContentAdminPage from "./pages/admin/activity/orders/content/OrderCo
 import StatisticPage from "./pages/admin/chiffres/Statistic";
 import UsedStoragePage from "./pages/admin/chiffres/UsedStoragePage";
 import ProductsLayout from "./pages/products/ProductsLayout";
+import MarketingUpdate from "./pages/admin/marketing/MarketingUpdate";
 function App() {
   return (
     <ThemeProvider>
@@ -244,6 +245,10 @@ function App() {
                 <Route
                   path="admin/tableau-de-bord/marketing/ajouter"
                   element={<MarketingCreate />}
+                ></Route>
+                <Route
+                  path="admin/tableau-de-bord/marketing/modifier/:marketingId"
+                  element={<MarketingUpdate />}
                 ></Route>
                 <Route
                   path="admin/tableau-de-bord/retours/avis"
