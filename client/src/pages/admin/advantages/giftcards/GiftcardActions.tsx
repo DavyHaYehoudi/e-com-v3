@@ -63,10 +63,10 @@ const GiftcardActions: React.FC<GiftcardActionsProps> = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px] z-50">
-          <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base text-neutral-500 ">
+          <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base">
             <Link
               to={`/admin/tableau-de-bord/avantages/cartes-cadeaux/${giftcardId}`}
-              className="flex items-center gap-2 ml-2"
+              className="flex items-center gap-2 p-2"
             >
               <FileStack className="h-4 w-4" />
               <span>Historique</span>

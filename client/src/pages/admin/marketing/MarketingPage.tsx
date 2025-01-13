@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { MarketingCampaignDBType } from "@/types/MarketingTypes";
+import {
+  MarketingCampaignDBType,
+  StatusMarketingType,
+} from "@/types/MarketingTypes";
 import { CustomerDBType } from "@/types/CustomerTypes";
 import useMarketing from "@/hooks/dashboard/admin/useMarketing";
 import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
 import MarketingCard from "./MarketingCard";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { deleteImageFromFirebase } from "@/utils/imageManage";
 
 export interface SelectMarketing {
   marketingId: string;
@@ -50,7 +54,13 @@ const MarketingsPage: React.FC = () => {
     fetchMarketings();
     fetchCustomers();
   }, [getAllMarketings, customersInfoFetch]);
-  const handleDeleteMarketing = (marketingId: string) => {
+  const handleDeleteMarketing = async (marketingId: string) => {
+    const marketingToDelete = marketingsList.find(
+      (marketing) => marketing._id === marketingId
+    );
+    if (marketingToDelete) {
+      await deleteImageFromFirebase(marketingToDelete.imageUrl);
+    }
     setMarketingsList((prevMarketingsList) =>
       prevMarketingsList.filter((r) => r._id !== marketingId)
     );
@@ -59,6 +69,15 @@ const MarketingsPage: React.FC = () => {
     const marketingsListTemp = marketingsList.map((mark) => {
       if (mark._id === result._id) {
         return result;
+      }
+      return mark;
+    });
+    setMarketingsList(marketingsListTemp);
+  };
+  const handleMarketingPreview = (marketingId: string) => {
+    const marketingsListTemp = marketingsList.map((mark) => {
+      if (mark._id === marketingId) {
+        return { ...mark, status: "prepared" as StatusMarketingType };
       }
       return mark;
     });
@@ -87,6 +106,7 @@ const MarketingsPage: React.FC = () => {
             isDeleteOpen={isDeleteOpen}
             setIsDeleteOpen={setIsDeleteOpen}
             handleSentMarketing={handleSentMarketing}
+            handleMarketingPreview={handleMarketingPreview}
           />
         ))}
       </div>

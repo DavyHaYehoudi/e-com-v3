@@ -62,7 +62,9 @@ export const sendCampaignService = async (campaignId, campaignData) => {
         customer.email,
         campaignToSend.subject,
         customer.firstName,
-        campaignToSend.content
+        campaignToSend.content,
+        campaignToSend.imageUrl,
+        campaignToSend.linkCTA
       );
       console.log(`Email marketing envoyé à ${customer.email}`);
     } catch (error) {

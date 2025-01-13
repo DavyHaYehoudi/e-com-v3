@@ -1,6 +1,7 @@
 const letterSpacing1 = "0.2em";
 const letterSpacing2 = "0.3em";
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
   return (
     <footer
       className="p-4 lg:p-10"
@@ -107,7 +108,7 @@ const Footer = () => {
       </div>
 
       <div className="text-center mt-8 ">
-        <p>&copy; 2025 Atelier Noralya. Tous droits réservés.</p>
+        <p>&copy; {currentYear} Atelier Noralya. Tous droits réservés.</p>
       </div>
     </footer>
   );

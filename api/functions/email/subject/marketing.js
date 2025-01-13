@@ -48,8 +48,72 @@ export const sendMarketingEmailToCustomer = async (
   email,
   subject,
   firstName,
-  marketingContent
+  content,
+  image,
+  linkCTA
 ) => {
+  const currentYear = new Date().getFullYear();
+  const marketingContent = `
+  <div style="
+    font-family: Arial, sans-serif; 
+    padding: 20px; 
+    background-color: #f4f4f4; 
+    color: #333;
+  ">
+    <div style="
+      max-width: 600px; 
+      margin: 0 auto; 
+      background-color: #fff; 
+      padding: 20px; 
+      border-radius: 8px; 
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    ">
+      <!-- Section image -->
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img 
+          src="${image}" 
+          alt="Image marketing" 
+          style="max-width: 100%; 
+                 height: auto; 
+                 border-radius: 8px; 
+                 object-fit: cover;"
+        />
+      </div>
+
+      <!-- Titre -->
+      <h2 style="text-align: center; color: #FF9800; margin-bottom: 20px;">
+        ${subject}
+      </h2>
+
+      <!-- Contenu principal -->
+      <p style="font-size: 16px; line-height: 1.6; color: #333;">
+        <strong>${firstName || "Cher client"} :</strong><br/>
+        ${content}
+      </p>
+
+      <!-- Bouton CTA -->
+      <div style="text-align: center; margin-top: 30px;">
+        <a href=${linkCTA} style="
+          display: inline-block;
+          padding: 12px 24px;
+          font-size: 16px;
+          color: #fff;
+          background-color: #4CAF50;
+          text-decoration: none;
+          border-radius: 5px;
+          box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        ">
+          Découvrir maintenant
+        </a>
+      </div>
+     <!-- Pied de page -->
+      <footer style="text-align: center; margin-top: 40px; font-size: 14px; color: #777;">
+        <p>© ${currentYear} Atelier Noralya. Tous droits réservés.</p>
+      </footer>
+    </div>
+  </div>
+`;
+
   const mailOptions = {
     to: email,
     subject: `${firstName || "Cher client"}, ${subject}`,

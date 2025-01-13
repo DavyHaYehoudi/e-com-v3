@@ -14,6 +14,7 @@ import CardActions from "./CardActions";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import CardStatusBadge from "./CardStatusBadge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface MarketingCardProps {
   marketing: MarketingCampaignDBType;
@@ -24,6 +25,7 @@ interface MarketingCardProps {
   isDeleteOpen: boolean;
   setIsDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleSentMarketing: (result: MarketingCampaignDBType) => void;
+  handleMarketingPreview: (marketingId: string) => void;
 }
 
 const MarketingCard: React.FC<MarketingCardProps> = ({
@@ -35,6 +37,7 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
   isDeleteOpen,
   setIsDeleteOpen,
   handleSentMarketing,
+  handleMarketingPreview,
 }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isConfirmPreviewOpen, setIsConfirmPreviewOpen] = useState(false);
@@ -67,13 +70,14 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
     }));
   };
   const previewMarketingConfirm = () => {
+    setIsLoading(true);
     const bodyData = {
       status: "prepared",
+      // emails: ["d.sebbah@yahoo.fr"],
       emails: [emailAdmin],
     };
     updateMarketing(bodyData).then((result) => {
       if (result) {
-        updateMarketing(bodyData);
         setSelectedMarketing((prev) => ({
           ...prev,
           status: "prepared",
@@ -83,8 +87,9 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
         toast.error("Une erreur s'est produite lors de l'envoi de l'email");
       }
     });
+    setIsLoading(false);
+    handleMarketingPreview(selectedMarketing.marketingId);
   };
-
   const handleSendMarketing = () => {
     setIsConfirmOpen(true);
     setSelectedMarketing((prev) => ({
@@ -144,6 +149,10 @@ const MarketingCard: React.FC<MarketingCardProps> = ({
         />
         <CardHeader>
           <h2 className="text-xl font-bold mb-2">{marketing.subject}</h2>
+          <Avatar>
+            <AvatarImage src={marketing.imageUrl} alt="Image de la campagne" />
+            <AvatarFallback>AN</AvatarFallback>
+          </Avatar>
         </CardHeader>
         <CardContent>
           <p className="text-gray-500">

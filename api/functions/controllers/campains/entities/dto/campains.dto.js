@@ -7,6 +7,8 @@ export const createMarketingCampaignSchema = z.object({
   content: z
     .string()
     .min(1, { message: "Le contenu HTML de la campagne est requis." }),
+  imageUrl: z.string().url({ message: "URL de l'image invalide." }),
+  linkCTA: z.string().url({ message: "URL du lien CTA invalide." }),
 });
 // Schéma pour valider la modification et l'envoi d'une campagne marketing (PATCH)
 export const updateMarketingCampaignSchema = z.object({
@@ -18,6 +20,8 @@ export const updateMarketingCampaignSchema = z.object({
     .string()
     .min(1, { message: "Le contenu HTML de la campagne est requis." })
     .optional(),
+  imageUrl: z.string().url({ message: "URL de l'image invalide." }).optional(),
+  linkCTA: z.string().url({ message: "URL du lien invalide." }).optional(),
   emails: z.array(z.string().email({ message: "Email invalide." })).optional(),
   status: z.enum(["draft", "prepared", "sent"]).optional(),
 });

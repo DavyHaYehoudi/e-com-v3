@@ -4,7 +4,13 @@ const CampaignSchema = new Schema(
   {
     subject: { type: String, required: true },
     content: { type: String, required: true },
-    status: { type: String, enum: ["draft","prepared", "sent"], default: "draft" },
+    imageUrl: { type: String, required: true },
+    linkCTA: { type: String, required: true },
+    status: {
+      type: String,
+      enum: ["draft", "prepared", "sent"],
+      default: "draft",
+    },
     sendDate: { type: Date, default: null },
     totalSent: { type: Number, default: 0 },
     recipients: { type: [String], default: [] }, // Liste des emails

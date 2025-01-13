@@ -87,7 +87,7 @@ const OrderActions: React.FC<OrderActionsProps> = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px] z-50">
-          <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base text-neutral-500 ">
+          <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base">
             <Link
               to={`/admin/tableau-de-bord/activite/commandes/${orderId}/contenu`}
               className="flex items-center gap-2 ml-2 py-2"

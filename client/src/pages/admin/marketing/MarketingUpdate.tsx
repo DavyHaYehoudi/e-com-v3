@@ -12,7 +12,10 @@ import "quill-emoji/dist/quill-emoji.css"; // Styles d'emoji
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { uploadImageToFirebase } from "@/utils/imageManage";
+import {
+  deleteImageFromFirebase,
+  uploadImageToFirebase,
+} from "@/utils/imageManage";
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 import { useNavigate, useParams } from "react-router-dom";
 import { MarketingCampaignDBType } from "@/types/MarketingTypes";
@@ -22,12 +25,11 @@ import NavBackDashboard from "@/components/shared/NavBackDashboard";
 const updateMarketingCampaignSchema = z.object({
   subject: z
     .string()
-    .min(1, { message: "Le sujet de la campagne est requis." })
-    .optional(),
+    .min(1, { message: "Le sujet de la campagne est requis." }),
   content: z
     .string()
-    .min(1, { message: "Le contenu HTML de la campagne est requis." })
-    .optional(),
+    .min(1, { message: "Le contenu HTML de la campagne est requis." }),
+  linkCTA: z.string().url({ message: "URL du lien invalide." }),
 });
 type UpdateMarketingCampaignDTO = z.infer<typeof updateMarketingCampaignSchema>;
 
@@ -35,7 +37,11 @@ const MarketingUpdate: React.FC = () => {
   const [marketing, setMarketing] = useState<MarketingCampaignDBType | null>(
     null
   );
-  const [previewImage, setPreviewImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<File | string | null>(null);
+  console.log("previewImage:", previewImage);
+  const [urlFirebaseToDelete, setUrlFirebaseToDelete] = useState<string | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -57,6 +63,7 @@ const MarketingUpdate: React.FC = () => {
         if (!marketing) {
           const data = await getOneMarketing();
           setMarketing(data || null);
+          setPreviewImage(data?.imageUrl || "");
           reset(data);
         }
       } catch (error) {
@@ -94,18 +101,16 @@ const MarketingUpdate: React.FC = () => {
         return;
       }
       setIsLoading(true);
+      if (urlFirebaseToDelete) {
+        await deleteImageFromFirebase(urlFirebaseToDelete);
+      }
       const url = await uploadImageToFirebase(previewImage, "marketing");
       const bodyData = {
         subject: data.subject,
-        content: `
-          <div style="text-align: center;">
-            <h2>${data.subject}</h2>
-            <img src="${url}" style="width:100%; max-width: 600px; height:auto; border-radius:15px; object-fit: cover;" />
-            <p>${data.content}</p>
-          </div>
-        `,
+        imageUrl: url,
+        content: data.content,
+        linkCTA: data.linkCTA,
       };
-
       await updateMarketing(bodyData);
       toast.success("Campagne modifiée avec succès !");
       reset();
@@ -126,6 +131,12 @@ const MarketingUpdate: React.FC = () => {
       </div>
     );
   }
+  const handleRemoveImage = (image: File | string) => {
+    if (typeof image === "string") {
+      setUrlFirebaseToDelete(image);
+    }
+    setPreviewImage(null);
+  };
   return (
     <div>
       <NavBackDashboard
@@ -140,7 +151,7 @@ const MarketingUpdate: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Champ Titre */}
           <div>
-            <Label htmlFor="subject">Sujet (objet du mail)</Label>
+            <Label htmlFor="subject">Sujet (objet et titre du mail)</Label>
             <Input
               type="text"
               {...register("subject")}
@@ -152,7 +163,21 @@ const MarketingUpdate: React.FC = () => {
               <p className="text-red-500">{errors.subject.message}</p>
             )}
           </div>
-
+          {/* Champ CTA */}
+          <div className=" my-16">
+            <Label htmlFor="linkCTA">Lien de renvoi vers la page du site</Label>
+            <Input
+              type="text"
+              {...register("linkCTA")}
+              className={`w-full p-3 border ${
+                errors.linkCTA ? "border-red-500" : "border-gray-300"
+              } rounded-lg`}
+              placeholder="https://ateliernoaralya/produit/059834572111085"
+            />
+            {errors.linkCTA && (
+              <p className="text-red-500">{errors.linkCTA.message}</p>
+            )}
+          </div>
           {/* Champ Image */}
           <div>
             <Label>Image de la campagne</Label>
@@ -164,7 +189,7 @@ const MarketingUpdate: React.FC = () => {
                 handleImageUpload={(e) =>
                   setPreviewImage(e.target.files?.[0] as File)
                 }
-                handleRemoveImage={() => setPreviewImage(null)}
+                handleRemoveImage={handleRemoveImage}
               />
             </div>
           </div>

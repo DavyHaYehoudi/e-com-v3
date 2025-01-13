@@ -23,11 +23,13 @@ const createMarketingCampaignSchema = z.object({
     .string()
     .min(1, { message: "Le sujet de la campagne est requis." }),
   content: z.string().min(1, { message: "Le contenu du mail est requis." }),
+  linkCTA: z.string().url({ message: "URL du lien invalide." }),
 });
 type CreateMarketingCampaignDTO = z.infer<typeof createMarketingCampaignSchema>;
 
 const CreateMarketingCampaign: React.FC = () => {
   const [previewImage, setPreviewImage] = useState<File | null>(null);
+  console.log("previewImage:", previewImage);
   const [isLoading, setIsLoading] = useState(false);
   const { createMarketing } = useMarketing();
   const {
@@ -69,13 +71,9 @@ const CreateMarketingCampaign: React.FC = () => {
       const url = await uploadImageToFirebase(previewImage, "marketing");
       const bodyData = {
         subject: data.subject,
-        content: `
-          <div style="text-align: center;">
-            <h2>${data.subject}</h2>
-            <img src="${url}" style="width:100%; max-width: 600px; height:auto; border-radius:15px; object-fit: cover;" />
-            <p>${data.content}</p>
-          </div>
-        `,
+        imageUrl: url,
+        content: data.content,
+        linkCTA: data.linkCTA,
       };
 
       await createMarketing(bodyData);
@@ -112,7 +110,7 @@ const CreateMarketingCampaign: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Champ Titre */}
           <div>
-            <Label htmlFor="subject">Sujet (objet du mail)</Label>
+            <Label htmlFor="subject">Sujet (objet et titre du mail)</Label>
             <Input
               type="text"
               {...register("subject")}
@@ -124,7 +122,21 @@ const CreateMarketingCampaign: React.FC = () => {
               <p className="text-red-500">{errors.subject.message}</p>
             )}
           </div>
-
+          {/* Champ CTA */}
+          <div className=" my-16">
+            <Label htmlFor="linkCTA">Lien de renvoi vers la page du site</Label>
+            <Input
+              type="text"
+              {...register("linkCTA")}
+              className={`w-full p-3 border ${
+                errors.linkCTA ? "border-red-500" : "border-gray-300"
+              } rounded-lg`}
+              placeholder="https://ateliernoaralya/produit/059834572111085"
+            />
+            {errors.linkCTA && (
+              <p className="text-red-500">{errors.linkCTA.message}</p>
+            )}
+          </div>
           {/* Champ Image */}
           <div>
             <Label>Image de la campagne</Label>
@@ -170,7 +182,6 @@ const CreateMarketingCampaign: React.FC = () => {
               </p>
             )}
           </div>
-
           {/* Bouton de soumission */}
           <div className="flex justify-center ">
             <Button

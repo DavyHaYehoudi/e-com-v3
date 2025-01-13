@@ -3,7 +3,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -37,28 +36,30 @@ const CardActions: React.FC<CardActionsProps> = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem onClick={handlePreviewMarketing}>
           <Fullscreen />
           Prévisualiser
         </DropdownMenuItem>
         <DropdownMenuItem>
           <SquarePen />
-          <Link to={`/admin/tableau-de-bord/marketing/modifier/${marketingId}`}>
+          <Link
+            to={`/admin/tableau-de-bord/marketing/modifier/${marketingId}`}
+            className="cursor-default"
+          >
             Modifier l'événement
           </Link>{" "}
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSendMarketing}>
+          <Send />
+          Diffuser la campagne
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
-          className="text-red-500"
+          className="text-red-500 rounded-md p-2 transition-all duration-75 hover:bg-neutral-100"
           onClick={handleRemoveMarketing}
         >
           <Trash2 />
           Supprimer l'événement
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSendMarketing}>
-          <Send />
-          Diffuser la campagne
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -16,6 +16,8 @@ export const createCampaignRepository = async (campaignData) => {
   return CampaignModel.create({
     subject: campaignData.subject,
     content: campaignData.content,
+    imageUrl: campaignData.imageUrl,
+    linkCTA: campaignData.linkCTA,
   });
 };
 // ADMIN - Modifier une campagne ou l'envoyer
@@ -28,7 +30,9 @@ export const updateCampaignRepository = async (campaignId, campaignData) => {
   const updatedCampaignData = {
     subject: campaignData.subject,
     content: campaignData.content,
+    imageUrl: campaignData.imageUrl,
     status: campaignData.status,
+    linkCTA: campaignData.linkCTA,
   };
   const updatedCampaign = await CampaignModel.findByIdAndUpdate(
     campaignId,

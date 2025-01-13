@@ -88,7 +88,7 @@ const CollectionActions: React.FC<CollectionActionsProps> = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px] z-50">
-          <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base text-neutral-500 ">
+          <DropdownMenuItem className="group flex w-full items-center justify-between  text-left p-0 text-sm font-base">
             <button
               onClick={() => {
                 setIsEditOpen(true);
@@ -98,7 +98,7 @@ const CollectionActions: React.FC<CollectionActionsProps> = ({
                   label,
                 }));
               }}
-              className="w-full justify-start flex rounded-md p-2 transition-all duration-75 hover:bg-neutral-100 hover:text-yellow-500 "
+              className="w-full justify-start flex rounded-md p-2 transition-all duration-75"
             >
               <SquarePen className="h-4 w-4" />{" "}
               <span className="ml-2">Modifier</span>
