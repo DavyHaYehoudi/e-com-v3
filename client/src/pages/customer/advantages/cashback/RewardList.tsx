@@ -4,7 +4,7 @@ import { rewards } from "./data";
 
 const RewardList = () => {
   return (
-    <div className="pb-6">
+    <div className="px-2 pb-20">
       {/* Titre principal */}
       <h2 className="text-2xl font-bold text-center mb-8">
         Vos recompenses disponibles 🎉

@@ -22,9 +22,19 @@ export const getReviewsOfOneProductRepository = async (productId) => {
 // ADMIN
 export const getAllReviewsRepository = async () => {
   try {
-    return await Review.find().sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
+    return await Review.find()
+      .populate({
+        path: "customerId",
+        select: "avatarUrl firstName lastName",
+      })
+      .sort({ createdAt: -1 }) // Trie par date décroissante
+      .exec();
   } catch (error) {
-    throw new Error(`Error retrieving reviews : ${error.message}`);
+    throw new Error(
+      `Error retrieving reviews: ${
+        error instanceof Error ? error.message : error
+      }`
+    );
   }
 };
 // AMDIN

@@ -9,8 +9,9 @@ const ProductsLayout = () => {
     <SidebarProvider
       defaultOpen={false}
       style={{
-        "--sidebar-width": "20rem",
+        ["--sidebar-width" as any]: "20rem"
       }}
+      
     >
       <ProductsSidebar onFilter={handleFilterSubmit} />
       <main className="mx-auto w-full ">

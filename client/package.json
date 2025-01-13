@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "build:preprod": "env-cmd -f .env.preprod npm run build:base",
     "build:production": "env-cmd -f .env.production npm run build:base",
-    "build:base": "tsc -b && vite build"
+    "build:base": "tsc -b && vite build",
+    "deploy": "firebase deploy --project preprod",
+    "deploy:production": "firebase deploy --project production"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

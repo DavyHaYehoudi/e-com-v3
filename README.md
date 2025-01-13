@@ -40,10 +40,9 @@
 | -------------- | ---------------------------------------------------------------------- |
 | **Front side** | 1. `cd client`                                                         |
 |                | 2. `npm run build:preprod`                                             |
-|                | 3. `firebase deploy --project preprod` ou simplement `firebase deploy` |
+|                | 3. `npm run deploy` |
 | **Back side**  | 1. `cd api/functions`                                                  |
 |                | 2. `npm run deploy`                                                    |
-|                | 3. `firebase deploy --project preprod` ou simplement `firebase deploy` |
 
 ### Production
 
@@ -51,10 +50,9 @@
 | -------------- | ----------------------------------------- |
 | **Front side** | 1. `cd client`                            |
 |                | 2. `npm run build:production`             |
-|                | 3. `firebase deploy --project production` |
+|                | 3. `npm run deploy:production` |
 | **Back side**  | 1. `cd api/functions`                     |
 |                | 2. `npm run deploy:production`            |
-|                | 3. `firebase deploy --project production` |
 
 ---
 

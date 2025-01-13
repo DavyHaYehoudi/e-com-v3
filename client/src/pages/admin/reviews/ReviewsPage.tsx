@@ -6,6 +6,7 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const ReviewsPage = () => {
   const [reviews, setReviews] = useState<ReviewDBType[]>([]);
+  console.log('reviews:', reviews)
   const [loading, setLoading] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState("");
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -58,7 +59,7 @@ const ReviewsPage = () => {
           <ReviewCard
             key={review._id}
             review={review}
-            customerId={review.customerId}
+            customer={review.customerId}
             handleEditStatus={handleEditStatus}
             handleDeleteReview={handleDeleteReview}
             isDeleteOpen={isDeleteOpen}

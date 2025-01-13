@@ -9,10 +9,11 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Star, Trash2 } from "lucide-react";
-import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
-import { useEffect, useState } from "react";
-import { ReviewDBType, StatusType } from "@/types/ReviewTypes";
-import { CustomerDBType } from "@/types/CustomerTypes";
+import {
+  customerIdInReviewType,
+  ReviewDBType,
+  StatusType,
+} from "@/types/ReviewTypes";
 import useReviews from "@/hooks/dashboard/admin/useReview";
 import { toast } from "sonner";
 import ReviewStatusBadge from "./ReviewStatusBadge";
@@ -20,7 +21,7 @@ import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
 
 interface ReviewCardProps {
   review: ReviewDBType;
-  customerId: string;
+  customer: customerIdInReviewType;
   handleEditStatus: (status: StatusType, reviewId: string) => void;
   handleDeleteReview: (reviewId: string) => void;
   isDeleteOpen: boolean;
@@ -31,7 +32,7 @@ interface ReviewCardProps {
 
 const ReviewCard: React.FC<ReviewCardProps> = ({
   review,
-  customerId,
+  customer,
   handleEditStatus,
   handleDeleteReview,
   isDeleteOpen,
@@ -39,30 +40,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   selectedReviewId,
   setSelectedReviewId,
 }) => {
-  const [customer, setCustomer] = useState<CustomerDBType | null>(null);
-  const { customerInfoFetch } = useCustomerInfo(customerId);
   const { approvedReview } = useReviews(review._id);
   const { deleteReview } = useReviews(selectedReviewId);
-
-  useEffect(() => {
-    const fetchCustomerInfo = async () => {
-      try {
-        const customerData = await customerInfoFetch();
-        setCustomer(customerData || null);
-      } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des infos client :",
-          error
-        );
-      }
-    };
-
-    fetchCustomerInfo();
-  }, [review.customerId, customerInfoFetch]);
-
-  if (!customer) {
-    return <p>Chargement des informations client...</p>;
-  }
 
   const updateReviewStatus = (newStatus: StatusType) => {
     approvedReview({ status: newStatus }).then((result) => {
@@ -102,8 +81,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
               <Avatar>
                 <AvatarImage src={customer.avatarUrl} alt="Avatar" />
                 <AvatarFallback>
-                  {customer.firstName.charAt(0)}
-                  {customer.lastName.charAt(0)}
+                  {customer.firstName?.charAt(0)}
+                  {customer.lastName?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div>
