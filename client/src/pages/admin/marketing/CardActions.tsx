@@ -11,7 +11,7 @@ import {
   Send,
   SquarePen,
   Trash2,
-  Fullscreen,
+  Mail,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -37,7 +37,7 @@ const CardActions: React.FC<CardActionsProps> = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={handlePreviewMarketing}>
-          <Fullscreen />
+          <Mail />
           Prévisualiser
         </DropdownMenuItem>
         <DropdownMenuItem>
