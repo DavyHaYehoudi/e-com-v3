@@ -9,7 +9,7 @@ const PriceSection: React.FC<{
 }> = ({ register, errors }) => (
   <div className="mb-4">
     <Label htmlFor="price">
-      Prix (€)<span className="text-red-500 text-2xl">*</span>
+    🎯 Prix (€)<span className="text-red-500 text-2xl">*</span>
     </Label>
     <Input
       id="price"

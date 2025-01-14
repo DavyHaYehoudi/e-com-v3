@@ -13,7 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { CategoryDBType } from "@/types/CategoryTypes";
 import { TagDBType } from "@/types/TagTypes";
-import OptionSwitch from "./sections/OptionSwitch";
 import AttributeField from "./sections/AttributeField";
 import PromotionField from "./sections/PromotionField";
 import Classifying from "./sections/Classifying";
@@ -30,6 +29,8 @@ import NavBackDashboard from "@/components/shared/NavBackDashboard";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useProductFormHandler } from "@/hooks/dashboard/admin/useProductFormHandler";
 import CommonImages from "./sections/CommonImages";
+import OptionCheckbox from "./sections/OptionCheckbox";
+import { Layers, Percent } from "lucide-react";
 
 export interface VariantsToAddType {
   combination: string;
@@ -202,6 +203,7 @@ const ProductForm: React.FC = () => {
 
   const promotionEndDate = watch("promotionEndDate");
   const newUntil = watch("newUntil");
+
   const isAllFieldsValid =
     selectedCollections.length > 0 &&
     selectedCategories.length > 0 &&
@@ -210,7 +212,6 @@ const ProductForm: React.FC = () => {
     variantsToAddList.every(
       (variant) => variant.mainImage && variant.combination.trim() !== ""
     );
-
   if (loading || isSubmitLoading) {
     return (
       <div className="flex items-center flex-col justify-center gap-4">
@@ -229,7 +230,7 @@ const ProductForm: React.FC = () => {
       <h1 className="text-center mb-10">
         {productId ? "modifier le produit" : "creer un produit"}
       </h1>
-      {isAllFieldsValid ? (
+      {!isAllFieldsValid ? (
         <p className="text-red-500 text-center">
           ℹ️ Les champs marqués par l'astérix * sont requis
         </p>
@@ -264,7 +265,9 @@ const ProductForm: React.FC = () => {
             <CashbackSection register={register} errors={errors} />
             {/* Classement */}
             <div className="my-20 p-4 border rounded-md">
-              <h3 className=" mb-2">Classement</h3>
+              <h3 className=" mb-2 flex items-center gap-2">
+                <span>Classement</span> <Layers />{" "}
+              </h3>
               <Classifying
                 collections={collections}
                 categories={categories}
@@ -279,7 +282,10 @@ const ProductForm: React.FC = () => {
             </div>
             {/* Promotion */}
             <div className="border rounded-md p-4">
-              <h3 className=" mb-2">Promotion</h3>
+              <h3 className=" mb-2 flex items-center gap-2">
+                <span>Promotion</span>
+                <Percent />{" "}
+              </h3>
               <PromotionField
                 control={control}
                 value={promotionEndDate}
@@ -290,7 +296,7 @@ const ProductForm: React.FC = () => {
             </div>
             {/* Attributs */}
             <div className="border rounded-md p-4 my-20">
-              <h3 className="mb-2">Attributs</h3>
+              <h3 className="mb-2">Attributs 🆕</h3>
               <AttributeField
                 name="newUntil"
                 control={control}
@@ -303,7 +309,7 @@ const ProductForm: React.FC = () => {
             </div>
             {/* Caroussel */}
             <div className="border rounded-md p-4">
-              <h3 className="mb-2">Caroussel d'images</h3>
+              <h3 className="mb-2">Caroussel d'images 🌐</h3>
               <CommonImages
                 commonImages={commonImages}
                 onImagesUpload={handleCommonImageUpload}
@@ -320,20 +326,23 @@ const ProductForm: React.FC = () => {
             {/* Options */}
             <div className="border rounded-md p-4 my-20">
               <h3 className="mb-2">Options</h3>
-              <OptionSwitch
+              <OptionCheckbox
                 name="isStar"
                 control={control}
                 id="isStar"
-                labelChecked="Produit mis en avant  🚀"
-                labelUnchecked="Produit ordinaire"
+                labelChecked="Produit mis en avant  🌟"
               />
-              <OptionSwitch
+              <OptionCheckbox
+                name="continueSelling"
+                control={control}
+                id="continueSelling"
+                labelChecked="Vendre malgré un stock vide 🔄"
+              />
+              <OptionCheckbox
                 name="isPublished"
                 control={control}
                 id="isPublished"
-                labelChecked="Produit publié"
-                labelUnchecked="Produit suspendu"
-                className="text-green-500"
+                labelChecked="Produit publié 🌍"
               />
             </div>
           </CardContent>

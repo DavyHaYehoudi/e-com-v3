@@ -9,7 +9,7 @@ const StockSection: React.FC<{
 }> = ({ register, errors }) => (
   <div className="mb-4">
     <Label htmlFor="stock">
-      Stock<span className="text-red-500 text-2xl">*</span>{" "}
+    📦 Stock<span className="text-red-500 text-2xl">*</span>{" "}
     </Label>
     <Input
       id="stock"

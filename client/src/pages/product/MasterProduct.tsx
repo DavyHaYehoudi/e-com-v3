@@ -13,7 +13,6 @@ import { RootState } from "@/redux/store/store";
 import ProductReview from "./reviews/ProductReview";
 import { useParams } from "react-router-dom";
 import { ProductDBType } from "@/types/ProductTypes";
-import { useCartManager } from "@/hooks/useCartManager";
 import { isProductNew } from "@/utils/productUtils";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
@@ -21,7 +20,6 @@ const MasterProduct = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const cartCustomer = useSelector((state: RootState) => state.cart);
   const [selectedVariant, setSelectedVariant] = useState("");
-  const { addOrUpdateProductInCart } = useCartManager();
   const { productId } = useParams();
   const {
     data: product,
@@ -36,20 +34,7 @@ const MasterProduct = () => {
   }, [productId, triggerFetch]);
 
   const handleQuantityChange = (value: number) => {
-    if (productId && product) {
-      addOrUpdateProductInCart({
-        productId,
-        variant: selectedVariant,
-        quantity: value,
-        name: product?.name,
-        heroImage: product?.heroImage,
-        newUntil: product?.newUntil,
-        price: product?.price,
-        promotionPercentage: product?.promotionPercentage,
-        promotionEndDate: product?.promotionEndDate,
-        cashback: product?.cashback,
-      });
-    }
+    setQuantity(value);
   };
   const handleVariantChange = (combination: string) => {
     const selectedVariantInProduct = product?.variants.find(

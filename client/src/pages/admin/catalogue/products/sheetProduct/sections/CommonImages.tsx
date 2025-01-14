@@ -27,7 +27,8 @@ const CommonImages: React.FC<CommonImagesProps> = ({
   return (
     <div className="mt-4">
       <Label className="text-sm font-medium mt-4">
-        Images communes aux variantes :
+        Images communes aux variantes et visibles au survol de la souris
+        sur une carte :
       </Label>
       <div className="flex flex-wrap gap-2 mt-2">
         {commonImages.map((image, index) => (

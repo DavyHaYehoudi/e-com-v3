@@ -49,7 +49,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   return (
     <div className="mt-4">
-      <Label className="text-sm font-medium">Image principale :<span className="text-red-500 text-2xl">*</span></Label>
+      <Label className="text-sm font-medium">Image principale 📸 :<span className="text-red-500 text-2xl">*</span></Label>
       <ImageUploaderBox
         image={mainImage}
         handleImageUpload={(e) =>
@@ -60,7 +60,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         height={200}
       />
 
-      <Label className="text-sm font-medium mt-4">Images secondaires :</Label>
+      <Label className="text-sm font-medium mt-4">Images secondaires 🎞️ :</Label>
       <div className="flex flex-wrap gap-2 mt-2">
         {secondaryImages.map((image, index) => (
           <ImageUploaderBox

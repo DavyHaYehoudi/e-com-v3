@@ -21,7 +21,7 @@ const HeaderSection: React.FC<{
     {/* Nom du produit */}
     <div className="mb-4">
       <Label htmlFor="name">
-        Nom<span className="text-red-500 text-2xl">*</span>
+      🔖 Nom<span className="text-red-500 text-2xl">*</span>
       </Label>
       <Input id="name" {...register("name")} placeholder="Nom du produit" />
       {errors.name && <p className="text-red-500">{errors.name.message}</p>}
@@ -30,7 +30,7 @@ const HeaderSection: React.FC<{
     {/* Image principale */}
     <div className="flex flex-col items-center gap-4 my-20">
       <Label>
-        Image du produit sur la carte produit et dans le panier
+      🖼️ Image sur la carte produit et dans le panier
         <span className="text-red-500 text-2xl">*</span>
       </Label>
       <ImageUploaderBox

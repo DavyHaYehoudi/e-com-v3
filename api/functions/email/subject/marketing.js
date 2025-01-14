@@ -9,6 +9,7 @@ export const sendCashbackCorrectionToCustomer = async (
   email,
   deductedAmount
 ) => {
+  const currentYear = new Date().getFullYear();
   const mailOptions = {
     to: email,
     subject: "Correction de votre Cashback",
@@ -30,9 +31,10 @@ export const sendCashbackCorrectionToCustomer = async (
           <p style="font-size: 16px; color: #333;">
             Nous vous remercions de votre compréhension.
           </p>
-          <p style="text-align: center; font-size: 14px; color: #777;">
-            Les Ateliers Noralya
-          </p>
+        <!-- Pied de page -->
+        <footer style="text-align: center; margin-top: 40px; font-size: 14px; color: #777;">
+          <p>© ${currentYear} Atelier Noralya. Tous droits réservés.</p>
+        </footer>
         </div>
       </div>
     `,
@@ -144,6 +146,7 @@ export const sendBirthdayToCustomer = async (
   firstName,
   cashbackAmount
 ) => {
+  const currentYear = new Date().getFullYear();
   const mailOptions = {
     to: email,
     subject: `Félicitations pour votre anniversaire ${
@@ -174,9 +177,10 @@ export const sendBirthdayToCustomer = async (
             Nous vous souhaitons une merveilleuse année pleine de surprises et de succès !
           </p>
     
-          <p style="text-align: center; font-size: 14px; color: #777;">
-            Les Ateliers Noralya
-          </p>
+        <!-- Pied de page -->
+        <footer style="text-align: center; margin-top: 40px; font-size: 14px; color: #777;">
+          <p>© ${currentYear} Atelier Noralya. Tous droits réservés.</p>
+        </footer>
         </div>
       </div>
     `,
@@ -194,6 +198,7 @@ export const sendCashbackEarnedToCustomer = async (
   cashbackAmount,
   reason
 ) => {
+  const currentYear = new Date().getFullYear();
   let reasonText = "";
   switch (reason) {
     case "review":
@@ -238,9 +243,10 @@ export const sendCashbackEarnedToCustomer = async (
             Nous vous souhaitons une merveilleuse expérience d'achat !
           </p>
     
-          <p style="text-align: center; font-size: 14px; color: #777;">
-           Les Ateliers Noralya
-          </p>
+        <!-- Pied de page -->
+        <footer style="text-align: center; margin-top: 40px; font-size: 14px; color: #777;">
+          <p>© ${currentYear} Atelier Noralya. Tous droits réservés.</p>
+        </footer>
         </div>
       </div>
     `,

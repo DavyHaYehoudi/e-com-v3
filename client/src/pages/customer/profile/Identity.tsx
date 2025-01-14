@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { UserRound } from "lucide-react";
+import { UserRound, SquarePen } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/card";
 import useCustomerInfo from "../../../hooks/dashboard/customer/useCustomerInfo";
 import { toast } from "sonner";
-import { Switch } from "@/components/ui/switch";
 import { IdentityFormData, identitySchema } from "./identitySchema";
 import CalendarCustom from "@/components/shared/CalendarCustom";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Identity = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -183,22 +183,18 @@ const Identity = () => {
               control={control}
               render={({ field }) => (
                 <>
-                  <Switch
+                  <Checkbox
                     id="emailMarketingConsent"
                     checked={field.value}
                     onCheckedChange={field.onChange}
                     disabled={!isEditing}
-                    className="bg-gray-200  border-gray-300 dark:border-gray-500 "
                   />
-                  {field.value ? (
-                    <span className="text-xs text-blue-500">
-                      Je recevrai des mails commerciaux.
-                    </span>
-                  ) : (
-                    <span className="text-xs text-gray-500">
-                      Vous ne recevrez pas de mails commerciaux.
-                    </span>
-                  )}
+                  <label
+                    htmlFor="emailMarketingConsent"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Recevoir des emails commerciaux
+                  </label>
                 </>
               )}
             />
@@ -225,7 +221,12 @@ const Identity = () => {
               <Button type="submit">Enregistrer</Button>
             </>
           ) : (
-            <Button onClick={handleEditClick}>Modifier</Button>
+            <Button
+              className="flex items-center gap-2"
+              onClick={handleEditClick}
+            >
+              <SquarePen /> <span>Modifier</span>{" "}
+            </Button>
           )}
         </CardFooter>
       </form>

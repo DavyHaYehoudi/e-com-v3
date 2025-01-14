@@ -8,8 +8,11 @@ const CashbackSection: React.FC<{
   errors: FieldErrors<ProductInputDTO>;
 }> = ({ register, errors }) => (
   <div className="mb-4">
-    <Label htmlFor="cashback" className="bg-blue-500 text-white p-1 rounded-md">
-      Cashback (€)
+    <Label htmlFor="cashback">
+      💰{" "}
+      <span className="bg-blue-500 text-white p-1 rounded-md">
+        Cashback (€)
+      </span>
     </Label>
     <Input
       id="cashback"

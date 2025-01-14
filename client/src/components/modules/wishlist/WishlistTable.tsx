@@ -8,9 +8,18 @@ import {
 } from "@/components/ui/table";
 import WishlistRowItem from "./WishlistRowItem";
 import { useWishlistManager } from "@/hooks/useWishlistManager";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const WishlistTable = () => {
   const { productsWishlist } = useWishlistManager();
+  if (!productsWishlist) {
+    return (
+      <div className="flex items-center flex-col justify-center gap-4">
+        <LoadingSpinner />
+        <span> Chargement en cours...</span>
+      </div>
+    );
+  }
   return productsWishlist && productsWishlist.length > 0 ? (
     <Table className="min-w-full text-l">
       <TableCaption></TableCaption>

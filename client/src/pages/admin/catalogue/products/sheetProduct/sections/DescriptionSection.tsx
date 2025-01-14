@@ -9,7 +9,7 @@ const DescriptionSection: React.FC<{
 }> = ({ register, errors }) => (
   <div className="mb-4">
     <Label htmlFor="description">
-      Description<span className="text-red-500 text-2xl">*</span>
+    📝 Description<span className="text-red-500 text-2xl">*</span>
     </Label>
     <Textarea
       id="description"

@@ -5,6 +5,7 @@ export const sendPaymentConfirmationEmail = async (customer, orderDetailsForEmai
     const giftCardsList = orderDetailsForEmail.giftcardsCreated;
     const giftcardsUsedList = orderDetailsForEmail.giftcardsUsed;
     const productsList = orderDetailsForEmail.orderItems;
+    const currentYear = new Date().getFullYear();
     // Section pour les cartes cadeaux utilisées
     const giftcardsAmountUsedTotal = (_a = giftcardsUsedList === null || giftcardsUsedList === void 0 ? void 0 : giftcardsUsedList.reduce((total, gift) => total + gift.amountUsed, 0)) !== null && _a !== void 0 ? _a : 0;
     const giftcardsUsedTable = giftcardsUsedList.length > 0
@@ -114,6 +115,10 @@ export const sendPaymentConfirmationEmail = async (customer, orderDetailsForEmai
         ${giftCardsTable}
 
         <p style="text-align: center;">Nous vous remercions de votre confiance et restons à votre disposition pour toute question.</p>
+        <!-- Pied de page -->
+        <footer style="text-align: center; margin-top: 40px; font-size: 14px; color: #777;">
+          <p>© ${currentYear} Atelier Noralya. Tous droits réservés.</p>
+        </footer>
       </div>
     `,
     };
@@ -125,4 +130,3 @@ export const sendPaymentConfirmationEmail = async (customer, orderDetailsForEmai
         console.error("Erreur lors de l'envoi de l'email de paiement:", error);
     }
 };
-//# sourceMappingURL=payment.js.map

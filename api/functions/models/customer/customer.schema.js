@@ -216,7 +216,7 @@ const CustomerSchema = new Schema(
     },
     emailMarketingConsent: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     ordersTotalCount: {
       type: Number,

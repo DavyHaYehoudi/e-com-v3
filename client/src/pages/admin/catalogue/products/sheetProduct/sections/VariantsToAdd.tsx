@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import ImageUploader from "./ImageUploader";
-import { fileOptimize } from "@/utils/imageManage";
 import DeleteAlert from "@/components/shared/dialog/DeleteAlert";
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 
@@ -39,43 +38,13 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
     secondaryImages: [],
   });
 
-  console.log("draftVariant:", draftVariant);
-  const [imageURLs, setImageURLs] = useState<{
-    main: string | null;
-    secondary: string[];
-  }>({
-    main: null,
-    secondary: [],
-  });
-  console.log("imageURLs :", imageURLs);
-
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedVariant, setSelectedVariant] =
     useState<VariantsToAddType | null>(null);
 
-  useEffect(() => {
-    const fetchImageURLs = async () => {
-      if (draftVariant.mainImage) {
-        const mainUrl = await fileOptimize(draftVariant.mainImage);
-        setImageURLs((prev) => ({ ...prev, main: mainUrl }));
-      }
-      const secondaryUrls = await Promise.all(
-        draftVariant.secondaryImages.map(fileOptimize)
-      );
-
-      // Filtrage des `null`
-      setImageURLs((prev) => ({
-        ...prev,
-        secondary: secondaryUrls.filter((url): url is string => url !== null),
-      }));
-    };
-    fetchImageURLs();
-  }, [draftVariant]);
-
   const handleUpdateDraftVariant = (updated: Partial<VariantsToAddType>) => {
     setDraftVariant((prev) => ({ ...prev, ...updated }));
   };
-
   const addVariant = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!draftVariant.combination.trim() || !draftVariant.mainImage) {
@@ -86,7 +55,6 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
     setVariantsToAddList((prev) => [...prev, draftVariant]);
     setDraftVariant({ combination: "", mainImage: null, secondaryImages: [] });
   };
-
   const removeVariant = (variant: VariantsToAddType | null) => {
     setIsDeleteOpen(false);
 
@@ -118,7 +86,6 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
       )
     );
   };
-
   const updateVariant = (
     index: number,
     updated: Partial<VariantsToAddType>
@@ -134,7 +101,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
   };
   return (
     <div className="my-8 border rounded-md p-4">
-      <h3 className="mb-4 text-2xl font-bold">Liste des Variantes</h3>
+      <h3 className="mb-4 text-2xl font-bold">Liste des Variantes 🧩</h3>
       {variantsToAddList.map((variant, index) => (
         <div key={index} className="mb-4 border rounded p-4">
           <p
@@ -147,7 +114,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
               : "Variante incomplète"}
           </p>
           {/* Combinaison */}
-          <Label className="text-sm font-medium mb-2">Combinaison :</Label>
+          <Label className="text-sm font-medium mb-2">Combinaison 🔀 :</Label>
           <Input
             type="text"
             value={variant.combination}
@@ -157,7 +124,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
           />
           {/* Main Image */}
           <div className="mt-2">
-            <Label className="text-sm font-medium">Image principale :</Label>
+            <Label className="text-sm font-medium">Image principale 📸  :</Label>
             <ImageUploaderBox
               image={variant.mainImage}
               handleImageUpload={(e) =>
@@ -172,7 +139,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
           </div>
           {/* Secondary Images */}
           <div className="mt-2">
-            <Label className="text-sm font-medium">Images secondaires :</Label>
+            <Label className="text-sm font-medium">Images secondaires 🎞️  :</Label>
             <div className="flex gap-2 mt-2">
               {variant.secondaryImages.map((url, i) => (
                 <ImageUploaderBox
@@ -225,7 +192,7 @@ const VariantsToAdd: React.FC<VariantsProps> = ({
       {/* Nouvelle variante */}
       <div className="border rounded p-4 mt-6">
         <h4 className="mb-4 font-medium">Nouvelle Variante</h4>
-        <Label className="text-sm font-medium mb-2">Combinaison :</Label>
+        <Label className="text-sm font-medium mb-2">Combinaison 🔀 :</Label>
         <Input
           type="text"
           value={draftVariant.combination}
