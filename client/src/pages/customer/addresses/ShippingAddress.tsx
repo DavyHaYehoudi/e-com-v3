@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Truck } from "lucide-react";
+import { Truck, SquarePen } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -244,7 +244,12 @@ const ShippingAddress = () => {
               <Button type="submit">Enregistrer</Button>
             </>
           ) : (
-            <Button onClick={handleEditClick}>Modifier</Button>
+            <Button
+              className="flex items-center gap-2"
+              onClick={handleEditClick}
+            >
+              <SquarePen /> <span>Modifier</span>
+            </Button>
           )}
         </CardFooter>
       </form>
