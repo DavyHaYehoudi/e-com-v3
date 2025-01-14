@@ -27,6 +27,7 @@ import ReturnBadge from "@/components/shared/badge/ReturnBadge";
 import ExchangeBadge from "@/components/shared/badge/ExchangeBadge";
 import RefundBadge from "@/components/shared/badge/RefundBadge";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
+import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
 
 const OrderContentAdminPage = () => {
   const [order, setOrder] = useState<OrderCustomerDBType | null>();
@@ -299,9 +300,11 @@ const OrderContentAdminPage = () => {
                   key={orderItem._id}
                   className="p-4 border rounded-lg relative"
                 >
-                  <p>
-                    <img src={orderItem.heroImage} alt={orderItem.name} />
-                  </p>
+                  <ProductImageItem
+                    productId={orderItem.productId}
+                    path={orderItem.heroImage}
+                    name={orderItem.name}
+                  />
                   <p>
                     <strong>Produit :</strong> {orderItem.name}
                   </p>

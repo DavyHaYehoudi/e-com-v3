@@ -60,6 +60,7 @@ import StatisticPage from "./pages/admin/chiffres/Statistic";
 import UsedStoragePage from "./pages/admin/chiffres/UsedStoragePage";
 import ProductsLayout from "./pages/products/ProductsLayout";
 import MarketingUpdate from "./pages/admin/marketing/MarketingUpdate";
+import ProtectedRoute from "./components/shared/ProtectedRoute";
 function App() {
   return (
     <ThemeProvider>
@@ -90,178 +91,182 @@ function App() {
                 />
               </Route>
               {/* Layout principal pour les clients */}
-              <Route element={<DashboardCustomerLayout />}>
-                <Route
-                  path="customer/tableau-de-bord"
-                  element={<HomeDashboardCustomer />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/profil/identite"
-                  element={<Identity />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/profil/avatar"
-                  element={<Avatar />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/adresses/livraison"
-                  element={<ShippingAddress />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/adresses/facturation"
-                  element={<BillingAddress />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/commandes/liste"
-                  element={<OrdersListPage />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/commandes/:orderId/livraison"
-                  element={<TrackingNumberPage />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/commandes/:orderId/contenu"
-                  element={<ContentOrderPage />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/commandes/:orderId/avis"
-                  element={<LeaveReviewPage />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/avantages/cartes-cadeaux/emploi"
-                  element={<GiftcardManual />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/avantages/cartes-cadeaux/liste"
-                  element={<GiftcardListPage />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/avantages/cartes-cadeaux/:giftcardId"
-                  element={<GiftcardDetail />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/avantages/cashback/fonctionnement"
-                  element={<RewardList />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/avantages/cashback/historique"
-                  element={<CashbackHistoryPage />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/politique/vente/conditions-generales"
-                  element={<TermsOfSalesDashboard />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/politique/vente/mentions-legales"
-                  element={<LegalMentionsDashboard />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/politique/vente/livraisons-et-retours"
-                  element={<ShippingAndReturnsDashboard />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/politique/securite/paiements"
-                  element={<PaymentsConditionsDashboard />}
-                />
-                <Route
-                  path="customer/tableau-de-bord/politique/securite/donnees-personnelles"
-                  element={<PersonalsData />}
-                />
+              <Route element={<ProtectedRoute role="customer" />}>
+                <Route element={<DashboardCustomerLayout />}>
+                  <Route
+                    path="customer/tableau-de-bord"
+                    element={<HomeDashboardCustomer />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/profil/identite"
+                    element={<Identity />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/profil/avatar"
+                    element={<Avatar />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/adresses/livraison"
+                    element={<ShippingAddress />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/adresses/facturation"
+                    element={<BillingAddress />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/commandes/liste"
+                    element={<OrdersListPage />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/commandes/:orderId/livraison"
+                    element={<TrackingNumberPage />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/commandes/:orderId/contenu"
+                    element={<ContentOrderPage />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/commandes/:orderId/avis"
+                    element={<LeaveReviewPage />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/avantages/cartes-cadeaux/emploi"
+                    element={<GiftcardManual />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/avantages/cartes-cadeaux/liste"
+                    element={<GiftcardListPage />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/avantages/cartes-cadeaux/:giftcardId"
+                    element={<GiftcardDetail />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/avantages/cashback/fonctionnement"
+                    element={<RewardList />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/avantages/cashback/historique"
+                    element={<CashbackHistoryPage />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/politique/vente/conditions-generales"
+                    element={<TermsOfSalesDashboard />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/politique/vente/mentions-legales"
+                    element={<LegalMentionsDashboard />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/politique/vente/livraisons-et-retours"
+                    element={<ShippingAndReturnsDashboard />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/politique/securite/paiements"
+                    element={<PaymentsConditionsDashboard />}
+                  />
+                  <Route
+                    path="customer/tableau-de-bord/politique/securite/donnees-personnelles"
+                    element={<PersonalsData />}
+                  />
+                </Route>
               </Route>
               {/* Layout principal pour l'admin */}
-              <Route element={<DashboardAdminLayout />}>
-                <Route
-                  path="admin/tableau-de-bord"
-                  element={<HomeDashboardAdmin />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/activite/clients/liste"
-                  element={<CustomersPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/activite/clients/:customerId/fiche"
-                  element={<CustomerSheet />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/activite/clients/:customerId/historique"
-                  element={<CustomerHistory />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/activite/clients/:customerId/offrir-carte-cadeau"
-                  element={<GiftcardToOffer />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/activite/clients/:customerId/offrir-cashback"
-                  element={<ManageCashback />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/activite/commandes/liste"
-                  element={<OrdersPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/activite/commandes/:orderId/contenu"
-                  element={<OrderContentAdminPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/catalogue/produits/liste"
-                  element={<ProductsPageAdmin />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/catalogue/produits/ajouter"
-                  element={<ProductForm />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/catalogue/produits/modifier/:productId"
-                  element={<ProductForm />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/catalogue/collections"
-                  element={<CollectionsPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/catalogue/categories"
-                  element={<CategoriesPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/catalogue/tags"
-                  element={<TagsPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/avantages/cartes-cadeaux/liste"
-                  element={<GiftcardsPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/avantages/cartes-cadeaux/:giftcardId"
-                  element={<GiftcardHistoryPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/avantages/code-promo/liste"
-                  element={<PromocodesPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/marketing/liste"
-                  element={<MarketingPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/marketing/ajouter"
-                  element={<MarketingCreate />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/marketing/modifier/:marketingId"
-                  element={<MarketingUpdate />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/retours/avis"
-                  element={<ReviewsPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/chiffres/statistiques/general"
-                  element={<StatisticPage />}
-                ></Route>
-                <Route
-                  path="admin/tableau-de-bord/chiffres/statistiques/stockage-images"
-                  element={<UsedStoragePage />}
-                ></Route>
+              <Route element={<ProtectedRoute role="admin" />}>
+                <Route element={<DashboardAdminLayout />}>
+                  <Route
+                    path="admin/tableau-de-bord"
+                    element={<HomeDashboardAdmin />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/activite/clients/liste"
+                    element={<CustomersPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/activite/clients/:customerId/fiche"
+                    element={<CustomerSheet />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/activite/clients/:customerId/historique"
+                    element={<CustomerHistory />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/activite/clients/:customerId/offrir-carte-cadeau"
+                    element={<GiftcardToOffer />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/activite/clients/:customerId/offrir-cashback"
+                    element={<ManageCashback />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/activite/commandes/liste"
+                    element={<OrdersPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/activite/commandes/:orderId/contenu"
+                    element={<OrderContentAdminPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/catalogue/produits/liste"
+                    element={<ProductsPageAdmin />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/catalogue/produits/ajouter"
+                    element={<ProductForm />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/catalogue/produits/modifier/:productId"
+                    element={<ProductForm />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/catalogue/collections"
+                    element={<CollectionsPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/catalogue/categories"
+                    element={<CategoriesPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/catalogue/tags"
+                    element={<TagsPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/avantages/cartes-cadeaux/liste"
+                    element={<GiftcardsPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/avantages/cartes-cadeaux/:giftcardId"
+                    element={<GiftcardHistoryPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/avantages/code-promo/liste"
+                    element={<PromocodesPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/marketing/liste"
+                    element={<MarketingPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/marketing/ajouter"
+                    element={<MarketingCreate />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/marketing/modifier/:marketingId"
+                    element={<MarketingUpdate />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/retours/avis"
+                    element={<ReviewsPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/chiffres/statistiques/general"
+                    element={<StatisticPage />}
+                  ></Route>
+                  <Route
+                    path="admin/tableau-de-bord/chiffres/statistiques/stockage-images"
+                    element={<UsedStoragePage />}
+                  ></Route>
+                </Route>
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

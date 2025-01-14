@@ -124,14 +124,14 @@ const CreateMarketingCampaign: React.FC = () => {
           </div>
           {/* Champ CTA */}
           <div className=" my-16">
-            <Label htmlFor="linkCTA">Lien de renvoi vers la page du site</Label>
+            <Label htmlFor="linkCTA">Entrer le lien du bouton "Découvrir maintenant"</Label>
             <Input
               type="text"
               {...register("linkCTA")}
               className={`w-full p-3 border ${
                 errors.linkCTA ? "border-red-500" : "border-gray-300"
               } rounded-lg`}
-              placeholder="https://ateliernoaralya/produit/059834572111085"
+              placeholder="ex : https://ateliernoaralya/produit/059834572111085"
             />
             {errors.linkCTA && (
               <p className="text-red-500">{errors.linkCTA.message}</p>

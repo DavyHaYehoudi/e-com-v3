@@ -7,7 +7,7 @@ import storage from "redux-persist/lib/storage";
 interface User {
   id: number;
   email: string;
-  role: string;
+  role: "admin" | "customer";
 }
 
 interface AuthState {

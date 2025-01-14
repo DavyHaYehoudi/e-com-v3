@@ -37,6 +37,7 @@ const GiftcardToUse = ({
     mode: "onChange",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGiftcardChecked, setIsGiftcardChecked] = useState(true);
   const [giftcardCheckIn, setGiftcardCheckIn] = useState<GiftcardCheckType>({
     _id: "",
     code: "",
@@ -51,6 +52,9 @@ const GiftcardToUse = ({
     if (giftcardDetails) {
       setIsModalOpen(true);
       setGiftcardCheckIn(giftcardDetails);
+      setIsGiftcardChecked(true);
+    } else {
+      return setIsGiftcardChecked(false);
     }
     reset();
   };
@@ -84,7 +88,9 @@ const GiftcardToUse = ({
           </Button>
         </div>
       </form>
-
+      {!isGiftcardChecked && (
+        <p className="text-red-500">Code de la carte cadeau invalide</p>
+      )}
       {errors.code && <p className="text-red-500">{errors.code.message}</p>}
 
       <div className="mt-4 space-y-2">

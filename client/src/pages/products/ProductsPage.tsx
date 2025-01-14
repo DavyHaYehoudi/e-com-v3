@@ -28,7 +28,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
       <h1 className="uppercase text-center mt-10">La boutique des produits</h1>
       <section className="flex items-center justify-around">
         <div className="flex items-center gap-2">
-          <span>{isOpenSidebar ? "Refermer" : "Rechercher"} </span>
+          <span>{isOpenSidebar ? "Refermer" : "Rechercher ➡"} </span>
           <SidebarTrigger
             onClick={() => setIsOpenSidebar(!isOpenSidebar)}
           />{" "}
