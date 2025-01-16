@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Truck, SquarePen } from "lucide-react";
+import { Truck } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -18,7 +18,6 @@ import { AddressesFormValues, AddressesSchema } from "./addressesSchema";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const ShippingAddress = () => {
-  const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { customerInfoFetch, customerInfoUpdate } = useCustomerInfo();
 
@@ -68,21 +67,12 @@ const ShippingAddress = () => {
     try {
       customerInfoUpdate({ shippingAddress: data });
       toast.success("Adresse de livraison mise à jour avec succès !");
-      setIsEditing(false);
     } catch (error) {
       console.error("Erreur lors de la mise à jour :", error);
       toast.error("Impossible de mettre à jour vos informations.");
     }
   };
-  const handleEditClick = (event: React.MouseEvent) => {
-    event.preventDefault(); // Empêcher la soumission du formulaire
-    setIsEditing(true); // Passer en mode édition
-  };
-  const handleCancelClick = (event: React.MouseEvent) => {
-    event.preventDefault(); // Empêcher la soumission du formulaire
-    setIsEditing(false); // Passer en mode affichage
-    reset(); // Réinitialiser le formulaire
-  };
+
   if (isLoading) {
     return (
       <div className="flex items-center flex-col justify-center gap-4">
@@ -107,7 +97,6 @@ const ShippingAddress = () => {
             <Input
               {...register("firstName")}
               placeholder="Entrez votre prénom"
-              disabled={!isEditing}
             />
             {errors.firstName && (
               <p className="text-sm text-red-500">{errors.firstName.message}</p>
@@ -117,11 +106,7 @@ const ShippingAddress = () => {
           {/* Nom */}
           <div>
             <Label htmlFor="lastName">Nom</Label>
-            <Input
-              {...register("lastName")}
-              placeholder="Entrez votre nom"
-              disabled={!isEditing}
-            />
+            <Input {...register("lastName")} placeholder="Entrez votre nom" />
             {errors.lastName && (
               <p className="text-sm text-red-500">{errors.lastName.message}</p>
             )}
@@ -133,7 +118,6 @@ const ShippingAddress = () => {
             <Input
               {...register("phone")}
               placeholder="Entrez votre numéro de téléphone"
-              disabled={!isEditing}
             />
             {errors.phone && (
               <p className="text-sm text-red-500">{errors.phone.message}</p>
@@ -143,11 +127,7 @@ const ShippingAddress = () => {
           {/* Email */}
           <div>
             <Label htmlFor="email">Email</Label>
-            <Input
-              {...register("email")}
-              placeholder="Entrez votre email"
-              disabled={!isEditing}
-            />
+            <Input {...register("email")} placeholder="Entrez votre email" />
             {errors.email && (
               <p className="text-sm text-red-500">{errors.email.message}</p>
             )}
@@ -159,7 +139,6 @@ const ShippingAddress = () => {
             <Input
               {...register("streetNumber")}
               placeholder="Entrez le numéro de voie"
-              disabled={!isEditing}
             />
             {errors.streetNumber && (
               <p className="text-sm text-red-500">
@@ -174,7 +153,6 @@ const ShippingAddress = () => {
             <Input
               {...register("address1")}
               placeholder="Entrez votre adresse"
-              disabled={!isEditing}
             />
             {errors.address1 && (
               <p className="text-sm text-red-500">{errors.address1.message}</p>
@@ -187,7 +165,6 @@ const ShippingAddress = () => {
             <Input
               {...register("address2")}
               placeholder="Entrez le complément d'adresse"
-              disabled={!isEditing}
             />
             {errors.address2 && (
               <p className="text-sm text-red-500">{errors.address2.message}</p>
@@ -200,7 +177,6 @@ const ShippingAddress = () => {
             <Input
               {...register("postalCode")}
               placeholder="Entrez le code postal"
-              disabled={!isEditing}
             />
             {errors.postalCode && (
               <p className="text-sm text-red-500">
@@ -212,11 +188,7 @@ const ShippingAddress = () => {
           {/* Ville */}
           <div>
             <Label htmlFor="city">Ville</Label>
-            <Input
-              {...register("city")}
-              placeholder="Entrez la ville"
-              disabled={!isEditing}
-            />
+            <Input {...register("city")} placeholder="Entrez la ville" />
             {errors.city && (
               <p className="text-sm text-red-500">{errors.city.message}</p>
             )}
@@ -225,32 +197,14 @@ const ShippingAddress = () => {
           {/* Pays */}
           <div>
             <Label htmlFor="country">Pays</Label>
-            <Input
-              {...register("country")}
-              placeholder="Entrez le pays"
-              disabled={!isEditing}
-            />
+            <Input {...register("country")} placeholder="Entrez le pays" />
             {errors.country && (
               <p className="text-sm text-red-500">{errors.country.message}</p>
             )}
           </div>
         </CardContent>
         <CardFooter className="flex justify-end gap-2">
-          {isEditing ? (
-            <>
-              <Button variant="outline" onClick={handleCancelClick}>
-                Annuler
-              </Button>
-              <Button type="submit">Enregistrer</Button>
-            </>
-          ) : (
-            <Button
-              className="flex items-center gap-2"
-              onClick={handleEditClick}
-            >
-              <SquarePen /> <span>Modifier</span>
-            </Button>
-          )}
+          <Button type="submit">Enregistrer</Button>
         </CardFooter>
       </form>
     </Card>

@@ -33,11 +33,15 @@ const CarouselProduct: React.FC<CarouselProductProps> = ({
   ]);
   const isMobile = useIsMobile();
   return (
-    <ImageGallery
-      items={images}
-      showBullets={true}
-      showFullscreenButton={!isMobile}
-    />
+    <div className="custom-gallery">
+      <ImageGallery
+        items={images}
+        showThumbnails={!isMobile}
+        showPlayButton={false}
+        showFullscreenButton={!isMobile}
+        showBullets={true}
+      />
+    </div>
   );
 };
 

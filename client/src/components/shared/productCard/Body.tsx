@@ -7,7 +7,7 @@ interface ProductCardProps {
 const Body: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="text-center mt-2 text-gray-500">
-      <h4 className="text-lg line-clamp-2 ">{product.name}</h4>
+      <h4 className="text-lg line-clamp-2 px-6">{product.name}</h4>
       <div className="text-sm  uppercase" style={{ color: "var(--golden-1)" }}>
         atelier noralya
       </div>

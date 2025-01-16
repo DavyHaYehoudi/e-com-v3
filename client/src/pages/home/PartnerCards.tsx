@@ -9,7 +9,7 @@ import {
 const partners = [
   {
     id: 0,
-    link: "https://marjoryclos.hubside.fr/",
+    link: "https://www.instagram.com/marjory_photography?igsh=bWlmaDY4Y3l3OHh6",
     img: "/images/partner1.jpeg",
   },
   {
@@ -19,7 +19,7 @@ const partners = [
   },
   {
     id: 2,
-    link: "https://marjoryclos.hubside.fr/",
+    link: "https://www.instagram.com/marjory_photography?igsh=bWlmaDY4Y3l3OHh6",
     img: "/images/partner3.jpeg",
   },
   {
@@ -32,9 +32,7 @@ const partners = [
 export function PartnerCards() {
   return (
     <section className="mb-10">
-      <h2 className="text-center mb-6">
-        Mes Partenaires
-      </h2>
+      <h2 className="text-center mb-6">Mes Partenaires</h2>
       <div className="flex justify-around flex-wrap gap-2">
         {partners.map((partner) => (
           <Card
@@ -43,13 +41,14 @@ export function PartnerCards() {
             style={{ background: "var(--bg-1)" }}
           >
             <CardHeader className="flex justify-center pt-4">
-              <img
-                src={partner.img}
-                alt={`Partner ${partner.id}`}
-                width={150}
-                height={150}
-                className="rounded-full"
-              />
+              <div className="w-[150px] h-[150px] flex items-center">
+                <img
+                  src={partner.img}
+                  alt={`Partner ${partner.id}`}
+                  width={150}
+                  className="rounded-full w-full"
+                />
+              </div>
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center text-center">
               <CardTitle className="mt-4 dark text-dark">

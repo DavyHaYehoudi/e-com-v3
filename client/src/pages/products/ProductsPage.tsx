@@ -17,7 +17,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 
   if (loading) {
     return (
-      <div className="flex items-center flex-col justify-center gap-4">
+      <div className="flex items-center flex-col justify-center gap-4 mt-20">
         <LoadingSpinner />
         <span> Chargement en cours...</span>
       </div>
@@ -37,7 +37,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
         <DataCounter items={allProducts || []} itemName="produit" />
       </section>
 
-      <section className="my-20 flex justify-center flex-wrap items-center gap-4">
+      <section className="my-20 flex justify-center flex-wrap items-center gap-32">
         {allProducts && allProducts.length > 0
           ? allProducts.map((product) => (
               <ProductCard

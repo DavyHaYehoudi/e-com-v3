@@ -78,7 +78,7 @@ const GiftcardToUse = ({
         <div className="flex items-center gap-2 mt-1">
           <Input
             type="text"
-            placeholder="Code carte cadeau"
+            placeholder="ex: Uj49OpqQ123BBa"
             {...register("code")}
             className={errors.code ? "border-red-500" : ""}
           />

@@ -9,7 +9,7 @@ const Footer = () => {
         color: "var(--whiteSmoke)",
       }}
     >
-      <div className="flex flex-wrap  gap-20 md:gap-5 md:justify-around">
+      <div className="flex flex-wrap gap-20 md:gap-5 md:justify-around py-10">
         {/* Colonne 1 : Menu principal */}
         <div>
           <h2
@@ -107,7 +107,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="text-center mt-8 ">
+      <div className="text-center my-16 ">
         <p>&copy; {currentYear} Atelier Noralya. Tous droits réservés.</p>
       </div>
     </footer>

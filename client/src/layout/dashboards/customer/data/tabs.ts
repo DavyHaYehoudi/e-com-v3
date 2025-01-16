@@ -63,8 +63,8 @@ export const data = {
       isActive: true,
       items: [
         {
-          title: "Emploi",
-          url: "/customer/tableau-de-bord/avantages/cartes-cadeaux/emploi",
+          title: "Fonctionnement",
+          url: "/customer/tableau-de-bord/avantages/cartes-cadeaux/fonctionnement",
         },
         {
           title: "Liste",
@@ -78,7 +78,7 @@ export const data = {
       icon: BadgeEuro,
       items: [
         {
-          title: "Emploi",
+          title: "Fonctionnement",
           url: "/customer/tableau-de-bord/avantages/cashback/fonctionnement",
         },
         {

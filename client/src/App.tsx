@@ -130,7 +130,7 @@ function App() {
                     element={<LeaveReviewPage />}
                   />
                   <Route
-                    path="customer/tableau-de-bord/avantages/cartes-cadeaux/emploi"
+                    path="customer/tableau-de-bord/avantages/cartes-cadeaux/fonctionnement"
                     element={<GiftcardManual />}
                   />
                   <Route

@@ -81,10 +81,13 @@ const OtpForm: React.FC<OtpFormProps> = ({
       const OTPresponse = await triggerFetch(bodyData);
       if (OTPresponse) {
         authenticate(OTPresponse.token);
-        toast("Vous êtes connecté 👍");
+        toast.success("Vous êtes connecté 👍");
+      } else {
+        toast.error("Le code OTP est incorrect ou expiré");
       }
     } catch (error) {
       console.error(error);
+      toast.error("Le code OTP est incorrect ou expiré");
     }
   };
   return (

@@ -32,7 +32,7 @@ const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({
 
   return (
     <div className="wrapper flex flex-wrap items-center justify-center xl:justify-between my-5 gap-5">
-      <div className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded m-1 text-center">
+      <div className="text-blue-500 italic m-1 text-center">
         Total du cashback capitalisé pour vos prochains achats :{" "}
         <span className="font-extrabold whitespace-nowrap">
           {formatPrice(calculateTotalCashbackCartToEarn(cartProducts))}

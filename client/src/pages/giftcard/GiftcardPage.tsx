@@ -79,7 +79,7 @@ const GiftcardPage = () => {
             </p>
           </div>
         </div>
-        <div className="mt-20 mx-2 lg:mx-auto lg:w-3/4 shadow-xl rounded p-4 dark:shadow-xl dark:border-2 dark:border-white">
+        <div className="mt-20 mx-2 lg:mx-auto lg:w-1/3 shadow-xl rounded p-4 dark:shadow-xl dark:border-2 dark:border-white">
           <div className="mt-5 w-full flex justify-center items-center gap-2 flex-wrap">
             <Label>Montant de la carte cadeau</Label>
             <Input

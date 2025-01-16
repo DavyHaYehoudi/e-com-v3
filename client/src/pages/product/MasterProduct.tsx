@@ -10,11 +10,11 @@ import { useFetch } from "@/service/hooks/useFetch";
 import ProductVariants from "./ProductVariants";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import ProductReview from "./reviews/ProductReview";
 import { useParams } from "react-router-dom";
 import { ProductDBType } from "@/types/ProductTypes";
 import { isProductNew } from "@/utils/productUtils";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import ProductReviewSection from "./reviews/ProductReviewSection";
 
 const MasterProduct = () => {
   const [quantity, setQuantity] = useState<number>(1);
@@ -102,7 +102,7 @@ const MasterProduct = () => {
           </h1>
           <div className="flex items-center justify-between gap-8 my-10 flex-wrap">
             {/* Caroussel */}
-            <div className="md:w-1/2 xl:w-1/3 w-full min-w-[300px]">
+            <div className="md:w-1/2 w-full min-w-[300px]">
               <CarouselProduct
                 product={product}
                 selectedVariant={selectedVariant}
@@ -147,7 +147,7 @@ const MasterProduct = () => {
             {product?.description}
           </article>
           {/* Avis */}
-          <ProductReview productId={product._id} />
+          <ProductReviewSection productId={product._id} />
         </section>
         <ProductInformation />
         <ProductsSuggested product={product} />

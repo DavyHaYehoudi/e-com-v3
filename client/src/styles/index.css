@@ -187,13 +187,12 @@ section {
 }
 
 footer {
-  background: linear-gradient(
-    to top,
-    #a897a9 0%,
-    #b9a8b8 50%,
-    #c7b7c6 80%,
-    #d5d5d5 100%
-  );
+  background: linear-gradient(to top,
+      #a897a9 0%,
+      #b9a8b8 50%,
+      #c7b7c6 80%,
+      #d5d5d5 100%);
+  margin-bottom: -60px;
 }
 
 @-webkit-keyframes kenburns-bottom-left {
@@ -229,8 +228,7 @@ footer {
 }
 
 .animate-kenburns-left {
-  -webkit-animation: kenburns-bottom-left 60s ease-out infinite
-    alternate-reverse both;
+  -webkit-animation: kenburns-bottom-left 60s ease-out infinite alternate-reverse both;
   animation: kenburns-bottom-left 60s ease-out infinite alternate-reverse both;
 }
 
@@ -293,8 +291,10 @@ footer {
 
 /* Librairie Quill pour le contenu HTML des campagnes de marketing */
 .ql-toolbar {
-  z-index: 10; /* S'assurer que la toolbar est visible */
-  background-color: white; /* Améliorer la visibilité */
+  z-index: 10;
+  /* S'assurer que la toolbar est visible */
+  background-color: white;
+  /* Améliorer la visibilité */
   border-radius: 0.5rem;
 }
 
@@ -335,10 +335,22 @@ footer {
 }
 
 /* *********************************** Caroussel *********************************** */
-.image-gallery img {
+.custom-gallery img {
   @apply rounded;
 }
 
-.image-gallery-thumbnail {
-  @apply w-[100px] h-[100px] object-cover;
+.image-gallery-thumbnail img {
+  @apply w-[100px] h-[100px]
+}
+
+.custom-gallery .image-gallery-image {
+  width: 100% !important;
+  height: 600px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+.custom-gallery .fullscreen .image-gallery-image {
+  height: 100vh !important;
+  object-fit: cover !important;
 }

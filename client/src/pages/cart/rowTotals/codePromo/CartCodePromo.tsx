@@ -81,7 +81,7 @@ const CartCodePromo = ({
         <div className="flex items-center gap-2 mt-1">
           <Input
             type="text"
-            placeholder="Code de réduction"
+            placeholder="ex: Bonjour-15"
             {...register("code")}
             className={errors.code ? "border-red-500" : ""}
           />

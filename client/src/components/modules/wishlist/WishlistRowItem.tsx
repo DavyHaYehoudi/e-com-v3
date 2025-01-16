@@ -18,33 +18,46 @@ const WishlistRowItem: React.FC<WislistRowItemProps> = ({
     productsWishlistItems &&
     productsWishlistItems.length > 0 &&
     productsWishlistItems.map((product, index) => (
-      <TableRow key={index} className="border-b border-gray-500 relative">
-        <TableCell className="font-medium relative">
+      <TableRow
+        key={index}
+        className="border-b border-gray-500 relative overflow-x-auto"
+      >
+        <TableCell className="flex flex-col items-start font-medium my-4">
           <ProductImageItem
             productId={product._id}
             name={product.name}
             path={product.heroImage}
+            width="100px"
+            height="100px"
           />{" "}
-          {isProductNew(product.newUntil) && (
-            <NewBadge additionalClasses="absolute top-1 left-0" />
-          )}
+          {isProductNew(product.newUntil) && <NewBadge />}
         </TableCell>
+        <TableCell>{product.name}</TableCell>
         <TableCell>
-          {product.name} <br />
-        </TableCell>
-        <TableCell>
-          {formatPrice(product.price)} {/* Badge de promotion */}
-          {isProductOnSale(
-            product.promotionPercentage,
-            product.promotionEndDate
-          ) && (
-            <PromotionBadge promotionPercentage={product.promotionPercentage} />
-          )}
-          <br />
-          {/* Badge de cashback */}
-          {product.cashback ? (
-            <CashbackBadge cashbackAmount={product.cashback} />
-          ):""}
+          <div className="flex gap-2 items-center">
+            {/* Prix */}
+            <span className="whitespace-nowrap">
+              {" "}
+              {formatPrice(product.price)}
+            </span>
+            {/* Badge de promotion */}
+            {isProductOnSale(
+              product.promotionPercentage,
+              product.promotionEndDate
+            ) ? (
+              <PromotionBadge
+                promotionPercentage={product.promotionPercentage}
+              />
+            ) : (
+              ""
+            )}
+            {/* Badge de cashback */}
+            {product.cashback ? (
+              <CashbackBadge cashbackAmount={product.cashback} />
+            ) : (
+              ""
+            )}
+          </div>
         </TableCell>
         <TableCell>
           <FavoriteButton product={product} />

@@ -63,11 +63,11 @@ export const fileOptimize = async (
   // Sinon, compresser l'image et retourner l'URL de l'objet compressé
   try {
     const options = {
-      maxSizeMB: 3, // Augmenter la taille maximale du fichier pour préserver la qualité
-      maxWidthOrHeight: 3000, // Augmenter la résolution maximale
+      maxSizeMB: 4, // Taille maximale réduite pour un meilleur compromis qualité/taille
+      maxWidthOrHeight: 5000, // Légère augmentation pour préserver les détails
       useWebWorker: true, 
-      initialQuality: 0.9, // Définir une qualité initiale élevée (entre 0 et 1)
-      alwaysKeepResolution: true, // Empêche la réduction automatique de la résolution
+      initialQuality: 0.98,
+      fileType: "image/webp", // Utilisation du format WebP pour réduire la taille
   };
     const compressedFile = await imageCompression(fileOrUrl, options);
 

@@ -85,7 +85,7 @@ const CashbackToUse = () => {
             <div className="flex items-center gap-2 mt-1">
               <Input
                 type="number"
-                placeholder="Montant du cashback"
+                placeholder="ex: 9.5"
                 {...field}
                 {...register("cashbackAmount")}
                 value={field.value || ""}

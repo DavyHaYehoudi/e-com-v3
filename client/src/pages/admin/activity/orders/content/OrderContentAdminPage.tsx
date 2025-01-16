@@ -304,6 +304,8 @@ const OrderContentAdminPage = () => {
                     productId={orderItem.productId}
                     path={orderItem.heroImage}
                     name={orderItem.name}
+                    width="100px"
+                    height="100px"
                   />
                   <p>
                     <strong>Produit :</strong> {orderItem.name}

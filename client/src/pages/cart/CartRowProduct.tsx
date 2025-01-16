@@ -44,14 +44,16 @@ const CartRowProduct: React.FC<CartRowProductProps> = ({
           className="hover:bg-gray-100 relative border-b border-gray-500 dark:hover:bg-[#1c2028]"
         >
           {/* Première cellule : image et nom */}
-          <TableCell className="font-medium relative">
+          <TableCell className="font-medium flex flex-col items-start">
             <ProductImageItem
               productId={product.productId}
               name={product.name}
               path={product.heroImage}
+              width="100px"
+              height="100px"
             />
             {isProductNew(product.newUntil) && (
-              <NewBadge additionalClasses="absolute top-1 left-0" />
+              <NewBadge />
             )}
           </TableCell>
 

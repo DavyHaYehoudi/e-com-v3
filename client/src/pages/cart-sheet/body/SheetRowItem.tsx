@@ -10,15 +10,12 @@ import { CartProductsToBuyFrontType } from "@/types/CartTypes";
 
 interface SheetRowItemProps {
   productsInCart: CartProductsToBuyFrontType[] | null;
-  removeProductInCart: (
-    productId: string,
-    variant: string | null,
-  ) => void;
+  removeProductInCart: (productId: string, variant: string | null) => void;
 }
 const SheetRowItem: React.FC<SheetRowItemProps> = ({
   productsInCart,
   removeProductInCart,
-}) => {  
+}) => {
   return (
     productsInCart &&
     productsInCart.length > 0 &&
@@ -29,15 +26,15 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({
       >
         <div className="flex items-center justify-between gap-2 flex-wrap p-2 my-2">
           {/* Première cellule : image et nom */}
-          <div className="font-medium relative">
+          <div className="font-medium flex flex-col items-start">
             <ProductImageItem
               productId={product.productId}
               name={product.name}
               path={product.heroImage}
+              width="100px"
+              height="100px"
             />
-            {isProductNew(product.newUntil) && (
-              <NewBadge additionalClasses="absolute top-1 left-0" />
-            )}{" "}
+            {isProductNew(product.newUntil) && <NewBadge />}{" "}
           </div>
 
           <div className="min-w-[150px]">

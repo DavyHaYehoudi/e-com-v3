@@ -9,7 +9,7 @@ const TraditionPage = () => {
     <main>
       <div id="tradition">
         <div className="animated-container">
-          <section className="hero block  text-dark">
+          <section className="hero block text-dark">
             <div className="hero-content block-content right">
               <div className="text">
                 <p className="first">
@@ -159,7 +159,7 @@ const TraditionPage = () => {
           <hr />
           <section className="particularity">
             <div className="particularity-content">
-              <h3>La particularité de l&apos;Atelier Noralya ?</h3>
+              <h3 className="text-center">La particularité de l&apos;Atelier Noralya ?</h3>
               <ol>
                 <li>
                   J&apos;intègre un ou plusieurs éléments de cette tradition à
@@ -170,13 +170,13 @@ const TraditionPage = () => {
                 <li>
                   Dans un premier temps, nous échangeons ensemble sur vos
                   souhaits : Gold-Filled, Argent Massif, perles de Tahiti,
-                  perles d&apos;eau douce, pierres naturelles, ...{" "}
+                  perles d&apos;eau douce, pierres naturelles etc.{" "}
                 </li>
                 <li>
                   Par la suite, vous m&apos;indiquez quels sont les éléments que
                   vous avez déjà en votre possession et que vous souhaitez
                   déposer sur le bijou: pendentif, chaine, perle, mèche de
-                  cheveux, ...
+                  cheveux etc.
                 </li>
                 <li>Je vous envoie un devis à me renvoyer signé par mail.</li>
                 <li>

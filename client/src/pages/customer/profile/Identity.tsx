@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { UserRound, SquarePen } from "lucide-react";
+import { UserRound } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -20,7 +20,6 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const Identity = () => {
-  const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { customerInfoFetch, customerInfoUpdate } = useCustomerInfo();
 
@@ -69,16 +68,12 @@ const Identity = () => {
       }
       customerInfoUpdate(data);
       toast.success("Profil mis à jour avec succès !");
-      setIsEditing(false);
     } catch (error) {
       console.error("Erreur lors de la mise à jour :", error);
       toast.error("Impossible de mettre à jour vos informations.");
     }
   };
-  const handleEditClick = (event: React.MouseEvent) => {
-    event.preventDefault(); // Empêcher la soumission du formulaire
-    setIsEditing(true); // Passer en mode édition
-  };
+
   if (isLoading) {
     return (
       <div className="flex items-center flex-col justify-center gap-4">
@@ -103,7 +98,6 @@ const Identity = () => {
             <Input
               {...register("firstName")}
               placeholder="Entrez votre prénom"
-              disabled={!isEditing}
             />
             {errors.firstName && (
               <p className="text-sm text-red-500">{errors.firstName.message}</p>
@@ -113,11 +107,7 @@ const Identity = () => {
           {/* Nom */}
           <div>
             <Label htmlFor="lastName">Nom</Label>
-            <Input
-              {...register("lastName")}
-              placeholder="Entrez votre nom"
-              disabled={!isEditing}
-            />
+            <Input {...register("lastName")} placeholder="Entrez votre nom" />
             {errors.lastName && (
               <p className="text-sm text-red-500">{errors.lastName.message}</p>
             )}
@@ -142,7 +132,6 @@ const Identity = () => {
             <Input
               {...register("phone")}
               placeholder="Entrez votre numéro de téléphone"
-              disabled={!isEditing}
             />
             {errors.phone && (
               <p className="text-sm text-red-500">{errors.phone.message}</p>
@@ -162,7 +151,6 @@ const Identity = () => {
                   onChange={(date) =>
                     field.onChange(date.toISOString().split("T")[0])
                   }
-                  disabled={!isEditing}
                   startMonth={new Date(1960, 0)}
                   endMonth={new Date(2010, 11)}
                 />
@@ -187,7 +175,6 @@ const Identity = () => {
                     id="emailMarketingConsent"
                     checked={field.value}
                     onCheckedChange={field.onChange}
-                    disabled={!isEditing}
                   />
                   <label
                     htmlFor="emailMarketingConsent"
@@ -206,28 +193,7 @@ const Identity = () => {
           </div>
         </CardContent>
         <CardFooter className="flex justify-end gap-2">
-          {isEditing ? (
-            <>
-              <Button
-                variant="outline"
-                onClick={(event) => {
-                  event.preventDefault(); // Empêche la soumission
-                  setIsEditing(false); // Quitte le mode édition
-                  reset();
-                }}
-              >
-                Annuler
-              </Button>
-              <Button type="submit">Enregistrer</Button>
-            </>
-          ) : (
-            <Button
-              className="flex items-center gap-2"
-              onClick={handleEditClick}
-            >
-              <SquarePen /> <span>Modifier</span>{" "}
-            </Button>
-          )}
+          <Button type="submit">Enregistrer</Button>
         </CardFooter>
       </form>
     </Card>

@@ -15,7 +15,7 @@ import useCart from "./useCart";
 interface DecodedToken {
   id: number;
   email: string;
-  role: string;
+  role: "admin"|"customer";
   exp: number;
 }
 

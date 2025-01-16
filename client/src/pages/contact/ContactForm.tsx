@@ -35,12 +35,12 @@ const ContactForm = () => {
   const publicKey = import.meta.env.VITE_FORMULAIRE_PUBLIC_API_KEY;
   const template_id = import.meta.env.VITE_FORMULAIRE_TEMPLATE_KEY || "";
   const service_id = import.meta.env.VITE_FORMULAIRE_SERVICE_KEY || "";
-  const onSubmit = async (data: ContactFormValues) => {
+  const onSubmit = async () => {
     setStatus("loading");
     if (formRef.current) {
       emailjs
         .sendForm(service_id, template_id, formRef.current, { publicKey })
-        .then((res) => {
+        .then(() => {
           setStatus("success");
         })
         .catch((error) => {

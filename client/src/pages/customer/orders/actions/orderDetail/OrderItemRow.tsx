@@ -20,6 +20,8 @@ const OrderItemRow: React.FC<OrderItemRowProps> = ({ item }) => {
           productId={item.productId}
           name={item.name}
           path={item.heroImage}
+          width="100px"
+          height="100px"
         />
       </TableCell>
       <TableCell className="min-w-[150px]">

@@ -53,7 +53,7 @@ const ProductsSuggested: React.FC<ProductsSuggestedProps> = ({ product }) => {
       </h3>
 
       <div className="lg:w-3/4 mx-auto  overflow-x-auto custom-scrollbar">
-        <div className="flex gap-4 min-w-max">
+        <div className="flex gap-32 min-w-max mb-6">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product, index) => (
               <ProductCard key={index} product={product} />

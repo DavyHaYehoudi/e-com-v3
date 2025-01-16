@@ -9,21 +9,29 @@ interface ProductImageItemProps {
   path: string;
   name: string;
   productId: string;
+  width: string;
+  height: string;
 }
 
 const ProductImageItem: React.FC<ProductImageItemProps> = ({
   path,
   name,
   productId,
+  width,
+  height,
 }) => {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
           {" "}
-          <a href={`/produits/${productId}`}>
+          <a
+            href={`/produits/${productId}`}
+            className="inline-block"
+            style={{ width: width, height: height }}
+          >
             <img
-              className="w-[150px] h-[150px] object-center rounded-[16px] cursor-pointer"
+              className="w-[100%] h-[100%] object-center rounded-[16px] cursor-pointer"
               src={path}
               alt={name}
             />

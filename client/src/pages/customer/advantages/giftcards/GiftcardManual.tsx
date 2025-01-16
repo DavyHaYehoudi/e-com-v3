@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+
 const GiftcardManual = () => {
   return (
     <section className="container w-full mx-auto lg:w-3/4">
@@ -31,6 +34,12 @@ const GiftcardManual = () => {
             de garder un suivi clair et transparent de vos avantages.
           </p>
         </div>
+      </div>
+      <div className="text-center my-10">
+        <Link to="/carte-cadeau">
+          {" "}
+          <Button>Acheter une carte cadeau</Button>
+        </Link>
       </div>
     </section>
   );

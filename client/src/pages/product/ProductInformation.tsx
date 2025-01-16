@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const ProductInformation = () => {
   return (
-    <section className="bg-[var(--bg-1)] py-8 m-2">
+    <section className="bg-[var(--bg-1)] py-8">
       <h2 className="text-center text-2xl uppercase mb-8 dark:text-[var(--dark-mode-black)]">
         <span className="text-base text-[var(--golden-1)]">
           atelier noralya
