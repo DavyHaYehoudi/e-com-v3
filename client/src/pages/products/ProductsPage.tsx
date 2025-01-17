@@ -4,6 +4,7 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { ProductDBType } from "@/types/ProductTypes";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ProductsPageProps {
   allProducts: ProductDBType[] | null;
@@ -14,6 +15,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
   loading,
 }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+  const isMobile = useIsMobile();
 
   if (loading) {
     return (
@@ -27,11 +29,15 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
     <main>
       <h1 className="uppercase text-center mt-10">La boutique des produits</h1>
       <section className="flex items-center justify-around">
-        <div className="flex items-center gap-2">
-          <span>{isOpenSidebar ? "Refermer" : "Rechercher ➡"} </span>
-          <SidebarTrigger
-            onClick={() => setIsOpenSidebar(!isOpenSidebar)}
-          />{" "}
+      <div className="flex items-center gap-2">
+            <span>
+                {isMobile
+                    ? "Rechercher"
+                    : isOpenSidebar
+                    ? "Refermer"
+                    : "Rechercher"}
+            </span>
+            <SidebarTrigger onClick={() => setIsOpenSidebar(!isOpenSidebar)} />
         </div>
 
         <DataCounter items={allProducts || []} itemName="produit" />

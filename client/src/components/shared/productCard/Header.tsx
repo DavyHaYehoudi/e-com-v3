@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ product }) => {
     setTimeout(() => {
       setCurrentImage(product.commonImages[currentIndex]);
       setFade(true);
-    }, 700);
+    }, 600);
 
     // ✅ Puis continue toutes les 3000ms
     intervalId = setInterval(() => {
@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ product }) => {
       setTimeout(() => {
         setCurrentImage(product.commonImages[currentIndex]);
         setFade(true);
-      }, 700);
+      }, 600);
     }, 3000);
   };
 
