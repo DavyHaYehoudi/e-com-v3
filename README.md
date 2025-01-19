@@ -76,11 +76,11 @@ Vous pouvez également acheter des cartes cadeaux directement sur le site et les
 
 Le mode test est activé pour les paiements. Utilisez les informations suivantes :
 
-| **Carte**                                                                                                                             | **Numéro**          | **Code de sécurité (CVV)** | **Date d’expiration**                |
-| ------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | -------------------------- | ------------------------------------ |
-| ![Visa](https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_2021.svg =20x20) Visa                                                | 4242 4242 4242 4242 | 3 chiffres aléatoires      | Toute date postérieure à aujourd’hui |
-| ![Mastercard](https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg =20x20) Mastercard                              | 5555 5555 5555 4444 | 3 chiffres aléatoires      | Toute date postérieure à aujourd’hui |
-| ![American Express](https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo_%282018%29.svg =20x20) American Express | 3782 822463 10005   | 4 chiffres aléatoires      | Toute date postérieure à aujourd’hui |
+| **Carte**         | **Numéro**           | **Code de sécurité (CVV)** | **Date d’expiration**          |
+|--------------------|----------------------|-----------------------------|---------------------------------|
+| 🟦 Visa            | 4242 4242 4242 4242 | 3 chiffres aléatoires        | Toute date postérieure à aujourd’hui |
+| 🟧 Mastercard      | 5555 5555 5555 4444 | 3 chiffres aléatoires        | Toute date postérieure à aujourd’hui |
+| 🟦 American Express| 3782 822463 10005    | 4 chiffres aléatoires        | Toute date postérieure à aujourd’hui |
 
 #### Exemple pour simplifier :
 
