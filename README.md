@@ -1,6 +1,25 @@
 # E-commerce V3
 
-## 🛠️ DÉVELOPPEMENT EN LOCAL
+## 🌆 ILLUSTRATIONS DU SITE
+
+### Page d'accueil
+![Page d'accueil](./docs/home.png)
+### La boutique
+![La boutique](./docs/shop.png)
+### Fiche produit
+![Fiche produit](./docs/product.png)
+### Ajout au panier (dark mode)
+![Ajout au panier](./docs/sheetCart.png)
+### Carte cadeau
+![Carte cadeau](./docs/giftcard.png)
+### Tableau de bord admin
+![Tableau de bord admin](./docs/backoffice.png)
+### Tableau de bord client
+![Tableau de bord client](./docs/backofficeCustomer.png)
+### Connexion par email et sécurisée par un token
+![login](./docs/login.png)
+
+## 🛠️ DEVELOPPEMENT EN LOCAL
 
 ### CLIENT
 

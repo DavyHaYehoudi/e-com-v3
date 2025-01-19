@@ -107,7 +107,7 @@ export function NavUser({
               <DropdownMenuItem>
                 <Link
                   to="/"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 flex-grow"
                   title="Retour sur le site"
                 >
                   <House className="size-4" />
@@ -117,7 +117,7 @@ export function NavUser({
               <DropdownMenuItem>
                 <Link
                   to="/produits"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 flex-grow"
                   title="Retour sur la boutique"
                 >
                   <Store className="size-4" />
@@ -128,7 +128,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Link to="/contact" className="flex items-center gap-2">
+                <Link to="/contact" className="flex items-center gap-2 flex-grow">
                   <Mail className="size-4" />
                   Contacter un responsable
                 </Link>
@@ -143,7 +143,7 @@ export function NavUser({
               {isConnected && (
                 <div
                   onClick={handleLogout}
-                  className="cursor-pointer flex items-center gap-2"
+                  className="cursor-pointer flex items-center gap-2 flex-grow"
                   title="Me déconnecter"
                 >
                   <LogOut className="size-4" />
