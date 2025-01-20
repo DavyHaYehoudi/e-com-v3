@@ -3,7 +3,7 @@ export const sendVerificationEmail = async (email, OTP) => {
   const currentYear = new Date().getFullYear();
   const mailOptions = {
     to: email,
-    subject: "Vérifiez votre adresse e-mail",
+    subject: "Votre code OTP",
     html: `
       <div style="text-align: center; font-family: Arial, sans-serif;padding:20px 10px">
         <p style="font-size: 18px;">Bonjour 👋</p>

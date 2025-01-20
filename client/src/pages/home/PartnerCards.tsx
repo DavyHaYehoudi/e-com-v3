@@ -31,7 +31,7 @@ const partners = [
 
 export function PartnerCards() {
   return (
-    <section className="mb-10">
+    <section className="mb-20">
       <h2 className="text-center mb-6">Mes Partenaires</h2>
       <div className="flex justify-around flex-wrap gap-2">
         {partners.map((partner) => (

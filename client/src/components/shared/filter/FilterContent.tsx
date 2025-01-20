@@ -42,10 +42,10 @@ const FilterContent: React.FC<FilterContentProps> = ({ onFilter }) => {
   } = useFilter(onFilter);
   return (
     <>
-      <h2 className="text-lg font-bold mb-4">Recherche</h2>
+      <h2 className="text-lg font-bold mb-4">Filtres</h2>
 
       <div className="mb-4">
-        <h3>Nom </h3>
+        <h3>1- Nom </h3>
         <Input
           type="text"
           id="name"
@@ -57,7 +57,7 @@ const FilterContent: React.FC<FilterContentProps> = ({ onFilter }) => {
       </div>
 
       <div className="mb-4">
-        <h3>Collections</h3>
+        <h3>2- Collections</h3>
         {collections &&
           collections.length > 0 &&
           collections.map((collection) => (
@@ -74,7 +74,7 @@ const FilterContent: React.FC<FilterContentProps> = ({ onFilter }) => {
           ))}
       </div>
       <div className="mb-4">
-        <h3>Categories</h3>
+        <h3>3- Categories</h3>
         {categories &&
           categories.length > 0 &&
           categories.map((category) => (
@@ -91,7 +91,7 @@ const FilterContent: React.FC<FilterContentProps> = ({ onFilter }) => {
           ))}
       </div>
       <div className="mb-4">
-        <h3>Tags</h3>
+        <h3>4- Tags</h3>
         {tags &&
           tags.length > 0 &&
           tags.map((tag) => (
@@ -109,7 +109,7 @@ const FilterContent: React.FC<FilterContentProps> = ({ onFilter }) => {
       </div>
 
       <div className="mb-4">
-        <h3>Prix</h3>
+        <h3>5- Prix</h3>
         <div>
           <div className="relative w-full">
             <Label htmlFor="min-price" className="mr-2">
@@ -137,7 +137,7 @@ const FilterContent: React.FC<FilterContentProps> = ({ onFilter }) => {
       </div>
 
       <div className="mb-4">
-        <h3>Specificite</h3>
+        <h3>6- Specificite</h3>
         <p>
           <Label className="flex items-center m-1">
             <Checkbox

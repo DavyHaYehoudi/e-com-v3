@@ -1,32 +1,34 @@
 import FilterContent from "@/components/shared/filter/FilterContent";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-} from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { FilterType } from "@/hooks/useProductFilter";
+import { SquareX } from "lucide-react";
 
 interface ProductsSidebarProps {
   onFilter: (filters: FilterType) => void;
+  handleOpenSidebar: () => void;
 }
-const ProductsSidebar: React.FC<ProductsSidebarProps> = ({ onFilter }) => {
+const ProductsSidebar: React.FC<ProductsSidebarProps> = ({
+  onFilter,
+  handleOpenSidebar,
+}) => {
   const isMobile = useIsMobile();
   return (
     <Sidebar>
-      <SidebarHeader />
-      <SidebarContent>
-        <ScrollArea
-          className={`${isMobile && "h-[875px]"} w-full rounded-md border`}
-        >
+      <SidebarContent className="relative">
+        <ScrollArea className={`${isMobile && "h-[875px]"} w-full`}>
           <div className="p-4">
             <FilterContent onFilter={onFilter} />
           </div>
         </ScrollArea>
+        {!isMobile && (
+          <SquareX
+            className="absolute right-2 top-2 cursor-pointer"
+            onClick={handleOpenSidebar}
+          />
+        )}
       </SidebarContent>
-      <SidebarFooter />
     </Sidebar>
   );
 };

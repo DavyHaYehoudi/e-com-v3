@@ -103,7 +103,9 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
               <Star
                 key={i}
                 className={`h-4 w-4 ${
-                  i < review.rating ? "text-yellow-500" : "text-gray-300"
+                  i < review.rating
+                    ? "text-yellow-500 fill-yellow-500"
+                    : "text-gray-300"
                 }`}
               />
             ))}

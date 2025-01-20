@@ -132,7 +132,9 @@ const ProductReview: React.FC<ProductReviewProps> = ({
               <Star
                 key={star}
                 className={`h-5 w-5 cursor-pointer ${
-                  star <= rating ? "text-yellow-500" : "text-neutral-400"
+                  star <= rating
+                    ? "text-yellow-500 fill-yellow-500"
+                    : "text-neutral-400"
                 }`}
                 onClick={() => !reviewSubmitted && setRating(star)} // Désactive le changement d'étoiles après soumission
               />

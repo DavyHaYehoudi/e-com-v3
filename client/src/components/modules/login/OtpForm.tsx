@@ -149,13 +149,13 @@ const OtpForm: React.FC<OtpFormProps> = ({
       </form>
       <p
         onClick={resendOTP}
-        className="italic underline cursor-pointer text-end"
+        className="italic underline cursor-pointer inline w-fit ml-auto"
       >
         Renvoyer un code OTP
       </p>
       <p
         onClick={changeEmail}
-        className="italic underline cursor-pointer text-end"
+        className="italic underline cursor-pointer inline w-fit ml-auto"
       >
         Changer d'email
       </p>
