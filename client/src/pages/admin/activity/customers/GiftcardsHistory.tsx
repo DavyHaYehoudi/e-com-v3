@@ -19,7 +19,7 @@ import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 import { formatDate } from "@/utils/formatDate";
 import useGiftcardsCustomer from "@/hooks/dashboard/admin/useGiftcard";
 import { useParams } from "react-router-dom";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const GiftcardsHistory = () => {
   const [giftcards, setGiftcards] = useState<GiftcardCustomerDBType[]>([]);
@@ -46,12 +46,7 @@ const GiftcardsHistory = () => {
     fetchGiftcardsCustomer();
   }, [giftcardsFetch]);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <Table>

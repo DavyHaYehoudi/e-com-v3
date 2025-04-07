@@ -1,4 +1,4 @@
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -42,12 +42,7 @@ const OrderHistory = () => {
     fetchOrders();
   }, [ordersFetch]);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <Table>

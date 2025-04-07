@@ -158,7 +158,7 @@ const CustomersTable: React.FC<CustomersTableProps> = ({ data }) => {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Précédant
+            Précédent
           </Button>
           <Button
             variant="outline"

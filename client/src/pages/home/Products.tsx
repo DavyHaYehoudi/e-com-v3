@@ -2,7 +2,7 @@ import { ProductDBType } from "@/types/ProductTypes";
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useEffect } from "react";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const Products = () => {
   const {
@@ -14,12 +14,7 @@ const Products = () => {
     triggerFetch(); // Fetch des produits star au chargement de la page
   }, []);
   if (loading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     productsStar &&

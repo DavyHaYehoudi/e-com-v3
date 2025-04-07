@@ -3,7 +3,7 @@ import { GiftcardCustomerDBType } from "@/types/GiftcardTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import GiftcardsList from "./GiftcardsList";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 export interface SelectedGiftcard {
   giftcardId: string;
@@ -63,12 +63,7 @@ const GiftcardsPage = () => {
     fetchGiftcards();
   }, []);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <div>

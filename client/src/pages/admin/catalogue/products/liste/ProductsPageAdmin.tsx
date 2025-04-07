@@ -3,8 +3,8 @@ import { ProductDBType } from "@/types/ProductTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import ProductsList from "./ProductsList";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { deleteImageFromFirebase } from "@/utils/imageManage";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 export interface SelectedProduct {
   productId: string;
@@ -94,12 +94,7 @@ const ProductsPageAdmin = () => {
     fetchProducts();
   }, []);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
 
   return (

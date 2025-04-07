@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import GiftcardHistoryDetail from "./GiftcardHistoryDetail";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const GiftcardHistoryPage = () => {
   const [giftcardHistory, setGiftcardHistory] = useState<UsageHistoryEntry[]>(
@@ -34,12 +34,7 @@ const GiftcardHistoryPage = () => {
     }
   }, []);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <div>

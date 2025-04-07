@@ -15,8 +15,8 @@ import { Input } from "@/components/ui/input";
 import { uploadImageToFirebase } from "@/utils/imageManage";
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 import { useNavigate } from "react-router-dom";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const createMarketingCampaignSchema = z.object({
   subject: z
@@ -89,12 +89,7 @@ const CreateMarketingCampaign: React.FC = () => {
     }
   };
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <div>

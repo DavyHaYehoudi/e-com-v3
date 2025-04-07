@@ -7,7 +7,9 @@ import {
   Percent,
   Layers,
   Tag,
-  ChartColumnDecreasing
+  ChartColumnDecreasing,
+  LayoutTemplate,
+  Megaphone
 } from "lucide-react";
 export const data = {
   activity: [
@@ -115,6 +117,18 @@ export const data = {
         },
       ],
     },
+    {
+      title: "Annonce",
+      url: "#",
+      icon: Megaphone,
+      isActive: true,
+      items: [
+        {
+          title: "Ajouter",
+          url: "/admin/tableau-de-bord/marketing/ads/ajouter",
+        },
+      ],
+    },
   ],
   review: [
     {
@@ -126,6 +140,20 @@ export const data = {
         {
           title: "Liste",
           url: "/admin/tableau-de-bord/retours/avis",
+        },
+      ],
+    },
+  ],
+  ui: [
+    {
+      title: "Vitrine",
+      url: "#",
+      icon: LayoutTemplate,
+      isActive: true,
+      items: [
+        {
+          title: "Visuels",
+          url: "/admin/tableau-de-bord/vitrine/visuel",
         },
       ],
     },

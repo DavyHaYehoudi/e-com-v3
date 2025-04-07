@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const ProductsLayout = () => {
   const { allProducts, loading, handleFilterSubmit } = useProductFilter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleOpenSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);

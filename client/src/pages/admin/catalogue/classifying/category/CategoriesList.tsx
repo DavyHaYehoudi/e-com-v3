@@ -202,7 +202,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Précédant
+            Précédent
           </Button>
           <Button
             variant="outline"

@@ -204,7 +204,7 @@ const CollectionsList: React.FC<CollectionsListProps> = ({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Précédant
+            Précédent
           </Button>
           <Button
             variant="outline"

@@ -85,10 +85,6 @@ const ProductInformation = () => {
                   5 et 10 jours.
                   <br />
                   <br />
-                  Si vous êtes pris par le temps, n'hésitez pas à m'envoyer un
-                  message à l'adresse suivante : bonjour@ateliernoralya.com
-                  <br />
-                  <br />
                   Nous verrons ensemble s'il est possible de réduire le temps
                   d'attente.
                   <br />

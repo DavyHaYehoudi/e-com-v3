@@ -3,7 +3,7 @@ import { OrderCustomerDBType } from "@/types/OrderTypes";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import OrdersList from "./OrdersList";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 export interface SelectedOrder {
   orderId: string;
@@ -78,12 +78,7 @@ const OrdersPage = () => {
     fetchOrders();
   }, []);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
 
   return (

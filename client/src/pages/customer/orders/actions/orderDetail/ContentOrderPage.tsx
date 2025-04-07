@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 import { OrderItem } from "@/types/OrderTypes";
 import OrderItemRow from "./OrderItemRow";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const ContentOrderPage = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
@@ -41,12 +41,7 @@ const ContentOrderPage = () => {
     fetchOrderItems();
   }, [orderId, oneOrderCustomerFetch]);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <div className="container-responsive mb-10">

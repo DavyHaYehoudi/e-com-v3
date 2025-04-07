@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useReviews from "@/hooks/dashboard/admin/useReview";
 import ReviewCard from "./ReviewCard";
 import { ReviewDBType, StatusType } from "@/types/ReviewTypes";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const ReviewsPage = () => {
   const [reviews, setReviews] = useState<ReviewDBType[]>([]);
@@ -32,12 +32,7 @@ const ReviewsPage = () => {
   }, [getAllReviews]);
 
   if (loading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
 
   if (reviews.length === 0) {

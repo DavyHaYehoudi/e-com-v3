@@ -19,8 +19,8 @@ import {
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
 import { useNavigate, useParams } from "react-router-dom";
 import { MarketingCampaignDBType } from "@/types/MarketingTypes";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const updateMarketingCampaignSchema = z.object({
   subject: z
@@ -124,12 +124,7 @@ const MarketingUpdate: React.FC = () => {
     }
   };
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   const handleRemoveImage = (image: File | string) => {
     if (typeof image === "string") {

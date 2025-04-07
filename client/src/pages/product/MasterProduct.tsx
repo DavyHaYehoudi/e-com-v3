@@ -13,8 +13,8 @@ import { RootState } from "@/redux/store/store";
 import { useParams } from "react-router-dom";
 import { ProductDBType } from "@/types/ProductTypes";
 import { isProductNew } from "@/utils/productUtils";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import ProductReviewSection from "./reviews/ProductReviewSection";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const MasterProduct = () => {
   const [quantity, setQuantity] = useState<number>(1);
@@ -84,12 +84,7 @@ const MasterProduct = () => {
     window.scrollTo(0, 0);
   }, []);
   if (loading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     product && (

@@ -23,6 +23,7 @@ import reviewsRoutes from "./routes/publicAccess/review.routes.js";
 import productRoutes from "./routes/publicAccess/product.routes.js";
 import giftcardRoutes from "./routes/publicAccess/giftcard.routes.js";
 import paymentRoutes from "./routes/publicAccess/payment.routes.js";
+import visualRoutes from "./routes/publicAccess/visual.routes.js";
 // Customer routes
 import customerRoutes from "./routes/customerAccess/customer.routes.js";
 import reviewRoutesCustomer from "./routes/customerAccess/review.routes.js";
@@ -42,6 +43,7 @@ import giftcardRoutesAdmin from "./routes/adminAccess/giftcard.routes.js";
 import paymentStatusAdmin from "./routes/adminAccess/paymentStatus.routes.js";
 import orderStatusAdmin from "./routes/adminAccess/orderStatus.routes.js";
 import orderRoutesAdmin from "./routes/adminAccess/order.routes.js";
+import visualRoutesAdmin from "./routes/adminAccess/visual.routes.js";
 import chiffreRoutes from "./routes/adminAccess/chiffre.routes.js";
 import { verifyToken } from "./middlewares/authMiddleware.js";
 // Public routes
@@ -53,6 +55,7 @@ app.use("/api/promocodes", promocodeRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/giftcards", giftcardRoutes);
+app.use("/api/visuals", visualRoutes);
 app.use("/api/payment", paymentRoutes);
 // Customer routes
 app.use("/api/customer", customerRoutes);
@@ -93,12 +96,13 @@ app.use(
 );
 app.use("/api/admin/order-status", verifyToken, adminAccess, orderStatusAdmin);
 app.use("/api/admin/orders", verifyToken, adminAccess, orderRoutesAdmin);
+app.use("/api/admin/visuals", verifyToken, adminAccess, visualRoutesAdmin);
 app.use("/api/admin/chiffres", verifyToken, adminAccess, chiffreRoutes);
 app.use(errorHandler);
 
 // Pour travailler en localhost avec firebase emulator
-app.get('/', (req,res)=>{
-  res.status(200).send('Hello from Express.js!')
-})
+app.get("/", (req, res) => {
+  res.status(200).send("Hello from Express.js!");
+});
 // Export de l'application en tant que fonction Firebase
 export const api = onRequest(app);

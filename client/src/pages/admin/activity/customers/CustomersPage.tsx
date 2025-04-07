@@ -3,7 +3,7 @@ import CustomersTable from "./CustomersTable";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const CustomersPage = () => {
   const [data, setData] = useState<CustomerDBType[]>([]);
@@ -28,12 +28,7 @@ const CustomersPage = () => {
     fetchCustomers();
   }, [customersInfoFetch]);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <div>

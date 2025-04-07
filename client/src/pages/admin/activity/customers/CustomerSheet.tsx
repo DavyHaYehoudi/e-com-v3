@@ -15,7 +15,7 @@ import useCustomerInfo from "@/hooks/dashboard/admin/useCustomer";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const CustomerSheet = () => {
   const [customer, setCustomer] = useState<CustomerDBType | null>(null);
@@ -39,12 +39,7 @@ const CustomerSheet = () => {
   }, [customerInfoFetch]);
 
   if (!customer) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-      <LoadingSpinner />
-      <span> Chargement en cours...</span>
-    </div>
-    );
+    return <FullscreenLoader />;
   }
 
   const {

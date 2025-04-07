@@ -61,14 +61,16 @@ export const getAllProductsRepository = async (filters) => {
     .populate("tags", "_id label")
     .limit(limit)
     .lean()
-    .sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
+    // .sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
+    .sort({ price: 1 }); // Trie par prix croissante (les plus récentes en premier)
 };
 // Admin - Récupérer tous les produits
 export const getAllProductsAdminRepository = async () => {
   return await ProductModel.find()
     .populate("categories", "_id label")
     .populate("tags", "_id label")
-    .sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
+    // .sort({ createdAt: -1 }); // Trie par date décroissante (les plus récentes en premier);
+    .sort({ price: 1 }); // Trie par prix croissante (les plus récentes en premier)
 };
 export const getProductByIdRepository = async (productId) => {
   const product = await ProductModel.findById(productId)

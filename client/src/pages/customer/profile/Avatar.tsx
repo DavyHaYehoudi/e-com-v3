@@ -1,5 +1,5 @@
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 import ImageUploaderBox from "@/components/shared/ImageUploaderBox";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import useCustomerInfo from "@/hooks/dashboard/customer/useCustomerInfo";
 import { RootState } from "@/redux/store/store";
@@ -103,12 +103,7 @@ const Avatar = () => {
     toast.success("Votre modification a été annulée.");
   };
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <div className="flex flex-col items-center justify-center gap-4">

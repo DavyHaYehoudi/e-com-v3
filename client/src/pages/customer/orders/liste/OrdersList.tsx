@@ -112,7 +112,7 @@ const OrdersList: React.FC<OrdersListProps> = ({ data }) => {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Précédant
+            Précédent
           </Button>
           <Button
             variant="outline"

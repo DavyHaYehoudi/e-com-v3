@@ -15,7 +15,7 @@ import {
 import useCustomerInfo from "../../../hooks/dashboard/customer/useCustomerInfo";
 import { toast } from "sonner";
 import { AddressesFormValues, AddressesSchema } from "./addressesSchema";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const BillingAddress = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -74,12 +74,7 @@ const BillingAddress = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <Card className="w-full max-w-lg mx-auto p-4">

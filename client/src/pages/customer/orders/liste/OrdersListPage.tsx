@@ -3,7 +3,7 @@ import OrdersList from "./OrdersList";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { OrderCustomerDBType } from "@/types/OrderTypes";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const OrdersListPage = () => {
   const [data, setData] = useState<OrderCustomerDBType[]>([]);
@@ -28,12 +28,7 @@ const OrdersListPage = () => {
     fetchOrders();
   }, [ordersCustomerFetch]);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <div>

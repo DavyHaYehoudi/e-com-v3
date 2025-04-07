@@ -20,7 +20,7 @@ import { useParams } from "react-router-dom";
 import useCashback from "@/hooks/dashboard/admin/useCashback";
 import { toast } from "sonner";
 import { formatPrice } from "@/utils/pricesFormat";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 // Utilitaire pour récupérer un motif et ses styles à partir des données centralisées
 const getRewardByReason = (label: LabelKeyCashbackType) => {
@@ -78,12 +78,7 @@ const CashbackHistory = () => {
     history.length > 0 &&
     history.reduce((acc, b) => acc + b.cashbackSpent, 0);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <Table>

@@ -16,8 +16,8 @@ import useCustomerInfo from "../../../hooks/dashboard/customer/useCustomerInfo";
 import { toast } from "sonner";
 import { IdentityFormData, identitySchema } from "./identitySchema";
 import CalendarCustom from "@/components/shared/CalendarCustom";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { Checkbox } from "@/components/ui/checkbox";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const Identity = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -75,12 +75,7 @@ const Identity = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <Card className="w-full max-w-lg mx-auto p-4">

@@ -19,7 +19,7 @@ const partners = [
   },
   {
     id: 2,
-    link: "https://www.instagram.com/marjory_photography?igsh=bWlmaDY4Y3l3OHh6",
+    link: "https://www.instagram.com/makeupstudio_madame?igsh=YzZ2eWwwYXVscHh5",
     img: "/images/partner3.jpeg",
   },
   {
@@ -50,15 +50,16 @@ export function PartnerCards() {
                 />
               </div>
             </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center text-center">
+            {/* <CardContent className="flex flex-col items-center justify-center text-center">
               <CardTitle className="mt-4 dark text-dark">
                 Partenaire {partner.id + 1}
               </CardTitle>
-            </CardContent>
+            </CardContent> */}
             <CardFooter className="flex items-center justify-center">
               <a
                 href={partner.link}
                 className="text-gray-500 hover:text-gray-700 underline"
+                target="blank"
               >
                 Voir le partenaire
               </a>

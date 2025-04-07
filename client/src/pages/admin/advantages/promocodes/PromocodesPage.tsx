@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import PromocodeCreate from "./PromocodeCreate";
 import PromocodesList from "./PromocodesList";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 export interface SelectedPromocode {
   promocodeId: string;
@@ -87,12 +87,7 @@ const PromocodesPage = () => {
     fetchPromocodes();
   }, []);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <div>

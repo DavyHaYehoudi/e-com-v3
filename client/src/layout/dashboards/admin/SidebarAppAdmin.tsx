@@ -47,6 +47,7 @@ export function SidebarAppAdmin({
         <SidebarSection items={data.advantages} title="Avantages" />
         <SidebarSection items={data.marketing} title="Marketing" />
         <SidebarSection items={data.review} title="Avis" />
+        <SidebarSection items={data.ui} title="Interface" />
         <SidebarSection items={data.stat} title="Chiffres" />
       </SidebarContent>
       <SidebarFooter className="flex-row items-center gap-2 justify-between pb-4">

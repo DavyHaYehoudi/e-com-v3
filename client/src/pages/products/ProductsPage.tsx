@@ -1,10 +1,10 @@
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import DataCounter from "@/components/shared/DataCounter";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { ProductDBType } from "@/types/ProductTypes";
 import { Filter } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 interface ProductsPageProps {
   allProducts: ProductDBType[] | null;
@@ -18,12 +18,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
 }) => {
   const isMobile = useIsMobile();
   if (loading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4 mt-20">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <main>
@@ -35,7 +30,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
           ) : (
             <button
               onClick={handleOpenSidebar}
-              className="px-4 py-2 text-white bg-orange-600 rounded-full shadow-lg hover:bg-orange-700 hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 flex items-center gap-2 "
+              className="px-4 py-2 text-white bg-[#ca99b7] rounded-full shadow-lg hover:bg-[#b684a3] hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#e0bdd3] focus:ring-offset-2 flex items-center gap-2"
             >
               <Filter className="mr-2" size={20} />{" "}
               <span className="font-semibold">Filtrer</span>

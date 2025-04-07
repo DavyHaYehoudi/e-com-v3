@@ -190,7 +190,7 @@ const GiftcardsList: React.FC<GiftcardsListProps> = ({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Précédant
+            Précédent
           </Button>
           <Button
             variant="outline"

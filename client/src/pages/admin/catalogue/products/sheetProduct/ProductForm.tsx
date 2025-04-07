@@ -26,11 +26,11 @@ import StockSection from "./sections/StockSection";
 import CashbackSection from "./sections/CashbbackSection";
 import useProductDefaultValues from "@/hooks/dashboard/admin/useProductDefaultValues";
 import NavBackDashboard from "@/components/shared/NavBackDashboard";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useProductFormHandler } from "@/hooks/dashboard/admin/useProductFormHandler";
 import CommonImages from "./sections/CommonImages";
 import OptionCheckbox from "./sections/OptionCheckbox";
 import { Layers, Percent } from "lucide-react";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 export interface VariantsToAddType {
   combination: string;
@@ -213,12 +213,7 @@ const ProductForm: React.FC = () => {
       (variant) => variant.mainImage && variant.combination.trim() !== ""
     );
   if (loading || isSubmitLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <div className="pb-20">

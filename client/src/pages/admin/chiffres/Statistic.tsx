@@ -11,7 +11,7 @@ import { StatsResponse } from "@/types/StatisticTypes";
 import { formatPrice } from "@/utils/pricesFormat";
 import StatAllYearBadge from "@/components/shared/badge/chiffres/StatAllYear";
 import StatYearBadge from "@/components/shared/badge/chiffres/StatYear";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const StatisticPage = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -33,12 +33,7 @@ const StatisticPage = () => {
   );
 
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
 
   return (

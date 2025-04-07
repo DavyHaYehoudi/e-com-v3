@@ -1,6 +1,6 @@
 
 interface BannerProps {
-  pathImage: string;
+  pathImage: string |File;
 }
 
 const Banner: React.FC<BannerProps> = ({ pathImage }) => {

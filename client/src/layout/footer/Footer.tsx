@@ -52,7 +52,7 @@ const Footer = () => {
           </h2>
           <div className="mt-4 flex space-x-4">
             <a
-              href="https://www.facebook.com/people/Cindy-Pantoustier-Naturopathe/100085082745386/?ref=pages_you_manage"
+              href="https://www.facebook.com/share/1Bzwv1ECPZ/"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -65,7 +65,7 @@ const Footer = () => {
               />
             </a>
             <a
-              href="https://www.instagram.com/cindy_naturo/?hl=fr"
+              href="https://www.instagram.com/ateliernoralya/profilecard/?igsh=N3Q1b3VveGVmdnFh"
               target="_blank"
               rel="noopener noreferrer"
             >

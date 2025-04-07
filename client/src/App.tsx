@@ -44,8 +44,8 @@ import TagsPage from "./pages/admin/catalogue/classifying/tag/TagsPage";
 import GiftcardsPage from "./pages/admin/advantages/giftcards/GiftcardsPage";
 import GiftcardToOffer from "./pages/admin/activity/customers/GiftcardToOffer";
 import PromocodesPage from "./pages/admin/advantages/promocodes/PromocodesPage";
-import MarketingPage from "./pages/admin/marketing/MarketingPage";
-import MarketingCreate from "./pages/admin/marketing/MarketingCreate";
+import MarketingPage from "./pages/admin/marketing/campaign/MarketingPage";
+import MarketingCreate from "./pages/admin/marketing/campaign/MarketingCreate";
 import ReviewsPage from "./pages/admin/reviews/ReviewsPage";
 import ProductsPageAdmin from "./pages/admin/catalogue/products/liste/ProductsPageAdmin";
 import CustomerSheet from "./pages/admin/activity/customers/CustomerSheet";
@@ -59,8 +59,10 @@ import OrderContentAdminPage from "./pages/admin/activity/orders/content/OrderCo
 import StatisticPage from "./pages/admin/chiffres/Statistic";
 import UsedStoragePage from "./pages/admin/chiffres/UsedStoragePage";
 import ProductsLayout from "./pages/products/ProductsLayout";
-import MarketingUpdate from "./pages/admin/marketing/MarketingUpdate";
+import MarketingUpdate from "./pages/admin/marketing/campaign/MarketingUpdate";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
+import VisualsPage from "./pages/admin/clientInterface/visuals/VisualsPage";
+import AdsPage from "./pages/admin/marketing/ads/adsPage";
 function App() {
   return (
     <ThemeProvider>
@@ -255,8 +257,16 @@ function App() {
                     element={<MarketingUpdate />}
                   ></Route>
                   <Route
+                    path="admin/tableau-de-bord/marketing/ads/ajouter"
+                    element={<AdsPage />}
+                  ></Route>
+                  <Route
                     path="admin/tableau-de-bord/retours/avis"
                     element={<ReviewsPage />}
+                  ></Route>
+                  <Route
+                    path="/admin/tableau-de-bord/vitrine/visuel"
+                    element={<VisualsPage />}
                   ></Route>
                   <Route
                     path="admin/tableau-de-bord/chiffres/statistiques/general"

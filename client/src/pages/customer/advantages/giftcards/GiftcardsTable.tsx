@@ -26,7 +26,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link } from "react-router-dom";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import FullscreenLoader from "@/components/shared/FullscreenLoader";
 
 const GiftcardsTable = () => {
   const [giftcards, setGiftcards] = useState<GiftcardCustomerDBType[] | null>(
@@ -54,12 +54,7 @@ const GiftcardsTable = () => {
     fetchGiftcardsCustomer();
   }, [giftcardsFetch]);
   if (isLoading) {
-    return (
-      <div className="flex items-center flex-col justify-center gap-4">
-        <LoadingSpinner />
-        <span> Chargement en cours...</span>
-      </div>
-    );
+    return <FullscreenLoader />;
   }
   return (
     <Table>
