@@ -14,21 +14,26 @@ const CashbackSection: React.FC<{
         Cashback (€)
       </span>
     </Label>
-    <Input
-      id="cashback"
-      type="number"
-      step="0.01" // Autorise les nombres décimaux
-      {...register("cashback", {
-        setValueAs: (value) => {
-          if (value === "") return undefined; // Si le champ est vide, retourne undefined
-          const parsedValue = parseFloat(value);
-          return isNaN(parsedValue)
-            ? undefined
-            : parseFloat(parsedValue.toFixed(2)); // Assure un arrondi à 2 décimales
-        },
-      })}
-      placeholder="Montant du cashback"
-    />
+    <div className="relative">
+      <Input
+        id="cashback"
+        type="number"
+        step="0.01" // Autorise les nombres décimaux
+        {...register("cashback", {
+          setValueAs: (value) => {
+            if (value === "") return undefined; // Si le champ est vide, retourne undefined
+            const parsedValue = parseFloat(value);
+            return isNaN(parsedValue)
+              ? undefined
+              : parseFloat(parsedValue.toFixed(2)); // Assure un arrondi à 2 décimales
+          },
+        })}
+        placeholder="Montant du cashback"
+      />
+      <span className="italic text-xs absolute top-1 left-1/2 -translate-x-1/2">
+        Laisser 0 pour annuler le cashback
+      </span>
+    </div>
     {errors.cashback && (
       <p className="text-red-500">{errors.cashback.message}</p>
     )}

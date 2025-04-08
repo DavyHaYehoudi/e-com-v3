@@ -1,8 +1,9 @@
 import AddToCartButton from "@/components/shared/AddToCartButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
-
+import useVisualPublic from "@/hooks/useVisualPublic";
+import { useEffect, useState } from "react";
+type Designation = "visual1";
 const GiftcardPage = () => {
   const [amount, setAmount] = useState(20);
   const [quantity, setQuantity] = useState(1);
@@ -13,7 +14,17 @@ const GiftcardPage = () => {
     amount: null,
     quantity: null,
   });
-
+  const [visuals, setVisuals] = useState<
+    Record<Designation, File | string | null>
+  >({
+    visual1: null,
+  });
+  const { defaultValues } = useVisualPublic("giftcard");
+  useEffect(() => {
+    if (defaultValues) {
+      setVisuals({ ...defaultValues });
+    }
+  }, [defaultValues]);
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newAmount = parseInt(e.target.value);
     if (newAmount <= 0) {
@@ -46,13 +57,15 @@ const GiftcardPage = () => {
       <section className="container w-full mx-auto lg:w-3/4">
         <div className="flex flex-col lg:flex-row justify-between items-center gap-8 mx-2">
           <div className="flex-1">
-            <img
-              src="/images/giftcard.jpeg"
-              alt="Magnifique coffret tenu dans les mains d'une jeune femme en train de l'ouvrir."
-              width={800}
-              height={200}
-              className="rounded"
-            />
+            {visuals.visual1 && typeof visuals.visual1 === "string" && (
+              <img
+                src={visuals.visual1}
+                alt="Magnifique coffret tenu dans les mains d'une jeune femme en train de l'ouvrir."
+                width={800}
+                height={200}
+                className="rounded"
+              />
+            )}
           </div>
 
           <div className="flex-1 space-y-4 text-justify mx-2">
@@ -70,7 +83,8 @@ const GiftcardPage = () => {
               l&apos;utiliser en fournissant le code secret.
             </p>
             <p>
-              Vous pouvez utiliser plusieurs fois la même carte tant qu'il y reste du crédit.
+              Vous pouvez utiliser plusieurs fois la même carte tant qu'il y
+              reste du crédit.
             </p>
             <p>
               Un historique est tenu à jour dans votre espace compte. Vous voyez

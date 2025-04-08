@@ -2,16 +2,16 @@ import { useFetch } from "@/service/hooks/useFetch";
 import { VisualDBType } from "@/types/VisualTypes";
 import { useEffect, useState } from "react";
 
-type Designation = "image1" | "image2" | "image3" | "image4";
+type Designation = "visual1" | "visual2" | "visual3" | "visual4";
 
 const useVisualPublic = (page: string) => {
   const [defaultValues, setDefaultValues] = useState<
     Record<Designation, File | string | null>
   >({
-    image1: null,
-    image2: null,
-    image3: null,
-    image4: null,
+    visual1: null,
+    visual2: null,
+    visual3: null,
+    visual4: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,8 +30,8 @@ const useVisualPublic = (page: string) => {
           setLoading(true);
           const visualsFromDB = await getVisuals();
           if (visualsFromDB) {
-            const { image1, image2, image3, image4 } = visualsFromDB.images;
-            setDefaultValues({ image1, image2, image3, image4 });
+            const { visual1, visual2, visual3, visual4 } = visualsFromDB.images;
+            setDefaultValues({ visual1, visual2, visual3, visual4 });
           }
         } catch (err) {
           setError(

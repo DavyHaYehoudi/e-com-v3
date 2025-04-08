@@ -7,15 +7,15 @@ import Products from "./Products";
 import useVisualPublic from "@/hooks/useVisualPublic";
 import { useEffect, useState } from "react";
 
-type Designation = "image1" | "image2" | "image3" | "image4";
+type Designation = "visual1" | "visual2" | "visual3" | "visual4";
 const HomePage = () => {
   const [visuals, setVisuals] = useState<
     Record<Designation, File | string | null>
   >({
-    image1: null,
-    image2: null,
-    image3: null,
-    image4: null,
+    visual1: null,
+    visual2: null,
+    visual3: null,
+    visual4: null,
   });
   const { defaultValues } = useVisualPublic("homePage");
   useEffect(() => {
@@ -26,16 +26,16 @@ const HomePage = () => {
 
   return (
     <main>
-      {visuals.image1 && visuals.image2 && (
-        <HeroBanner pathname1={visuals.image1} pathname2={visuals.image2} />
+      {visuals.visual1 && visuals.visual2 && (
+        <HeroBanner pathname1={visuals.visual1} pathname2={visuals.visual2} />
       )}
       <HeroTitles />
       <hr />
-      {visuals.image3 && <Banner pathImage={visuals.image3} />}
+      {visuals.visual3 && <Banner pathImage={visuals.visual3} />}
 
       <Products />
       <Legals />
-      {visuals.image4 && <Banner pathImage={visuals.image4} />}
+      {visuals.visual4 && <Banner pathImage={visuals.visual4} />}
       <PartnerCards />
     </main>
   );

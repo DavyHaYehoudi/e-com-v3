@@ -11,27 +11,27 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-type Designation = "image1" | "image2" | "image3" | "image4";
+type Designation = "visual1" | "visual2" | "visual3" | "visual4";
 
 const visualsMap: {
   designation: Designation;
   label: string;
   required: boolean;
 }[] = [
-  { designation: "image1", label: "Image 1 :", required: true },
-  { designation: "image2", label: "Image 2 :", required: true },
-  { designation: "image3", label: "Image 3 :", required: false },
-  { designation: "image4", label: "Image 4 :", required: false },
+  { designation: "visual1", label: "Visuel 1 :", required: true },
+  { designation: "visual2", label: "Visuel 2 :", required: true },
+  { designation: "visual3", label: "Visuel 3 :", required: false },
+  { designation: "visual4", label: "Visuel 4 :", required: false },
 ];
 
 const HomePageVisuals = () => {
   const [visuals, setVisuals] = useState<
     Record<Designation, File | string | null>
   >({
-    image1: null,
-    image2: null,
-    image3: null,
-    image4: null,
+    visual1: null,
+    visual2: null,
+    visual3: null,
+    visual4: null,
   });
   const { defaultValues } = useVisualPublic("homePage");
   useEffect(() => {
@@ -65,7 +65,7 @@ const HomePageVisuals = () => {
   };
   const handleValidate = async () => {
     try {
-      if (!visuals["image1"] || !visuals["image2"]) {
+      if (!visuals["visual1"] || !visuals["visual2"]) {
         toast.error("Les images 1 et 2 sont requises");
         return;
       }

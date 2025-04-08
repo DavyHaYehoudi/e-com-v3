@@ -4,6 +4,7 @@ import {
 } from "../../../services/visual/visualService.js";
 import {
   createrPageVisualZodSchema,
+  giftcardVisualZodSchema,
   homePageVisualZodSchema,
 } from "./dto/visual.dto.js";
 
@@ -26,6 +27,7 @@ export const getVisualsController = async (req, res, next) => {
 const schemaMap = {
   homePage: homePageVisualZodSchema,
   createrPage: createrPageVisualZodSchema,
+  giftcard: giftcardVisualZodSchema,
   // Ajouter ici d'autres pages visuelles dans le futur
 };
 

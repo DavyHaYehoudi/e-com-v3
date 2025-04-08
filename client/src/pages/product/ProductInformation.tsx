@@ -4,11 +4,24 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
+import useVisualPublic from "@/hooks/useVisualPublic";
 import { Truck, Clock, Box, Shield } from "lucide-react"; // Exemples d'icônes Lucide
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-
+type Designation = "visual1";
 const ProductInformation = () => {
+  const [visuals, setVisuals] = useState<
+    Record<Designation, File | string | null>
+  >({
+    visual1: null,
+  });
+  const { defaultValues } = useVisualPublic("giftcard");
+  useEffect(() => {
+    if (defaultValues) {
+      setVisuals({ ...defaultValues });
+    }
+  }, [defaultValues]);
   return (
     <section className="bg-[var(--bg-1)] py-8">
       <h2 className="text-center text-2xl uppercase mb-8 dark:text-[var(--dark-mode-black)]">
@@ -205,13 +218,15 @@ const ProductInformation = () => {
 
         {/* Colonne de droite avec l'image */}
         <div className="flex justify-center items-center">
-          <img
-            src="/images/giftcard.jpeg"
-            alt="Magnifique coffret tenu dans les mains d'une jeune femme en train de l'ouvrir."
-            width={600}
-            height={200}
-            className="rounded"
-          />
+          {visuals.visual1 && typeof visuals.visual1 === "string" && (
+            <img
+              src={visuals.visual1}
+              alt="Magnifique coffret tenu dans les mains d'une jeune femme en train de l'ouvrir."
+              width={600}
+              height={200}
+              className="rounded"
+            />
+          )}
         </div>
       </div>
     </section>

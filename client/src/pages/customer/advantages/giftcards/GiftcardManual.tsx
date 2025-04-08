@@ -1,16 +1,31 @@
 import { Button } from "@/components/ui/button";
+import useVisualPublic from "@/hooks/useVisualPublic";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+type Designation = "visual1";
 const GiftcardManual = () => {
+  const [visuals, setVisuals] = useState<
+    Record<Designation, File | string | null>
+  >({
+    visual1: null,
+  });
+  const { defaultValues } = useVisualPublic("giftcard");
+  useEffect(() => {
+    if (defaultValues) {
+      setVisuals({ ...defaultValues });
+    }
+  }, [defaultValues]);
   return (
     <section className="container w-full mx-auto lg:w-3/4">
       <div className="flex flex-col lg:flex-row justify-between items-center gap-8 mx-2">
         <div className="flex-1">
-          <img
-            src="/images/giftcard.jpeg"
-            alt="Magnifique coffret tenu dans les mains d'une jeune femme en train de l'ouvrir."
-            className="rounded w-[800px] h-[400px]"
-          />
+          {visuals.visual1 && typeof visuals.visual1 === "string" && (
+            <img
+              src={visuals.visual1}
+              alt="Magnifique coffret tenu dans les mains d'une jeune femme en train de l'ouvrir."
+              className="rounded w-[800px] h-[400px]"
+            />
+          )}
         </div>
 
         <div className="flex-1 space-y-4 text-justify mx-2">

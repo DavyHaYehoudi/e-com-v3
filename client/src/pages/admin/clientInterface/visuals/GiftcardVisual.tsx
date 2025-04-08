@@ -19,13 +19,13 @@ const visualsMap: {
   required: boolean;
 }[] = [{ designation: "visual1", label: "Visuel 1 :", required: true }];
 
-const CreaterPageVisuals = () => {
+const GiftcardVisual = () => {
   const [visuals, setVisuals] = useState<
     Record<Designation, File | string | null>
   >({
     visual1: null,
   });
-  const { defaultValues } = useVisualPublic("createrPage");
+  const { defaultValues } = useVisualPublic("giftcard");
   useEffect(() => {
     if (defaultValues) {
       setVisuals({ ...defaultValues });
@@ -35,7 +35,7 @@ const CreaterPageVisuals = () => {
   const [urlFirebaseToDelete, setUrlFirebaseToDelete] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { updateVisual } = useVisual("createrPage");
+  const { updateVisual } = useVisual("giftcard");
 
   const handleImageUpload = (
     image: File | string | null,
@@ -58,7 +58,7 @@ const CreaterPageVisuals = () => {
   const handleValidate = async () => {
     try {
       if (!visuals["visual1"]) {
-        toast.error("L'image 1 est requise");
+        toast.error("L'image est requise");
         return;
       }
 
@@ -87,7 +87,7 @@ const CreaterPageVisuals = () => {
       ) as Record<Designation, File | string | null>;
 
       // envoi API
-      const bodyData = { createrPage: updatedVisuals };
+      const bodyData = { giftcard: updatedVisuals };
       updateVisual(bodyData).then((result) => {
         if (result) {
           toast.success("Modifications prises en compte avec succès !");
@@ -109,7 +109,7 @@ const CreaterPageVisuals = () => {
   }
   return (
     <article>
-      <h2>Page creatrice</h2>
+      <h2>Carte cadeau</h2>
       <div className="flex justify-center flex-wrap items-center gap-5 my-5">
         {visualsMap.map(({ designation, label, required }) => (
           <div key={designation}>
@@ -144,4 +144,4 @@ const CreaterPageVisuals = () => {
   );
 };
 
-export default CreaterPageVisuals;
+export default GiftcardVisual;

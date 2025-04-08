@@ -62,7 +62,6 @@ import ProductsLayout from "./pages/products/ProductsLayout";
 import MarketingUpdate from "./pages/admin/marketing/campaign/MarketingUpdate";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import VisualsPage from "./pages/admin/clientInterface/visuals/VisualsPage";
-import AdsPage from "./pages/admin/marketing/ads/adsPage";
 function App() {
   return (
     <ThemeProvider>
@@ -255,10 +254,6 @@ function App() {
                   <Route
                     path="admin/tableau-de-bord/marketing/modifier/:marketingId"
                     element={<MarketingUpdate />}
-                  ></Route>
-                  <Route
-                    path="admin/tableau-de-bord/marketing/ads/ajouter"
-                    element={<AdsPage />}
                   ></Route>
                   <Route
                     path="admin/tableau-de-bord/retours/avis"

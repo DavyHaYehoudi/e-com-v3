@@ -1,5 +1,19 @@
-import profil from "./images/profil.jpg"
+import { useEffect, useState } from "react";
+import useVisualPublic from "@/hooks/useVisualPublic";
+
+type Designation = "visual1";
 const CreatricePage = () => {
+  const [visuals, setVisuals] = useState<
+    Record<Designation, File | string | null>
+  >({
+    visual1: null,
+  });
+  const { defaultValues } = useVisualPublic("createrPage");
+  useEffect(() => {
+    if (defaultValues) {
+      setVisuals({ ...defaultValues });
+    }
+  }, [defaultValues]);
   return (
     <div
       id="about"
@@ -49,13 +63,15 @@ const CreatricePage = () => {
           </section>
 
           <section className="noralya-section">
-            <img
-              src={profil}
-              alt="La créatrice assise portant sur ses genoux ses deux enfants."
-              width={600}
-              height={400}
-              className="rounded"
-            />
+            {visuals.visual1 && typeof visuals.visual1 === "string" && (
+              <img
+                src={visuals.visual1}
+                alt="La créatrice assise portant sur ses genoux ses deux enfants."
+                width={600}
+                height={400}
+                className="rounded"
+              />
+            )}
             <h2 className="mt-10">NORALYA</h2>
             <p>
               Certains me demandent parfois la signification du nom de mon

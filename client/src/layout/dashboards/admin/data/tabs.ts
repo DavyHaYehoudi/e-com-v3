@@ -9,7 +9,6 @@ import {
   Tag,
   ChartColumnDecreasing,
   LayoutTemplate,
-  Megaphone
 } from "lucide-react";
 export const data = {
   activity: [
@@ -114,18 +113,6 @@ export const data = {
         {
           title: "Ajouter",
           url: "/admin/tableau-de-bord/marketing/ajouter",
-        },
-      ],
-    },
-    {
-      title: "Annonce",
-      url: "#",
-      icon: Megaphone,
-      isActive: true,
-      items: [
-        {
-          title: "Ajouter",
-          url: "/admin/tableau-de-bord/marketing/ads/ajouter",
         },
       ],
     },

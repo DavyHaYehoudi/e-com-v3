@@ -1,10 +1,10 @@
 export type VisualPage = "homePage" | "createrPage"; // extensible si besoin
 
 export interface VisualImages {
-  image1: string | null;
-  image2: string | null;
-  image3: string | null;
-  image4: string | null;
+  visual1: string | null;
+  visual2: string | null;
+  visual3: string | null;
+  visual4: string | null;
 }
 
 export interface VisualDBType {

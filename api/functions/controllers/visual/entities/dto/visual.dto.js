@@ -1,16 +1,20 @@
 import { z } from "zod";
 
 export const homePageVisualZodSchema = z.object({
-  image1: z.string().url(),
-  image2: z.string().url(),
-  image3: z.string().url().nullable().optional(),
-  image4: z.string().url().nullable().optional(),
+  visual1: z.string().url(),
+  visual2: z.string().url(),
+  visual3: z.string().url().nullable().optional(),
+  visual4: z.string().url().nullable().optional(),
 });
 export const createrPageVisualZodSchema = z.object({
-  image1: z.string().url(),
+  visual1: z.string().url(),
+});
+export const giftcardVisualZodSchema = z.object({
+  visual1: z.string().url(),
 });
 
 export const visualsZodSchema = z.object({
   homePage: homePageVisualZodSchema.optional(),
   createrPage: createrPageVisualZodSchema.optional(),
+  giftcard: giftcardVisualZodSchema.optional(),
 });
